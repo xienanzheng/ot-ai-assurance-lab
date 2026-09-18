@@ -1,0 +1,121 @@
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { demoEvidence, demoBrief, measuredValue } from './demoEvidence';
+import './research-demo.css';
+
+const STEPS = [
+  { name: 'System', time: '45 sec', title: 'Control boundary', copy: '', notes: 'Introduce the lab as a way to investigate AI assurance. Water, nuclear and power-grid simulations exist in the wider application. This presentation uses saved water evidence. The plant is simplified and isolated; the AI proposes supervisory targets through a deterministic gate.' },
+  { name: 'Disturbance', time: '60 sec', title: 'Effluent excursion', copy: '', notes: 'Play the recording, or jump directly to the first excursion. Explain that playback is accelerated for the audience. During the original experiment, the simulator paused for each inference. Failure to produce a valid proposal is itself an assurance finding.' },
+  { name: 'Control', time: '60 sec', title: 'Target → response', copy: '', notes: 'The archived worker sometimes confused a supervisory coagulant target with the delivered dose. The PLC applies feedforward control, so these values can differ. Show the one applied proposal, then the later sensor response. Gate acceptance did not establish control effectiveness.' },
+  { name: 'Internals', time: '90 sec', title: 'Activation patching', copy: '', notes: 'Announce that we have changed model, numerical precision and task. We are replacing an entire last-position decoder vector, not reading a complete thought or isolating a named circuit. Try layer 18, then layer 30. Layer 35 is a broad positive control. Swap A/B labels to inspect the paired control.' },
+  { name: 'Findings', time: '45 sec', title: 'Trial findings', copy: '', notes: 'Finish by asking what evidence would justify bounded supervisory authority. Repeated scenarios, tighter causal experiments and independent behavioral audits are proposed next steps. No result here estimates the probability of harm to a city or proves alignment.' },
+];
+const runStatus = value => ({horizon_reached_without_confirmed_resolution:'No confirmed recovery',interrupted:'Interrupted',resolved:'Recovery confirmed'})[value] || value?.replaceAll('_',' ') || 'Not recorded';
+const number = (v,d=2) => typeof v === 'number' && Number.isFinite(v) ? v.toLocaleString(undefined,{maximumFractionDigits:d}) : 'Not recorded';
+const signed = v => typeof v === 'number' && Number.isFinite(v) ? `${v>0?'+':''}${number(v,3)}` : 'Not recorded';
+const percent = v => typeof v !== 'number' ? 'Not recorded' : v>0 && v<.0001 ? '<0.01%' : v<1 && v>.9999 ? '>99.99%' : `${number(v*100)}%`;
+
+function SignalReplay({ evidence, minute, onMinute }) {
+  const [probe,setProbe]=useState(null);
+  const width=900, left=58, right=875, top=25, bottom=272;
+  const all=[...evidence.samples,...evidence.baseline];
+  const max=Math.max(evidence.bound*1.3,...all.map(s=>s.values?.filtered_turbidity_ntu).filter(Number.isFinite));
+  const x=m=>left+m/Math.max(evidence.end,1)*(right-left), y=v=>bottom-v/max*(bottom-top);
+  const path=rows=>{let connected=false;return rows.filter(s=>s.minute<=minute).map(s=>{
+    const value=s.values?.filtered_turbidity_ntu;
+    if(!Number.isFinite(value)||s.quality?.filtered_turbidity_ntu!=='good'){connected=false;return '';}
+    const point=`${connected?'L':'M'}${x(s.minute)},${y(value)}`;connected=true;return point;
+  }).join(' ');};
+  const probeSample=probe===null?null:[...evidence.samples].reverse().find(s=>s.minute<=probe);
+  const probeValue=measuredValue(probeSample);
+  const pointAt=event=>{const box=event.currentTarget.getBoundingClientRect();return Math.max(0,Math.min(minute,Math.round(((event.clientX-box.left)/box.width*width-left)/(right-left)*evidence.end)));};
+  return <div className="demo-replay-chart"><div className="demo-probe-readout" aria-hidden="true"><span>Signal probe</span><strong>{probe===null?'Explore the trace':`T+${number(probe,0)} · ${number(probeValue,3)} NTU`}</strong></div><svg onPointerMove={event=>setProbe(pointAt(event))} onPointerLeave={()=>setProbe(null)} onClick={event=>onMinute(pointAt(event))} viewBox={`0 0 ${width} 316`} role="img" aria-label={`Recorded effluent response through minute ${minute}; bound ${evidence.bound} NTU`}>
+    <rect x={left} y={top} width={right-left} height={Math.max(0,y(evidence.bound)-top)} fill="var(--demo-alarm-fill)" />
+    {[0,1,2,3,4].map(i=><g key={i}><line x1={left} x2={right} y1={y(max*i/4)} y2={y(max*i/4)} className="rd-grid"/><text x={left-10} y={y(max*i/4)+4} textAnchor="end">{number(max*i/4)}</text><text x={x(evidence.end*i/4)} y={bottom+24} textAnchor="middle">{number(evidence.end*i/4,0)}</text></g>)}
+    <text x={left} y="14">Effluent · NTU</text><text x={right} y="312" textAnchor="end">Simulated minutes</text>
+    <line x1={left} x2={right} y1={y(evidence.bound)} y2={y(evidence.bound)} className="rd-threshold"/><text x={right-8} y={y(evidence.bound)-10} textAnchor="end" className="demo-bound-label">Operating bound · {number(evidence.bound)} NTU</text>
+    <path d={path(evidence.baseline)} className="rd-baseline-line"/><path d={path(evidence.samples)} className="rd-agent-line"/>
+    <line x1={x(minute)} x2={x(minute)} y1={top} y2={bottom} className="rd-cursor"/>
+    {probe!==null&&<g className="demo-signal-probe"><line x1={x(probe)} x2={x(probe)} y1={top} y2={bottom}/>{probeValue!==null&&<><circle cx={x(probe)} cy={y(probeValue)} r="9"/><circle cx={x(probe)} cy={y(probeValue)} r="3"/></>}</g>}
+    {evidence.exchanges.filter(e=>e.minute<=minute).map((e,i)=><circle key={i} cx={x(e.minute)} cy={bottom-8} r="4" fill={e.was_applied?'var(--rd-teal)':'var(--rd-amber)'}><title>Minute {e.minute}: {e.status}</title></circle>)}
+  </svg><label className="demo-time-label" htmlFor="demo-minute">Recorded minute <output>{number(minute,0)} / {number(evidence.end,0)}</output></label><input id="demo-minute" type="range" min="0" max={evidence.end} step="1" value={minute} onChange={e=>onMinute(Number(e.target.value))} disabled={!evidence.end}/></div>;
+}
+function Architecture({ evidence }) {
+  const [selected,setSelected]=useState(0),[hovered,setHovered]=useState(null);
+  const active=hovered??selected;
+  const sample=evidence.prior||evidence.samples[0];
+  const nodes=[
+    {verb:'Observe',title:'Sensors',tag:'Readings / history',mark:'M12 32h10l5-14 8 28 8-22 5 8h12',rows:[['Sample',sample?`Minute ${sample.minute}`:'Not recorded'],['Effluent',`${number(measuredValue(sample),3)} NTU`],['Quality',sample?.quality?.filtered_turbidity_ntu||'Unknown']]},
+    {verb:'Propose',title:'Local agent',tag:'Qwen3 / 8B',mark:'M18 20h36v28H18z M26 12v8m20-8v8M26 48v8m20-8v8M10 28h8m-8 12h8m36-12h8m-8 12h8',rows:[['Exchanges',evidence.calls],['Failed',evidence.failures],['Proposed target',`${number(evidence.target)} mg/L`]]},
+    {verb:'Validate',title:'Safety gate',tag:'Rules / bounds / lease',mark:'M36 10l22 9v16c0 12-22 23-22 23S14 47 14 35V19z M25 33l8 8 15-17',rows:[['Authority','Supervisory target'],['Applied records',evidence.appliedCount],['Gate acceptance','Does not establish recovery']]},
+    {verb:'Act & measure',title:'PLC / plant',tag:'Actuators / feedback',mark:'M12 52V30l15 8V24l15 8V12h13v40z M20 46h5m8 0h5m8 0h5',rows:[['Target observed',evidence.after?`Minute ${evidence.after.minute}`:'Not recorded'],['Delivered dose',`${number(measuredValue(evidence.after,'coagulant_dose_actual_mg_l'))} mg/L`],['Next effluent',`${number(measuredValue(evidence.response),3)} NTU`]]},
+  ];
+  return <div className="demo-architecture" aria-label="Control authority: sensors to local proposal, deterministic gate, then PLC and plant">
+    <div className="demo-domains"><span className="demo-domain-active">Water / recorded</span><span>Nuclear / simulator</span><span>Grid / simulator</span></div>
+    <div className="demo-process" onPointerLeave={()=>setHovered(null)}>{nodes.map((node,i)=><React.Fragment key={node.title}><button type="button" className={`demo-process-node ${active===i?'is-probed':''}`} aria-pressed={selected===i} aria-controls="demo-stage-inspector" onPointerEnter={event=>{if(event.pointerType==='mouse')setHovered(i);}} onFocus={()=>{setSelected(i);setHovered(null);}} onClick={()=>{setSelected(i);setHovered(null);}}><span>{node.verb}</span><svg viewBox="0 0 72 68" aria-hidden="true"><path d={node.mark}/></svg><strong>{node.title}</strong><span className="demo-node-tag">{node.tag}</span><span className="demo-node-probe" aria-hidden="true">⌖ Inspect</span></button>{i<3&&<span className={`demo-process-arrow ${active===i||active===i+1?'is-probed':''}`} aria-hidden="true">→</span>}</React.Fragment>)}</div>
+    <div id="demo-stage-inspector" className="demo-stage-inspector"><div><span>Recorded evidence</span><h3>{nodes[active].title}</h3></div><dl>{nodes[active].rows.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></div>
+    <div className="demo-feedback"><span aria-hidden="true">↳</span> Feedback → next decision</div>
+  </div>;
+}
+function Intervention({ study, evidence, onExplore }) {
+  const [caseId,setCaseId]=useState(evidence.cases[0]?.id || '');
+  const selected=evidence.cases.find(c=>c.id===caseId)||evidence.cases[0];
+  const [layer,setLayer]=useState(30),[direction,setDirection]=useState('safe_into_alarm'),[patched,setPatched]=useState(false);
+  const layers=[...new Set((selected?.patches||[]).map(p=>p.layer))];
+  const actualLayer=layers.includes(layer)?layer:layers[0];
+  const patch=selected?.patches.find(p=>p.layer===actualLayer&&p.direction===direction);
+  const source=direction==='safe_into_alarm'?'Within-bound':'Above-bound';
+  const receiver=direction==='safe_into_alarm'?selected?.alarm:selected?.safe;
+  const currentGap=patched?patch?.after_gap:receiver?.logit_gap;
+  const probability=patched?patch?.review_probability:receiver?.review_probability;
+  const choiceMass=patched?patch?.choice_mass:receiver?.choice_mass;
+  const reset=setter=>event=>{setter(event.target.value);setPatched(false);};
+  if(!selected)return <div className="demo-unavailable"><h3>No complete activation case available</h3><p>The control recording is still available. Export an instrumented study to populate this chapter.</p></div>;
+  return <div className="demo-intervention">
+    <div className="demo-probe-tools"><label>Case<select value={selected.id} onChange={reset(setCaseId)}>{evidence.cases.map(c=><option key={c.id} value={c.id}>{c.id} · {number(c.safe_value,3)} / {number(c.alarm_value,3)} NTU{c.swapped?' · labels swapped':''}</option>)}</select></label><label>Layer<select value={actualLayer ?? ''} onChange={e=>{setLayer(Number(e.target.value));setPatched(false);}}>{layers.map(l=><option key={l} value={l}>Layer {l}{l===Math.max(...layers)?' · final-layer control':''}</option>)}</select></label><label>Direction<select value={direction} onChange={reset(setDirection)}><option value="safe_into_alarm">Within → above</option><option value="alarm_into_safe">Above → within</option></select></label></div>
+    <div className="demo-intervention-stage"><div className="demo-vector"><span>{source} prompt</span><h3>Layer {actualLayer} residual</h3><div className="demo-vector-mark" aria-hidden="true">h<sub>{actualLayer}</sub></div><p>Final input position · whole vector</p></div><div className="demo-replacement"><span aria-hidden="true">→</span><button className={`rd-button ${patched?'':'demo-primary'}`} disabled={!patch} aria-pressed={patched} onClick={()=>setPatched(!patched)}>{patched?'Restore':'Apply saved patch'}</button><small>Recorded intervention</small></div><div className="demo-choice" aria-live="polite"><span>{patched?'Patched':'Original'}</span><h3>{!Number.isFinite(currentGap)?'No recorded score':currentGap>0?'Review / A–B':currentGap<0?'Continue / A–B':'Equal A/B preference'}</h3><p>Review − continue</p><strong className={currentGap>0?'demo-positive':''}>{signed(currentGap)}</strong><div className="demo-choice-meter" aria-hidden="true"><span style={{transform:`scaleX(${Number.isFinite(probability)?Math.max(0,Math.min(1,probability)):0})`}}/></div><small>P(review | A/B): {percent(probability)}</small><small className="demo-token-mass">A/B token mass: {percent(choiceMass)}</small></div></div>
+    <div className="demo-evidence-line"><span>Δ logit gap: <strong>{signed(patch?.effect)}</strong></span><button className="demo-text-button" onClick={()=>onExplore('internals')}>Raw evidence →</button></div>
+    <div className="demo-method-row"><span>{study?.verification?.all_controls_passed===true?'Controls verified':'Controls unverified'} · 4B probe</span><details><summary>Method & limits</summary><p className="demo-caveat">{study?.verification?.all_controls_passed===true?'No-op and NNsight checks passed on within-bound prompts at layer 18.':'Verification incomplete.'} Whole-vector patch at the final input position. A/B preference is conditional; low token mass indicates other tokens may be preferred. This is not a plant-risk probability or a localized circuit finding.</p></details></div>
+  </div>;
+}
+export default function ResearchDemo({ control, mechanism, mechanismLoading, mechanismError, onReload, onExplore, presenting, onPresenting }) {
+  const evidence=useMemo(()=>demoEvidence(control,mechanism),[control,mechanism]);
+  const [step,setStep]=useState(0),[notes,setNotes]=useState(false),[minute,setMinute]=useState(0),[playing,setPlaying]=useState(false);
+  const root=useRef(null),heading=useRef(null),presentButton=useRef(null),chapters=useRef(null),previousStep=useRef(0);
+  const part=STEPS[step];
+  const changeStep=next=>{if(next===0)setMinute(0);setStep(Math.max(0,Math.min(STEPS.length-1,next)));setPlaying(false);};
+  useEffect(()=>{if(!playing||step!==1)return;const timer=setInterval(()=>setMinute(value=>Math.min(evidence.end,value+1)),500);return()=>clearInterval(timer);},[playing,step,evidence.end]);
+  useEffect(()=>{if(minute>=evidence.end)setPlaying(false);},[minute,evidence.end]);
+  useEffect(()=>{
+    if(step>0||presenting)heading.current?.focus({preventScroll:true});
+    const active=chapters.current?.children[step];
+    if(active&&chapters.current.scrollWidth>chapters.current.clientWidth) chapters.current.scrollLeft=active.offsetLeft-chapters.current.offsetLeft;
+    if(previousStep.current!==step) heading.current?.scrollIntoView({block:'nearest',behavior:'instant'});
+    previousStep.current=step;
+    const observer=new ResizeObserver(()=>{const node=chapters.current?.children[step];if(node&&chapters.current.scrollWidth>chapters.current.clientWidth)chapters.current.scrollLeft=node.offsetLeft-chapters.current.offsetLeft;});
+    if(chapters.current)observer.observe(chapters.current);
+    return()=>observer.disconnect();
+  },[step,presenting]);
+  useEffect(()=>{const hidden=()=>{if(document.hidden)setPlaying(false);};document.addEventListener('visibilitychange',hidden);return()=>document.removeEventListener('visibilitychange',hidden);},[]);
+  useEffect(()=>{if(!presenting)return;const oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
+    const key=event=>{if(event.key==='Escape'){onPresenting(false);return;}
+      if(event.key==='Tab'){const nodes=[...root.current.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),[tabindex="0"]')].filter(node=>node.offsetParent!==null);const first=nodes[0],last=nodes.at(-1);if(event.shiftKey&&(document.activeElement===first||document.activeElement===heading.current)){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}return;}
+      if(event.target.closest('input,select,textarea,button,a,summary'))return;if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();setStep(value=>Math.max(0,Math.min(STEPS.length-1,value+(event.key==='ArrowRight'?1:-1))));setPlaying(false);}};window.addEventListener('keydown',key);return()=>{window.removeEventListener('keydown',key);document.body.style.overflow=oldOverflow;presentButton.current?.focus({preventScroll:true});};},[presenting,onPresenting]);
+  const current=[...evidence.samples].reverse().find(s=>s.minute<=minute);
+  const latest=[...evidence.exchanges].reverse().find(e=>e.minute<=minute);
+  const exportBrief=()=>{const url=URL.createObjectURL(new Blob([demoBrief(control,mechanism)],{type:'text/markdown'}));const a=document.createElement('a');a.href=url;a.download='local-ai-assurance-demo.md';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+  const jump=value=>{setMinute(value);setPlaying(false);};
+  return <section className="research-demo" ref={root} role={presenting?"dialog":undefined} aria-modal={presenting?true:undefined} aria-label="Guided evidence demonstration">
+    <div className="demo-toolbar"><span><i aria-hidden="true"/> Recorded / 5 min</span><div><button className="rd-button" aria-pressed={notes} onClick={()=>setNotes(!notes)}>{notes?'Hide notes':'Notes'}</button><button ref={presentButton} className="rd-button" aria-pressed={presenting} onClick={()=>onPresenting(!presenting)}>{presenting?'Exit':'Present'}</button></div></div>
+    <nav ref={chapters} className="demo-chapters" aria-label="Evidence demo chapters">{STEPS.map((s,i)=><button key={s.name} aria-current={i===step?'step':undefined} onClick={()=>changeStep(i)}><span className="demo-step-number">{String(i+1).padStart(2,'0')}</span><span className="demo-chapter-name">{s.name}<small>{s.time}</small></span><span className="demo-chapter-arrow" aria-hidden="true">↗</span></button>)}</nav>
+    <header className="demo-heading"><div><p className="demo-step-caption">{String(step+1).padStart(2,'0')} / {String(STEPS.length).padStart(2,'0')}</p><h2 tabIndex="-1" ref={heading}>{part.title}</h2></div><span className="demo-run-state">{step===3?'Qwen3 4B / probe':'Qwen3 8B / control'}</span></header>
+    {notes&&<aside className="demo-speaker-notes"><strong>Speaker notes · visible on this screen</strong><p>{part.notes}</p></aside>}
+    <div className="demo-stage" key={step}>
+      {step===0&&<><Architecture evidence={evidence}/><div className="demo-opening-evidence"><div className="demo-study-pair"><span>8B <strong>Control trial</strong></span><span>4B <strong>Activation probe</strong></span></div><button className="rd-button demo-primary" onClick={()=>changeStep(1)}>Start replay →</button></div></>}
+      {step===1&&<div className="demo-replay-layout"><div><SignalReplay evidence={evidence} minute={minute} onMinute={jump}/><div className="demo-playback"><button className="rd-button demo-primary" disabled={!evidence.end} aria-pressed={playing} onClick={()=>{if(minute>=evidence.end)setMinute(0);setPlaying(!playing);}}>{playing?'Pause':minute>=evidence.end?'Replay':'Play'}</button><span>2 min/s</span><button className="demo-text-button" disabled={!evidence.firstExcursion} onClick={()=>jump(evidence.firstExcursion.minute)}>First excursion</button></div><div className="rd-legend"><span className="rd-key-baseline">Baseline</span><span className="rd-key-agent">AI trial</span><span className="demo-key-exchanges">AI exchanges</span></div></div><aside className="demo-replay-reading"><span className="demo-step-caption">At minute {number(minute,0)}</span><h3>{measuredValue(current)===null?'Reading unavailable':measuredValue(current)>evidence.bound?'Effluent above bound':'Effluent within bound'}</h3><p className="demo-reading">{number(measuredValue(current),3)} <small>NTU</small></p><dl><div><dt>Latest AI exchange</dt><dd>{latest?`Minute ${latest.minute} · ${latest.status}`:'None yet'}</dd></div><div><dt>Calls recorded so far</dt><dd>{evidence.exchanges.filter(e=>e.minute<=minute).length}</dd></div></dl><span className="demo-method-label">Clock paused during inference</span><button className="demo-text-button" onClick={()=>onExplore('timeline',minute)}>Inspect record →</button></aside></div>}
+      {step===2&&<div className="demo-decision-layout"><div><div className="demo-outcome-banner"><span>Outcome</span><strong>{runStatus(control?.status)}</strong></div><div className="demo-decision-chain"><div><span>Proposal</span><h3>{evidence.applied?`Minute ${evidence.applied.minute}`:'No applied proposal'}</h3><p>Coagulant target</p><strong>{number(evidence.prior?.setpoints?.coagulant_target_mg_l)} → {number(evidence.target)} <small>mg/L</small></strong></div><span aria-hidden="true">→</span><div><span>Gate</span><h3>{evidence.applied?'Applied':'Not applied'}</h3><p>{evidence.applied?'Supervisory lease':'No actuation recorded'}</p><button className="demo-text-button" disabled={!evidence.applied} onClick={()=>onExplore('timeline',evidence.applied.minute)}>Decision record →</button></div></div><div className="rd-table-scroll"><table className="rd-table demo-response-table"><caption>Target / delivered dose / effluent</caption><thead><tr><th>Observation</th>{[evidence.prior,evidence.after,evidence.response].map((sample,i)=><th key={i}>{['Before','Target seen','Next sample'][i]} · {number(sample?.minute,0)} min</th>)}</tr></thead><tbody><tr><th>Target · mg/L</th>{[evidence.prior,evidence.after,evidence.response].map((sample,i)=><td key={i}>{number(sample?.setpoints?.coagulant_target_mg_l)}</td>)}</tr>{[['coagulant_dose_actual_mg_l','Delivered dose · mg/L',2],['filtered_turbidity_ntu','Effluent · NTU',3]].map(([key,label,digits])=><tr key={key}><th>{label}</th>{[evidence.prior,evidence.after,evidence.response].map((sample,i)=><td key={i}>{number(measuredValue(sample,key),digits)}</td>)}</tr>)}</tbody></table></div></div><aside className="demo-decision-reading"><h3>Run outcome</h3><dl><div><dt>Calls</dt><dd>{evidence.calls}</dd></div><div><dt>Failed</dt><dd>{evidence.failures}</dd></div><div><dt>Applied</dt><dd>{evidence.appliedCount}</dd></div><div><dt>Final AI effluent</dt><dd>{number(control?.metrics?.agent_final,3)} NTU</dd></div><div><dt>Final baseline effluent</dt><dd>{number(control?.metrics?.baseline_final,3)} NTU</dd></div></dl><span className="demo-method-label">Target ≠ delivered dose</span><button className="demo-text-button" onClick={()=>onExplore('risk')}>Risk & latency →</button></aside></div>}
+      {step===3&&(mechanismLoading||mechanismError?<div className="demo-unavailable" role="status"><h3>{mechanismLoading?'Loading activation evidence…':'Activation evidence could not be loaded'}</h3><p>{mechanismError||'Reading the instrumented model artifact.'}</p>{mechanismError&&<button className="rd-button" onClick={onReload}>Retry evidence</button>}</div>:<Intervention study={mechanism} evidence={evidence} onExplore={onExplore}/>)}
+      {step===4&&<><div className="demo-findings"><article><span>Control / 8B</span><h3>{evidence.failures} failed / {evidence.appliedCount} applied</h3><p>{runStatus(control?.status)}</p><button className="demo-text-button" onClick={()=>onExplore('risk')}>Control evidence →</button></article><article><span>Internals / 4B</span><h3>{mechanismLoading?"Activation evidence is loading":mechanismError?"Activation evidence unavailable":!mechanism?"No activation study exported":`${evidence.correctPairs} / ${evidence.validCases} label pairs matched`}</h3><p>{mechanismLoading?"Waiting for the saved instrumented study.":mechanismError?`${mechanismError} Retry the evidence load before presenting these findings.`:!mechanism?"Export a completed instrumented study to include mechanistic findings.":`${evidence.patchCount} patches · binary threshold task`}</p><button className="demo-text-button" onClick={()=>onExplore('internals')}>Activation evidence →</button></article></div><div className="demo-discussion"><h3>Next tests</h3><p>Scenario coverage · component patches · independent audits</p><span>Proposed / not yet run</span><button className="rd-button demo-primary" disabled={mechanismLoading||!!mechanismError||!mechanism} onClick={exportBrief}>Export brief</button></div></>}
+    </div>
+    <footer className="demo-footer"><span>{presenting?'← / → chapters · Esc exit':`${String(step+1).padStart(2,'0')} / 05 · Recorded`}</span><div><button className="rd-button" disabled={step===0} onClick={()=>changeStep(step-1)}>← Previous</button><button className="rd-button demo-primary" onClick={()=>changeStep(step===STEPS.length-1?0:step+1)}>{step===STEPS.length-1?'Restart':'Next →'}</button></div></footer>
+  </section>;
+}

@@ -1,0 +1,22 @@
+name: Research lab checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: docker compose --profile test run --build --rm test-runner
+      - run: node --test tests/*.test.mjs
+      - run: node --test services/web/tests/*.test.js
+      - run: npm ci && npm run build
+        working-directory: services/web
+      - run: python3 scripts/build_cloudflare_demo.py
+      - run: VITE_HOSTED=true npm --prefix services/web run build -- --outDir dist-hosted
+      - run: python3 scripts/build_cloudflare_demo.py --live
+      - run: npm ci
+        working-directory: deploy/cloudflare-live

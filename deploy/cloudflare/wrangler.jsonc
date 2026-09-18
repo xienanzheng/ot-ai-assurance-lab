@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ot-ai-assurance-demo",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-17",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "ot-aigent-simulation.night-zone.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  }
+}

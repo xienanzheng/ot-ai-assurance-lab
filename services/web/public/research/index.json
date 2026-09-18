@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-09-12T14:05:11.104480+00:00",
+  "control_studies": [
+    {
+      "id": "20260910-185511-0ae02a4f",
+      "title": "20260910 · horizon reached without confirmed resolution",
+      "url": "/research/control/20260910-185511-0ae02a4f/summary.json"
+    },
+    {
+      "id": "20260910-184753-d9377030",
+      "title": "20260910 · interrupted",
+      "url": "/research/control/20260910-184753-d9377030/summary.json"
+    }
+  ],
+  "mechanistic_studies": [
+    {
+      "id": "20260912-010135-a5b1d398",
+      "title": "Qwen/Qwen3-4B · complete",
+      "url": "/research/mechanistic/20260912-010135-a5b1d398/results.json"
+    }
+  ]
+}

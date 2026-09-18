@@ -1,0 +1,196 @@
+name: water-ot-ai-lab
+
+x-python-common: &python-common
+  restart: unless-stopped
+  networks:
+    - ot_net
+  environment:
+    PYTHONUNBUFFERED: "1"
+    OPCUA_URL: opc.tcp://plant-sim:4840/waterlab/server/
+
+services:
+  test-runner:
+    profiles: ["test"]
+    build:
+      context: .
+      dockerfile: services/tests/Dockerfile
+    network_mode: none
+
+  plant-sim:
+    <<: *python-common
+    build:
+      context: .
+      dockerfile: services/plant_sim/Dockerfile
+    environment:
+      PYTHONUNBUFFERED: "1"
+      SIM_SPEED: ${SIM_SPEED:-10}
+    expose:
+      - "4840"
+      - "8081"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8081/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  plc-control:
+    <<: *python-common
+    build:
+      context: .
+      dockerfile: services/plc_control/Dockerfile
+    expose:
+      - "8082"
+    depends_on:
+      plant-sim:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8082/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  infrastructure-sim:
+    <<: *python-common
+    build:
+      context: .
+      dockerfile: services/infrastructure_sim/Dockerfile
+    expose:
+      - "8083"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8083/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-waterlab}
+      POSTGRES_USER: ${POSTGRES_USER:-waterlab}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-waterlab_local}
+    volumes:
+      - waterlab_postgres:/var/lib/postgresql/data
+    networks:
+      - app_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-waterlab} -d ${POSTGRES_DB:-waterlab}"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+  supervisor-api:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: services/supervisor/Dockerfile
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PLANT_API_URL: http://plant-sim:8081
+      PLC_API_URL: http://plc-control:8082
+      INFRASTRUCTURE_API_URL: http://infrastructure-sim:8083
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:8b}
+      OLLAMA_NUM_CTX: ${OLLAMA_NUM_CTX:-8192}
+      LESSON_MEMORY_ENABLED: ${LESSON_MEMORY_ENABLED:-true}
+      WATCHER_OUTBOX_PATH: /var/lib/watcher-outbox/open-weight-decisions.jsonl
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-waterlab}:${POSTGRES_PASSWORD:-waterlab_local}@postgres:5432/${POSTGRES_DB:-waterlab}
+    volumes:
+      - watcher_outbox:/var/lib/watcher-outbox
+    expose:
+      - "8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - ot_net
+      - app_net
+    depends_on:
+      plant-sim:
+        condition: service_healthy
+      plc-control:
+        condition: service_healthy
+      infrastructure-sim:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  web:
+    restart: unless-stopped
+    build:
+      context: services/web
+    ports:
+      - "127.0.0.1:18780:80"
+    networks:
+      - app_net
+    depends_on:
+      supervisor-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["ollama-container"]
+    restart: unless-stopped
+    volumes:
+      - waterlab_ollama:/root/.ollama
+    networks:
+      - app_net
+    expose:
+      - "11434"
+
+  watcher-relay:
+    profiles: ["watcher-observer"]
+    build:
+      context: .
+      dockerfile: services/watcher_relay/Dockerfile
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      PYTHONUNBUFFERED: "1"
+      WATCHER_ENABLED: ${WATCHER_ENABLED:-false}
+      WATCHER_DRY_RUN: ${WATCHER_DRY_RUN:-true}
+      WATCHER_API_URL: ${WATCHER_API_URL:-https://app.apolloresearch.ai/api}
+      WATCHER_API_KEY: ${WATCHER_API_KEY:-}
+      WATCHER_MONITOR_ROLE: ${WATCHER_MONITOR_ROLE:-triage}
+      WATCHER_OUTBOX_PATH: /outbox/open-weight-decisions.jsonl
+      WATCHER_STATE_PATH: /state/relay-state.json
+      WATCHER_VERDICT_PATH: /state/observer-verdicts.jsonl
+    volumes:
+      - watcher_outbox:/outbox:ro
+      - watcher_relay_state:/state
+    tmpfs:
+      - /tmp
+    networks:
+      - monitor_net
+    expose:
+      - "8090"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8090/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+networks:
+  ot_net:
+    internal: true
+  app_net: {}
+  monitor_net: {}
+
+volumes:
+  waterlab_postgres: {}
+  waterlab_ollama: {}
+  watcher_outbox: {}
+  watcher_relay_state: {}
