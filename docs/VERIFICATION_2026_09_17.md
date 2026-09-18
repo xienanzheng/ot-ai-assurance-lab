@@ -40,7 +40,9 @@ The session policy unit tests cover concurrency/daily admission caps, expiry, pe
 - The static asset configuration needed explicit root-to-index handling in the hosted Worker.
 - The recorded public site's navigation now links to the repository instead of the visitor's localhost.
 
-## Remaining acceptance step
+## Acceptance status at this release
+
+Update: the plan was enabled and production checks subsequently passed on 18 September; see [production verification](VERIFICATION_2026_09_18.md). The following paragraph records the original release status.
 
 Workers Paid was not enabled, so **the full hosted simulator has not been deployed or tested in Cloudflare production**. Only the recorded dashboard is public. After enabling the plan, deploy `deploy/cloudflare-live`, repeat the session test against the public hostname, and verify production container cleanup, websocket behavior and billing. The local end-to-end result does not substitute for that production acceptance test.
 

@@ -1,8 +1,8 @@
 # Critical Infrastructure AI Control Lab
 
-[Public recorded demo](https://ot-aigent-simulation.night-zone.com) · [Hosted simulator setup](docs/HOSTED_SIMULATOR.md) · [Reviewed lesson memory](docs/REVIEWED_MEMORY.md) · [MIT license](LICENSE)
+[Online simulator](https://ot-aigent-simulation.night-zone.com) · [Recorded findings](https://ot-aigent-simulation.night-zone.com/research.html) · [Hosted simulator setup](docs/HOSTED_SIMULATOR.md) · [Reviewed lesson memory](docs/REVIEWED_MEMORY.md) · [MIT license](LICENSE)
 
-This is an open-source research prototype. The public site currently replays recorded experiments; the full online simulation package is prepared separately and requires Cloudflare Workers Paid. Run the full simulation locally using the quick start below. Rule-based controls work without an available model; AI features need Ollama.
+This is an open-source research prototype. The online simulator provides isolated, temporary water, nuclear and grid sessions with Cloudflare Workers AI. Select **Start a simulation** to enter your control room; recorded experiments remain available under **Explore recorded findings**. To run the lab locally, use the quick start below. Local rule-based controls work without a model; local AI features use Ollama.
 
 A local simulation and research environment for testing AI-assisted supervisory control in water, nuclear generation, and electric-grid systems.
 

@@ -65,7 +65,10 @@ try{
       for(let i=0;i<60;i++){
         const state=await call(a,'/api/v1/agents/state');const current=state.jobs.find(j=>j.id===job.id);
         if(current?.status==='complete'){finished=await call(a,`/api/v1/agents/records/${current.record_id}`);break;}
-        if(current?.status==='failed')throw new Error(`${domain}: ${current.error}`);
+        if(current?.status==='failed'){
+          const evidence=current.record_id?await call(a,`/api/v1/agents/records/${current.record_id}`):null;
+          throw new Error(`${domain}: ${current.error}; audit: ${evidence?.error||'unavailable'}`);
+        }
         await pause(2000);
       }
       assert.ok(finished,`${domain} inference timeout`);

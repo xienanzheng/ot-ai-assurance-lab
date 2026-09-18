@@ -1,8 +1,10 @@
 # Hosted simulator and recorded demo
 
-The recorded research site is at https://ot-aigent-simulation.night-zone.com. Its current static deployment serves saved synthetic evidence. It has no connection to a local simulator, database, or Ollama service.
+The online simulator is at https://ot-aigent-simulation.night-zone.com. Select **Start a simulation** to launch an isolated control room. Saved research evidence remains at [/research.html](https://ot-aigent-simulation.night-zone.com/research.html). Neither surface connects to the operator's computer or real equipment.
 
-The separate `deploy/cloudflare-live` package prepares the actual simulator for Cloudflare Containers. **Deployment requires Workers Paid.** An API model avoids hosting model weights; Python simulation engines still need container compute. The hosted package uses the existing water, nuclear and grid engines and deterministic gates, bundled into one isolated container per visitor. SQLite and simulator state are private to that temporary container.
+The `deploy/cloudflare-live` package runs the simulator on Cloudflare Containers. **Deployment requires Workers Paid**, enabled for this deployment on 18 September 2026. An API model avoids hosting model weights; Python simulation engines still need container compute. The hosted package uses the existing water, nuclear and grid engines and deterministic gates, bundled into one isolated container per visitor. SQLite and simulator state are private to that temporary container.
+
+Production acceptance results are recorded in [18 September verification](VERIFICATION_2026_09_18.md).
 
 ## Online versus offline
 

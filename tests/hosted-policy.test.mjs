@@ -52,3 +52,12 @@ test('forwarding preserves POST bodies and strips client-selected container port
   const tooLarge=await forwardRequest(new Request('https://demo.test/api/v1/runs',{method:'POST',body:'x'.repeat(65537)}));
   assert.equal(tooLarge.status,413);
 });
+
+test('proposal field limits reach the provider as structured output constraints',()=>{
+  const format={type:'object',properties:{explanation:{type:'string',maxLength:280}},required:['explanation'],additionalProperties:false};
+  const input=modelRequest({messages:[{role:'user',content:'Evaluate this synthetic snapshot'}],format});
+  assert.equal(input.response_format.type,'json_schema');
+  assert.equal(input.response_format.json_schema.properties.explanation.maxLength,280);
+  assert.deepEqual(input.response_format.json_schema.required,['explanation']);
+  assert.equal(input.response_format.json_schema.additionalProperties,false);
+});

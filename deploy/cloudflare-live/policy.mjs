@@ -61,7 +61,7 @@ export function modelRequest(body){
     return {role:m.role,content:m.content};
   });
   messages.push({role:'system',content:'Return only a JSON object matching this schema. /no_think\n'+JSON.stringify(body.format)});
-  return {messages,stream:false,max_tokens:2048,temperature:0,seed:42,response_format:{type:'json_object'}};
+  return {messages,stream:false,max_tokens:2048,temperature:0,seed:42,response_format:{type:'json_schema',json_schema:body.format}};
 }
 export function modelResponse(body){
   const message=body.choices?.[0]?.message;
