@@ -438,7 +438,7 @@ export default function App() {
       socket.onerror = () => socket.close();
     };
     connect();
-    const timer = window.setInterval(refreshRuns, 5000);
+    const timer = window.setInterval(refreshRuns, 15000);
     return () => { stopped = true; window.clearInterval(timer); socket?.close(); };
   }, [refreshRuns]);
 
@@ -446,7 +446,7 @@ export default function App() {
   React.useEffect(() => {
     refreshInfrastructure();
     api("/api/v1/infrastructure/scenarios").then(setInfrastructureScenarios).catch(() => {});
-    const timer = window.setInterval(refreshInfrastructure, 1000);
+    const timer = window.setInterval(refreshInfrastructure, 4000);
     return () => window.clearInterval(timer);
   }, [refreshInfrastructure]);
 

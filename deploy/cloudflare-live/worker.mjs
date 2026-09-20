@@ -22,7 +22,12 @@ export class LabContainer extends Container {
 LabContainer.outboundByHost={
   'inference.lab':async(request,env,ctx)=>{
     const path=new URL(request.url).pathname;
-    if(path==='/api/tags'&&request.method==='GET') return json({models:[{name:HOSTED_MODEL,model:HOSTED_MODEL,provider:'cloudflare-workers-ai',execution_location:'cloud'}]});
+    // Report what the account can actually call. A hardcoded list here made the readiness
+    // indicator unfalsifiable: a stale model id or missing quota still showed "model ready".
+    if(path==='/api/tags'&&request.method==='GET'){
+      const ready=await registry(env).modelReady();
+      return json({models:ready?[{name:HOSTED_MODEL,model:HOSTED_MODEL,provider:'cloudflare-workers-ai',execution_location:'cloud'}]:[]});
+    }
     if(path!=='/api/chat'||request.method!=='POST') return json({error:'Unsupported inference route'},404);
     try{
       const raw=await request.text();
@@ -53,6 +58,17 @@ export class SessionRegistry extends DurableObject {
     return result;
   }
   async check(id,count=false){return this.mutate(ledger=>authorize(ledger,id,Date.now(),count));}
+  async modelReady(){
+    // One cheap probe, cached, and deliberately outside the visitor's AI allowance.
+    const cached=await this.ctx.storage.get('modelProbe');
+    if(cached&&cached.expires>Date.now()) return cached.ok;
+    let ok=false;
+    try{ok=!!await this.env.AI.run(HOSTED_MODEL,{messages:[{role:'user',content:'ok'}],max_tokens:4});}
+    catch(error){console.error('Model probe failed',error?.name);}
+    // Hold a success for an hour; retry a failure soon so a fixed binding recovers quickly.
+    await this.ctx.storage.put('modelProbe',{ok,expires:Date.now()+(ok?3600000:120000)});
+    return ok;
+  }
   async reserveAI(containerId){return this.mutate(ledger=>consumeAI(ledger,containerId,Date.now()));}
   async end(id){
     const result=await this.mutate(ledger=>{

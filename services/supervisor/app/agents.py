@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from copy import deepcopy
 from datetime import datetime
 from uuid import uuid4
@@ -12,6 +13,9 @@ from typing import Literal
 
 from shared.models import PlantSnapshot
 from .agent_audit import create_audit, update_audit, get_audit, list_audits
+
+
+HOSTED = os.getenv("HOSTED_MODE") == "true"
 
 
 def frozen_gate(domain, context, proposal):
@@ -231,7 +235,10 @@ class AgentService:
         while True:
             try:
                 # Water scheduling is owned by RunManager; do not create a second writer.
-                for domain in ["nuclear", "grid"]:
+                # Hosted sessions hold a small metered inference allowance, so scheduled
+                # cycles would spend it before the visitor asked for anything. There, the
+                # model runs only on an explicit request.
+                for domain in [] if HOSTED else ["nuclear", "grid"]:
                     context = await self.context(domain)
                     state = context["plant"]
                     last = self.last_cycle.get(domain, (None, -5))
@@ -272,6 +279,10 @@ class AgentService:
 
         @router.post("/{domain}/cycle", status_code=202)
         async def cycle(domain:Literal["water","nuclear","grid"], request:AgentRequest):
+            # The edge refuses this too; the boundary is repeated here so the service that
+            # would actuate enforces it itself rather than trusting its caller.
+            if HOSTED and not request.evaluate_only:
+                raise HTTPException(403, "The hosted demo evaluates proposals without applying them")
             return self.enqueue(domain,lambda:self.cycle(domain,request.thinking,request.evaluate_only,model=request.model,num_ctx=request.num_ctx,include_history=request.include_history))
 
         @router.post("/{domain}/study", status_code=202)
