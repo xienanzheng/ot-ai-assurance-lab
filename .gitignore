@@ -20,3 +20,5 @@ deploy/cloudflare/public/
 deploy/cloudflare-live/public/
 .venv*/
 release/
+
+dist-home/
