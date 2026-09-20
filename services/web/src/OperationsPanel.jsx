@@ -42,7 +42,7 @@ export default function OperationsPanel({ domain }) {
     const poll = async () => {
       try { const next = await call(domain, null, controller.signal); if (!controller.signal.aborted) { setData(next); setConnection(""); } }
       catch (err) { if (!controller.signal.aborted) setConnection(err.message); }
-      if (!controller.signal.aborted) timer = setTimeout(poll, 1500);
+      if (!controller.signal.aborted) timer = setTimeout(poll, 5000);
     };
     poll();
     return () => { controller.abort(); clearTimeout(timer); };
