@@ -1,5 +1,17 @@
 export const HOSTED_MODEL='@cf/qwen/qwen3-30b-a3b-fp8';
 export const SESSION_MS=20*60*1000;
+// The hosted demo grants the model no actuator authority. The UI hides gated_auto, but the
+// boundary has to hold for a caller that skips the UI, so it is enforced on the body here.
+export function actuationGuard(path,text){
+  let body;
+  try{body=JSON.parse(text);}catch{return null;}
+  if(!body||typeof body!=='object') return null;
+  if(body.controller_mode==='gated_auto'||body.mode==='gated_auto')
+    return 'Gated-auto actuation runs in the local lab. The hosted demo evaluates proposals without applying them.';
+  if(/\/agents\/[^/]+\/cycle$/.test(path)&&body.evaluate_only===false)
+    return 'The hosted demo evaluates proposals without applying them. Run applied cycles in the local lab.';
+  return null;
+}
 export async function forwardRequest(request){
   const url=new URL(request.url),headers=new Headers(request.headers);
   for(const name of [...headers.keys()]) if(name.startsWith('cf-container-')) headers.delete(name);
@@ -12,7 +24,10 @@ export async function forwardRequest(request){
       if(bytes>65536){await reader.cancel();return Response.json({detail:'Request too large'},{status:413});}
       chunks.push(value);
     }
-    return new Request(target,{method:request.method,headers,body:new Blob(chunks)});
+    const blob=new Blob(chunks);
+    const denial=actuationGuard(url.pathname,await blob.text());
+    if(denial) return Response.json({detail:denial},{status:403});
+    return new Request(target,{method:request.method,headers,body:blob});
   }
   return new Request(target,{method:request.method,headers});
 }

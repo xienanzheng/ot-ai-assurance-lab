@@ -1,5 +1,6 @@
 import React from "react";
 import OperationsPanel from "./OperationsPanel";
+import { HOSTED } from "./HostedSession.jsx";
 
 const fmt = (value, digits = 1) => Number(value ?? 0).toFixed(digits);
 const reading = (state, name, fallback = 0) => state?.sensors?.[name]?.value ?? fallback;
@@ -22,7 +23,7 @@ function RoomToolbar({ domain, state, scenarios, onCommand, onAi }) {
     <label>Exercise<select value={state?.scenario || ""} onChange={(event) => configure({ scenario: event.target.value })}>{scenarios.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
     <label>Speed<select value={state?.speed || 10} onChange={(event) => configure({ speed: Number(event.target.value) })}><option value="1">1x</option><option value="10">10x</option><option value="60">60x</option></select></label>
     <div className="room-actions"><button onClick={() => onCommand(state?.running ? "pause" : "start")}>{state?.running ? "Pause" : "Start"}</button><button onClick={() => onCommand("step", { minutes: 1 })}>+1 min</button><button onClick={() => onCommand("reset")}>Reset</button></div>
-    <div className="room-mode">{["baseline", "advisory", "shadow", "gated_auto"].map((mode) => <button key={mode} className={state?.controller_mode === mode ? "active" : ""} onClick={() => configure({ controller_mode: mode })}>{label(mode)}</button>)}</div>
+    <div className="room-mode">{["baseline", "advisory", "shadow", "gated_auto"].map((mode) => <button key={mode} className={state?.controller_mode === mode ? "active" : ""} disabled={HOSTED && mode === "gated_auto"} title={HOSTED && mode === "gated_auto" ? "Applied AI actuation runs in the local lab; the hosted demo evaluates proposals without applying them" : undefined} onClick={() => configure({ controller_mode: mode })}>{label(mode)}</button>)}</div>
     <button className="ai-cycle-button" onClick={() => onAi(domain)}>Run AI supervisor</button>
   </div>;
 }
