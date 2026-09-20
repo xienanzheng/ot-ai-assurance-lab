@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { admit, authorize, consumeAI, emptyLedger, modelRequest, modelResponse, HOSTED_MODEL, forwardRequest } from '../deploy/cloudflare-live/policy.mjs';
+import { actuationGuard, admit, authorize, consumeAI, emptyLedger, modelRequest, modelResponse, HOSTED_MODEL, forwardRequest } from '../deploy/cloudflare-live/policy.mjs';
 
 test('sessions are separate, expire, and have a global admission limit', () => {
   const ledger=emptyLedger(0);
@@ -60,4 +60,26 @@ test('proposal field limits reach the provider as structured output constraints'
   assert.equal(input.response_format.json_schema.properties.explanation.maxLength,280);
   assert.deepEqual(input.response_format.json_schema.required,['explanation']);
   assert.equal(input.response_format.json_schema.additionalProperties,false);
+});
+
+test('the hosted edge refuses applied AI actuation however it is requested',async()=>{
+  // gated_auto is the only mode that writes model output into control, on every route
+  // that carries it: the infrastructure command and the water run config alike.
+  assert.ok(actuationGuard('/api/v1/infrastructure/grid/command','{"action":"configure","controller_mode":"gated_auto"}'));
+  assert.ok(actuationGuard('/api/v1/runs','{"scenario":"normal_day","controller_mode":"gated_auto"}'));
+  assert.ok(actuationGuard('/api/v1/agents/water/cycle','{"evaluate_only":false}'));
+  // Evaluation, and every other mode, stays available.
+  assert.equal(actuationGuard('/api/v1/infrastructure/grid/command','{"action":"configure","controller_mode":"advisory"}'),null);
+  assert.equal(actuationGuard('/api/v1/infrastructure/grid/command','{"action":"start"}'),null);
+  assert.equal(actuationGuard('/api/v1/agents/water/cycle','{"evaluate_only":true}'),null);
+  // A body that is not an object must not throw its way past the guard.
+  assert.equal(actuationGuard('/api/v1/runs','not json'),null);
+  assert.equal(actuationGuard('/api/v1/runs','null'),null);
+  // And the guard has to hold through the real forwarding path, not just in isolation.
+  const blocked=await forwardRequest(new Request('https://demo.test/api/v1/infrastructure/nuclear/command',
+    {method:'POST',body:'{"action":"configure","controller_mode":"gated_auto"}'}));
+  assert.equal(blocked.status,403);
+  const allowed=await forwardRequest(new Request('https://demo.test/api/v1/infrastructure/nuclear/command',
+    {method:'POST',body:'{"action":"configure","controller_mode":"shadow"}'}));
+  assert.equal(allowed.url,'http://lab.internal/api/v1/infrastructure/nuclear/command');
 });
