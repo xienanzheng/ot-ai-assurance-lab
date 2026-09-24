@@ -15,3 +15,7 @@ Reference inspected live: https://www.lfgcontentco.com/ at 1512px. Borrow the ge
 ## Future work, 24 September 2026
 
 Removed homepage Track II/geopolitical references. Added a planned-research section for self-hosted OpenJev evaluation and inference-speed experiments. The See more bubble evades a mouse within its container; a stationary Read the plan button exposes identical content. Keyboard focus, touch and reduced-motion users retain a stable interaction. JEV remains explicitly not deployed.
+
+## Airgap identity, 24 September 2026
+
+User selected supplied logo #2 (Brand .png) as the resting header/footer identity, with #1 (ATA brand_1.png) opening a 1.15-second header transition. Original PNG files are preserved; CSS frames the artwork without rewriting the images. Animation waits for both assets to decode, runs once per mount and respects reduced motion. The initiative copyright remains Secure Critical Infrastructure. The supplied MP4 was inspected but not deployed: its 3.6-second transition starts from logo #4, not the requested #1.
