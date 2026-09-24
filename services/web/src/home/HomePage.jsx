@@ -24,7 +24,7 @@ function GateIllustration(){
 }
 function FutureWork(){
  const [position,setPosition]=useState(0),[open,setOpen]=useState(false);
- const places=[[.58,.13],[0,.64],[.65,.7],[.05,.05]];
+ const places=[[.58,.13],[0,.48],[.55,.48],[.05,.05]];
  function evade(e){
   if(e.pointerType!=='mouse'||!matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches||document.activeElement===e.currentTarget)return;
   setPosition(p=>(p+1)%places.length);
