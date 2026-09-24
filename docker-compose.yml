@@ -91,6 +91,12 @@ services:
       INFRASTRUCTURE_API_URL: http://infrastructure-sim:8083
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
       OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:8b}
+      QWEN_INFERENCE_PROFILE: ${QWEN_INFERENCE_PROFILE:-standard}
+      PLANT_KNOWLEDGE_MODE: ${PLANT_KNOWLEDGE_MODE:-off}
+      KNOWLEDGE_CACHE_PATH: ${KNOWLEDGE_CACHE_PATH:-/tmp/ot-ai-knowledge.sqlite3}
+      KNOWLEDGE_EMBED_TIMEOUT: ${KNOWLEDGE_EMBED_TIMEOUT:-30}
+      KNOWLEDGE_EMBED_MODEL: ${KNOWLEDGE_EMBED_MODEL:-embeddinggemma}
+      KNOWLEDGE_EMBED_URL: ${KNOWLEDGE_EMBED_URL:-http://host.docker.internal:11434}
       OLLAMA_NUM_CTX: ${OLLAMA_NUM_CTX:-8192}
       LESSON_MEMORY_ENABLED: ${LESSON_MEMORY_ENABLED:-true}
       WATCHER_OUTBOX_PATH: /var/lib/watcher-outbox/open-weight-decisions.jsonl

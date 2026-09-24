@@ -8,7 +8,7 @@ export default {
   if(url.pathname==='/home.html')return Response.redirect(new URL('/',url),301);
   const asset=await env.ASSETS.fetch(url.pathname==='/'?new Request(new URL('/home.html',url),request):request);
   const response=new Response(asset.body,asset);
-  response.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
+  response.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'");
   response.headers.set('X-Content-Type-Options','nosniff');
   response.headers.set('Referrer-Policy','strict-origin-when-cross-origin');
   return response;

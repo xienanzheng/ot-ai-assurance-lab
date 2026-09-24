@@ -255,3 +255,19 @@ def test_failed_live_exchange_keeps_context_for_next_decision(audit_database,mon
     assert record['before']==context
     assert record['evaluate_only'] is False and record['applied'] is False
     assert record['gate']['status']=='not_submitted'
+
+
+def test_retrieval_mode_is_per_call_and_audited_without_provider_metadata(audit_database, monkeypatch):
+    content=json.dumps(dict(objective='Hold state',changes={},confidence=.8,explanation='No adjustment needed'))
+    fake_ollama(monkeypatch,content)
+    worker=OllamaSupervisor()
+    worker.knowledge_mode='off'
+    service=AgentService(SimpleNamespace(ollama=worker),'http://unused')
+    sim=GridSimulator()
+    context={'plant':sim.snapshot().model_dump(mode='json'),'run_id':sim.exercise.run_id}
+    record=asyncio.run(service.cycle('grid',False,True,context,knowledge_mode='lexical'))
+    assert worker.knowledge_mode=='off'
+    assert record['retrieval']['method']=='lexical'
+    assert record['retrieval']['pack_sha256']
+    assert '_retrieval' not in record['request']
+    assert record['applied'] is False
