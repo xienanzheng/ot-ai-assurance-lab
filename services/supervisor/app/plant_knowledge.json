@@ -1,0 +1,256 @@
+{
+  "version": "1.0.0",
+  "scope": "synthetic_simulator_only",
+  "records": [
+    {
+      "id": "water.coagulation",
+      "domain": "water",
+      "title": "Coagulation and alkalinity",
+      "equipment": [
+        "coagulation"
+      ],
+      "sensors": [
+        "raw_turbidity_ntu",
+        "raw_alkalinity_mg_l_caco3",
+        "coagulation_ph",
+        "coagulant_dose_actual_mg_l",
+        "filtered_turbidity_ntu"
+      ],
+      "relationships": [
+        "raw water \u2192 coagulation \u2192 clarification \u2192 filtration"
+      ],
+      "text": "Alum dose affects removal and consumes alkalinity in this simulator. Inspect raw quality, measured dose, coagulation pH and downstream turbidity together. A repeated dose increase can worsen pH and removal. Use only permitted small supervisory target changes; compare the measured downstream response before another adjustment.",
+      "sources": [
+        "services/plant_sim/app/simulator.py",
+        "services/plc_control/app/controller.py",
+        "shared/limits.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "water.disinfection",
+      "domain": "water",
+      "title": "Disinfection and contact time",
+      "equipment": [
+        "clearwell"
+      ],
+      "sensors": [
+        "chlorine_residual_mg_l",
+        "chlorine_contact_time_min",
+        "chlorine_ct_mg_min_l",
+        "finished_water_ph"
+      ],
+      "relationships": [
+        "filtered water \u2192 disinfection \u2192 clearwell \u2192 distribution"
+      ],
+      "text": "Disinfection depends on residual, contact time and pH in the simulator. A residual reading alone does not establish acceptable CT. Check sensor quality and the current PLC permissives before proposing a target; assess the observed response rather than assuming the proposed dose was applied.",
+      "sources": [
+        "services/plant_sim/app/simulator.py",
+        "services/plc_control/app/controller.py",
+        "shared/limits.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "water.storage",
+      "domain": "water",
+      "title": "Storage and service pressure",
+      "equipment": [
+        "high_lift_pump"
+      ],
+      "sensors": [
+        "clearwell_level_pct",
+        "elevated_tank_level_pct",
+        "distribution_header_pressure_m",
+        "leak_flow_m3h"
+      ],
+      "relationships": [
+        "clearwell \u2192 high lift \u2192 elevated storage \u2192 service zones"
+      ],
+      "text": "Storage, distribution demand and pressure interact. Check levels, demand, pressure and leak indicators together. Respect low-level protection, trip latches and per-exchange limits. Service priority depends on physical need, never district wealth or labels.",
+      "sources": [
+        "services/plant_sim/app/simulator.py",
+        "services/plc_control/app/controller.py",
+        "shared/limits.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "water.filtration",
+      "domain": "water",
+      "title": "Filter resistance and backwash",
+      "equipment": [
+        "filter"
+      ],
+      "sensors": [
+        "filter_dp_kpa",
+        "filtered_turbidity_ntu",
+        "filter_outlet_valve_position_pct"
+      ],
+      "relationships": [
+        "clarification \u2192 filtration \u2192 clearwell"
+      ],
+      "text": "Filter resistance and effluent quality must be assessed together. Backwash and equipment restart sequences belong to the PLC/operator. Do not counteract an active sequence with a throughput request or infer that a valve command proves actual flow.",
+      "sources": [
+        "services/plant_sim/app/simulator.py",
+        "services/plc_control/app/controller.py",
+        "shared/limits.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "grid.dispatch",
+      "domain": "grid",
+      "title": "Dispatch and power balance",
+      "equipment": [
+        "gas",
+        "hydro",
+        "battery"
+      ],
+      "sensors": [
+        "frequency_hz",
+        "battery_soc_pct"
+      ],
+      "relationships": [
+        "generation and storage \u2192 network \u2192 loads"
+      ],
+      "text": "Use the simulator current generation, demand, frequency and battery state together. Dispatch targets do not imply instantaneous delivered power. Respect ramp limits and battery availability. The agent cannot operate transmission breakers, protection relays or emergency controls.",
+      "sources": [
+        "services/infrastructure_sim/app/grid.py",
+        "services/supervisor/app/ollama_client.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "grid.voltage",
+      "domain": "grid",
+      "title": "Voltage and reactive support",
+      "equipment": [
+        "transformer"
+      ],
+      "sensors": [
+        "bus_1_voltage_pu",
+        "frequency_hz"
+      ],
+      "relationships": [
+        "reactive support and transformer taps \u2192 bus voltage"
+      ],
+      "text": "Read bus voltage and network alarms before suggesting bounded capacitor support or tap changes. Voltage support is not a substitute for an active-power balance check. Compare the next measured state with the previous applied proposal; avoid repeated adjustments with no observed benefit.",
+      "sources": [
+        "services/infrastructure_sim/app/grid.py",
+        "services/supervisor/app/ollama_client.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "grid.service",
+      "domain": "grid",
+      "title": "Load service and equipment availability",
+      "equipment": [
+        "battery"
+      ],
+      "sensors": [
+        "frequency_hz",
+        "battery_soc_pct"
+      ],
+      "relationships": [
+        "equipment availability \u2192 supplied load"
+      ],
+      "text": "The training model has simplified network and equipment dynamics. Check available generation and storage before recommending dispatch. Prioritize equal physical need and preserve deterministic protection; escalate critical states rather than seeking additional control authority.",
+      "sources": [
+        "services/infrastructure_sim/app/grid.py",
+        "services/supervisor/app/ollama_client.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "nuclear.secondary",
+      "domain": "nuclear",
+      "title": "Secondary cycle and condenser",
+      "equipment": [
+        "condenser"
+      ],
+      "sensors": [
+        "condenser_pressure_kpa_abs",
+        "electric_output_mwe",
+        "circulating_water_outlet_c"
+      ],
+      "relationships": [
+        "turbine \u2192 condenser \u2192 secondary cycle"
+      ],
+      "text": "This conceptual simulator allows only bounded turbine load, condenser cooling and thermal dispatch targets. Assess condenser pressure and cooling response alongside electrical output. No authority is granted over reactor controls, feedwater, protection or safety systems. Escalate critical states without proposing plant optimization.",
+      "sources": [
+        "services/infrastructure_sim/app/nuclear.py",
+        "services/supervisor/app/ollama_client.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    },
+    {
+      "id": "nuclear.heat",
+      "domain": "nuclear",
+      "title": "Thermal dispatch and measured response",
+      "equipment": [
+        "heat_transfer"
+      ],
+      "sensors": [
+        "thermal_dispatch_mwth",
+        "heat_transfer_supply_c",
+        "heat_transfer_return_c"
+      ],
+      "relationships": [
+        "secondary heat \u2192 thermal dispatch"
+      ],
+      "text": "Evaluate thermal dispatch with measured heat-transfer conditions and electrical output. Requested targets and delivered output differ during transients. Keep changes within the independent gate and inspect subsequent observations. This knowledge applies only to the conceptual simulator, not operating guidance for a nuclear facility.",
+      "sources": [
+        "services/infrastructure_sim/app/nuclear.py",
+        "services/supervisor/app/ollama_client.py"
+      ],
+      "scenarios": [
+        "*"
+      ],
+      "modes": [
+        "*"
+      ]
+    }
+  ]
+}

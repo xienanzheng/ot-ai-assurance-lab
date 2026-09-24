@@ -55,6 +55,8 @@ class AgentRequest(BaseModel):
     model: str | None = Field(default=None, min_length=1, max_length=100, pattern=r"^[A-Za-z0-9_./:-]+$")
     num_ctx: int | None = Field(default=None, ge=4096, le=32768)
     include_history: bool = False
+    inference_profile: Literal["standard", "fast"] | None = None
+    knowledge_mode: Literal["off", "lexical", "hybrid"] | None = None
 
 
 class StudyRequest(BaseModel):
@@ -124,7 +126,7 @@ class AgentService:
                 "history_window_minutes":12, "decision_window":4,
                 "termination_rule":"Request resolved only after at least 8 consecutive simulated minutes with filtered turbidity <= 1.0 NTU, all other supplied operating limits satisfied, good sensor quality and no active alarms. Otherwise continue or request escalation. Resolution ends the exercise; it does not repair the external disturbance."}
 
-    async def cycle(self, domain, thinking=False, evaluate_only=True, context=None, experiment=None, model=None, num_ctx=None, include_history=False):
+    async def cycle(self, domain, thinking=False, evaluate_only=True, context=None, experiment=None, model=None, num_ctx=None, include_history=False, knowledge_mode=None, inference_profile=None):
         context = deepcopy(context) if context else await self.context(domain)
         if include_history:
             if domain != "water": raise HTTPException(422, "Timeline history currently supports water")
@@ -133,6 +135,8 @@ class AgentService:
         # Per-call configuration never mutates the shared scheduled worker.
         from copy import copy
         worker = copy(self.manager.ollama)
+        if inference_profile is not None: worker.inference_profile = inference_profile
+        if knowledge_mode is not None: worker.knowledge_mode = knowledge_mode
         if model is not None: worker.model = model
         if num_ctx is not None: worker.num_ctx = num_ctx
         if model is not None or num_ctx is not None: worker.timeout = max(worker.timeout, 300)
@@ -279,11 +283,10 @@ class AgentService:
 
         @router.post("/{domain}/cycle", status_code=202)
         async def cycle(domain:Literal["water","nuclear","grid"], request:AgentRequest):
-            # The edge refuses this too; the boundary is repeated here so the service that
-            # would actuate enforces it itself rather than trusting its caller.
+            # Enforce hosted non-actuation at the service boundary as well as the edge.
             if HOSTED and not request.evaluate_only:
                 raise HTTPException(403, "The hosted demo evaluates proposals without applying them")
-            return self.enqueue(domain,lambda:self.cycle(domain,request.thinking,request.evaluate_only,model=request.model,num_ctx=request.num_ctx,include_history=request.include_history))
+            return self.enqueue(domain,lambda:self.cycle(domain,request.thinking,request.evaluate_only,model=request.model,num_ctx=request.num_ctx,include_history=request.include_history,knowledge_mode=request.knowledge_mode,inference_profile=request.inference_profile))
 
         @router.post("/{domain}/study", status_code=202)
         async def study(domain:Literal["water","nuclear","grid"], request:StudyRequest):
