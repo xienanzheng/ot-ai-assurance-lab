@@ -59,3 +59,16 @@
 .about .text-link{color:var(--white)}.about a:focus-visible{outline-color:var(--accent)}
 @media(min-width:1700px){.about{padding-left:max(var(--gutter),calc((100vw - 1504px)/2));padding-right:max(var(--gutter),calc((100vw - 1504px)/2))}}
 @media(max-width:800px){.future-speed{padding-top:40px}.future{padding-bottom:48px}.future-number strong{font-size:2.4rem}.future-number>span{font-size:1.05rem}.about{gap:36px;padding-top:48px;padding-bottom:48px;margin-bottom:40px}.about-intro{margin-bottom:28px}.about h2{font-size:3.5rem}.about .about-role{margin-top:24px!important}}
+
+/* Supplied artwork: one brief introduction, then the chosen logo at rest. */
+.brand-visual{display:block;position:relative;width:210px;aspect-ratio:2.65;overflow:hidden;isolation:isolate}
+.brand-visual img{position:absolute;display:block;width:128%;max-width:none;height:auto;left:50%;top:50%;transform:translate(-50%,-50%)}
+.brand-intro-image{opacity:0}.brand-rest-image{opacity:1}
+.is-playing .brand-intro-image{animation:brand-depart 1.15s var(--ease) both}
+.is-playing .brand-rest-image{animation:brand-arrive 1.15s var(--ease) both}
+.footer-brand .brand-visual{width:185px}
+@keyframes brand-depart{0%,25%{opacity:1;transform:translate(-50%,-50%) scale(1)}65%,100%{opacity:0;transform:translate(-50%,-50%) scale(.93)}}
+@keyframes brand-arrive{0%,25%{opacity:0;transform:translate(-50%,-50%) scale(.97)}85%,100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media(max-width:800px){.site-header{padding-top:12px;padding-bottom:12px}.brand-visual{width:180px}.footer-brand .brand-visual{width:170px}}
+@media(max-width:430px){.brand-visual{width:164px}.site-header{gap:16px}}
+@media(prefers-reduced-motion:reduce){.brand-intro-image{display:none!important}.brand-rest-image{opacity:1!important;animation:none!important;transform:translate(-50%,-50%)!important}}

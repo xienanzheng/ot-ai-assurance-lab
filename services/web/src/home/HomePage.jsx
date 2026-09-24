@@ -1,6 +1,8 @@
-import React,{useState,useRef} from 'react';
+import React,{useState,useRef,useEffect} from 'react';
 import InfrastructureScene from './InfrastructureScene';
 import simulator from './assets/simulator.png';
+import airgapIntro from './assets/airgap-intro.png';
+import airgapBrand from './assets/airgap-brand.png';
 export const DEMO='https://ot-aigent-simulation.night-zone.com';
 const REPO='https://github.com/xienanzheng/ot-ai-assurance-lab';
 const sectors={water:{name:'Water',concern:'Safe water. Continuous service.',detail:'Treatment, storage and distribution.'},nuclear:{name:'Nuclear',concern:'Protection retains priority.',detail:'Conceptual reactor and generation.'},grid:{name:'Power grid',concern:'Keep essential demand supplied.',detail:'Dispatch, storage and network balance.'}};
@@ -12,6 +14,19 @@ const work=[
 ];
 function Arrow({diagonal=false}){return <svg className="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d={diagonal?'M5 19L19 5M5 5h14v14':'M4 12h15M12 5l7 7-7 7'}/></svg>;}
 function Mark(){return <svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><path d="M16 6H6v30h10M26 6h10v30H26M15 21h12" stroke="currentColor" strokeWidth="4"/></svg>;}
+function BrandLogo({animate=false}){
+ const [playing,setPlaying]=useState(false);
+ useEffect(()=>{
+  if(!animate||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  let active=true;
+  Promise.all([airgapIntro,airgapBrand].map(src=>{const img=new Image();img.src=src;return img.decode();})).then(()=>{if(active)setPlaying(true);}).catch(()=>{});
+  return ()=>{active=false;};
+ },[animate]);
+ return <span className={`brand-visual ${playing?'is-playing':''}`} onAnimationEnd={e=>{if(e.animationName==='brand-arrive')setPlaying(false);}}>
+  {animate&&<img className="brand-intro-image" src={airgapIntro} alt="" aria-hidden="true" width="1254" height="1254"/>}
+  <img className="brand-rest-image" src={airgapBrand} alt="Airgap the AI" width="1254" height="1254"/>
+ </span>;
+}
 function GateIllustration(){
  const [choice,setChoice]=useState('bounded');
  const safe=choice==='bounded';
@@ -45,7 +60,7 @@ export default function HomePage(){
  const close=()=>setMenu(false);
  return <>
   <a className="skip-link" href="#main">Skip to content</a>
-  <header className="site-header" onKeyDown={e=>{if(e.key==='Escape'){setMenu(false);e.currentTarget.querySelector('.menu-toggle')?.focus();}}}><a className="brand" href="#" aria-label="Secure Critical Infrastructure home"><Mark/><span>Secure Critical<br/>Infrastructure<span className="brand-stop">.</span></span></a><button className="menu-toggle" aria-expanded={menu} aria-controls="site-nav" onClick={()=>setMenu(!menu)}>{menu?'Close':'Menu'}<span aria-hidden="true">{menu?'−':'+'}</span></button><nav id="site-nav" className={menu?'is-open':''} aria-label="Main navigation"><a href="#mission" onClick={close}>Mission</a><a href="#approach" onClick={close}>Our approach</a><a href="#future" onClick={close}>Future work</a><a href="#about" onClick={close}>About</a><a className="nav-demo" href={DEMO}>See demo <Arrow diagonal/></a></nav></header>
+  <header className="site-header" onKeyDown={e=>{if(e.key==='Escape'){setMenu(false);e.currentTarget.querySelector('.menu-toggle')?.focus();}}}><a className="brand" href="#" aria-label="Airgap the AI — Secure Critical Infrastructure home"><BrandLogo animate/></a><button className="menu-toggle" aria-expanded={menu} aria-controls="site-nav" onClick={()=>setMenu(!menu)}>{menu?'Close':'Menu'}<span aria-hidden="true">{menu?'−':'+'}</span></button><nav id="site-nav" className={menu?'is-open':''} aria-label="Main navigation"><a href="#mission" onClick={close}>Mission</a><a href="#approach" onClick={close}>Our approach</a><a href="#future" onClick={close}>Future work</a><a href="#about" onClick={close}>About</a><a className="nav-demo" href={DEMO}>See demo <Arrow diagonal/></a></nav></header>
   <main id="main">
    <section className="hero" aria-labelledby="hero-title"><div className="hero-copy"><div className="hero-intro"><span className="signal-dot"/>Cybersecurity × AI assurance</div><h1 id="hero-title">Critical systems.<br/><span>Human control.</span></h1><p>Bring AI into the systems we depend on.<br className="desktop-break"/> Keep the authority to decide.</p><div className="hero-actions"><a className="button primary" href={DEMO}>See the demo <Arrow diagonal/></a><a className="text-link" href="#mission">Meet the mission <Arrow/></a></div><div className="hero-footnote"><span className="small-cross" aria-hidden="true">+</span><a href="#mission">Scroll to explore ↓</a></div></div><div className="hero-visual" onPointerMove={move} onPointerLeave={()=>{scene.current?.style.setProperty('--scene-x','0px');scene.current?.style.setProperty('--scene-y','0px');}}><div className="scene-caption"><span>Explore the infrastructure</span><span aria-hidden="true">↗</span></div><div ref={scene} className="scene"><InfrastructureScene sector={sector} onSelect={setSector}/></div><div className="scene-status" aria-live="polite"><span className="status-bracket" aria-hidden="true">↳</span><div><strong>{sectors[sector].concern}</strong><span>{sectors[sector].detail}</span></div><span className="scene-status-icon" aria-hidden="true">✳</span></div></div></section>
    <div className="sector-strip"><span>Three systems.<br/>One control boundary.</span><div>{Object.entries(sectors).map(([key,s])=><button key={key} aria-pressed={sector===key} onClick={()=>setSector(key)} onMouseEnter={()=>setSector(key)} onFocus={()=>setSector(key)}><span>{s.name}<small>{s.detail}</small></span><Arrow diagonal/></button>)}</div></div>
@@ -57,6 +72,6 @@ export default function HomePage(){
    <section id="about" className="about section-wrap"><div className="about-title"><div className="about-intro"><span className="about-emblem" aria-hidden="true"><Mark/></span><span>Behind the work</span></div><h2>Isaac.<br/><span>Nanzheng Xie</span></h2><p className="about-role">AI Safety and Security practitioner<br/>M3 fellow</p></div><div className="about-copy"><p>My work began in cybersecurity for Singapore’s Critical Infrastructure. That experience shapes the question behind this project: what does it take to give AI useful responsibility in systems people rely on?</p><p>Through various opportunities and the M3 AI Security fellowship, I’m developing an open simulation lab to explore the feasibility of adopting open-weight models for operational efficiency and better security.</p><p>The aim is to bring operational experience, technical evidence and governance into the same conversation.</p><div className="about-links"><a className="text-link" href="https://github.com/xienanzheng">Connect with Isaac on GitHub <Arrow diagonal/></a><a className="text-link" href="https://www.linkedin.com/in/nanzheng-xie">LinkedIn <Arrow diagonal/></a></div></div></section>
    <section className="closing"><div><span>For operators. For researchers. For the public good.</span><h2>Make the boundary<br/>worth trusting.</h2></div><a className="closing-cta" href={DEMO}><span>See demo</span><Arrow diagonal/></a></section>
   </main>
-  <footer><a className="brand footer-brand" href="#"><Mark/><span>Secure Critical<br/>Infrastructure.</span></a><div><a href={REPO}>Open source <Arrow diagonal/></a><a href={`${REPO}/blob/main/docs/VERIFICATION_2026_09_18.md`}>Test evidence <Arrow diagonal/></a><a href="#about">About the work <Arrow/></a></div><p>© {new Date().getFullYear()} Secure Critical Infrastructure<br/><span>An independent AI security research initiative by Nanzheng (Isaac) Xie</span></p></footer>
+  <footer><a className="brand footer-brand" href="#" aria-label="Airgap the AI — home"><BrandLogo/></a><div><a href={REPO}>Open source <Arrow diagonal/></a><a href={`${REPO}/blob/main/docs/VERIFICATION_2026_09_18.md`}>Test evidence <Arrow diagonal/></a><a href="#about">About the work <Arrow/></a></div><p>© {new Date().getFullYear()} Secure Critical Infrastructure<br/><span>An independent AI security research initiative by Nanzheng (Isaac) Xie</span></p></footer>
  </>;
 }
