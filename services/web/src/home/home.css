@@ -42,3 +42,20 @@
 @media(max-width:800px){.future-row{grid-template-columns:1fr;gap:28px;padding:28px 0}.future-play{min-height:330px}.future-orbit{min-height:240px}.future-detail{padding:24px}.future-topic h3{font-size:2rem}}
 @media(max-width:430px){.future-bubble{width:88px;height:88px;font-size:.78rem}.future-bubble .arrow{width:16px}.future-play{padding:16px}}
 @media(prefers-reduced-motion:reduce){.future-bubble{left:calc(50% - 56px)!important;top:45px!important}}
+
+/* Chapter hierarchy, then a distinct personal introduction. */
+.future-number{display:flex;align-items:center;gap:16px;color:var(--green)}
+.future-number strong{font-size:clamp(2.4rem,3vw,3.2rem);font-weight:650;line-height:1;letter-spacing:-.04em}
+.future-number>span{font-size:1.15rem;font-weight:650;letter-spacing:-.015em}
+.future-speed{border-top:0;padding-top:64px}
+.future{padding-bottom:80px}
+.about{max-width:none;background:var(--green-deep);color:var(--white);margin:0 0 64px;padding-top:80px;padding-bottom:80px;align-items:center;gap:80px}
+.about-intro{display:flex;align-items:center;gap:16px;margin-bottom:36px;font-size:.9rem;color:var(--mint)}
+.about .about-emblem{width:42px;height:42px;margin:0;color:var(--mint)}
+.about h2{font-size:clamp(3.4rem,5vw,5.5rem);max-width:none;line-height:1.04;letter-spacing:-.035em}
+.about h2 span{display:block;font-size:.55em;font-weight:450;margin-top:14px;color:var(--mint)}
+.about .about-role{color:var(--mint)!important;margin-top:28px!important;font-size:.92rem!important;line-height:1.7}
+.about-copy p{color:var(--mint);max-width:54ch}.about-copy>p:first-child{margin-top:0}
+.about .text-link{color:var(--white)}.about a:focus-visible{outline-color:var(--accent)}
+@media(min-width:1700px){.about{padding-left:max(var(--gutter),calc((100vw - 1504px)/2));padding-right:max(var(--gutter),calc((100vw - 1504px)/2))}}
+@media(max-width:800px){.future-speed{padding-top:40px}.future{padding-bottom:48px}.future-number strong{font-size:2.4rem}.future-number>span{font-size:1.05rem}.about{gap:36px;padding-top:48px;padding-bottom:48px;margin-bottom:40px}.about-intro{margin-bottom:28px}.about h2{font-size:3.5rem}.about .about-role{margin-top:24px!important}}
