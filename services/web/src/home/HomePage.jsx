@@ -1,7 +1,7 @@
 import React,{useState,useRef,useEffect} from 'react';
 import InfrastructureScene from './InfrastructureScene';
 import simulator from './assets/simulator.png';
-import airgapIntro from './assets/airgap-intro.png';
+import airgapTransition from './assets/airgap-transition.mp4';
 import airgapBrand from './assets/airgap-brand.png';
 export const DEMO='https://ot-aigent-simulation.night-zone.com';
 const REPO='https://github.com/xienanzheng/ot-ai-assurance-lab';
@@ -17,14 +17,11 @@ function Mark(){return <svg viewBox="0 0 42 42" fill="none" aria-hidden="true"><
 function BrandLogo({animate=false}){
  const [playing,setPlaying]=useState(false);
  useEffect(()=>{
-  if(!animate||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  let active=true;
-  Promise.all([airgapIntro,airgapBrand].map(src=>{const img=new Image();img.src=src;return img.decode();})).then(()=>{if(active)setPlaying(true);}).catch(()=>{});
-  return ()=>{active=false;};
+  if(animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches)setPlaying(true);
  },[animate]);
- return <span className={`brand-visual ${playing?'is-playing':''}`} onAnimationEnd={e=>{if(e.animationName==='brand-arrive')setPlaying(false);}}>
-  {animate&&<img className="brand-intro-image" src={airgapIntro} alt="" aria-hidden="true" width="1254" height="1254"/>}
+ return <span className="brand-visual">
   <img className="brand-rest-image" src={airgapBrand} alt="Airgap the AI" width="1254" height="1254"/>
+  {playing&&<video className="brand-video" src={airgapTransition} poster={airgapBrand} autoPlay muted playsInline preload="auto" aria-hidden="true" onCanPlay={e=>{e.currentTarget.play().catch(()=>setPlaying(false));}} onEnded={()=>setPlaying(false)} onError={()=>setPlaying(false)}/>}
  </span>;
 }
 function GateIllustration(){
