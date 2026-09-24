@@ -11,3 +11,7 @@ Spacing follows 4/8/12/16/24/32/48/64/96px, with fluid outer gutters. Display ty
 ## Desktop refinement, 23 September 2026
 
 Reference inspected live: https://www.lfgcontentco.com/ at 1512px. Borrow the generous first viewport, decisive heading weight, spatial artwork and responsive hover feedback. Keep our own Archivo family, green identity and meaningful process illustration. The opening is now a continuous pale canvas, with a larger unboxed city and integrated sector selection. Plant drawings support pointer selection and keyboard Enter/Space; sector buttons remain a clear alternative. Desktop uses two columns above 800px; narrower screens stack deliberately. No cursor replacement or loading screen.
+
+## Future work, 24 September 2026
+
+Removed homepage Track II/geopolitical references. Added a planned-research section for self-hosted OpenJev evaluation and inference-speed experiments. The See more bubble evades a mouse within its container; a stationary Read the plan button exposes identical content. Keyboard focus, touch and reduced-motion users retain a stable interaction. JEV remains explicitly not deployed.
