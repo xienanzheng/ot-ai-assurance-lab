@@ -1,3 +1,4 @@
+import { visitors, registered } from './visitors.mjs';
 import { Container, ContainerProxy } from '@cloudflare/containers';
 import { DurableObject } from 'cloudflare:workers';
 import { admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
@@ -97,6 +98,7 @@ export default {
     const url=new URL(request.url),path=url.pathname;
     const write=!['GET','HEAD'].includes(request.method);
     if((write||request.headers.get('Upgrade')==='websocket')&&request.headers.get('Origin')!==url.origin) return json({detail:'Same-origin request required'},403);
+    if(path==='/api/visitors') return visitors(request,env);
     if(path==='/api/session'){
       const id=cookie(request);
       if(request.method==='GET'){
@@ -105,6 +107,8 @@ export default {
       }
       if(request.method==='DELETE'){if(id) await registry(env).end(id);return json({active:false});}
       if(request.method!=='POST') return json({detail:'Method not allowed'},405);
+      try{if(!await registered(request,env))return json({detail:'Please complete the visitor form before starting.',registration_required:true},403);}
+      catch{return json({detail:'Registration is temporarily unavailable. Please retry.'},503);}
       const existing=await registry(env).check(id);
       const result=existing.ok?existing:await registry(env).create();
       if(!result.ok) return json({detail:result.detail},result.status);
