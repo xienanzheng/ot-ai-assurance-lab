@@ -64,7 +64,7 @@ class TwinHealth(BaseModel):
     flow_residual_pct: float = 0.0
     zone_pressure_residuals_m: dict[str, float] = Field(default_factory=dict)
     fit_status: Literal["good", "warning", "poor", "stale"] = "good"
-    calibration_note: str = "Synthetic telemetry is compared with the hydraulic model."
+    calibration_note: str = "Simulated telemetry is compared with the hydraulic model."
     integrity_flags: list[str] = Field(default_factory=list)
 
 

@@ -1,6 +1,6 @@
 # Security and scope
 
-This is a local research simulator. It does not provide production authentication, an industrial safety case or a certified air gap. Keep live control endpoints bound to loopback and do not tunnel them to the public internet. The separately packaged public demo serves saved synthetic evidence and rejects API calls.
+This is a local research simulator. It does not provide production authentication, an industrial safety case or a certified air gap. Keep live control endpoints bound to loopback and do not tunnel them to the public internet. The separately packaged public demo serves saved simulated evidence and rejects API calls.
 
 To report a vulnerability, use GitHub's private vulnerability reporting if enabled. If it is unavailable, open an issue requesting a private reporting channel without exploit details, credentials or sensitive data. Do not test against third-party deployments without authorisation.
 

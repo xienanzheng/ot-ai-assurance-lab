@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Matched synthetic gate-judgment benchmark. No actuation or training."""
+"""Matched simulated gate-judgment benchmark. No actuation or training."""
 import sys,json,time,statistics,urllib.request,urllib.error
 from pathlib import Path
 from datetime import timedelta,datetime,timezone

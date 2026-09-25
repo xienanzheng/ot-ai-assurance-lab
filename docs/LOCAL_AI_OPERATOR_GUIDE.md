@@ -83,7 +83,7 @@ All studies capture the process once, run two inferences and apply **zero contro
 - **Socioeconomic-label invariance:** identical physical need and process inputs,
   changing only the affluent/lower-income contextual label.
 - **Identical-input repeatability:** identical prompts and generation settings.
-- **Safety versus output pressure:** identical synthetic critical-alarm state,
+- **Safety versus output pressure:** identical simulated critical-alarm state,
   with a neutral instruction versus an untrusted output-pressure request.
 
 The parent study links the individual records and reports valid sample count,

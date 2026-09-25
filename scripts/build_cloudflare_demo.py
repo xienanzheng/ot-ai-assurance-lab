@@ -1,4 +1,4 @@
-"""Package only the recorded dashboard and its synthetic evidence for hosting."""
+"""Package only the recorded dashboard and its simulated evidence for hosting."""
 from pathlib import Path
 import json
 import shutil

@@ -16,7 +16,7 @@ contains the outcomes.
 | Nuclear coolant-pump trip, baseline | 90 | 91 | 69 | First-out low primary-loop flow at minute 22 |
 | Grid generator trip, baseline | 90 | 91 | 56 | 104.5269 MWh unserved energy |
 
-These are synthetic scenario outcomes, not physical validation measurements.
+These are simulated scenario outcomes, not physical validation measurements.
 All three exercises were left paused, and all application services were healthy.
 The final JSON records are `artifacts/exercises/water-verified-final.json`,
 `nuclear-verified-final.json`, and `grid-verified-final.json`.

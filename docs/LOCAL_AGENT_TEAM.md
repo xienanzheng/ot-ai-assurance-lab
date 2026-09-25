@@ -43,7 +43,7 @@ python3 scripts/local_agents.py review --record-id YOUR_RECORD_ID --reviewer saf
 # Review a previously exported full audit entirely through native local Ollama.
 python3 scripts/local_agents.py review --file artifacts/agent-grid-live-trace.json --reviewer consistency
 
-# Clearly labeled synthetic contradiction/bias-signal demonstration.
+# Clearly labeled simulated contradiction/bias-signal demonstration.
 python3 scripts/local_agents.py review --file tests/fixtures/reviewer_inconsistency.json --reviewer consistency
 ```
 

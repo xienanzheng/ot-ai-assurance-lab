@@ -43,6 +43,6 @@ A regression test first failed against generic JSON mode, then passed with schem
 
 ## Scope and limits
 
-The tests use temporary synthetic sessions, including non-actuating model evaluations. They do not establish reliable AI optimization, real-equipment fidelity, verified air-gapping, internal-reasoning access, or absence of model bias. The hosted sandbox uses cloud inference; the local offline deployment remains a separate setup.
+The tests use temporary simulated sessions, including non-actuating model evaluations. They do not establish reliable AI optimization, real-equipment fidelity, verified air-gapping, internal-reasoning access, or absence of model bias. The hosted sandbox uses cloud inference; the local offline deployment remains a separate setup.
 
 Existing limits remain three concurrent sessions, 20 minutes per session, ten AI calls per session, 20 session admissions per UTC day and 200 AI calls per UTC day. These bound application usage, not total dollar billing. Actual container and inference charges should be assessed from measured Cloudflare usage.

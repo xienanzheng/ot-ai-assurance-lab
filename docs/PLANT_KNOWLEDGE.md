@@ -1,6 +1,6 @@
 # Plant context and local retrieval
 
-Qwen now has an opt-in retrieval path for a versioned, source-linked JSON knowledge pack covering the synthetic water, grid and conceptual nuclear models. This augments the prompt; it does not fine-tune weights or establish improved control performance.
+Qwen now has an opt-in retrieval path for a versioned, source-linked JSON knowledge pack covering the simulated water, grid and conceptual nuclear models. This augments the prompt; it does not fine-tune weights or establish improved control performance.
 
 ## Use it
 
@@ -54,7 +54,7 @@ The default decision model is `qwen3:4b`; override with `--model`. Runs use deta
 
 Frozen comparisons retain full requests, actual model outputs, gate results, total latency and provider token counts when returned. They do not measure recovery. Water timelines apply only actual gate-approved values with bounded leases, feed recent samples and previous decisions into subsequent calls, and record later observations. Reports include unsafe-sample counts and an eight-minute sustained-recovery check from the existing timeline evaluator. Null recovery means recovery was not observed in the horizon. Correct escalation and unnecessary intervention require independently labelled cases and remain explicitly unmeasured.
 
-Inspect failures and retrieval fallbacks before interpreting a comparison. Compare repeated held-out scenarios and seeds, not just gate acceptance. These are synthetic exploratory measurements, not evidence of real-plant safety.
+Inspect failures and retrieval fallbacks before interpreting a comparison. Compare repeated held-out scenarios and seeds, not just gate acceptance. These are simulated exploratory measurements, not evidence of real-plant safety.
 
 Embedding API reference: https://docs.ollama.com/api/embed
 
@@ -63,7 +63,7 @@ Embedding API reference: https://docs.ollama.com/api/embed
 
 Contextual document text now carries the plant domain, process relationship and sensor tags rather than embedding raw JSON metadata. EmbeddingGemma receives its documented query/document prefixes. BM25 preserves exact sensor tags and supports term-frequency/length normalization; reciprocal rank fusion avoids adding incompatible cosine and lexical score scales. Near-duplicate records are removed. Full source provenance stays in the audit rather than increasing every Qwen prompt.
 
-A one-off `text-embedding-3-large` job embedded nine documents and 18 synthetic evaluation questions (3,072 dimensions, 1,083 input tokens). It reads `OPENAI_API_KEY` from the root `.env.local`, which is Git-ignored and owner-readable only. No key is sent to the frontend or deployed.
+A one-off `text-embedding-3-large` job embedded nine documents and 18 simulated evaluation questions (3,072 dimensions, 1,083 input tokens). It reads `OPENAI_API_KEY` from the root `.env.local`, which is Git-ignored and owner-readable only. No key is sent to the frontend or deployed.
 
 ```sh
 python scripts/embed_plant_knowledge.py --output artifacts/retrieval-v2/openai-large.json
@@ -72,7 +72,7 @@ python scripts/evaluate_retrieval.py --openai artifacts/retrieval-v2/openai-larg
 
 The embedding script refuses to overwrite an existing output, avoiding accidental repeat charges. Cached OpenAI vectors can be reused for those exact documents/questions. New free-form queries still need embeddings from that same model: local EmbeddingGemma query vectors cannot search the OpenAI space. The production runtime therefore retains local retrieval; this one-off job is an evaluation artifact, not an ongoing cloud dependency.
 
-On the 18 developer-authored synthetic queries, legacy keyword ranking found the expected top result in 17/18 cases. BM25, local hybrid and OpenAI hybrid each scored 18/18. Both dense-only models scored 17/18. This small set does not establish general superiority, control accuracy or improved recovery. It supports using the cheaper local/BM25 path for this small corpus while expanding the evaluation set.
+On the 18 developer-authored simulated queries, legacy keyword ranking found the expected top result in 17/18 cases. BM25, local hybrid and OpenAI hybrid each scored 18/18. Both dense-only models scored 17/18. This small set does not establish general superiority, control accuracy or improved recovery. It supports using the cheaper local/BM25 path for this small corpus while expanding the evaluation set.
 
 Sources used in the design:
 - [Contextual retrieval](https://www.anthropic.com/engineering/contextual-retrieval)

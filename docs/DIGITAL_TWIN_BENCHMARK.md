@@ -1,6 +1,6 @@
 # Digital twin benchmark
 
-This note compares WaterLab with real water digital-twin and operator-training systems. It keeps a strict distinction between the local synthetic lab and an operational twin connected to a utility.
+This note compares WaterLab with real water digital-twin and operator-training systems. It keeps a strict distinction between the local simulated lab and an operational twin connected to a utility.
 
 ## What working water twins usually contain
 
@@ -30,7 +30,7 @@ Time-synchronized process and hydraulic model
 | Dynamic time | Resettable plant-owned clock, pause, step, 1x, 10x, and 60x | Synchronization to utility time sources and late-data handling |
 | Process model | Dynamic treatment chemistry, storage, pumps, valves, alarms, and feed equipment | Calibration from plant design data, tests, and operating history |
 | Hydraulic model | WNTR pressure-dependent demand, tanks, pumps, PRV, TCVs, leakage, and five-minute solves | Full GIS-derived network, elevations, pipe properties, demands, and field calibration |
-| Telemetry | Synthetic OPC UA sensor values with quality and timestamp | Read-only gateway to reviewed SCADA, historian, meters, laboratory, and asset systems |
+| Telemetry | Simulated OPC UA sensor values with quality and timestamp | Read-only gateway to reviewed SCADA, historian, meters, laboratory, and asset systems |
 | Model validation | Pressure RMSE, flow residual, source label, fit status, and sync age | Acceptance thresholds, drift workflow, calibration ownership, and approved data corrections |
 | Scenarios | Repeatable faults and controller-mode comparisons with fixed seeds | Utility event library, approved initial conditions, and incident replay |
 | Controls | PLC-only OPC UA writer, supervisory targets, deterministic gate, and emergency fallback | Independent safety assessment, authentication, change control, and site acceptance testing |

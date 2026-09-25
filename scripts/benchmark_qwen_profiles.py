@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replay recorded synthetic states through local Qwen; evaluate only, never actuate."""
+"""Replay recorded simulated states through local Qwen; evaluate only, never actuate."""
 import argparse
 import asyncio
 from copy import deepcopy

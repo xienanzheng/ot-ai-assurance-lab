@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One-off OpenAI embedding job. Reads git-ignored .env.local; never prints secrets.
 
-Embeds only the synthetic knowledge pack and explicit evaluation questions.
+Embeds only the simulated knowledge pack and explicit evaluation questions.
 The resulting vectors do not enable arbitrary offline query embedding.
 """
 import argparse
