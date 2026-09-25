@@ -1,5 +1,6 @@
 import React,{useEffect,useRef,useState} from 'react';
 import industries from '../../../shared/visitor-industries.json';
+import VisitorPreview from './VisitorPreview';
 export default function VisitorForm({onSaved,onClose}){
  const dialog=useRef(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
  useEffect(()=>{dialog.current.showModal();return()=>dialog.current?.close();},[]);
@@ -14,8 +15,8 @@ export default function VisitorForm({onSaved,onClose}){
  }
  return <dialog ref={dialog} className="visitor-dialog" aria-labelledby="visitor-title" onCancel={event=>{event.preventDefault();if(!busy)onClose();}}>
   <button className="visitor-close" aria-label="Close visitor form" onClick={onClose} disabled={busy}>×</button>
-  <div className="visitor-intro"><span className="eyebrow">AIRGAP THE AI / OPEN LAB</span><h2 id="visitor-title">Meet the lab.<br/>Help shape what’s next.</h2><p>A little about you helps me understand who the lab is reaching.</p><p>With your permission, we may share new versions, ask for feedback or explore working together.</p><span className="visitor-note">Water · Nuclear · Power grid</span></div>
-  <form onSubmit={event=>submit(event)} className="visitor-fields"><p className="visitor-required">Please enter your name, email and industry to start.</p>
+  <div className="visitor-intro"><span className="eyebrow">AIRGAP THE AI / OPEN LAB</span><h2 id="visitor-title">Meet the lab.<br/>Help shape what’s next.</h2><VisitorPreview/></div>
+  <form onSubmit={event=>submit(event)} className="visitor-fields">
    <label htmlFor="visitor-name">Name<input id="visitor-name" name="name" autoComplete="name" maxLength={100} required placeholder="Your name" autoFocus/></label>
    <label htmlFor="visitor-email">Email<input id="visitor-email" name="email" type="email" autoComplete="email" maxLength={254} required placeholder="you@organisation.com"/></label>
    <label htmlFor="visitor-industry">Industry<select id="visitor-industry" name="industry" required defaultValue=""><option value="" disabled>Select your industry</option>{industries.map(value=><option key={value}>{value}</option>)}</select></label>
