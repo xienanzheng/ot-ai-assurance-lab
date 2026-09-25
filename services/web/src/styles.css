@@ -815,3 +815,29 @@ h1 { margin-bottom: 8px; font-size: clamp(30px, 3vw, 44px); line-height: 1.03; l
 .hosted-details{display:flex;flex-wrap:wrap;gap:20px;font-size:13px}
 .hosted-ribbon{position:relative;z-index:10;background:#d9f1e9;color:#143d35;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12px}
 .hosted-ribbon button{font:inherit;cursor:pointer;padding:5px 10px}
+
+/* Visitor introduction: accessible native dialog, scoped to the hosted lab. */
+.visitor-dialog{color-scheme:light;width:min(900px,calc(100% - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:16px;background:#fbfcf8;color:#152c20;overflow:auto;box-shadow:0 32px 100px #0008}
+.visitor-dialog[open]{display:grid;grid-template-columns:.95fr 1.05fr}
+.visitor-dialog::backdrop{background:#051311bb;backdrop-filter:blur(8px)}
+.visitor-close{position:absolute;right:15px;top:10px;border:0;background:transparent;color:#214633;font-size:28px;cursor:pointer;z-index:1;width:40px;height:40px}
+.visitor-intro{padding:50px 34px 36px;background:#dff0df;display:flex;flex-direction:column;align-items:flex-start}
+.visitor-intro .eyebrow{font-size:10px;letter-spacing:.12em;color:#23603e}
+.visitor-intro h2{font-size:clamp(30px,3vw,42px);line-height:1.08;letter-spacing:-.045em;margin:34px 0 22px;font-weight:700}
+.visitor-intro p{font-size:15px;line-height:1.65;margin:0 0 16px;color:#385543}
+.visitor-note{margin-top:auto;padding-top:40px;font-size:12px;color:#23603e}
+.visitor-fields{padding:45px 34px 30px;display:grid;gap:17px}
+.visitor-required{margin:0;font-size:12px;color:#536b5a}
+.visitor-fields>label:not(.visitor-consent){display:grid;gap:7px;font-size:13px;font-weight:600}
+.visitor-fields input:not([type=checkbox]),.visitor-fields select{width:100%;padding:12px;border:1px solid #b6c8b8;border-radius:5px;background:#fff;color:#183323;font-size:15px;min-height:46px}
+.visitor-fields input::placeholder{color:#718174}
+.visitor-dialog :focus-visible{outline:3px solid #398256;outline-offset:3px}
+.visitor-consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.55;font-weight:400}
+.visitor-consent input{accent-color:#21613b;flex-shrink:0;margin:3px 0 0;width:17px;height:17px}
+.visitor-consent small{display:block;color:#536b5a;font-size:11px;margin-top:4px}
+.visitor-privacy{font-size:11px;line-height:1.6;color:#536b5a;margin:0}
+.visitor-privacy a{color:#215d3b;text-decoration:underline}
+.visitor-submit{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#195b34;color:#fff;border:0;border-radius:5px;font-weight:600;cursor:pointer;min-height:48px}
+.visitor-submit:hover{background:#104726}.visitor-submit:disabled{opacity:.65;cursor:wait}.visitor-error{color:#a12525;font-size:13px;margin:0}
+@media(max-width:650px){.visitor-dialog[open]{grid-template-columns:1fr}.visitor-intro{padding:28px 24px 20px}.visitor-intro h2{margin:20px 0 14px;font-size:32px}.visitor-intro p{font-size:14px;margin-bottom:9px}.visitor-note{display:none}.visitor-fields{padding:24px;gap:15px}.visitor-close{background:#dff0df;border-radius:50%}}
+.visitor-skip{background:transparent;border:1px solid #b6c8b8;border-radius:5px;color:#215d3b;padding:12px 18px;min-height:46px;cursor:pointer;display:flex;justify-content:space-between;font-size:13px;font-weight:600}.visitor-skip:hover{background:#e8f1e7}.visitor-skip:disabled{opacity:.65;cursor:wait}
