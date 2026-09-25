@@ -215,7 +215,7 @@ Use the official Watcher client for interactive Codex or Claude Code development
 
 ### Runtime monitoring
 
-Do not point the Ollama control loop directly at the coding-agent hooks. Build the relay against Watcher's documented HTTP API or Python SDK. Begin with synthetic, sanitized simulation records.
+Do not point the Ollama control loop directly at the coding-agent hooks. Build the relay against Watcher's documented HTTP API or Python SDK. Begin with simulated, sanitized simulation records.
 
 ### Sensitive environments
 

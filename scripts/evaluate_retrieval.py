@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare retrievers on explicit synthetic cases; no Qwen calls or actuation."""
+"""Compare retrievers on explicit simulated cases; no Qwen calls or actuation."""
 import argparse
 import asyncio
 import json
@@ -60,7 +60,7 @@ async def run(args):
                    'recall_at_2':sum(x['recall_at_2'] for x in rows)/len(rows),
                    'mrr':sum(x['reciprocal_rank'] for x in rows)/len(rows)} for name,rows in methods.items()}
     report={'case_count':len(cases),'pack_sha256':digest(pack),'summary':summary,'cases':methods,
-            'limitation':'Small developer-authored synthetic retrieval set. Not held-out operator validation or a test of control/recovery accuracy.'}
+            'limitation':'Small developer-authored simulated retrieval set. Not held-out operator validation or a test of control/recovery accuracy.'}
     (args.output/'evaluation.json').write_text(json.dumps(report,indent=2))
     print(json.dumps(summary,indent=2))
 

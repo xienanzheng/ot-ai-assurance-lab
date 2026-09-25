@@ -1,4 +1,4 @@
-"""One complete synthetic lab per container; no shared database or host mounts."""
+"""One complete simulated lab per container; no shared database or host mounts."""
 import signal
 import subprocess
 import sys

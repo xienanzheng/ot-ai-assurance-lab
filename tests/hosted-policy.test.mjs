@@ -55,7 +55,7 @@ test('forwarding preserves POST bodies and strips client-selected container port
 
 test('proposal field limits reach the provider as structured output constraints',()=>{
   const format={type:'object',properties:{explanation:{type:'string',maxLength:280}},required:['explanation'],additionalProperties:false};
-  const input=modelRequest({messages:[{role:'user',content:'Evaluate this synthetic snapshot'}],format});
+  const input=modelRequest({messages:[{role:'user',content:'Evaluate this simulated snapshot'}],format});
   assert.equal(input.response_format.type,'json_schema');
   assert.equal(input.response_format.json_schema.properties.explanation.maxLength,280);
   assert.deepEqual(input.response_format.json_schema.required,['explanation']);

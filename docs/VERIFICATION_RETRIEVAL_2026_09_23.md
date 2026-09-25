@@ -17,7 +17,7 @@ Six frozen-state decisions compared retrieval off against requested hybrid acros
 
 Cold water document embedding preparation subsequently succeeded in 39.806 seconds. The repeated lookup took 64.4 ms with four cached document vectors. This is retrieval-only latency, not end-to-end decision latency. Preparation now allows 60 seconds; decision retrieval allows 30 seconds by default. The final preparation command completed successfully for all three domains without fallback (water 238 ms, grid 431 ms, nuclear 112 ms with the embedding runtime warm).
 
-A separate 21-minute synthetic water timeline used seed 101, the gradual-turbidity scenario, decisions at minutes 10 and 20, and identical initial plant/controller conditions. It executed four additional actual Qwen calls, with recent samples and previous decision/gate information. Both hybrid calls used semantic retrieval successfully without fallback.
+A separate 21-minute simulated water timeline used seed 101, the gradual-turbidity scenario, decisions at minutes 10 and 20, and identical initial plant/controller conditions. It executed four additional actual Qwen calls, with recent samples and previous decision/gate information. Both hybrid calls used semantic retrieval successfully without fallback.
 
 | Context | Decisions | Mean full decision seconds | Applied changes | Unsafe samples | Recovery |
 |---|---:|---:|---:|---:|---|

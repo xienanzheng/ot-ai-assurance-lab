@@ -40,7 +40,7 @@ python3 scripts/run_exercise.py grid --scenario generator_trip --minutes 90
 - Open, close, and throttle simulated gates and isolation valves through bounded supervisory targets
 - Compare valve command, travelled position, flow, upstream pressure, downstream pressure, and differential pressure
 - Give the local model a bounded, auditable memory of similar decisions
-- Compare synthetic OPC UA telemetry with model predictions through pressure RMSE, flow residual, fit status, and synchronization age
+- Compare simulated OPC UA telemetry with model predictions through pressure RMSE, flow residual, fit status, and synchronization age
 - Inspect PI loop setpoint, process value, output saturation, equipment runtime, restart inhibition, permissives, first-out trips, and the active backwash phase
 - Inspect bulk and day tanks for alum, NaOH, and sodium hypochlorite, including transfer valves, metering pumps, calibration columns, non-return valves, and injection points
 - Switch to a generic three-loop PWR control room with a reactor vessel, three primary loops, pressurizer, steam generators, turbine generator, condenser, feedwater, industrial heat dispatch, and independent protection

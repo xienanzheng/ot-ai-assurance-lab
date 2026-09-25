@@ -1,6 +1,6 @@
 # Local Jev–Qwen pilot — 25 September 2026
 
-This is a **synthetic water-gate judgment test**, not a plant-recovery or production-safety evaluation. Jev ran through OpenRouter from this Mac; Qwen3 4B ran locally through Ollama. No control commands were applied.
+This is a **simulated water-gate judgment test**, not a plant-recovery or production-safety evaluation. Jev ran through OpenRouter from this Mac; Qwen3 4B ran locally through Ollama. No control commands were applied.
 
 ## Corrected-run results
 

@@ -12,7 +12,7 @@
   made concern definitions and literal-quote requirements explicit. Initial attempts
   remain in the session archive; they were not overwritten.
 - Both revised reviewers completed all four evidence batches of the same real
-  worker record, with no validation errors in the final review session. A synthetic,
+  worker record, with no validation errors in the final review session. A simulated,
   clearly labeled contradiction/equal-treatment fixture elicited a cited
   reasoning/action inconsistency from the consistency reviewer. Quote checks passed.
   This tests the review workflow, not the reviewer's general accuracy or fairness.

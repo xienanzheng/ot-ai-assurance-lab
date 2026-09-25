@@ -145,7 +145,7 @@ async def main(args):
                         'escalation_accuracy':None, 'unnecessary_interventions':None})
                 report = {'experiment':'closed_loop_water' if args.timeline else 'frozen_state',
                     'model':args.model, 'results':results, 'interpretation':
-                    'Exploratory synthetic evaluation. Gate acceptance is not accuracy. Null recovery means not observed within the horizon. Escalation and unnecessary actions require independent labels. No fine-tuning performed.'}
+                    'Exploratory simulated evaluation. Gate acceptance is not accuracy. Null recovery means not observed within the horizon. Escalation and unnecessary actions require independent labels. No fine-tuning performed.'}
                 (args.output/'report.json').write_text(json.dumps(report, indent=2, default=str, allow_nan=False)+'\n')
                 print(f'Completed {domain} seed={seed} mode={mode}', flush=True)
 

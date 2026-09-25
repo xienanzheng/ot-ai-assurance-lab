@@ -207,7 +207,7 @@ function TwinValidationPanel({ plant }) {
     <div className="twin-facts"><div><span>Telemetry source</span><strong>{health?.telemetry_source || "Waiting"}</strong></div><div><span>Pressure RMSE</span><strong>{fmt(health?.pressure_rmse_m, 2)} m</strong></div><div><span>Flow residual</span><strong>{fmt(health?.flow_residual_pct, 2)}%</strong></div><div><span>Sync age</span><strong>{fmt(health?.telemetry_age_seconds, 0)} s</strong></div></div>
     <div className="residual-row">{Object.entries(health?.zone_pressure_residuals_m || {}).map(([zone, residual]) => <span key={zone}>{titleCase(zone)} <b>{Number(residual) >= 0 ? "+" : ""}{fmt(residual, 2)} m</b></span>)}</div>
     {!!health?.integrity_flags?.length && <div className="integrity-flags">{health.integrity_flags.map((flag) => <div key={flag}><Icon name="alert" size={14} /><span>{flag}</span></div>)}</div>}
-    <p>Synthetic OPC UA readings are compared with the WNTR prediction. Replace this source with reviewed SCADA data for an operational twin.</p>
+    <p>Simulated OPC UA readings are compared with the WNTR prediction. Replace this source with reviewed SCADA data for an operational twin.</p>
   </div>;
 }
 

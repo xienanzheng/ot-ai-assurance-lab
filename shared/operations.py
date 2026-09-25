@@ -48,7 +48,7 @@ EQUIPMENT = {
 INCIDENTS = {
     "water": [
         dict(id="storm_supply", name="Severe storm · water-service emergency", description="An external storm reduces station power and intake availability. Observe storage, demand coverage and standby-power recovery."),
-        dict(id="storm_water_quality", name="Storm runoff · treatment stress", description="A synthetic raw-water turbidity surge challenges mixing and filtration. Monitor process quality and service continuity."),
+        dict(id="storm_water_quality", name="Storm runoff · treatment stress", description="A simulated raw-water turbidity surge challenges mixing and filtration. Monitor process quality and service continuity."),
     ],
     "nuclear": [
         dict(id="regional_grid_disturbance", name="Regional grid disturbance · protective shutdown", description="The fictional grid connection is lost. Independent protection shuts down generation; monitor residual heat and auxiliary-system response."),

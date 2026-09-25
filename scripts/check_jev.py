@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One small billed Jev decision; synthetic input only, no simulator actuation."""
+"""One small billed Jev decision; simulated input only, no simulator actuation."""
 import json
 import os
 from pathlib import Path
@@ -27,7 +27,7 @@ def main():
     model = config.get('OPENROUTER_JEV_MODEL', '~typesafe/jev-latest')
     payload = {
         'model': model,
-        'state': {'domain': 'synthetic water lab', 'sensor_quality': 'stale',
+        'state': {'domain': 'simulated water lab', 'sensor_quality': 'stale',
                   'controller': 'baseline active', 'task': 'Choose supervisory response; do not actuate.'},
         'questions': {'response': {
             'type': 'choice',

@@ -29,7 +29,7 @@ The hosted model is a different model and execution environment. Do not combine 
 
 The session registry serializes and persists quota reservations. Failed inference attempts consume allowance. The API cannot choose another model or increase output limits. A secure HttpOnly, same-origin cookie selects a server-issued session; callers cannot supply another container ID. Expired containers are destroyed before their capacity is reclaimed. Sessions are not user accounts, and anonymous visitors could exhaust daily availability. These are application usage caps, not a guaranteed dollar billing cap.
 
-The container's public internet access is disabled. The only allowed egress hostname, `inference.lab`, is intercepted by trusted Worker code using an AI binding. No API credential is supplied to the browser or container. Cloudflare processes synthetic sensor context, operator-entered notes included in that context, and model outputs. Do not enter operational or personal data.
+The container's public internet access is disabled. The only allowed egress hostname, `inference.lab`, is intercepted by trusted Worker code using an AI binding. No API credential is supplied to the browser or container. Cloudflare processes simulated sensor context, operator-entered notes included in that context, and model outputs. Do not enter operational or personal data.
 
 ## Build and deploy the full version
 

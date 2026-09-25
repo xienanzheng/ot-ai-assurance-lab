@@ -41,9 +41,9 @@ Proposed evaluation: matched scenarios and seeds, fixed models, no-memory versus
 
 ## Open-source release
 
-The existing Docker setup, README, tests, synthetic scenarios and local-model configuration are a useful starting point for a public research toolkit. This directory currently has no Git repository and no project-level open-source licence. Font licence files exist, but do not license the application itself. No public release was made in this review.
+The existing Docker setup, README, tests, simulated scenarios and local-model configuration are a useful starting point for a public research toolkit. This directory currently has no Git repository and no project-level open-source licence. Font licence files exist, but do not license the application itself. No public release was made in this review.
 
-A concrete first release should package only the lab: application source, deployment configuration, synthetic scenarios, tests, documented model setup and a curated recorded demo. Keep fellowship documents, local databases, environments, credentials, arbitrary audit dumps and private endpoint configuration outside the release. Review the exact release tree rather than assuming that `.gitignore` guarantees clean content; its current rules do not exclude every database or artifact.
+A concrete first release should package only the lab: application source, deployment configuration, simulated scenarios, tests, documented model setup and a curated recorded demo. Keep fellowship documents, local databases, environments, credentials, arbitrary audit dumps and private endpoint configuration outside the release. Review the exact release tree rather than assuming that `.gitignore` guarantees clean content; its current rules do not exclude every database or artifact.
 
 Before publication:
 

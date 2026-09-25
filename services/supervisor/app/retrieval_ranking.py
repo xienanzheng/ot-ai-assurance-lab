@@ -4,7 +4,7 @@ import json
 import math
 import re
 
-STOP = set('a an the and or for from to of in on with is are be as by this that it only simulator synthetic water grid nuclear normal day operation dispatch value unit quality good none null'.split())
+STOP = set('a an the and or for from to of in on with is are be as by this that it only simulator simulated water grid nuclear normal day operation dispatch value unit quality good none null'.split())
 
 
 def terms(text):
@@ -15,7 +15,7 @@ def terms(text):
 
 
 def document_text(record):
-    return '\n'.join([f"Synthetic {record['domain']} plant. {record['title']}.",
+    return '\n'.join([f"Simulated {record['domain']} plant. {record['title']}.",
         'Process: '+ '; '.join(record['relationships']),
         'Relevant sensors: '+ ', '.join(record['sensors']), record['text']])
 
