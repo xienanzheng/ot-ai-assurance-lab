@@ -22,7 +22,7 @@ FROM visitors ORDER BY created_at DESC;
 
 There is no public endpoint for listing contacts. Do not commit exports, copy records into model prompts, or publish screenshots of the contact table. Registration records persist until the owner deletes them; the 30-day cookie expiry does not delete contact details. Review retained records periodically and remove those no longer needed.
 
-The form links to Isaac's LinkedIn for access/deletion requests. After verifying a request privately, use bound SQL parameters (or the dashboard's row editor) to delete matching records or set `contact_consent = 0`. Deleting a row also invalidates that browser's admission receipt. Cloudflare recovery backups have their own retention.
+Visitors can contact Isaac directly for access/deletion requests. After verifying a request privately, use bound SQL parameters (or the dashboard's row editor) to delete matching records or set `contact_consent = 0`. Deleting a row also invalidates that browser's admission receipt. Cloudflare recovery backups have their own retention.
 
 ## Operations
 

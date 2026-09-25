@@ -19,8 +19,8 @@ export default function VisitorForm({onSaved,onClose}){
    <label htmlFor="visitor-name">Name<input id="visitor-name" name="name" autoComplete="name" maxLength={100} required placeholder="Your name" autoFocus/></label>
    <label htmlFor="visitor-email">Email<input id="visitor-email" name="email" type="email" autoComplete="email" maxLength={254} required placeholder="you@organisation.com"/></label>
    <label htmlFor="visitor-industry">Industry<select id="visitor-industry" name="industry" required defaultValue=""><option value="" disabled>Select your industry</option>{industries.map(value=><option key={value}>{value}</option>)}</select></label>
-   <label className="visitor-consent"><input name="contactConsent" type="checkbox"/><span>I would like to be updated about new versions, feedback and potential collaboration. <small>Optional. You can withdraw by replying to any email.</small></span></label>
-   <p className="visitor-privacy">Stored privately in Cloudflare by Nanzheng (Isaac) Xie. Your details are not shared with the AI model. For access or deletion requests, <a href="https://www.linkedin.com/in/nanzheng-xie" target="_blank" rel="noreferrer">contact Isaac ↗</a>.</p>
+   <label className="visitor-consent"><input name="contactConsent" type="checkbox"/><span>[Optional] I would like to be updated about new versions, feedback and potential collaboration.</span></label>
+   <p className="visitor-privacy">Stored privately in Cloudflare. Your details are not shared with the AI model.</p>
    {error&&<p className="visitor-error" role="alert">{error}</p>}
    <button className="visitor-submit" disabled={busy}>{busy?'Saving your details…':'Submit & enter lab'}<span aria-hidden="true">↗</span></button>
   </form>
