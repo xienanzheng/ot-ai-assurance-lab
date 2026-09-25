@@ -1,6 +1,8 @@
 # Hosted visitor registration
 
-The public simulator requires a name; visitors may optionally share email and an industry selection before creating a session. Local/offline builds do not collect visitor details. The public recorded research page remains readable without registering.
+The public simulator requires name, email and an industry selection before creating a session. Local/offline builds do not collect visitor details. The public recorded research page remains readable without registering.
+
+Legacy name-only receipts no longer authorize new sessions; those visitors must complete the form. Existing records are preserved.
 
 The dialog appears on first arrival and can be dismissed; starting a session brings it back. The Worker also rejects session creation without a valid registration receipt. A Secure, HttpOnly, SameSite=Strict cookie remembers the browser for 30 days; its random value is stored only as a SHA-256 digest in D1. This is an admission receipt, not identity verification: names and emails are self-reported.
 
@@ -8,7 +10,7 @@ The dialog appears on first arrival and can be dismissed; starting a session bri
 
 Cloudflare D1 database: `ot-lab-visitors`; table: `visitors`.
 
-Columns contain the requested fields, an explicit contact-consent flag, notice version, creation timestamp and receipt expiry. Details remain outside simulation containers and model prompts. No email is automatically sent. The “Skip — enter with name” path stores null email/industry and false contact consent, even if other fields were partially filled. Registration does not imply permission to contact: use only rows with `contact_consent = 1` for updates, feedback requests or collaboration outreach.
+Columns contain the requested fields, an explicit contact-consent flag, notice version, creation timestamp and receipt expiry. Details remain outside simulation containers and model prompts. No email is automatically sent. Registration does not imply permission to contact: use only rows with `contact_consent = 1` for updates, feedback requests or collaboration outreach.
 
 In the authenticated Cloudflare dashboard, open **Storage & databases → D1 → ot-lab-visitors → Console**. A useful private query is:
 

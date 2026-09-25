@@ -20,8 +20,8 @@ test('limits abuse and fails closed if storage unavailable',async()=>{
  assert.equal((await visitors(request(),{VISITOR_LIMIT:{limit:async()=>({success:false})}})).status,429);
  assert.equal((await visitors(request(),{VISITOR_LIMIT:{limit:async()=>({success:true})}})).status,503);
 });
-test('name-only admission discards contact data and cannot opt into email',()=>{
- assert.deepEqual(validateVisitor({...input,mode:'name_only',contactConsent:true}),{name:'Visitor',email:null,industry:null,contactConsent:false});
- assert.deepEqual(validateVisitor({mode:'name_only',name:'Alex'}),{name:'Alex',email:null,industry:null,contactConsent:false});
- assert.throws(()=>validateVisitor({mode:'name_only',name:' '}));
+test('legacy name-only requests cannot bypass required contact fields',()=>{
+ assert.throws(()=>validateVisitor({mode:'name_only',name:'Alex'}));
+ assert.throws(()=>validateVisitor({...input,mode:'name_only',email:null}));
+ assert.throws(()=>validateVisitor({...input,mode:'name_only',industry:null}));
 });

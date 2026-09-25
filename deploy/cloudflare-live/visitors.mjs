@@ -1,5 +1,5 @@
 import industries from '../../shared/visitor-industries.json' with {type:'json'};
-export const NOTICE_VERSION='2026-09-24-v2';
+export const NOTICE_VERSION='2026-09-24-v3';
 const json=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 const token=request=>request.headers.get('Cookie')?.match(/(?:^|;\s*)__Host-ot_visitor=([a-f0-9]{64})(?:;|$)/)?.[1];
 const digest=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value))),b=>b.toString(16).padStart(2,'0')).join('');
@@ -7,7 +7,6 @@ export function validateVisitor(value){
  if(!value||typeof value!=='object')throw new Error('Please complete the form.');
  const {email,name,industry,contactConsent}=value;
  if(typeof name!=='string'||!name.trim()||name.length>100||/[\x00-\x1f]/.test(name))throw new Error('Enter your name (up to 100 characters).');
- if(value.mode==='name_only')return {email:null,name:name.trim(),industry:null,contactConsent:false};
  if(typeof email!=='string'||email.length>254||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))throw new Error('Enter a valid email address.');
  if(!industries.includes(industry))throw new Error('Choose your industry.');
  if(typeof contactConsent!=='boolean')throw new Error('Invalid contact preference.');
@@ -15,7 +14,7 @@ export function validateVisitor(value){
 }
 export async function registered(request,env){
  const access=token(request);if(!access)return false;
- return !!await env.VISITORS.prepare('SELECT 1 FROM visitors WHERE id = ? AND access_expires > ?').bind(await digest(access),Date.now()).first();
+ return !!await env.VISITORS.prepare("SELECT 1 FROM visitors WHERE id = ? AND access_expires > ? AND email IS NOT NULL AND email != '' AND industry IS NOT NULL AND industry != ''").bind(await digest(access),Date.now()).first();
 }
 export async function visitors(request,env){
  try{
