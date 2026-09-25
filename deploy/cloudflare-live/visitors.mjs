@@ -1,5 +1,5 @@
 import industries from '../../shared/visitor-industries.json' with {type:'json'};
-export const NOTICE_VERSION='2026-09-24-v3';
+export const NOTICE_VERSION='2026-09-24-v4';
 const json=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 const token=request=>request.headers.get('Cookie')?.match(/(?:^|;\s*)__Host-ot_visitor=([a-f0-9]{64})(?:;|$)/)?.[1];
 const digest=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value))),b=>b.toString(16).padStart(2,'0')).join('');
