@@ -228,6 +228,7 @@ function ControlLogicPanel({ plc, onResetTrips }) {
       <div><span>Blocked permissives</span><strong>{blockedPermissives.length}</strong></div>
       <div><span>Completed backwashes</span><strong>{sequence?.completed_cycles || 0}</strong></div>
     </div>
+    <details className="agent-evidence"><summary>Live supervisory targets{state?.setpoint_lease_expires ? " · lease active" : ""}</summary><dl className="loop-list">{Object.entries(plc?.setpoints||{}).map(([key,value])=><div key={key}><dt>{titleCase(key)}</dt><dd>{String(value)}</dd></div>)}</dl>{state?.setpoint_lease_expires&&<p>Lease ends at simulation time {state.setpoint_lease_expires}</p>}</details>
     {!!activeTrips.length && <div className="trip-list">{activeTrips.map((trip) => <div key={trip.code}><Icon name="alert" size={14} /><span><strong>{trip.code}</strong><small>{trip.reason}</small></span></div>)}</div>}
     {!!blockedPermissives.length && <div className="permissive-list">{blockedPermissives.slice(0, 4).map(([name]) => <span key={name}>{titleCase(name)}</span>)}</div>}
     {!!loops.length && <div className="loop-list">{loops.map(([name, loop]) => <div key={name}><span>{titleCase(name)}</span><b>SP {fmt(loop.setpoint, 2)}</b><b>PV {fmt(loop.process_value, 2)}</b><i className={loop.saturated ? "saturated" : ""}>{loop.saturated ? "LIMIT" : "PI"}</i></div>)}</div>}

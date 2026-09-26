@@ -1,7 +1,7 @@
 import { visitors, registered } from './visitors.mjs';
 import { Container, ContainerProxy } from '@cloudflare/containers';
 import { DurableObject } from 'cloudflare:workers';
-import { admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
+import { admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
 export { ContainerProxy };
 
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
@@ -29,13 +29,25 @@ LabContainer.outboundByHost={
       const ready=await registry(env).modelReady();
       return json({models:ready?[{name:HOSTED_MODEL,model:HOSTED_MODEL,provider:'cloudflare-workers-ai',execution_location:'cloud'}]:[]});
     }
-    if(path!=='/api/chat'||request.method!=='POST') return json({error:'Unsupported inference route'},404);
+    if(path==='/api/providers'&&request.method==='GET') return json({jev:!!env.OPENROUTER_API_KEY});
+    if(!['/api/chat','/api/decisions'].includes(path)||request.method!=='POST') return json({error:'Unsupported inference route'},404);
     try{
       const raw=await request.text();
       if(raw.length>50000) return json({error:'Context exceeds hosted limit'},413);
-      const input=modelRequest(JSON.parse(raw));
+      const jev=path==='/api/decisions';
+      if(jev&&!env.OPENROUTER_API_KEY) return json({error:'Jev is not configured'},503);
+      const input=jev?jevRequest(JSON.parse(raw)):modelRequest(JSON.parse(raw));
       const allowance=await registry(env).reserveAI(ctx.containerId);
       if(!allowance.ok) return json({error:allowance.detail},allowance.status);
+      if(jev){
+        const upstream=await fetch('https://openrouter.ai/api/alpha/decisions',{
+          method:'POST',headers:{Authorization:`Bearer ${env.OPENROUTER_API_KEY}`,'Content-Type':'application/json','X-Title':'OT AI Assurance Lab'},
+          body:JSON.stringify(input),signal:AbortSignal.timeout(40000),redirect:'manual'
+        });
+        if(!upstream.ok) return json({error:'Jev provider unavailable'},502);
+        const result=await upstream.json();
+        return json({model:result.model,answers:result.answers,usage:result.usage});
+      }
       const output=await env.AI.run(HOSTED_MODEL,input);
       return json(modelResponse(output));
     }catch(error){console.error('Hosted inference failed',error?.name);return json({error:'Hosted inference failed; baseline retains control'},502);}

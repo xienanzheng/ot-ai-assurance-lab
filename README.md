@@ -2,13 +2,19 @@
 
 [Online simulator](https://ot-aigent-simulation.night-zone.com) · [Recorded findings](https://ot-aigent-simulation.night-zone.com/research.html) · [Hosted simulator setup](docs/HOSTED_SIMULATOR.md) · [Reviewed lesson memory](docs/REVIEWED_MEMORY.md) · [MIT license](LICENSE)
 
-This is an open-source research prototype. The online simulator provides isolated, temporary water, nuclear and grid sessions with Cloudflare Workers AI. Select **Start a simulation** to enter your control room; recorded experiments remain available under **Explore recorded findings**. To run the lab locally, use the quick start below. Local rule-based controls work without a model; local AI features use Ollama.
+This is an open-source research prototype. The online simulator provides isolated, temporary water, nuclear and grid sessions with Qwen on Cloudflare Workers AI and optional Jev through OpenRouter. Select **Start a simulation** to enter your control room; recorded experiments remain available under **Explore recorded findings**. To run the lab locally, use the quick start below. Local rule-based controls work without a model; local AI features use Ollama.
 
 A local simulation and research environment for testing AI-assisted supervisory control in water, nuclear generation, and electric-grid systems.
 
 The lab combines a treatment model, WNTR distribution hydraulics, a conceptual pressurized-water reactor model, a five-bus grid model, OPC UA, deterministic controllers, safety gates, Ollama, a historian, and three browser control rooms. It does not connect to real equipment.
 
 WaterLab is currently a software-in-the-loop operator-training and control-research twin. It becomes an operational digital twin only after a reviewed physical asset model and read-only utility telemetry are synchronized and calibrated. See the [digital twin benchmark](docs/DIGITAL_TWIN_BENCHMARK.md) for a feature-by-feature comparison with EPA, Bentley, Autodesk, and Siemens approaches.
+
+## Model switching and gated application
+
+In **AI decisions**, select **Qwen** or **Jev** for the next analysis. Switching preserves the plant and decision history. **Apply approved targets** runs the independent gate before changing simulated setpoints; the HMI reflects those targets. A five-simulated-minute lease returns prior targets without rewinding process measurements. Advance the simulation to observe the response.
+
+**Compare both** evaluates the same captured state without applying either result. Select one proposal to recheck it against the live gate. Qwen generates targets; Jev chooses a bounded candidate. Hold decisions make no changes. Hover, focus or tap the help buttons for short explanations. Export session JSON before the temporary hosted session ends. See [Jev integration and limits](docs/JEV_OPENROUTER.md).
 
 ## Operator exercise upgrade
 

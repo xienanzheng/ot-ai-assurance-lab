@@ -1,16 +1,14 @@
 export const HOSTED_MODEL='@cf/qwen/qwen3-30b-a3b-fp8';
 export const SESSION_MS=20*60*1000;
-// The hosted demo grants the model no actuator authority. The UI hides gated_auto, but the
-// boundary has to hold for a caller that skips the UI, so it is enforced on the body here.
-export function actuationGuard(path,text){
-  let body;
-  try{body=JSON.parse(text);}catch{return null;}
-  if(!body||typeof body!=='object') return null;
-  if(body.controller_mode==='gated_auto'||body.mode==='gated_auto')
-    return 'Gated-auto actuation runs in the local lab. The hosted demo evaluates proposals without applying them.';
-  if(/\/agents\/[^/]+\/cycle$/.test(path)&&body.evaluate_only===false)
-    return 'The hosted demo evaluates proposals without applying them. Run applied cycles in the local lab.';
-  return null;
+// Actuation remains bounded by the independent gate inside each isolated simulator.
+export function actuationGuard(){return null;}
+export function jevRequest(body){
+  if(new TextEncoder().encode(JSON.stringify(body)).length>50000) throw new Error('Context exceeds hosted limit');
+  const question=body.questions?.response;
+  if(!body.state||typeof body.state!=='object'||Array.isArray(body.state)||question?.type!=='choice'||typeof question.instructions!=='string') throw new Error('Invalid Jev decision');
+  const criteria=question.criteria;
+  if(!criteria||typeof criteria!=='object'||Array.isArray(criteria)||Object.keys(criteria).length<2||Object.keys(criteria).length>30||Object.values(criteria).some(v=>typeof v!=='string'||v.length>500)) throw new Error('Invalid candidates');
+  return {model:'typesafe/jev-1.13',state:body.state,questions:{response:{type:'choice',instructions:question.instructions,criteria}}};
 }
 export async function forwardRequest(request){
   const url=new URL(request.url),headers=new Headers(request.headers);

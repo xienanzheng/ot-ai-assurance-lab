@@ -859,3 +859,29 @@ h1 { margin-bottom: 8px; font-size: clamp(30px, 3vw, 44px); line-height: 1.03; l
 .preview-water{transition:y 1s ease,height 1s ease}
 @media(prefers-reduced-motion:reduce){.preview-flow{animation:none}.preview-water{transition:none}}
 @media(max-width:650px){.visitor-intro:has(.visitor-preview){padding:28px 24px 20px}.visitor-intro:has(.visitor-preview) h2{font-size:28px;margin:18px 0}.visitor-preview svg{height:116px;margin:4px 0}.preview-output{min-height:68px;padding:12px 0}.visitor-fields{padding-top:20px}}
+
+/* Analysis options: concise labels, explanations available by pointer or keyboard. */
+.agent-option-label { display:flex; align-items:center; gap:.6rem; margin:1rem 0 .5rem; }
+.agent-option-label label { margin:0; }
+.agent-help { position:relative; display:inline-flex; align-items:center; }
+.agent-help > button { width:24px; height:24px; padding:0; border-radius:50%; font-size:12px; background:transparent; color:var(--text,#193528); border:1px solid #80968a; }
+.agent-help [role="tooltip"] { display:none; position:fixed; width:240px; max-width:70vw; padding:12px 14px; background:#163e2c; color:#fff; border-radius:8px; font-size:12px; line-height:1.5; font-weight:400; z-index:20; box-shadow:0 5px 20px #163e2c22; }
+.agent-help:hover [role="tooltip"], .agent-help:focus-within [role="tooltip"], .agent-help [role="tooltip"].visible { display:block; }
+.agent-model-options { display:flex; gap:10px; margin:.5rem 0 1rem; }
+.agent-model-options > button { flex:1; text-align:left; padding:16px; background:transparent; color:inherit; border:1px solid #a4b5ab; border-radius:8px; }
+.agent-model-options > button[aria-pressed="true"] { border:2px solid #206c43; background:#e9f4eb; color:#173327; padding:15px; }
+.agent-model-options strong,.agent-model-options small { display:block; }
+.agent-model-options strong { font-size:18px; }
+.agent-model-options small { margin-top:4px; font-size:12px; color:inherit; }
+.agent-run-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:16px 0; }
+.agent-settings { margin-top:20px; padding-top:14px; border-top:1px solid #c7d6cc; }
+.agent-settings summary { cursor:pointer; font-weight:600; }
+.agent-comparison { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.agent-comparison > section { min-width:0; }
+.agent-comparison .agent-readable dl > div { display:block; }
+.agent-comparison > section > button { margin:8px 8px 0 0; }
+.agent-model-options button:focus-visible,.agent-help button:focus-visible { outline:3px solid #438b61; outline-offset:3px; }
+@media(max-width:760px) { .agent-comparison { grid-template-columns:1fr; } }
+
+.agent-help > button { color:inherit; margin-top:0; background:transparent; }
+.agent-model-options > button { margin-top:0; }

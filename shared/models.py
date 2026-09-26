@@ -137,7 +137,7 @@ class ControlProposal(BaseModel):
     expected_effect: str = Field(min_length=1, max_length=240)
     confidence: float = Field(ge=0, le=1)
     explanation: str = Field(min_length=1, max_length=280)
-    source: Literal["ollama", "manual", "test"] = "ollama"
+    source: Literal["ollama", "jev", "manual", "test"] = "ollama"
     episode_status: Literal["continue", "resolved", "escalate"] = "continue"
 
 

@@ -553,7 +553,7 @@ class SafetyGate:
             violations.append("Emergency stop is active")
         if snapshot.safety_state == "critical":
             violations.append("Plant is in a critical state")
-        if proposal.source == "ollama" and len(raw_changes) > 4:
+        if proposal.source in {"ollama", "jev"} and len(raw_changes) > 4:
             violations.append("An AI proposal may change at most four supervisory targets per decision")
         active_trips = [code for code, active in self.controller.trip_latches.items() if active]
         if active_trips and raw_changes:

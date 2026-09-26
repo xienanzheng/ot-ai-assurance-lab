@@ -11,7 +11,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Literal
 
-from shared.models import PlantSnapshot
+from shared.models import PlantSnapshot, ControlMode
 from .agent_audit import create_audit, update_audit, get_audit, list_audits
 
 
@@ -50,6 +50,7 @@ def frozen_gate(domain, context, proposal):
 
 class AgentRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    provider: Literal["qwen", "jev"] = "qwen"
     thinking: bool = False
     evaluate_only: bool = True
     model: str | None = Field(default=None, min_length=1, max_length=100, pattern=r"^[A-Za-z0-9_./:-]+$")
@@ -72,6 +73,7 @@ class AgentService:
         self.tasks = set()
         self.lock = asyncio.Lock()
         self.last_cycle = {}
+        self.manual_domains = set()
         self.router = APIRouter(prefix="/api/v1/agents")
         self._routes()
 
@@ -126,7 +128,7 @@ class AgentService:
                 "history_window_minutes":12, "decision_window":4,
                 "termination_rule":"Request resolved only after at least 8 consecutive simulated minutes with filtered turbidity <= 1.0 NTU, all other supplied operating limits satisfied, good sensor quality and no active alarms. Otherwise continue or request escalation. Resolution ends the exercise; it does not repair the external disturbance."}
 
-    async def cycle(self, domain, thinking=False, evaluate_only=True, context=None, experiment=None, model=None, num_ctx=None, include_history=False, knowledge_mode=None, inference_profile=None):
+    async def cycle(self, domain, thinking=False, evaluate_only=True, context=None, experiment=None, model=None, num_ctx=None, include_history=False, knowledge_mode=None, inference_profile=None, provider="qwen"):
         context = deepcopy(context) if context else await self.context(domain)
         if include_history:
             if domain != "water": raise HTTPException(422, "Timeline history currently supports water")
@@ -142,7 +144,10 @@ class AgentService:
         if model is not None or num_ctx is not None: worker.timeout = max(worker.timeout, 300)
         if include_history: worker.timeout = max(worker.timeout, 450)
         try:
-            if domain == "water":
+            if provider == "jev":
+                from .jev_client import propose
+                proposal, audit_id = await propose(domain, context)
+            elif domain == "water":
                 proposal = await worker.propose(PlantSnapshot.model_validate(state), context["plc"]["setpoints"],
                     control_state=context["plc"].get("control_state"), thinking=thinking, experiment_context=experiment)
                 audit_id = proposal.decision_id
@@ -153,37 +158,131 @@ class AgentService:
             if getattr(exc, "audit_id", None):
                 update_audit(exc.audit_id, before=context, experiment=experiment, evaluate_only=evaluate_only, applied=False)
             raise
+        raw_proposal=proposal.model_dump(mode="json")
+        targets=context.get("plc",{}).get("setpoints",state.get("controls",{}))
+        changed={k:v for k,v in raw_proposal["changes"].items() if v is not None and (k not in targets or v!=targets[k])}
+        if domain=="water":
+            from shared.models import SetpointChanges
+            proposal.changes=SetpointChanges(**changed)
+        else:
+            proposal.changes=changed
+        update_audit(audit_id, model_proposal=raw_proposal)
         update_audit(audit_id, before=context, experiment=experiment, evaluate_only=evaluate_only,
+                     provider=provider, model_name="typesafe/jev-1.13" if provider=="jev" else worker.model, record_type="decision",
                      proposal=proposal.model_dump(mode="json"))
         try:
             if evaluate_only:
                 gate = frozen_gate(domain, context, proposal)
                 applied = False
-            elif domain == "water":
-                async with httpx.AsyncClient(timeout=8) as client:
-                    response = await client.post(f"{self.manager.plc_url}/proposal", json=proposal.model_dump(mode="json"),
-                        params={"apply": str(state["controller_mode"]=="gated_auto").lower(), "lease_minutes":5,
-                                "expected_controller_generation":context["plc"]["controller_generation"],
-                                "expected_time":state["simulation_time"], "expected_mode":state["controller_mode"]})
-                    response.raise_for_status()
-                    gate = response.json()
-                applied = state["controller_mode"]=="gated_auto" and gate["status"] in {"accepted", "modified"}
             else:
-                async with httpx.AsyncClient(timeout=8) as client:
-                    response = await client.post(f"{self.infrastructure_url}/{domain}/proposal",
-                        json={**proposal.model_dump(), "source":f"ollama:{worker.model}",
-                              "expected_run_id":context["run_id"], "expected_minute":state["elapsed_minutes"],
-                              "expected_mode":state["controller_mode"]})
-                    response.raise_for_status()
-                    result = response.json()
-                gate = result["decision"]["gate"]
-                applied = bool(gate.get("applied"))
-            update_audit(audit_id, status="complete", gate=gate, applied=applied,
+                gate, applied = await self.submit(domain, context, proposal, f"{provider}:{'typesafe/jev-1.13' if provider=='jev' else worker.model}")
+            update_audit(audit_id, status="complete", gate=gate, applied=applied, lease_minutes=5 if applied else None,
                          outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"awaiting later simulation sample"})
         except Exception as exc:
             update_audit(audit_id, status="gate_failed", applied=False, gate={"status":"rejected", "reason":str(exc)})
             raise
         return get_audit(audit_id)
+
+    async def submit(self, domain, context, proposal, source, freshness=None):
+        state = context["plant"]
+        original = (freshness or context)["plant"]
+        if not any(v is not None for v in proposal.model_dump()["changes"].values()):
+            return frozen_gate(domain, context, proposal), False
+        if domain == "water":
+            async with httpx.AsyncClient(timeout=8) as client:
+                response = await client.post(f"{self.manager.plc_url}/proposal", json=proposal.model_dump(mode="json"),
+                    params={"apply": str(state["controller_mode"]=="gated_auto").lower(), "lease_minutes":5,
+                            "expected_controller_generation":context["plc"]["controller_generation"],
+                            "expected_time":original["simulation_time"], "expected_mode":state["controller_mode"]})
+                response.raise_for_status()
+                gate = response.json()
+            applied = state["controller_mode"]=="gated_auto" and gate["status"] in {"accepted", "modified"} and any(v is not None for v in gate.get("applied_values", {}).values())
+        else:
+            async with httpx.AsyncClient(timeout=8) as client:
+                response = await client.post(f"{self.infrastructure_url}/{domain}/proposal",
+                    json={**proposal.model_dump(), "source":source,
+                          "expected_run_id":context["run_id"], "expected_minute":original["elapsed_minutes"],
+                          "expected_mode":state["controller_mode"]})
+                response.raise_for_status()
+                result = response.json()
+            gate = result["decision"]["gate"]
+            applied = bool(gate.get("applied"))
+        return gate, applied
+
+    async def enable_application(self, domain):
+        # A manual decision never starts a second scheduled model writer.
+        self.manual_domains.add(domain)
+        async with httpx.AsyncClient(timeout=8) as client:
+            if domain == "water":
+                if self.manager.active_config:
+                    self.manager.active_config.ai_schedule_enabled = False
+                    self.manager.active_config.controller_mode = ControlMode.GATED_AUTO
+                response = await client.put(f"{self.manager.plant_url}/mode", json={"mode":"gated_auto"})
+            else:
+                response = await client.post(f"{self.infrastructure_url}/{domain}/command", json={"action":"configure", "controller_mode":"gated_auto"})
+            response.raise_for_status()
+
+    async def requested_cycle(self, domain, request):
+        if not request.evaluate_only:
+            await self.enable_application(domain)
+        return await self.cycle(domain, **request.model_dump())
+
+    async def compare(self, domain, request):
+        frozen = await self.context(domain)
+        identifier = create_audit(domain, {"comparison":"qwen_jev", "frozen_context":frozen})
+        update_audit(identifier, record_type="comparison", status="comparing", applied=False, before=frozen)
+        records, failures = [], []
+        settings = request.model_dump(exclude={"provider","evaluate_only","include_history"})
+        for index, provider in enumerate(["qwen", "jev"]):
+            if index and HOSTED:
+                # Both calls count against the same spend allowance and ten-second spacing.
+                await asyncio.sleep(10.1)
+            try:
+                record = await self.cycle(domain, provider=provider, evaluate_only=True, context=frozen, **settings)
+                update_audit(record["id"], comparison_id=identifier)
+                records.append(record["id"])
+            except Exception as exc:
+                failures.append({"provider":provider,"error":str(exc),"record_id":getattr(exc,"audit_id",None)})
+        update_audit(identifier, status="complete", comparison={"record_ids":records,"failures":failures},
+            interpretation="Same captured plant state; Qwen generates setpoints, Jev selects bounded candidates. Different decision spaces, not a like-for-like model benchmark.")
+        return get_audit(identifier)
+
+    async def apply_record(self, identifier):
+        record = get_audit(identifier)
+        if not record: raise HTTPException(404,"Unknown decision")
+        if record.get("status")!="complete" or not record.get("evaluate_only") or not record.get("proposal") or record.get("application_id"):
+            raise HTTPException(409,"Decision is not available for application")
+        if record.get("gate",{}).get("status") not in {"accepted","modified","shadow","advisory"}:
+            raise HTTPException(409,"The evaluated proposal was rejected")
+        comparison_id=record.get("comparison_id")
+        if comparison_id and (get_audit(comparison_id) or {}).get("application_id"):
+            raise HTTPException(409,"A proposal from this comparison has already been selected")
+        domain=record["domain"]
+        before=record["before"]
+        current=await self.context(domain)
+        def same_exercise(context):
+            return context["run_id"]==before["run_id"] and (domain!="water" or context["plc"]["controller_generation"]==before["plc"]["controller_generation"])
+        if not same_exercise(current) or not 0<=current["plant"]["elapsed_minutes"]-before["plant"]["elapsed_minutes"]<=5:
+            raise HTTPException(409,"Exercise changed or proposal is stale; run a new analysis")
+        from shared.models import ControlProposal
+        from .ollama_client import InfrastructureProposal
+        proposal=(ControlProposal if domain=="water" else InfrastructureProposal).model_validate(record["proposal"])
+        if not any(v is not None for v in record["proposal"].get("changes",{}).values()):
+            raise HTTPException(409,"Hold decision has no targets to apply")
+        await self.enable_application(domain)
+        current=await self.context(domain)
+        if not same_exercise(current): raise HTTPException(409,"Exercise changed during application")
+        application_id=create_audit(domain,{"apply_record":identifier})
+        update_audit(identifier, application_id=application_id)
+        if comparison_id: update_audit(comparison_id, application_id=application_id, selected_record_id=identifier)
+        update_audit(application_id,record_type="application",provenance="Deterministic application of audited proposal",interpretation="No new model inference. The recorded proposal is checked again against live plant conditions.",parent_record_id=identifier,provider=record.get("provider"),model_name=record.get("model_name"),before=current,proposal=record["proposal"],evaluate_only=False,applied=False)
+        try:
+            gate,applied=await self.submit(domain,current,proposal,f'{record.get("provider","qwen")}:{record.get("model_name", "unknown")}', freshness=before)
+            update_audit(application_id,status="complete",gate=gate,applied=applied,lease_minutes=5 if applied else None,outcome={"status":"awaiting later simulation sample"})
+        except Exception as exc:
+            update_audit(application_id,status="gate_failed",error=str(exc),gate={"status":"rejected"})
+            raise
+        return get_audit(application_id)
 
     async def study(self, domain, kind, thinking):
         frozen = await self.context(domain)
@@ -242,7 +341,7 @@ class AgentService:
                 # Hosted sessions hold a small metered inference allowance, so scheduled
                 # cycles would spend it before the visitor asked for anything. There, the
                 # model runs only on an explicit request.
-                for domain in [] if HOSTED else ["nuclear", "grid"]:
+                for domain in [] if HOSTED else [d for d in ["nuclear", "grid"] if d not in self.manual_domains]:
                     context = await self.context(domain)
                     state = context["plant"]
                     last = self.last_cycle.get(domain, (None, -5))
@@ -268,7 +367,8 @@ class AgentService:
         router = self.router
         @router.get("/state")
         async def status():
-            return {"model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
+            from .jev_client import availability
+            return {"jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
                 "agents":[{"domain":d,"role":"bounded supervisory optimizer", "gate":"deterministic domain gate", "actuator_authority":False} for d in ["water","nuclear","grid"]]}
 
         @router.get("/records")
@@ -283,10 +383,17 @@ class AgentService:
 
         @router.post("/{domain}/cycle", status_code=202)
         async def cycle(domain:Literal["water","nuclear","grid"], request:AgentRequest):
-            # Enforce hosted non-actuation at the service boundary as well as the edge.
-            if HOSTED and not request.evaluate_only:
-                raise HTTPException(403, "The hosted demo evaluates proposals without applying them")
-            return self.enqueue(domain,lambda:self.cycle(domain,request.thinking,request.evaluate_only,model=request.model,num_ctx=request.num_ctx,include_history=request.include_history,knowledge_mode=request.knowledge_mode,inference_profile=request.inference_profile))
+            return self.enqueue(domain,lambda:self.requested_cycle(domain,request))
+
+        @router.post("/{domain}/compare", status_code=202)
+        async def compare(domain:Literal["water","nuclear","grid"], request:AgentRequest):
+            return self.enqueue(domain,lambda:self.compare(domain,request))
+
+        @router.post("/records/{identifier}/apply", status_code=202)
+        async def apply(identifier:str):
+            record=get_audit(identifier)
+            if not record: raise HTTPException(404,"Unknown decision")
+            return self.enqueue(record["domain"],lambda:self.apply_record(identifier))
 
         @router.post("/{domain}/study", status_code=202)
         async def study(domain:Literal["water","nuclear","grid"], request:StudyRequest):
