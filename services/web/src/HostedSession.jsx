@@ -36,7 +36,7 @@ export default function HostedSession({children}){
   }
   return <>
     {formOpen&&!active&&<VisitorForm onClose={()=>setFormOpen(false)} onSaved={()=>{setVisitor(true);setFormOpen(false);start();}}/>}
-    {active?<><aside className="hosted-ribbon"><strong>Public sandbox</strong><span>Cloud AI · Qwen3 30B-A3B · {Math.ceil((session.expires-now)/60000)} min left</span><span>Temporary session · Export before leaving</span><button onClick={end}>End session</button></aside>{error&&<p role="alert">{error}</p>}{children}</>:
+    {active?<><aside className="hosted-ribbon"><strong>Public sandbox</strong><span>Cloud AI · Qwen / Jev · {Math.ceil((session.expires-now)/60000)} min left</span><span>Temporary session · Export before leaving</span><button onClick={end}>End session</button></aside>{error&&<p role="alert">{error}</p>}{children}</>:
       <main className="hosted-entry"><span className="eyebrow">OT / AI assurance lab</span><h1>Your own control room.</h1><p>Water. Nuclear. Power grid.</p><p>Run a scenario, change controls and inspect AI decisions.</p><div className="hosted-details"><span>20-minute session</span><span>10 AI calls</span><span>Isolated simulation</span></div><button className="primary" onClick={()=>visitor?start():setFormOpen(true)} disabled={busy}>{busy?'Preparing your lab…':'Start a simulation'}</button><a href="/research.html">Explore recorded findings ↗</a>{error&&<p role="alert">{error}</p>}</main>}
   </>;
 }
