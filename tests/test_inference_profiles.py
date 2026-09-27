@@ -72,3 +72,22 @@ def test_fast_schema_does_not_relax_existing_control_validation():
     from services.plant_sim.app.simulator import WaterPlantSimulator
     from services.plc_control.app.controller import SafetyGate,BaselineController
     assert SafetyGate(BaselineController()).evaluate(proposal,WaterPlantSimulator().snapshot()).status=='rejected'
+
+
+def test_infrastructure_fast_retains_escalation_for_feedback():
+    from services.supervisor.app.inference_profiles import normalize_fast_response
+    from services.supervisor.app.ollama_client import InfrastructureProposal
+    wire={'format':{'properties':{'actions':{'items':{'properties':{'target':{'enum':['gas_dispatch_mw']}}}}}}}
+    body=json.dumps({'actions':[],'confidence':.8,'reason':'Operator review required.','episode_status':'escalate'})
+    result=InfrastructureProposal.model_validate(normalize_fast_response(body,wire,'grid'))
+    assert getattr(result,'episode_status',None)=='escalate'
+
+
+def test_fast_feedback_history_compresses_without_losing_quality_or_timing():
+    rows=[{'minute':i,'values':{'frequency_hz':50+i*.01,'battery_soc_pct':65},'quality_exceptions':{'sensor':'bad'}} for i in range(8)]
+    state={'research_context':{'feedback':{'observations':rows,'previous_record_ids':['decision-1']}}}
+    result=compact_context(state,'grid')
+    packed=result['research_context']['feedback']['observations']
+    assert isinstance(packed,dict)
+    assert unpack_history(packed)==rows
+    assert result['research_context']['feedback']['previous_record_ids']==['decision-1']

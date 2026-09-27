@@ -92,9 +92,15 @@ async def evaluate_proposal(proposal: ControlProposal, apply: bool = False, leas
                 raise HTTPException(409, "AI actuation requires gated_auto mode")
             decision = gate.evaluate(proposal, snapshot)
             if decision.status in {"accepted", "modified"} and apply:
+                from shared.supervision import response_window
+                changes=decision.applied_values.model_dump(exclude_none=True)
+                window=response_window("water", changes)
+                controller.supervisory_timing={"applied_minute":snapshot.elapsed_minutes,
+                    "observe_minutes":min(window["observe_minutes"], max(1,min(30,lease_minutes))),
+                    "before_targets":controller.setpoint_dict(), "applied_targets":changes}
                 controller.apply_setpoint_changes(
                     decision.applied_values,
-                    valid_until=snapshot.simulation_time + timedelta(minutes=max(1, min(60, lease_minutes))),
+                    valid_until=snapshot.simulation_time + timedelta(minutes=max(1, min(30, lease_minutes))),
                     source=proposal.source,
                 )
             return decision

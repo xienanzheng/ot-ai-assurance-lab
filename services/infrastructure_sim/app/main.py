@@ -106,7 +106,7 @@ def external_ai_proposal(domain: str, proposal: ExternalAiProposal):
             simulator.controller_mode = "shadow"
         try:
             decision = simulator.apply_ai_proposal(changes=proposal.changes, confidence=proposal.confidence,
-                objective=proposal.objective, explanation=proposal.explanation, source=proposal.source)
+                objective=proposal.objective, explanation=proposal.explanation, source=proposal.source, lease_minutes=proposal.lease_minutes)
         finally:
             simulator.controller_mode = mode
         return {"decision": decision, "plant": simulator.snapshot()}

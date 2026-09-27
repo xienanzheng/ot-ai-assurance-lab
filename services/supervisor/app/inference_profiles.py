@@ -65,6 +65,9 @@ def compact_context(state, domain=None):
                       or abs(d.get('feedback_pct',0)-d.get('setpoint_pct',0))>1]
             aux['devices']=abnormal
             aux['normal_running_device_count']=len(devices)-len(abnormal)
+    feedback=state.get('research_context',{}).get('feedback')
+    if isinstance(feedback,dict) and isinstance(feedback.get('observations'),list):
+        feedback['observations']=column_history(feedback['observations'])
     timeline=state.get('research_context',{}).get('timeline')
     if isinstance(timeline,dict):
         for key in ['recent_samples','samples','previous_decisions']:
@@ -150,4 +153,5 @@ def normalize_fast_response(content, payload, domain):
         normalized.update(expected_effect=response.reason,episode_status=response.episode_status)
     else:
         normalized['objective'] = 'Bounded simulator supervision'
+        normalized['episode_status'] = response.episode_status
     return normalized
