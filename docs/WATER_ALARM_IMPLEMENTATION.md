@@ -38,3 +38,9 @@ Approved scope: water-only critical escalation and evidence-based diagnosis. The
 - Stopped Qwen study parent and inference child at the user’s request; preserved 112 baseline validation responses. No Qwen run was resumed by the later “continue” request.
 - Collected two bounded 48-case Jev passes on training cases only. Second pass selects a single code-defined SOP bundle: 44/48 rule matches; 24/24 critical escalations. Evidence references are code-derived, not model-generated diagnosis.
 - Exported 44 review candidates and four failure cases. No teacher data incorporated into the frozen Qwen study, no active model changes, no hosted changes. See `JEV_WATER_TEACHER_REVIEW.md`.
+
+## Explicit resume after Jev review
+
+- User authorized “resume Qwen now, and now train it and test it”. Rechecked all 44 Jev review examples against the original training prompts and scenario labels; all pass. All already occur in the 2,000-case curriculum, so no duplicates or model-confidence targets were introduced.
+- Verified evaluation identity before resume; retained 112 completed baseline validation rows. Locked-test model outputs remain absent. Preserved the pause metadata and recorded explicit resume metadata locally.
+- Resumed the existing sequential study at 160 updates for each of two candidates. Validation-only selection precedes the locked test and sequential latency comparison. Passing enables only local shadow availability.
