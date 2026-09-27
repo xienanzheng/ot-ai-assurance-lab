@@ -329,3 +329,7 @@ The [Plant SOP and context book](docs/PLANT_CONTEXT_BOOK.md) records water, nucl
 ### Delay-aware feedback and adapter experiments
 
 In **Local AI agents → Observe & adjust**, choose a call budget and start feedback, then run the simulation clock from the HMI. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.
+
+### Water critical-alarm candidate (local shadow only)
+
+The [water alarm evaluation protocol and results](docs/WATER_ALARM_EVALUATION.md) documents the versioned benchmark, matched QLoRA experiment, strict approval checks and local comparison workflow. The corrected study is in progress: **no new adapter is approved or active**. Critical states require escalation without actuation. Candidate comparison records are permanently shadow-only and cannot change HMI targets. The optional approved service uses loopback port **18784**; it is not exposed in Cloudflare.

@@ -129,11 +129,19 @@ class SetpointChanges(BaseModel):
     backwash_request: bool | None = None
 
 
+class AlarmAssessment(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    alarm_codes: list[str] = Field(default_factory=list, max_length=12)
+    sensor_ids: list[str] = Field(default_factory=list, max_length=12)
+    operator_check_ids: list[str] = Field(default_factory=list, max_length=8)
+
+
 class ControlProposal(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
     decision_id: str = Field(default_factory=lambda: str(uuid4()))
     proposed_at: datetime = Field(default_factory=utc_now)
     changes: SetpointChanges
+    alarm_assessment: AlarmAssessment | None = None
     expected_effect: str = Field(min_length=1, max_length=240)
     confidence: float = Field(ge=0, le=1)
     explanation: str = Field(min_length=1, max_length=280)

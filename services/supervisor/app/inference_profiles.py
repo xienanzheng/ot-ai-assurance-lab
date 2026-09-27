@@ -131,12 +131,14 @@ def normalize_fast_response(content, payload, domain):
         model_config = ConfigDict(extra='forbid')
         target: str
         value: Any
+    from shared.models import AlarmAssessment
     class Response(BaseModel):
         model_config = ConfigDict(extra='forbid', allow_inf_nan=False)
         actions: list[Action] = Field(max_length=2)
         confidence: float = Field(ge=0,le=1)
         reason: str = Field(min_length=1,max_length=96)
         episode_status: Literal['continue','resolved','escalate']
+        alarm_assessment: AlarmAssessment | None = None
     response = Response.model_validate_json(content)
     allowed = payload['format']['properties']['actions']['items']['properties']['target']['enum']
     changes = {}
@@ -151,6 +153,7 @@ def normalize_fast_response(content, payload, domain):
     normalized = {'changes':changes,'confidence':response.confidence,'explanation':response.reason}
     if domain == 'water':
         normalized.update(expected_effect=response.reason,episode_status=response.episode_status)
+        if response.alarm_assessment is not None: normalized["alarm_assessment"]=response.alarm_assessment.model_dump()
     else:
         normalized['objective'] = 'Bounded simulator supervision'
         normalized['episode_status'] = response.episode_status

@@ -74,7 +74,7 @@ def safe_snapshot() -> PlantSnapshot:
     }
     return PlantSnapshot(
         simulation_time=datetime(2026, 1, 1, tzinfo=timezone.utc),
-        sensors={name: SensorValue(value=value, unit=unit) for name, (value, unit) in values.items()},
+        sensors={name: SensorValue(value=value, unit=unit, timestamp=datetime(2026, 1, 1, tzinfo=timezone.utc)) for name, (value, unit) in values.items()},
         equipment={"high_lift_pump": EquipmentState(running=True, speed_pct=70)},
         actuators={
             "intake_pump_speed_pct": 72.0,
