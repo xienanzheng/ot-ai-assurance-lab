@@ -1,6 +1,6 @@
 # Jev teacher-response review — 27 September 2026
 
-Qwen's version-2 experiment is **paused**, with 112 baseline validation responses preserved. No training or evaluation processes remain running. Neither model has been promoted; hosted configuration is unchanged.
+Qwen's version-2 experiment was paused for this review, preserving 112 baseline validation responses. It has now resumed on the user's explicit instruction. All 44 matching cases were rechecked and are already in the training set; no duplicate samples or Jev confidence labels were added. Neither model has been promoted; hosted configuration is unchanged.
 
 ## What was collected
 
@@ -46,7 +46,7 @@ Local ignored artifacts:
 
 The 44 targets preserve the distinction between Jev's selection, code-defined controls/evidence, and the existing rule-labelled rationale. They are **not automatically approved training data**. The package does not change the frozen benchmark, active Qwen, gate, or hosted system. It contains simulated plant context, not visitor records; credentials are not exported.
 
-Before further training, review the targets and provider permissions for distillation, retain a balanced curriculum rather than learning only escalation, and introduce hard negatives for timestamp and missing-data failures. Any changed prompt or training curriculum needs a new version and fresh matched baseline. The locked test stays untouched, and Qwen stays paused until its run is deliberately resumed or replaced.
+Before further training, review the targets and provider permissions for distillation, retain a balanced curriculum rather than learning only escalation, and introduce hard negatives for timestamp and missing-data failures. Any changed prompt or training curriculum needs a new version and fresh matched baseline. The locked test stays untouched, and Qwen resumes only on explicit instruction (now received).
 
 ## Reproduce extraction
 

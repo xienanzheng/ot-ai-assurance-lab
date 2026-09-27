@@ -1,6 +1,6 @@
 # Water alarm candidate: protocol and current evidence
 
-**Status, 27 September 2026:** no water alarm adapter is approved. Current Qwen and the hosted deployment remain unchanged. The corrected `water-alarms-v2` study is paused at the user’s request, with 112 baseline validation responses preserved. Jev teacher-response review now precedes any further Qwen run. The new local comparison is disabled until a complete passing report and matching loopback service exist.
+**Status, 27 September 2026:** no water alarm adapter is approved. Current Qwen and the hosted deployment remain unchanged. The corrected `water-alarms-v2` study has resumed at the user’s request from 112 preserved baseline validation responses. All 44 Jev review candidates were rechecked against the scenario rules and already occur in the balanced training set. They are cross-check evidence, not additional duplicated samples or imported confidence targets. The new local comparison is disabled until a complete passing report and matching loopback service exist.
 
 ## What changed
 
@@ -85,6 +85,6 @@ Then open **Local AI agents → Water agent → Compare water alarm candidate**.
 
 The model evaluation remains pending; passing software checks does not imply the candidate meets its research acceptance criteria.
 
-## Jev review while Qwen is paused
+## Jev review before resuming Qwen
 
 See [Jev teacher-response review](JEV_WATER_TEACHER_REVIEW.md): two 48-case training-only passes, 44 code-grounded review candidates from the second pass, four excluded failures, and no automatic training.
