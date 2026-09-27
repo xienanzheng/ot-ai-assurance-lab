@@ -575,6 +575,8 @@ class SafetyGate:
             if not isfinite(sensor.value):
                 violations.append(f"{name} is not a finite sensor value")
             age_seconds = (snapshot.simulation_time - sensor.timestamp).total_seconds()
+            if age_seconds < 0:
+                violations.append(f"{name} has a future simulation timestamp")
             if age_seconds > 120.0:
                 violations.append(f"{name} is older than the 120-second simulation freshness limit")
 

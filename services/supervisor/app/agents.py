@@ -64,6 +64,10 @@ class AgentRequest(BaseModel):
     knowledge_mode: Literal["off", "lexical", "hybrid"] | None = None
 
 
+class CandidateComparisonRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
 class StudyRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     kind: Literal["label_invariance", "repeatability", "safety_priority"] = "label_invariance"
@@ -296,9 +300,35 @@ class AgentService:
             interpretation="Same captured plant state; Qwen generates setpoints, Jev selects bounded candidates. Different decision spaces, not a like-for-like model benchmark.")
         return get_audit(identifier)
 
+    async def compare_candidate(self):
+        from .water_candidate import approval,propose
+        approval()
+        context=await self.context("water")
+        parent=create_audit("water",{"kind":"water_candidate_comparison"})
+        update_audit(parent,record_type="comparison",shadow_only=True,evaluate_only=True,before=context,applied=False)
+        records=[];failures=[]
+        try:
+            baseline=await self.cycle("water",context=context,evaluate_only=True,provider="qwen",inference_profile="fast")
+            update_audit(baseline["id"],shadow_only=True,comparison_id=parent,runtime="Ollama")
+            records.append(baseline["id"])
+        except Exception as exc:
+            if getattr(exc,"audit_id",None):update_audit(exc.audit_id,shadow_only=True,comparison_id=parent)
+            failures.append({"provider":"current-qwen","error":str(exc)})
+        try:
+            proposal,identifier=await propose(context)
+            gate=frozen_gate("water",context,proposal)
+            update_audit(identifier,status="complete",comparison_id=parent,gate=gate,applied=False,
+                outcome={"status":"shadow comparison; no actuation"})
+            records.append(identifier)
+        except Exception as exc:failures.append({"provider":"water-candidate","error":str(exc)})
+        update_audit(parent,status="complete",comparison={"record_ids":records,"failures":failures},
+            interpretation="One captured water state. Current Qwen uses Ollama and its existing prompt; candidate uses MLX and the water alarm context. Latencies include runtime and prompt differences. Both records are permanently shadow-only.")
+        return get_audit(parent)
+
     async def apply_record(self, identifier):
         record = get_audit(identifier)
         if not record: raise HTTPException(404,"Unknown decision")
+        if record.get("shadow_only"): raise HTTPException(409,"This record is permanently shadow-only")
         if record.get("status")!="complete" or not record.get("evaluate_only") or not record.get("proposal") or record.get("application_id"):
             raise HTTPException(409,"Decision is not available for application")
         if record.get("gate",{}).get("status") not in {"accepted","modified","shadow","advisory"}:
@@ -418,7 +448,8 @@ class AgentService:
         @router.get("/state")
         async def status():
             from .jev_client import availability
-            return {"feedback":self.feedback.state, "jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
+            from .water_candidate import status as candidate_status
+            return {"water_candidate": await candidate_status() if not HOSTED else {"available":False}, "feedback":self.feedback.state, "jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
                 "agents":[{"domain":d,"role":"bounded supervisory optimizer", "gate":"deterministic domain gate", "actuator_authority":False} for d in ["water","nuclear","grid"]]}
 
         @router.get("/records")
@@ -430,6 +461,15 @@ class AgentService:
             result=get_audit(identifier)
             if not result: raise HTTPException(404,"Unknown agent record")
             return result
+
+        @router.post("/water/compare-candidate",status_code=202)
+        async def compare_water_candidate(request:CandidateComparisonRequest):
+            if HOSTED:raise HTTPException(403,"Water candidate comparison is local-only")
+            if self.feedback.active:raise HTTPException(409,"Stop feedback before a candidate comparison")
+            from .water_candidate import approval
+            try:approval()
+            except ValueError as exc:raise HTTPException(409,str(exc))
+            return self.enqueue("water",self.compare_candidate)
 
         @router.post("/{domain}/feedback",status_code=201)
         async def start_feedback(domain:Literal["water","nuclear","grid"],request:FeedbackRequest):
