@@ -32,3 +32,9 @@ Approved scope: water-only critical escalation and evidence-based diagnosis. The
 - Current verification: 223 Python tests passed / 3 integration skips; 13 JavaScript tests passed; frontend build passed. Browser fixture checks passed for availability, escalation/evidence and disabled shadow application. No real candidate service is approved yet.
 - Current execution: corrected v2 study launched; output log `/tmp/water-alarm-study-v2.log`. Do not run concurrent local inference while measuring.
 - Documentation: `docs/WATER_ALARM_EVALUATION.md` contains the retained failure case, current limitations, dataset hashes, dependency versions and reproduction commands.
+
+## User-directed pause and Jev review
+
+- Stopped Qwen study parent and inference child at the user’s request; preserved 112 baseline validation responses. No Qwen run was resumed by the later “continue” request.
+- Collected two bounded 48-case Jev passes on training cases only. Second pass selects a single code-defined SOP bundle: 44/48 rule matches; 24/24 critical escalations. Evidence references are code-derived, not model-generated diagnosis.
+- Exported 44 review candidates and four failure cases. No teacher data incorporated into the frozen Qwen study, no active model changes, no hosted changes. See `JEV_WATER_TEACHER_REVIEW.md`.
