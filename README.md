@@ -321,3 +321,11 @@ Double-click **Start Research Demo.command** to open the built, read-only walkth
 ### Local ports
 
 WaterLab uses a separate host port range: **18780** for the live lab, **18774** for the recorded demo, and **18773** for Vite development. Internal Docker ports and the shared Ollama endpoint on **11434** are unchanged. The demo launcher uses 18774 automatically; development fails clearly if 18773 is occupied.
+
+### Plant SOP and context book
+
+The [Plant SOP and context book](docs/PLANT_CONTEXT_BOOK.md) records water, nuclear and power-grid procedures, measurement prerequisites, response delays, gate authority, evidence requirements and post-training evaluation considerations. Its [validated JSON registry](services/supervisor/app/plant_sops.json) supplies shared SOP context to Qwen and Jev. These are simulator procedures; contextualization does not itself train model weights. Regenerate the readable book with `.venv-interpret/bin/python scripts/build_sop_book.py`.
+
+### Delay-aware feedback and adapter experiments
+
+In **Local AI agents → Observe & adjust**, choose a call budget and start feedback, then run the simulation clock from the HMI. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.

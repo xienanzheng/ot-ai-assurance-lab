@@ -107,6 +107,7 @@ class NuclearSimulator:
                 "thermal_dispatch_target_mwth": 0.0,
                 "reactor_trip": False,
             }
+            self.supervisory_timing = None
             self.ai_lease = None
             self.ai_decision: AiDecision | None = None
             self.history = {
@@ -522,9 +523,15 @@ class NuclearSimulator:
         objective: str,
         explanation: str,
         source: str = "ollama",
+        lease_minutes: int = 5,
     ) -> AiDecision:
         with self.lock:
             gate = self._gate(changes)
+            from shared.supervision import temporal_check, response_window
+            timing_reasons=temporal_check(self.minute, changes, self.supervisory_timing)
+            if timing_reasons:
+                gate.status="rejected"
+                gate.reasons.extend(timing_reasons)
             if gate.status == "accepted" and (not isfinite(confidence) or not 0.55 <= confidence <= 1.0):
                 gate.status = "rejected"
                 gate.reasons.append("AI confidence is below the 0.55 acceptance threshold")
@@ -533,8 +540,11 @@ class NuclearSimulator:
             elif gate.status == "accepted" and self.controller_mode == "shadow":
                 gate.status = "shadow"
             elif gate.status == "accepted" and self.controller_mode == "gated_auto":
+                window=response_window("nuclear",changes,getattr(self,"tuning",{}))
+                self.supervisory_timing={"applied_minute":self.minute,"observe_minutes":min(window["observe_minutes"],lease_minutes),
+                    "before_targets":self.controls.copy(),"applied_targets":changes.copy()}
                 self._release_ai_lease()
-                self.ai_lease = {"expires_minute": self.minute+5, "previous": {name:self.controls[name] for name in changes}, "applied": changes.copy()}
+                self.ai_lease = {"expires_minute": self.minute+max(1,min(30,lease_minutes)), "previous": {name:self.controls[name] for name in changes}, "applied": changes.copy()}
                 for name, value in changes.items():
                     self.controls[name] = value
                 gate.applied = changes.copy()
@@ -666,6 +676,8 @@ class NuclearSimulator:
                 operations=self.operations.snapshot(self),
                 flows=flows,
                 ai_decision=self.ai_decision,
+                supervisory_timing=self.supervisory_timing,
+                ai_lease=self.ai_lease,
                 input_channels=[
                     {"name": "Control rod position", "type": "reactivity control", "authority": "automatic reactor control and protection"},
                     {"name": "Boron concentration", "type": "slow reactivity control", "authority": "operator procedure"},

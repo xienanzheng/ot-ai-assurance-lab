@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .feedback import FeedbackRequest
 
 import asyncio
 import os
@@ -31,6 +32,7 @@ def frozen_gate(domain, context, proposal):
             setattr(controller.setpoints, key, value)
         for trip in context["plc"].get("control_state", {}).get("trips", []):
             controller.trip_latches[trip["code"]] = trip["latched"]
+        controller.supervisory_timing=context["plc"].get("control_state",{}).get("supervisory_timing")
         return SafetyGate(controller).evaluate(proposal, PlantSnapshot.model_validate(plant)).model_dump(mode="json")
     try:
         from infra_app.grid import GridSimulator
@@ -40,12 +42,14 @@ def frozen_gate(domain, context, proposal):
         from services.infrastructure_sim.app.nuclear import NuclearSimulator
     sim = NuclearSimulator() if domain == "nuclear" else GridSimulator()
     sim.controls = deepcopy(plant["controls"])
+    sim.supervisory_timing=deepcopy(plant.get("supervisory_timing"))
+    sim.minute=plant.get("elapsed_minutes",0)
     sim._alarms = lambda: deepcopy(plant["alarms"])
     if domain == "nuclear":
         for name, loop in sim.loops.items():
             loop["sg_level_pct"] = plant["sensors"][f"loop_{name.lower()}_sg_level_pct"]["value"]
     sim.controller_mode = "shadow"
-    return sim.apply_ai_proposal(**proposal.model_dump(), source="offline research evaluation").gate.model_dump()
+    return sim.apply_ai_proposal(**proposal.model_dump(exclude={"episode_status"}), source="offline research evaluation").gate.model_dump()
 
 
 class AgentRequest(BaseModel):
@@ -72,9 +76,12 @@ class AgentService:
         self.jobs = {}
         self.tasks = set()
         self.lock = asyncio.Lock()
+        self.application_lock = asyncio.Lock()
         self.last_cycle = {}
         self.manual_domains = set()
         self.router = APIRouter(prefix="/api/v1/agents")
+        from .feedback import FeedbackController
+        self.feedback = FeedbackController(self)
         self._routes()
 
     async def context(self, domain):
@@ -128,12 +135,17 @@ class AgentService:
                 "history_window_minutes":12, "decision_window":4,
                 "termination_rule":"Request resolved only after at least 8 consecutive simulated minutes with filtered turbidity <= 1.0 NTU, all other supplied operating limits satisfied, good sensor quality and no active alarms. Otherwise continue or request escalation. Resolution ends the exercise; it does not repair the external disturbance."}
 
-    async def cycle(self, domain, thinking=False, evaluate_only=True, context=None, experiment=None, model=None, num_ctx=None, include_history=False, knowledge_mode=None, inference_profile=None, provider="qwen"):
+    async def cycle(self, domain, thinking=False, evaluate_only=True, context=None, experiment=None, model=None, num_ctx=None, include_history=False, knowledge_mode=None, inference_profile=None, provider="qwen", application_guard=None, adaptive_timing=False):
         context = deepcopy(context) if context else await self.context(domain)
         if include_history:
             if domain != "water": raise HTTPException(422, "Timeline history currently supports water")
             experiment = {**(experiment or {}), "timeline": await self.water_history(context)}
         state = context["plant"]
+        from .sop_context import select_sops
+        sop=select_sops(domain,state)
+        prior_timing=context.get("plc",{}).get("control_state",{}).get("supervisory_timing") or state.get("supervisory_timing")
+        experiment={**(experiment or {}), "plant_sops":sop, "previous_application":prior_timing,
+            "timing_rule":"Wait for the process response before adjusting again; confidence is not evidence of recovery."}
         # Per-call configuration never mutates the shared scheduled worker.
         from copy import copy
         worker = copy(self.manager.ollama)
@@ -146,7 +158,7 @@ class AgentService:
         try:
             if provider == "jev":
                 from .jev_client import propose
-                proposal, audit_id = await propose(domain, context)
+                proposal, audit_id = await propose(domain, context, experiment_context=experiment)
             elif domain == "water":
                 proposal = await worker.propose(PlantSnapshot.model_validate(state), context["plc"]["setpoints"],
                     control_state=context["plc"].get("control_state"), thinking=thinking, experiment_context=experiment)
@@ -166,24 +178,43 @@ class AgentService:
             proposal.changes=SetpointChanges(**changed)
         else:
             proposal.changes=changed
-        update_audit(audit_id, model_proposal=raw_proposal)
+        from shared.supervision import response_window
+        window=response_window(domain,changed,state.get("tuning"))
+        update_audit(audit_id, model_proposal=raw_proposal, sop_context=sop, response_window=window)
         update_audit(audit_id, before=context, experiment=experiment, evaluate_only=evaluate_only,
                      provider=provider, model_name="typesafe/jev-1.13" if provider=="jev" else worker.model, record_type="decision",
                      proposal=proposal.model_dump(mode="json"))
+        if raw_proposal.get("episode_status")=="escalate" and changed:
+            update_audit(audit_id,status="invalid_proposal",applied=False,
+                gate={"status":"rejected","reason":"Escalation cannot include target changes"})
+            return get_audit(audit_id)
+        if application_guard is not None and not application_guard():
+            update_audit(audit_id,status="cancelled",before=context,proposal=proposal.model_dump(mode="json"),applied=False,
+                gate={"status":"not_submitted","reason":"Feedback stopped before application"})
+            return get_audit(audit_id)
         try:
             if evaluate_only:
                 gate = frozen_gate(domain, context, proposal)
                 applied = False
             else:
-                gate, applied = await self.submit(domain, context, proposal, f"{provider}:{'typesafe/jev-1.13' if provider=='jev' else worker.model}")
-            update_audit(audit_id, status="complete", gate=gate, applied=applied, lease_minutes=5 if applied else None,
-                         outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"awaiting later simulation sample"})
+                async with self.application_lock:
+                    if application_guard is not None and not application_guard():
+                        update_audit(audit_id,status="cancelled",applied=False,
+                            gate={"status":"not_submitted","reason":"Feedback stopped before application"})
+                        return get_audit(audit_id)
+                    gate, applied = await self.submit(domain, context, proposal, f"{provider}:{'typesafe/jev-1.13' if provider=='jev' else worker.model}",lease_minutes=window["lease_minutes"] if adaptive_timing else 5)
+            update_audit(audit_id, status="complete", gate=gate, applied=applied, lease_minutes=(window["lease_minutes"] if adaptive_timing else 5) if applied else None,
+                         outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"awaiting feedback window" if adaptive_timing else "awaiting later simulation sample"})
         except Exception as exc:
             update_audit(audit_id, status="gate_failed", applied=False, gate={"status":"rejected", "reason":str(exc)})
             raise
         return get_audit(audit_id)
 
-    async def submit(self, domain, context, proposal, source, freshness=None):
+    def schedule_feedback_outcome(self, identifier, start, review):
+        update_audit(identifier,response_started_minute=start,outcome_review_minute=review,
+                     outcome={"status":"awaiting later simulation sample"})
+
+    async def submit(self, domain, context, proposal, source, freshness=None, lease_minutes=5):
         state = context["plant"]
         original = (freshness or context)["plant"]
         if not any(v is not None for v in proposal.model_dump()["changes"].values()):
@@ -191,7 +222,7 @@ class AgentService:
         if domain == "water":
             async with httpx.AsyncClient(timeout=8) as client:
                 response = await client.post(f"{self.manager.plc_url}/proposal", json=proposal.model_dump(mode="json"),
-                    params={"apply": str(state["controller_mode"]=="gated_auto").lower(), "lease_minutes":5,
+                    params={"apply": str(state["controller_mode"]=="gated_auto").lower(), "lease_minutes":lease_minutes,
                             "expected_controller_generation":context["plc"]["controller_generation"],
                             "expected_time":original["simulation_time"], "expected_mode":state["controller_mode"]})
                 response.raise_for_status()
@@ -200,7 +231,7 @@ class AgentService:
         else:
             async with httpx.AsyncClient(timeout=8) as client:
                 response = await client.post(f"{self.infrastructure_url}/{domain}/proposal",
-                    json={**proposal.model_dump(), "source":source,
+                    json={**proposal.model_dump(exclude={"episode_status"}), "source":source, "lease_minutes":lease_minutes,
                           "expected_run_id":context["run_id"], "expected_minute":original["elapsed_minutes"],
                           "expected_mode":state["controller_mode"]})
                 response.raise_for_status()
@@ -209,9 +240,27 @@ class AgentService:
             applied = bool(gate.get("applied"))
         return gate, applied
 
+    async def baseline(self, domain):
+        async with self.application_lock:
+            return await self._baseline(domain)
+
+    async def _baseline(self, domain):
+        async with httpx.AsyncClient(timeout=8) as client:
+            if domain=="water":
+                if self.manager.active_config:
+                    self.manager.active_config.controller_mode=ControlMode.BASELINE
+                    self.manager.active_config.ai_schedule_enabled=False
+                response=await client.put(f"{self.manager.plant_url}/mode",json={"mode":"baseline"})
+                response.raise_for_status()
+                response=await client.post(f"{self.manager.plc_url}/scan")
+            else:
+                response=await client.post(f"{self.infrastructure_url}/{domain}/command",json={"action":"configure","controller_mode":"baseline"})
+            response.raise_for_status()
+
     async def enable_application(self, domain):
         # A manual decision never starts a second scheduled model writer.
         self.manual_domains.add(domain)
+        if domain == "water": self.manager.manual_supervision = True
         async with httpx.AsyncClient(timeout=8) as client:
             if domain == "water":
                 if self.manager.active_config:
@@ -337,6 +386,7 @@ class AgentService:
     async def monitor(self):
         while True:
             try:
+                await self.feedback.tick()
                 # Water scheduling is owned by RunManager; do not create a second writer.
                 # Hosted sessions hold a small metered inference allowance, so scheduled
                 # cycles would spend it before the visitor asked for anything. There, the
@@ -355,7 +405,7 @@ class AgentService:
                     before = record["before"]
                     if context["run_id"] != before["run_id"] or (record["domain"]=="water" and context["plc"]["controller_generation"] != before["plc"]["controller_generation"]):
                         update_audit(record["id"],outcome={"status":"exercise changed; no comparable outcome"})
-                    elif context["plant"]["elapsed_minutes"]>before["plant"]["elapsed_minutes"]:
+                    elif context["plant"]["elapsed_minutes"]>=record.get("outcome_review_minute",before["plant"]["elapsed_minutes"]+1):
                         update_audit(record["id"], outcome={"status":"observed", "plant":context["plant"],
                             "interpretation":"Before/after observation with baseline control and scenario effects; not a causal attribution to AI."})
             except Exception:
@@ -368,7 +418,7 @@ class AgentService:
         @router.get("/state")
         async def status():
             from .jev_client import availability
-            return {"jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
+            return {"feedback":self.feedback.state, "jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
                 "agents":[{"domain":d,"role":"bounded supervisory optimizer", "gate":"deterministic domain gate", "actuator_authority":False} for d in ["water","nuclear","grid"]]}
 
         @router.get("/records")
@@ -381,20 +431,32 @@ class AgentService:
             if not result: raise HTTPException(404,"Unknown agent record")
             return result
 
+        @router.post("/{domain}/feedback",status_code=201)
+        async def start_feedback(domain:Literal["water","nuclear","grid"],request:FeedbackRequest):
+            return await self.feedback.start(domain,request)
+
+        @router.post("/feedback/stop")
+        async def stop_feedback():
+            return await self.feedback.stop()
+
         @router.post("/{domain}/cycle", status_code=202)
         async def cycle(domain:Literal["water","nuclear","grid"], request:AgentRequest):
+            if self.feedback.active: raise HTTPException(409,"Stop feedback before a manual analysis")
             return self.enqueue(domain,lambda:self.requested_cycle(domain,request))
 
         @router.post("/{domain}/compare", status_code=202)
         async def compare(domain:Literal["water","nuclear","grid"], request:AgentRequest):
+            if self.feedback.active: raise HTTPException(409,"Stop feedback before comparing models")
             return self.enqueue(domain,lambda:self.compare(domain,request))
 
         @router.post("/records/{identifier}/apply", status_code=202)
         async def apply(identifier:str):
+            if self.feedback.active: raise HTTPException(409,"Stop feedback before applying another proposal")
             record=get_audit(identifier)
             if not record: raise HTTPException(404,"Unknown decision")
             return self.enqueue(record["domain"],lambda:self.apply_record(identifier))
 
         @router.post("/{domain}/study", status_code=202)
         async def study(domain:Literal["water","nuclear","grid"], request:StudyRequest):
+            if self.feedback.active: raise HTTPException(409,"Stop feedback before a study")
             return self.enqueue(domain,lambda:self.study(domain,request.kind,request.thinking))

@@ -54,6 +54,7 @@ class BaselineController:
             backwash_request=False,
             emergency_stop=False,
         )
+        self.supervisory_timing = None
         self.supervisory_expiry: datetime | None = None
         self.supervisory_previous: dict[str, float] = {}
         self.last_cycle_time: datetime | None = None
@@ -439,6 +440,7 @@ class BaselineController:
 
     def apply_setpoint_changes(self, changes: SetpointChanges, valid_until: datetime | None = None, source: str = "supervisory") -> None:
         self.release_supervision()
+        if valid_until is None: self.supervisory_timing = None
         for name, value in changes.model_dump(exclude_none=True).items():
             if name == "backwash_request":
                 if value:
@@ -455,6 +457,7 @@ class BaselineController:
     def status(self) -> dict[str, object]:
         return {
             "control_source": self.control_source,
+            "supervisory_timing": self.supervisory_timing,
             "setpoint_lease_expires": self.supervisory_expiry.isoformat() if self.supervisory_expiry else None,
             "backwash_sequence": self.backwash.status(self.last_cycle_time),
             "permissives": self.permissives,
@@ -546,6 +549,8 @@ class SafetyGate:
         raw_changes = proposal.changes.model_dump(exclude_none=True)
         applied = dict(raw_changes)
         current = self.controller.setpoint_dict()
+        from shared.supervision import temporal_check
+        violations.extend(temporal_check(snapshot.elapsed_minutes, raw_changes, self.controller.supervisory_timing))
 
         if proposal.confidence < 0.55:
             violations.append("Confidence is below the 0.55 gate threshold")

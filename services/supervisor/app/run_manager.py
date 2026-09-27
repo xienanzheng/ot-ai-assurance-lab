@@ -22,6 +22,7 @@ class RunManager:
         self.active_run_id: str | None = None
         self.active_config: RunConfig | None = None
         self.last_sample_time: str | None = None
+        self.manual_supervision = False
         self.last_decision_minute: int = -1
         self.latest_decision: dict | None = None
         self.initial_simulation_time: datetime | None = None
@@ -156,7 +157,7 @@ class RunManager:
             self.initial_simulation_time = snapshot.simulation_time
         elapsed = int((snapshot.simulation_time - self.initial_simulation_time).total_seconds() / 60)
         interval = self.active_config.ai_decision_interval_minutes
-        if os.getenv("HOSTED_MODE") != "true" and self.active_config.ai_schedule_enabled and self.active_config.controller_mode.value != "baseline" and elapsed >= 0 and elapsed % interval == 0 and elapsed != self.last_decision_minute:
+        if not self.manual_supervision and os.getenv("HOSTED_MODE") != "true" and self.active_config.ai_schedule_enabled and self.active_config.controller_mode.value != "baseline" and elapsed >= 0 and elapsed % interval == 0 and elapsed != self.last_decision_minute:
             self.last_decision_minute = elapsed
             await self._ai_decision(snapshot)
         if elapsed >= int(self.active_config.duration_hours * 60):

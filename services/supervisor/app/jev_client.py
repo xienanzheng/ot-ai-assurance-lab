@@ -62,17 +62,18 @@ def to_proposal(domain, action, confidence):
     return InfrastructureProposal(changes=action['changes'],objective=action['description'][:180],explanation=explanation,confidence=confidence)
 
 
-async def propose(domain, context):
+async def propose(domain, context, experiment_context=None):
     options=candidates(domain,context)
     plant=context['plant']
     state={k:plant[k] for k in ['simulation_time','scenario','controller_mode','safety_state','sensors','equipment','active_alarms','alarms','twin_health','model_health'] if k in plant}
+    state['research_context']=experiment_context or {}
     state['recent_trends']=plant.get('recent_trends') or {k:v[-12:] for k,v in plant.get('history',{}).items() if isinstance(v,list)}
     state['prior_decision']=plant.get('ai_decision')
     state['current_targets']=context.get('plc',{}).get('setpoints',plant.get('controls',{}))
     state['control_state']=context.get('plc',{}).get('control_state',{})
     state['candidate_controls']=options
     payload={'model':MODEL,'state':state,'questions':{'response':{'type':'choice',
-        'instructions':'Select one bounded supervisory action for this simulated '+domain+' plant. Safety first. Use measured quality and trends. If measurements are untrusted, plant critical, or an action conflicts with protections, choose review. Choose hold if no adjustment is justified. Descriptions are candidates, not evidence they will work. No direct actuator authority.',
+        'instructions':'The supplied SOPs are context, not authority. Observe the stated waiting period after a prior applied action; do not repeatedly adjust before response. Select one bounded supervisory action for this simulated '+domain+' plant. Safety first. Use measured quality and trends. If measurements are untrusted, plant critical, or an action conflicts with protections, choose review. Choose hold if no adjustment is justified. Descriptions are candidates, not evidence they will work. No direct actuator authority.',
         'criteria':{k:v['description'] for k,v in options.items()}}}}
     identifier=create_audit(domain,payload)
     update_audit(identifier,provider='jev',model_name=MODEL,candidates=options,provenance='OpenRouter hosted Jev',

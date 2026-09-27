@@ -122,7 +122,8 @@ def test_jev_unknown_choice_fails_closed_with_audit(audit_database,monkeypatch):
     assert record['applied'] is False and record['gate']['status']=='not_submitted'
     assert 'test-credential' not in str(record)
 
-def test_water_requested_cycle_applies_live_targets_without_reset(audit_database,monkeypatch,safe_snapshot):
+@pytest.mark.parametrize("target_name,delta,adaptive,observe",[("pressure_target_m",1,False,5),("chlorine_target_mg_l",.05,True,12)])
+def test_water_requested_cycle_applies_live_targets_without_reset(target_name,delta,adaptive,observe,audit_database,monkeypatch,safe_snapshot):
     import httpx
     from fastapi.testclient import TestClient
     from shared.models import ControlMode, ControlProposal, SetpointChanges, RunConfig
@@ -135,9 +136,9 @@ def test_water_requested_cycle_applies_live_targets_without_reset(audit_database
     async def snapshot():return safe_snapshot
     monkeypatch.setattr(main,'fetch_snapshot',snapshot)
     client=TestClient(main.app)
-    target=controller.setpoints.pressure_target_m+1
+    target=getattr(controller.setpoints,target_name)+delta
     async def propose(*args,**kw):
-        p=ControlProposal(changes=SetpointChanges(pressure_target_m=target),confidence=.95,expected_effect='Adjust simulated pressure',explanation='Bounded pressure correction')
+        p=ControlProposal(changes=SetpointChanges(**{target_name:target}),confidence=.95,expected_effect='Adjust simulated pressure',explanation='Bounded pressure correction')
         p.decision_id=agent_audit.create_audit('water',{})
         return p
     worker=OllamaSupervisor();monkeypatch.setattr(worker,'propose',propose)
@@ -153,9 +154,112 @@ def test_water_requested_cycle_applies_live_targets_without_reset(audit_database
         response=client.request(request.method,str(request.url),content=request.content)
         return httpx.Response(response.status_code,json=response.json())
     monkeypatch.setattr(httpx,'AsyncClient',lambda **kw:real_client(transport=httpx.MockTransport(handler),**kw))
-    record=asyncio.run(service.requested_cycle('water',AgentRequest(evaluate_only=False)))
-    assert record['applied'] and main.status()['setpoints']['pressure_target_m']==target
+    async def run():
+        if adaptive:
+            await service.enable_application('water')
+            return await service.cycle('water',evaluate_only=False,adaptive_timing=True)
+        return await service.requested_cycle('water',AgentRequest(evaluate_only=False))
+    record=asyncio.run(run())
+    assert record['applied'] and main.status()['setpoints'][target_name]==target
     assert controller.supervisory_expiry is not None
+    assert controller.supervisory_timing["observe_minutes"]==observe
+    assert record["lease_minutes"]==(observe+2 if adaptive else 5)
     assert not manager.active_config.ai_schedule_enabled
     assert manager.active_config.controller_mode is ControlMode.GATED_AUTO
     assert safe_snapshot.elapsed_minutes==0
+
+
+def test_cancelled_model_result_never_reaches_gate_and_retains_provider(audit_database,monkeypatch):
+    from services.supervisor.app import agent_audit
+    from services.supervisor.app.ollama_client import InfrastructureProposal
+    worker=OllamaSupervisor()
+    async def propose(*args,**kwargs):
+        p=InfrastructureProposal(objective='Bounded adjustment',changes={'gas_dispatch_mw':480},confidence=.9,explanation='Test')
+        p._audit_id=agent_audit.create_audit('grid',{})
+        return p
+    monkeypatch.setattr(worker,'propose_infrastructure',propose)
+    service=AgentService(SimpleNamespace(ollama=worker),'http://unused')
+    async def forbidden(*args,**kwargs):raise AssertionError('Stopped loop submitted a proposal')
+    monkeypatch.setattr(service,'submit',forbidden)
+    record=asyncio.run(service.cycle('grid',context={'run_id':'r','plant':GridSimulator().snapshot().model_dump(mode='json')},evaluate_only=False,application_guard=lambda:False))
+    assert record['status']=='cancelled' and not record['applied']
+    assert record.get('provider')=='qwen'
+
+
+@pytest.mark.parametrize('domain,target_name,delta',[('grid','gas_dispatch_mw',30),('nuclear','turbine_load_target_mwe',10)])
+@pytest.mark.parametrize('provider',['qwen','jev'])
+def test_feedback_runs_real_infrastructure_gate_observes_then_releases(domain,target_name,delta,provider,audit_database,monkeypatch):
+    import httpx
+    from fastapi.testclient import TestClient
+    from services.infrastructure_sim.app import main
+    from services.supervisor.app import agent_audit,jev_client
+    from services.supervisor.app.feedback import FeedbackRequest
+    from services.supervisor.app.ollama_client import InfrastructureProposal
+    sim=getattr(main,domain)
+    sim.reset(); client=TestClient(main.app)
+    initial=sim.controls[target_name]; target=initial+delta
+    contexts=[]
+    async def make_proposal(*args,**kwargs):
+        contexts.append(kwargs.get('experiment_context'))
+        p=InfrastructureProposal(objective='Bounded test correction',changes={target_name:target},confidence=.95,explanation='Simulated test')
+        identifier=agent_audit.create_audit(domain,{})
+        p._audit_id=identifier
+        return (p,identifier) if provider=='jev' else p
+    worker=OllamaSupervisor()
+    monkeypatch.setattr(worker,'propose_infrastructure',make_proposal)
+    monkeypatch.setattr(jev_client,'propose',make_proposal)
+    real_client=httpx.AsyncClient
+    def handler(request):
+        response=client.request(request.method,request.url.path,content=request.content)
+        return httpx.Response(response.status_code,json=response.json())
+    monkeypatch.setattr(httpx,'AsyncClient',lambda **kw:real_client(transport=httpx.MockTransport(handler),**kw))
+    service=AgentService(SimpleNamespace(ollama=worker),'http://infra')
+    async def run():
+        await service.feedback.start(domain,FeedbackRequest(provider=provider,max_calls=1))
+        sim.running=True
+        await service.feedback.tick()
+        await asyncio.gather(*list(service.tasks))
+        assert sim.controls[target_name]==target
+        assert sim.ai_lease['expires_minute']==7
+        assert service.feedback.state['status']=='observing'
+        record=agent_audit.get_audit(service.feedback.state['records'][0])
+        assert record['applied'] and record['provider']==provider
+        assert contexts[0]['plant_sops']['procedures']
+        assert contexts[0]['feedback']['loop_id']==service.feedback.state['id']
+        proposal=InfrastructureProposal(objective='Repeat early',changes={target_name:target+delta},confidence=.95,explanation='Early repeat')
+        decision=sim.apply_ai_proposal(**proposal.model_dump(exclude={'episode_status'}),source='test',lease_minutes=7)
+        assert decision.gate.status=='rejected'
+        for _ in range(5):
+            sim.advance(1)
+            await service.feedback.tick()
+        assert not service.feedback.active
+        assert sim.ai_lease is None
+        assert sim.controls[target_name]==initial
+        assert service.feedback.state['response']['status']=='observed_trend'
+    try:asyncio.run(run())
+    finally:sim.reset()
+
+
+def test_feedback_api_has_resolvable_request_schema():
+    from fastapi import FastAPI
+    app=FastAPI(); service=AgentService(SimpleNamespace(ollama=OllamaSupervisor()),'http://unused')
+    app.include_router(service.router)
+    schema=app.openapi()
+    assert 'FeedbackRequest' in schema['components']['schemas']
+
+
+def test_escalation_cannot_apply_accompanying_targets(audit_database,monkeypatch):
+    from services.supervisor.app import agent_audit
+    from services.supervisor.app.ollama_client import InfrastructureProposal
+    worker=OllamaSupervisor()
+    async def propose(*args,**kwargs):
+        p=InfrastructureProposal(objective='Operator review',changes={'gas_dispatch_mw':480},confidence=.95,explanation='Escalate',episode_status='escalate')
+        p._audit_id=agent_audit.create_audit('grid',{})
+        return p
+    monkeypatch.setattr(worker,'propose_infrastructure',propose)
+    service=AgentService(SimpleNamespace(ollama=worker),'http://unused')
+    async def submit(*args,**kwargs):return {'status':'accepted'},True
+    monkeypatch.setattr(service,'submit',submit)
+    record=asyncio.run(service.cycle('grid',context={'run_id':'r','plant':GridSimulator().snapshot().model_dump(mode='json')},evaluate_only=False))
+    assert not record['applied']
+    assert record['gate']['status']=='rejected'

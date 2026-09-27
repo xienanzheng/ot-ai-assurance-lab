@@ -38,6 +38,7 @@ class ExternalAiProposal(BaseModel):
     expected_run_id: str | None = None
     expected_minute: int | None = None
     expected_mode: str | None = None
+    lease_minutes: int = Field(default=5,ge=1,le=30)
     evaluate_only: bool = False
 
 
@@ -79,6 +80,8 @@ class LabSnapshot(BaseModel):
     operations: dict[str, Any] = Field(default_factory=dict)
     equipment: dict[str, Any]
     flows: list[dict[str, Any]]
+    supervisory_timing: dict | None = None
+    ai_lease: dict | None = None
     ai_decision: AiDecision | None = None
     input_channels: list[dict[str, str]] = Field(default_factory=list)
     output_channels: list[dict[str, str]] = Field(default_factory=list)
