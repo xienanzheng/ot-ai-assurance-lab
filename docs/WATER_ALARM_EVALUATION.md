@@ -88,3 +88,7 @@ The model evaluation remains pending; passing software checks does not imply the
 ## Jev review before resuming Qwen
 
 See [Jev teacher-response review](JEV_WATER_TEACHER_REVIEW.md): two 48-case training-only passes, 44 code-grounded review candidates from the second pass, four excluded failures, and no automatic training.
+
+## Hosted Qwen comparison
+
+The [400-case paired Cloudflare comparison](CLOUDFLARE_QWEN_COMPARISON.md) is complete. Under matched raw-prompt settings, trained 4B achieved 288/400 correct action/status decisions versus 200/400 for hosted Qwen3 30B-A3B. Critical escalation checks were 159/160 versus 120/160. This uses the validation set already used for adapter selection and does not measure the live website’s schema-constrained, longer-output wrapper. Neither model meets the critical criterion on this comparison; no deployment was changed.
