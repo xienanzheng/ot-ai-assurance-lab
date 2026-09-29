@@ -29,7 +29,13 @@ function DecisionSummary({ record }) {
     <h3>{record.proposal?.objective||record.proposal?.expected_effect||"Inference evidence"}</h3>
     <p>{record.proposal?.explanation||record.error||"Model response is pending."}</p>
     {!!changes.length&&<dl>{changes.map(([key,value])=><div key={key}><dt>{key.replaceAll("_"," ")}</dt><dd>{String(value)}{record.applied&&approved[key]!==undefined&&approved[key]!==null&&approved[key]!==value&&<small> → applied {String(approved[key])}</small>}</dd></div>)}</dl>}
-    {!changes.length&&<p><strong>{record.proposal?.episode_status==="escalate"?"Operator review requested":"Hold current targets"}</strong> · no setpoint change proposed.</p>}
+    {!changes.length&&<p><strong>{(record.operator_response||record.proposal?.episode_status==="escalate")?"Operator review requested":"Hold current targets"}</strong> · no setpoint change proposed.</p>}
+    {record.operator_response&&<section className="agent-readable-reasons"><h3>Operator intervention required</h3>
+      <small>{record.operator_response.source==="model_selected_sop"?"Model-selected SOP guidance":"Server fallback SOP guidance · not a validated model response"}</small>
+      <ol>{record.operator_response.recommended_actions.map(action=><li key={action.id}>{action.instruction}</li>)}</ol>
+      <p>{record.operator_response.monitoring_plan.instructions}</p>
+      <JsonEvidence title="Monitoring, prerequisites and source" value={record.operator_response}/>
+    </section>}
     {record.shadow_only&&<p><strong>Shadow only</strong> · {record.runtime||"Research comparison"}</p>}
     {record.proposal?.alarm_assessment&&<JsonEvidence title="Alarm evidence and operator checks" value={record.proposal.alarm_assessment} open/>}
     {record.applied&&<p>Control lease: {record.lease_minutes||5} simulated minutes. Observe the HMI as the simulation advances.</p>}

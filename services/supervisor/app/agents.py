@@ -23,6 +23,9 @@ def frozen_gate(domain, context, proposal):
     """Execute the actual gate implementation against detached captured state."""
     plant = context["plant"]
     if domain == "water":
+        from shared.water_escalation import intervention_required
+        if intervention_required(plant, context.get("plc", {}).get("control_state"), proposal.episode_status):
+            return {"status":"rejected", "violated_constraints":["Operator intervention required; no automatic actuation"], "applied_values":{}}
         try:
             from plc_app.controller import BaselineController, SafetyGate
         except ModuleNotFoundError:
@@ -328,6 +331,7 @@ class AgentService:
     async def apply_record(self, identifier):
         record = get_audit(identifier)
         if not record: raise HTTPException(404,"Unknown decision")
+        if record.get("operator_response"): raise HTTPException(409,"Operator recommendations cannot be applied as AI commands")
         if record.get("shadow_only"): raise HTTPException(409,"This record is permanently shadow-only")
         if record.get("status")!="complete" or not record.get("evaluate_only") or not record.get("proposal") or record.get("application_id"):
             raise HTTPException(409,"Decision is not available for application")
@@ -448,8 +452,11 @@ class AgentService:
         @router.get("/state")
         async def status():
             from .jev_client import availability
-            from .water_candidate import status as candidate_status
-            return {"water_candidate": await candidate_status() if not HOSTED else {"available":False}, "feedback":self.feedback.state, "jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
+            candidate = {"available":False}
+            if not HOSTED:
+                from .water_candidate import status as candidate_status
+                candidate = await candidate_status()
+            return {"water_candidate": candidate, "feedback":self.feedback.state, "jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
                 "agents":[{"domain":d,"role":"bounded supervisory optimizer", "gate":"deterministic domain gate", "actuator_authority":False} for d in ["water","nuclear","grid"]]}
 
         @router.get("/records")

@@ -1,0 +1,40 @@
+{
+  "injection": "active",
+  "status_endpoint": "ok",
+  "qwen": {
+    "job_status": "complete",
+    "record_status": "complete",
+    "error": null,
+    "plan_source": "model_selected_sop",
+    "recommendation_count": 3,
+    "operator_required": true,
+    "episode_status": "escalate",
+    "contract_present": true,
+    "gate": {
+      "status": "rejected",
+      "violated_constraints": [
+        "Operator intervention required; no automatic actuation"
+      ],
+      "applied_values": {}
+    },
+    "applied": false
+  },
+  "jev": {
+    "job_status": "complete",
+    "record_status": "complete",
+    "error": null,
+    "plan_source": "model_selected_sop",
+    "recommendation_count": 3,
+    "operator_required": true,
+    "episode_status": "escalate",
+    "contract_present": true,
+    "gate": {
+      "status": "rejected",
+      "violated_constraints": [
+        "Operator intervention required; no automatic actuation"
+      ],
+      "applied_values": {}
+    },
+    "applied": false
+  }
+}

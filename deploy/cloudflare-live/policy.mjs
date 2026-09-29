@@ -8,7 +8,13 @@ export function jevRequest(body){
   if(!body.state||typeof body.state!=='object'||Array.isArray(body.state)||question?.type!=='choice'||typeof question.instructions!=='string') throw new Error('Invalid Jev decision');
   const criteria=question.criteria;
   if(!criteria||typeof criteria!=='object'||Array.isArray(criteria)||Object.keys(criteria).length<2||Object.keys(criteria).length>30||Object.values(criteria).some(v=>typeof v!=='string'||v.length>500)) throw new Error('Invalid candidates');
-  return {model:'typesafe/jev-1.13',state:body.state,questions:{response:{type:'choice',instructions:question.instructions,criteria}}};
+  const questions={response:{type:'choice',instructions:question.instructions,criteria}};
+  const plan=body.questions.operator_response;
+  if(plan!==undefined){
+    if(plan?.type!=='choice'||typeof plan.instructions!=='string'||plan.instructions.length>2000||!plan.criteria||Object.keys(plan.criteria).sort().join(',')!=='not_required,required_plan'||Object.values(plan.criteria).some(v=>typeof v!=='string'||v.length>12000)) throw new Error('Invalid operator plan');
+    questions.operator_response={type:'choice',instructions:plan.instructions,criteria:plan.criteria};
+  }
+  return {model:'typesafe/jev-1.13',state:body.state,questions};
 }
 export async function forwardRequest(request){
   const url=new URL(request.url),headers=new Headers(request.headers);

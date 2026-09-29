@@ -7,4 +7,4 @@
 **/dist-hosted
 artifacts
 exports
-.env
+.env*

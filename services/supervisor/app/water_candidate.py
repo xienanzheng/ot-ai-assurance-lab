@@ -6,12 +6,11 @@ from pathlib import Path
 from time import perf_counter
 import httpx
 from shared.water_study_provenance import evaluation_identity,sha256
-from scripts.water_alarm_server import model_id
 from shared.models import ControlProposal,SetpointChanges
 from .water_alarm import build_payload,validate_response
 from .agent_audit import create_audit,update_audit
 
-ROOT=Path(__file__).resolve().parents[3]
+ROOT=next((p for p in Path(__file__).resolve().parents if (p/"shared").is_dir()), Path("/app"))
 REVISION='4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25'
 ENDPOINT='http://127.0.0.1:18784'
 
@@ -69,6 +68,7 @@ async def status():
 
 
 async def propose(context):
+    from scripts.water_alarm_server import model_id
     report=approval()
     payload=build_payload(context['plant'],context['plc']['setpoints'],context['plc'].get('control_state',{}))
     request={'model':model_id(report['evaluation_identity']),'messages':payload['messages'],'temperature':0,'max_tokens':256,

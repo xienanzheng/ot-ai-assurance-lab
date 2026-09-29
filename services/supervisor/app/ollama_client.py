@@ -103,6 +103,9 @@ class OllamaSupervisor:
                 {"role": "user", "content": json.dumps(compact_state, separators=(",", ":"))},
             ],
         }
+        from shared.water_escalation import operator_plan, intervention_required
+        payload["_operator_plan"] = operator_plan(snapshot.model_dump(mode="json"), control_state, "escalate")
+        payload["_operator_required"] = intervention_required(snapshot.model_dump(mode="json"), control_state)
         payload["_retrieval"] = retrieval
         proposal, audit_id = await self._chat("water", payload, ControlProposal)
         proposal.decision_id = audit_id
@@ -196,7 +199,18 @@ class OllamaSupervisor:
         return proposal
 
     async def _chat(self, domain, payload, schema):
+        plan = payload.pop("_operator_plan", None)
+        operator_required = payload.pop("_operator_required", False)
         payload = apply_profile(payload, domain, self.inference_profile)
+        if plan:
+            from shared.water_escalation import response_contract
+            _, contract = response_contract(plan)
+            payload["format"]["properties"]["operator_response"] = {"anyOf":[contract,{"type":"null"}]} if not operator_required else contract
+            payload["format"].setdefault("required", []).append("operator_response")
+            payload["messages"][0]["content"] += " Also return operator_response using the supplied SOP reference contract. If critical or escalating, return all required plan references, episode_status escalate and no executable changes/actions. Otherwise operator_response may be null. These recommendations require operator intervention; never reset protection."
+            payload["messages"][-1]["content"] += "\nRequired operator plan catalog: " + json.dumps(plan)
+            payload["options"]["num_predict"] = max(768, payload["options"]["num_predict"])
+
         if os.getenv("HOSTED_MODE") == "true":
             payload = {**payload, "model": self.model}
         payload = dict(payload)
@@ -223,10 +237,24 @@ class OllamaSupervisor:
                 response.raise_for_status()
             body = response.json()
             update_audit(audit_id, response=body, latency_seconds=round(perf_counter()-started,3))
+            guidance = None
+            content = body["message"]["content"]
+            if plan:
+                from shared.water_escalation import validate_response
+                decoded = json.loads(content)
+                if not isinstance(decoded, dict): raise ValueError("Expected structured decision object")
+                if "changes" in decoded and not isinstance(decoded["changes"], dict): raise ValueError("Expected structured changes")
+                selected = decoded.pop("operator_response", None)
+                if operator_required or decoded.get("episode_status") == "escalate" or selected is not None:
+                    guidance = validate_response(selected, plan)
+                    if decoded.get("episode_status") != "escalate" or decoded.get("actions") or any(v is not None for v in decoded.get("changes", {}).values()):
+                        raise ValueError("Operator intervention requires escalation without executable actions")
+                content = json.dumps(decoded)
             if self.inference_profile == "fast":
-                proposal = schema.model_validate(normalize_fast_response(body["message"]["content"], payload, domain))
+                proposal = schema.model_validate(normalize_fast_response(content, payload, domain))
             else:
-                proposal = schema.model_validate_json(body["message"]["content"])
+                proposal = schema.model_validate_json(content)
+            if guidance: update_audit(audit_id, operator_response=guidance)
             update_audit(audit_id, status="awaiting_gate", proposal=proposal.model_dump(mode="json"))
             return proposal, audit_id
         except (httpx.HTTPError, KeyError, ValueError) as exc:
