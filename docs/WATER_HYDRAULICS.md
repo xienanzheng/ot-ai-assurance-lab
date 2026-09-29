@@ -1,6 +1,6 @@
 # Water hydraulic response — version 2
 
-Implemented and installed in the local Docker lab on 2026-09-29. These are simulator relationships, not calibrated utility parameters or a transient pressure analysis. No model training or hosted deployment is part of this change.
+Implemented and installed in the local Docker lab on 2026-09-29, then deployed and verified on Cloudflare the same day. These are simulator relationships, not calibrated utility parameters or a transient pressure analysis. No model training or adapter promotion is part of this change.
 
 ## What changed
 
@@ -68,7 +68,7 @@ docker run --rm --network none \
 - Chemical response still uses the existing first-order pH/chlorine updates; coagulation lacks calibrated transport delay. This change tests the existing chlorine lag and flow interlock, rather than claiming a new reaction/transport model.
 - WNTR/dependency warnings about legacy resource loading and curve fitting remain. Existing unrelated grid/nuclear test fixtures also produce Pydantic serialization warnings.
 - Frozen training, development and locked-test artifacts were not regenerated. Their reported scores refer to their original snapshots and source versions. New dynamic experiments must record `water-hydraulics-v2` and SOP 1.1.0; they must not be mixed silently with old trajectories.
-- The local plant and supervisor containers were rebuilt, the web proxy reloaded, and the public-facing local state endpoint confirmed `water-hydraulics-v2`. The supervisor loaded SOP 1.1.0 and the PLC reported an active OPC UA connection. The lab was left paused at minute zero. The public Cloudflare simulator remains on its previous deployment.
+- The local plant and supervisor containers were rebuilt, the web proxy reloaded, and the public-facing local state endpoint confirmed `water-hydraulics-v2`. The supervisor loaded SOP 1.1.0 and the PLC reported an active OPC UA connection. The lab was left paused at minute zero. The same source was subsequently deployed to Cloudflare; see the hosted verification below.
 
 ## Verification result
 
@@ -79,3 +79,21 @@ docker run --rm --network none \
 - Generated SOP book consistency and `git diff --check` passed. Existing dependency/fixture warnings are recorded in the test logs; no test failures remain.
 
 Raw CSV/JSON, PNG/SVG/PDF charts and test logs are kept locally under the ignored `artifacts/water-hydraulics-v2/` directory. The standalone trajectories do not run the PLC or an AI model, so their numbers must not be described as AI recovery results.
+
+## Hosted release verification — 29 September
+
+URL: https://ot-aigent-simulation.night-zone.com
+
+- Source commit: `8c1227c`.
+- Worker version: `bd749930-1af6-4187-97fb-fbea2000b77f`.
+- Container image SHA256: `10f84d4a39c2897f4c89361e694664a25f17258e1a1dad9013795f6ca4dfa59a`.
+- Previous Worker: `7fbe22ee-d512-4888-b786-eee074f48204`; previous container image SHA256: `612086d267b418bf9de0fedae7232279d832df8607f77aa1547920f843770d20`. Restoring a release requires both its Worker and container configuration, not just a Worker rollback.
+- Preflight: 18 hosted policy/demo tests, hosted frontend build and Wrangler production dry run passed.
+- Rollout finished with six healthy available container instances and no reported errors. Admission remains three simultaneous sessions, 20 sessions/day, 10 AI calls/session and 200 AI calls/day. The six-instance infrastructure ceiling is not six admitted visitors.
+- Fresh-session API confirmed `water-hydraulics-v2`, repeated WNTR pressure solves, water stepping, and reachable grid/nuclear state endpoints. Both public pages and their linked JS/CSS assets returned successfully. This was an API/asset check, not a new visual browser review.
+- Pump/closed-valve injection produced zero raw flow and 275.812 kPa upstream/deadhead pressure with the valve actually closed. The difference from the offline 254.2 kPa manual trace follows the injection's 75% minimum pump speed versus 72% in that trace.
+- Qwen and Jev each returned three model-selected SOP 1.1.0 recommendations, `escalate`, operator intervention required, a rejected gate and `applied: false`. Both operator-record application jobs failed with the expected 409 reason. PLC targets remained unchanged.
+- Export worked; the verification session was ended and further access rejected. Three clearly labelled test registrations, without contact consent, were deleted successfully from D1.
+- One initial session hit the old image during rollout and was excluded. A second smoke attempt incorrectly expected the asynchronous apply endpoint to reject synchronously; the test was corrected to poll its job. Neither attempt counted as the final passing run. Their partial evidence remains local.
+
+Sanitized evidence: [hosted verification JSON](evidence/water-hydraulics-hosted-2026-09-29.json). The completed live check covers one critical fault; it is not a new model-quality benchmark, full multi-user load test or safety certification.
