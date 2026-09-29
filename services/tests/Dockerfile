@@ -10,6 +10,7 @@ COPY services /app/services
 COPY tests /app/tests
 COPY scripts /app/scripts
 COPY config /app/config
+COPY docs/PLANT_CONTEXT_BOOK.md /app/docs/PLANT_CONTEXT_BOOK.md
 COPY pyproject.toml /app/pyproject.toml
 ENV PYTHONPATH=/app
 CMD ["pytest", "-q"]

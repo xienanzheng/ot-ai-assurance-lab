@@ -10,6 +10,8 @@ The lab combines a treatment model, WNTR distribution hydraulics, a conceptual p
 
 WaterLab is currently a software-in-the-loop operator-training and control-research twin. It becomes an operational digital twin only after a reviewed physical asset model and read-only utility telemetry are synchronized and calibrated. See the [digital twin benchmark](docs/DIGITAL_TWIN_BENCHMARK.md) for a feature-by-feature comparison with EPA, Bentley, Autodesk, and Siemens approaches.
 
+The [water hydraulic response update](docs/WATER_HYDRAULICS.md) makes manual valve closures and injected equipment faults share the treatment pump/resistance calculation. It includes reproducible pressure, flow, storage and chemical-response trajectories, with explicit model limitations and versioning.
+
 ## Model switching and gated application
 
 In **AI decisions**, select **Qwen** or **Jev** for the next analysis. Switching preserves the plant and decision history. **Apply approved targets** runs the independent gate before changing simulated setpoints; the HMI reflects those targets. A five-simulated-minute lease returns prior targets without rewinding process measurements. Advance the simulation to observe the response.

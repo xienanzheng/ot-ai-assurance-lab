@@ -1,6 +1,6 @@
 # Plant SOP and context book
 
-Version 1.0.1 · Water / Nuclear / Power grid
+Version 1.1.0 · Water / Nuclear / Power grid
 
 This book describes the simulation lab. Procedures are grounded in simulator code and have not been validated as operating procedures for a physical facility.
 
@@ -37,7 +37,7 @@ This is the evidence contract for implementation and review; fields must not be 
 
 For a first-order update `y += alpha * (target - y)`, one time constant is `-1 / log(1 - alpha)` simulation steps: approximately 63% of a fixed step response. It is not full settling. Roughly three time constants reach 95% only under an unchanged target and an ideal, undisturbed first-order model.
 
-Storage follows net inflow minus outflow; its response cannot be inferred from valve position alone. Water valves travel at up to 12 percentage points per simulated minute; hydraulic calculations refresh every five simulated minutes. Coagulation calculations currently lack a calibrated transport-delay model.
+Storage follows net inflow minus outflow; its response cannot be inferred from valve position alone. Water valves travel at up to 12 percentage points per simulated minute; hydraulic calculations refresh every simulated minute. The pressure review floor remains five minutes. Coagulation calculations currently lack a calibrated transport-delay model.
 
 The timing helper uses conservative review floors and a bounded lease. Manual single analyses and feedback-loop leases can differ; inspect the actual recorded lease. Simulator tuning and disturbances affect response. Regression slopes describe observed trends and do not prove causation.
 
@@ -114,6 +114,7 @@ The timing helper uses conservative review floors and a bounded lease. Manual si
 2. Inspect level slope, usable storage, inflow, delivered flow and valve feedback.
 3. Observe at least 15 simulated minutes for storage adjustments, unless protection requires immediate operator intervention.
 4. Valve travel is capped at 12 percentage points per minute. Confirm feedback before interpreting level response.
+5. Closing the treatment outlet reduces clearwell inflow; the separate high-lift pump can continue drawing stored water. Monitor depletion rather than assuming distribution immediately stops.
 
 **Escalate:** Required measurements are missing or unreliable. Independent protection is active, a prerequisite fails, or the observed response worsens.
 
@@ -131,7 +132,9 @@ The timing helper uses conservative review floors and a bounded lease. Manual si
 
 1. Check all zones and storage before raising pressure or restricting flow.
 2. Use equal service priority for equal physical needs. Never close the last supply path.
-3. Hydraulics refresh every 5 simulated minutes; wait for that update before another pressure adjustment.
+3. Hydraulics refresh every simulated minute. Keep the minimum 5-minute pressure review window and wait for valve travel before another adjustment.
+4. Closing the treatment outlet reduces flow and raises upstream pressure toward the pump shutoff head. No flow with a running pump requires operator review; pressure does not grow indefinitely with time.
+5. Check upstream and downstream pressures separately. Filter differential pressure changes with flow and does not by itself measure accumulated fouling.
 
 **Escalate:** Required measurements are missing or unreliable. Independent protection is active, a prerequisite fails, or the observed response worsens.
 
