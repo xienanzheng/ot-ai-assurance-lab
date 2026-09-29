@@ -25,6 +25,13 @@ def update_audit(identifier, **changes):
         record = db.get(AgentAuditRecord, identifier)
         if record:
             record.payload = {**record.payload, **deepcopy(changes)}
+            if record.payload.get("domain") == "water" and not record.payload.get("operator_response"):
+                from shared.water_escalation import operator_plan
+                before=record.payload.get("before") or {}
+                plan=operator_plan(before.get("plant", {}), before.get("plc", {}).get("control_state"),
+                    (record.payload.get("proposal") or {}).get("episode_status"))
+                if plan:
+                    record.payload={**record.payload,"operator_response":plan}
             from .lesson_memory import archive
             archive(db, record.payload)
             db.commit()

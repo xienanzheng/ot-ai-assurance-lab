@@ -74,3 +74,11 @@ test('Jev requests pin the provider and reject unrestricted questions',()=>{
   assert.throws(()=>jevRequest({...input,questions:{response:{type:'text'}}}));
   assert.throws(()=>jevRequest({...input,state:'x'.repeat(50001)}));
 });
+
+test('Jev operator response survives the hosted adapter',()=>{
+  const response={type:'choice',instructions:'Choose',criteria:{hold:'Hold',review:'Review'}};
+  const operator_response={type:'choice',instructions:'Select required operator plan',criteria:{required_plan:'SOP plan',not_required:'No escalation'}};
+  const request=jevRequest({state:{},questions:{response,operator_response}});
+  assert.deepEqual(request.questions.operator_response,operator_response);
+  assert.throws(()=>jevRequest({state:{},questions:{response,operator_response:{...operator_response,criteria:{bad:'Unapproved'}}}}));
+});

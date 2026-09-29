@@ -128,7 +128,8 @@ services:
   web:
     restart: unless-stopped
     build:
-      context: services/web
+      context: .
+      dockerfile: services/web/Dockerfile
     ports:
       - "127.0.0.1:18780:80"
     networks:

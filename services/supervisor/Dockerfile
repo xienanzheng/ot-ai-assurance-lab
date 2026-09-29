@@ -6,6 +6,7 @@ COPY services/supervisor/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 COPY shared /app/shared
 COPY services/supervisor/app /app/app
+COPY services/supervisor/app/plant_sops.json /app/services/supervisor/app/plant_sops.json
 COPY services/plc_control/app /app/plc_app
 COPY services/infrastructure_sim/app /app/infra_app
 COPY services/plant_sim/app/scenarios.py /app/plant_scenarios.py
