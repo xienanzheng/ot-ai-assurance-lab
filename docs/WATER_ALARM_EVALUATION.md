@@ -1,6 +1,6 @@
 # Water alarm candidate: protocol and current evidence
 
-**Status, 27 September 2026:** no water alarm adapter is approved. Current Qwen and the hosted deployment remain unchanged. The corrected `water-alarms-v2` study has resumed at the user’s request from 112 preserved baseline validation responses. All 44 Jev review candidates were rechecked against the scenario rules and already occur in the balanced training set. They are cross-check evidence, not additional duplicated samples or imported confidence targets. The new local comparison is disabled until a complete passing report and matching loopback service exist.
+**Status, 28 September 2026:** version 2 completed and remains **unapproved**. The locked test recorded 995/1,000 valid responses, 477/500 full critical escalations, 631/1,000 supported assessments, 239/500 correct noncritical decisions and two fabricated references. Current Qwen and the hosted model selection remain unchanged. The local candidate comparison stays disabled until a complete passing report and matching loopback service exist. A separate [context and QLoRA development pilot](WATER_CONTEXT_STUDY.md) uses fresh episode seeds without changing the paper's evidence or reopening the old locked test for selection.
 
 ## What changed
 
@@ -83,7 +83,7 @@ Then open **Local AI agents → Water agent → Compare water alarm candidate**.
 - Browser checks with intercepted fixtures confirmed unavailable candidates are disabled, available fixtures enable comparison, escalation/evidence render, and shadow application stays disabled. These are UI tests, not evidence of a qualified model.
 - Episode tests confirm a critical transition disarms an in-flight proposal, acknowledgement leaves a trip latched, waiting/stale/future-data checks apply, and candidate comparisons preserve plant state and HMI targets.
 
-The model evaluation remains pending; passing software checks does not imply the candidate meets its research acceptance criteria.
+The completed model evaluation failed the critical, reference-grounding, supported-assessment and noncritical criteria. It passed structured validity and matched latency criteria. Passing software checks does not imply the candidate meets its research acceptance criteria. These benchmark proposals were never sent to plant actuation.
 
 ## Jev review before resuming Qwen
 

@@ -1,6 +1,44 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { jevRequest, actuationGuard, admit, authorize, consumeAI, emptyLedger, modelRequest, modelResponse, HOSTED_MODEL, forwardRequest } from '../deploy/cloudflare-live/policy.mjs';
+import { readFileSync } from 'node:fs';
+import { capacity, jevRequest, actuationGuard, admit, authorize, consumeAI, emptyLedger, modelRequest, modelResponse, HOSTED_MODEL, forwardRequest } from '../deploy/cloudflare-live/policy.mjs';
+
+test('capacity is configured server-side with bounded integers',()=>{
+  assert.deepEqual(capacity(),{active:3,dailySessions:20,sessionAI:10,dailyAI:200});
+  const settings=capacity({LAB_MAX_ACTIVE:'6',LAB_DAILY_SESSIONS:'60',LAB_SESSION_AI:'20',LAB_DAILY_AI:'600'});
+  const ledger=emptyLedger(0);
+  for(let i=0;i<6;i++)assert.equal(admit(ledger,`s${i}`,`c${i}`,0,settings).ok,true);
+  assert.equal(admit(ledger,'s6','c6',0,settings).status,429);
+  for(const bad of ['0','-1','2.5','NaN','Infinity','7','',true])assert.throws(()=>capacity({LAB_MAX_ACTIVE:bad}));
+  assert.throws(()=>capacity({LAB_SESSION_AI:'101'}));
+  assert.throws(()=>capacity({LAB_DAILY_AI:'10001'}));
+});
+test('remaining allowance includes both daily and session budgets, even after config reductions',()=>{
+  const settings=capacity({LAB_SESSION_AI:'20',LAB_DAILY_AI:'21'});
+  const ledger=emptyLedger(0);admit(ledger,'s','c',0,settings);
+  ledger.aiCalls=20;
+  assert.equal(authorize(ledger,'s',0,false,settings).ai_remaining,1);
+  assert.equal(consumeAI(ledger,'c',0,settings).remaining,0);
+  assert.equal(consumeAI(ledger,'c',11000,settings).status,429);
+  assert.equal(authorize(ledger,'s',11000,false,settings).ai_remaining,0);
+  ledger.sessions.s.aiCalls=22;
+  assert.equal(authorize(ledger,'s',12000,false,settings).ai_remaining,0);
+});
+test('container ceiling and configured admission capacity agree',async()=>{
+  const {MAX_CONTAINER_INSTANCES}=await import('../deploy/cloudflare-live/policy.mjs');
+  const config=JSON.parse(readFileSync(new URL('../deploy/cloudflare-live/wrangler.jsonc',import.meta.url),'utf8'));
+  assert.equal(config.containers[0].max_instances,MAX_CONTAINER_INSTANCES);
+  assert.ok(capacity(config.vars).active<=config.containers[0].max_instances);
+});
+test('capacity increase preserves expiry cleanup and failed-call reservations',()=>{
+  const settings=capacity({LAB_MAX_ACTIVE:'6',LAB_SESSION_AI:'20'});
+  const ledger=emptyLedger(0);
+  for(let i=0;i<6;i++)admit(ledger,`s${i}`,`c${i}`,0,settings);
+  assert.equal(consumeAI(ledger,'c0',0,settings).remaining,19);
+  assert.equal(consumeAI(ledger,'c0',1,settings).status,429);
+  assert.equal(ledger.aiCalls,1);
+  assert.equal(admit(ledger,'new','new',1200001,settings).status,429);
+});
 
 test('sessions are separate, expire, and have a global admission limit', () => {
   const ledger=emptyLedger(0);
