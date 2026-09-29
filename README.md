@@ -335,3 +335,5 @@ In **Local AI agents → Observe & adjust**, choose a call budget and start feed
 ### Water critical-alarm candidate (local shadow only)
 
 The [water alarm evaluation protocol and results](docs/WATER_ALARM_EVALUATION.md) documents the completed version-2 benchmark, matched QLoRA experiment, strict approval checks and local comparison workflow. That adapter failed acceptance: **no new adapter is approved or active**. A separate [context and QLoRA development pilot](docs/WATER_CONTEXT_STUDY.md) studies fresh cases, code-assisted context and hosted typed decisions. Critical states require escalation without actuation. Candidate comparison records are permanently shadow-only and cannot change HMI targets. The optional approved service uses loopback port **18784**; it is not exposed in Cloudflare.
+
+Water decision labels and the noncritical adjustment walkthrough: [Water decision outcomes](docs/WATER_DECISION_OUTCOMES.md).

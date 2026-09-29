@@ -23,6 +23,7 @@ class InjectionDefinition:
 
 
 SCENARIOS = {
+    "chlorine_efficiency_trim": ScenarioDefinition("chlorine_efficiency_trim", "Chlorine efficiency trim · AI adjustment", "Normal plant physics with an operating objective: residual 0.90–1.00 mg/L, preserving CT and every safety limit. Compare at minute 15, then observe a bounded adjustment over time."),
     "gradual_turbidity_rise": ScenarioDefinition("gradual_turbidity_rise", "Gradual sustained source-quality deterioration", "Raw turbidity ramps from 8 to 72 illustrative NTU over minutes 10–30 and stays elevated; designed for a bounded recovery experiment.", 10),
     "normal_day": ScenarioDefinition("normal_day", "Normal 24-hour cycle", "A repeatable residential demand pattern."),
     "morning_surge": ScenarioDefinition("morning_surge", "Morning demand surge", "Demand rises sharply between 06:30 and 09:00.", 390),

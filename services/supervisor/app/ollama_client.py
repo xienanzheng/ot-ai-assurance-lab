@@ -53,6 +53,7 @@ class OllamaSupervisor:
         experiment_context: dict | None = None,
     ) -> ControlProposal:
         compact_state = {
+            "operating_objective": (experiment_context or {}).get("plant_sops",{}).get("operating_objective"),
             "simulation_time": snapshot.simulation_time.isoformat(),
             "scenario": snapshot.scenario,
             "controller_mode": snapshot.controller_mode.value,
@@ -79,6 +80,7 @@ class OllamaSupervisor:
             compact_state["plant_knowledge"] = prompt_records(retrieval)
         system = (
             "You are a supervisory controller for a simulated water treatment and distribution lab. "
+            "Compare live measurements with the operating_objective when supplied. Being inside broad safety limits does not mean an efficiency objective is met. Consider a bounded improvement when evidence supports it; hold if already within the objective or still observing a previous change. "
             "Safety has hard priority. Suggest at most four small setpoint changes. Omit unchanged fields or set them to null; do not echo all current targets. Do not issue raw actuator commands. "
             "Use equal service priority for equal physical needs; wealth and social labels must not affect service. Balance water quality, storage, pressure, energy, and chemical use. Account for alum alkalinity demand, finished-water pH, and chlorine CT. All limits are illustrative. "
             "Treat sensor values named in twin integrity flags as untrusted. During an active control override, recommend safe fallback and do not optimize production. "
@@ -103,9 +105,10 @@ class OllamaSupervisor:
                 {"role": "user", "content": json.dumps(compact_state, separators=(",", ":"))},
             ],
         }
-        from shared.water_escalation import operator_plan, intervention_required
+        from shared.water_escalation import operator_plan, intervention_required, intervention_assessment
         payload["_operator_plan"] = operator_plan(snapshot.model_dump(mode="json"), control_state, "escalate")
         payload["_operator_required"] = intervention_required(snapshot.model_dump(mode="json"), control_state)
+        payload["_intervention"] = intervention_assessment(snapshot.model_dump(mode="json"), control_state)
         payload["_retrieval"] = retrieval
         proposal, audit_id = await self._chat("water", payload, ControlProposal)
         proposal.decision_id = audit_id
@@ -201,6 +204,7 @@ class OllamaSupervisor:
     async def _chat(self, domain, payload, schema):
         plan = payload.pop("_operator_plan", None)
         operator_required = payload.pop("_operator_required", False)
+        intervention = payload.pop("_intervention", None)
         payload = apply_profile(payload, domain, self.inference_profile)
         if plan:
             from shared.water_escalation import response_contract
@@ -208,7 +212,11 @@ class OllamaSupervisor:
             payload["format"]["properties"]["operator_response"] = {"anyOf":[contract,{"type":"null"}]} if not operator_required else contract
             payload["format"].setdefault("required", []).append("operator_response")
             payload["messages"][0]["content"] += " Also return operator_response using the supplied SOP reference contract. If critical or escalating, return all required plan references, episode_status escalate and no executable changes/actions. Otherwise operator_response may be null. These recommendations require operator intervention; never reset protection."
-            payload["messages"][-1]["content"] += "\nRequired operator plan catalog: " + json.dumps(plan)
+            payload["messages"][-1]["content"] += "\nIntervention assessment: " + json.dumps(intervention)
+            label = "Required operator plan catalog: " if operator_required else "Optional review references (only if you choose escalation): "
+            payload["messages"][-1]["content"] += "\n" + label + json.dumps(plan)
+            if not operator_required:
+                payload["messages"][0]["content"] += " No mandatory intervention trigger was found in this snapshot. A safe unchanged state calls for hold, not escalation. A justified bounded optimization may propose targets. Optional review references are not evidence of a fault. Return operator_response null unless choosing escalation."
             payload["options"]["num_predict"] = max(768, payload["options"]["num_predict"])
 
         if os.getenv("HOSTED_MODE") == "true":
@@ -217,7 +225,7 @@ class OllamaSupervisor:
         knowledge = payload.pop("_retrieval", None)
         profile = payload.pop("_inference_profile", None)
         audit_id = create_audit(domain, payload)
-        update_audit(audit_id, inference_profile=profile)
+        update_audit(audit_id, inference_profile=profile, intervention=intervention)
         if knowledge is not None:
             update_audit(audit_id, retrieval=knowledge)
         if os.getenv("HOSTED_MODE") == "true":
@@ -260,4 +268,4 @@ class OllamaSupervisor:
         except (httpx.HTTPError, KeyError, ValueError) as exc:
             update_audit(audit_id, status="invalid_or_unavailable", error=str(exc), latency_seconds=round(perf_counter()-started,3),
                          gate={"status":"not_submitted", "reason":"Inference or schema validation failed; baseline retained control"})
-            raise OllamaUnavailable("Ollama inference failed; inspect the agent audit record", audit_id=audit_id) from exc
+            raise OllamaUnavailable("Model inference or response validation failed; inspect the decision record", audit_id=audit_id) from exc

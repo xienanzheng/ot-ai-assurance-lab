@@ -23,9 +23,9 @@ def frozen_gate(domain, context, proposal):
     """Execute the actual gate implementation against detached captured state."""
     plant = context["plant"]
     if domain == "water":
-        from shared.water_escalation import intervention_required
+        from shared.water_escalation import intervention_required, intervention_assessment
         if intervention_required(plant, context.get("plc", {}).get("control_state"), proposal.episode_status):
-            return {"status":"rejected", "violated_constraints":["Operator intervention required; no automatic actuation"], "applied_values":{}}
+            return {"status":"rejected", "violated_constraints":[r["message"] for r in intervention_assessment(plant, context.get("plc", {}).get("control_state"), proposal.episode_status)["reasons"]], "applied_values":{}}
         try:
             from plc_app.controller import BaselineController, SafetyGate
         except ModuleNotFoundError:

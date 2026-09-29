@@ -139,3 +139,47 @@ def test_jev_key_lookup_handles_container_layout(monkeypatch):
     monkeypatch.delenv('OPENROUTER_API_KEY',raising=False)
     monkeypatch.setattr(jev_client,'__file__','/app/app/jev_client.py')
     assert jev_client.local_key() is None
+
+
+def test_unmapped_review_does_not_prescribe_every_plant_sop(safe_snapshot):
+    plan=operator_plan(safe_snapshot.model_dump(mode='json'),episode_status='escalate')
+    assert [a['id'] for a in plan['recommended_actions']]==['verify_protection']
+    assert plan['intervention']['mandatory'] is False
+    assert plan['intervention']['reasons'][0]['kind']=='model_review'
+
+
+def test_trip_reason_and_relevant_sop_survive_alarm_clearance(safe_snapshot):
+    plan=operator_plan(safe_snapshot.model_dump(mode='json'),{'trips':[{'code':'CHLORINE_HIGH','latched':True}]})
+    assert plan['intervention']['mandatory'] is True
+    assert any(r['code']=='CHLORINE_HIGH' for r in plan['intervention']['reasons'])
+    assert {a['id'] for a in plan['recommended_actions']}=={'verify_protection','water.disinfection'}
+
+
+@pytest.mark.parametrize('provider',['qwen','jev'])
+def test_healthy_adjustment_has_no_required_escalation_catalog(provider,monkeypatch,safe_snapshot,audit_database):
+    import json,httpx
+    from services.supervisor.app import ollama_client,jev_client,agent_audit
+    from services.plc_control.app.controller import BaselineController
+    monkeypatch.setenv('HOSTED_MODE','false')
+    monkeypatch.setattr(jev_client,'local_key',lambda:'test-only')
+    real_client=httpx.AsyncClient
+    def handler(request):
+        if request.url.path=='/api/tags':return httpx.Response(200,json={'models':[]})
+        payload=json.loads(request.content)
+        if provider=='jev':
+            assert 'operator_response' not in payload['questions']
+            assert payload['state']['intervention']['mandatory'] is False
+            return httpx.Response(200,json={'answers':{'response':{'choice':'decrease_chlorine_target_mg_l','confidence':.9}}})
+        assert 'Required operator plan catalog:' not in payload['messages'][-1]['content']
+        answer={'actions':[{'target':'chlorine_target_mg_l','value':1.025}], 'confidence':.9,'episode_status':'continue','reason':'Reduce excess residual within the operating objective.','operator_response':None}
+        return httpx.Response(200,json={'message':{'content':json.dumps(answer)}})
+    monkeypatch.setattr(httpx,'AsyncClient',lambda **kw:real_client(transport=httpx.MockTransport(handler),**kw))
+    targets=BaselineController().setpoint_dict()
+    async def run():
+        if provider=='jev':return (await jev_client.propose('water',{'plant':safe_snapshot.model_dump(mode='json'),'plc':{'setpoints':targets}}))[0]
+        worker=ollama_client.OllamaSupervisor();worker.inference_profile='fast';worker.knowledge_mode='off'
+        return await worker.propose(safe_snapshot,targets)
+    proposal=asyncio.run(run())
+    assert proposal.changes.chlorine_target_mg_l==1.025
+    assert proposal.episode_status!='escalate'
+    assert not agent_audit.get_audit(proposal.decision_id).get('operator_response')

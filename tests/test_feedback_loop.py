@@ -115,3 +115,28 @@ def test_start_reserves_supervision_before_waiting_for_context():
         s.context=context
         await f.start('grid',FeedbackRequest())
     asyncio.run(run())
+
+
+def test_operator_review_is_not_reported_as_invalid_decision():
+    async def run():
+        s=Service();f=FeedbackController(s)
+        async def review(*args,**kwargs):
+            assert 'Hold when no adjustment is justified' in kwargs['experiment']['feedback']['policy']
+            return {'id':'review','status':'complete','gate':{'status':'rejected'},'proposal':{'episode_status':'escalate','changes':{}}}
+        s.cycle=review
+        await f.start('water',FeedbackRequest());await f.tick();await s.calls[0]()
+        assert f.state['reason']=='Model requested operator review'
+    asyncio.run(run())
+
+
+def test_failed_inference_record_remains_accessible_from_loop():
+    from services.supervisor.app.ollama_client import OllamaUnavailable
+    async def run():
+        s=Service();f=FeedbackController(s)
+        async def fail(*args,**kwargs):raise OllamaUnavailable('bad JSON',audit_id='failed-record')
+        s.cycle=fail
+        await f.start('water',FeedbackRequest());await f.tick()
+        with pytest.raises(OllamaUnavailable):await s.calls[0]()
+        assert f.state['records']==['failed-record']
+        assert not f.active
+    asyncio.run(run())
