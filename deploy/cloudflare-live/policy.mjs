@@ -1,5 +1,19 @@
 export const HOSTED_MODEL='@cf/qwen/qwen3-30b-a3b-fp8';
 export const SESSION_MS=20*60*1000;
+// Keep the active upper bound aligned with wrangler's max_instances.
+export const MAX_CONTAINER_INSTANCES=6;
+export function capacity(env={}){
+  const number=(name,fallback,max)=>{
+    const raw=env[name]===undefined?fallback:env[name];
+    if(!['number','string'].includes(typeof raw)||!/^\d+$/.test(String(raw))) throw new Error(`Invalid ${name}`);
+    const value=Number(raw);
+    if(!Number.isSafeInteger(value)||value<1||value>max) throw new Error(`Invalid ${name}`);
+    return value;
+  };
+  return {active:number('LAB_MAX_ACTIVE',3,MAX_CONTAINER_INSTANCES),dailySessions:number('LAB_DAILY_SESSIONS',20,500),
+    sessionAI:number('LAB_SESSION_AI',10,100),dailyAI:number('LAB_DAILY_AI',200,10000)};
+}
+function remaining(ledger,session,limits){return Math.max(0,Math.min(limits.sessionAI-session.aiCalls,limits.dailyAI-ledger.aiCalls));}
 // Actuation remains bounded by the independent gate inside each isolated simulator.
 export function actuationGuard(){return null;}
 export function jevRequest(body){
@@ -41,16 +55,17 @@ function daily(ledger,now){
   const day=Math.floor(now/86400000);
   if(ledger.day!==day){ledger.day=day;ledger.created=0;ledger.aiCalls=0;}
 }
-export function admit(ledger,id,containerId,now){
+export function admit(ledger,id,containerId,now,limits=capacity()){
   daily(ledger,now);
-  if(ledger.created>=20) return fail(429,'Daily demo capacity reached. Please return tomorrow (UTC).');
+  if(ledger.created>=limits.dailySessions) return fail(429,'Daily demo capacity reached. Please return tomorrow (UTC).');
   // Expired containers continue occupying capacity until cleanup confirms destruction.
-  if(Object.keys(ledger.sessions).length>=3) return fail(429,'All three labs are in use. Please try again shortly.');
+  if(Object.keys(ledger.sessions).length>=limits.active) return fail(429,'All available labs are in use. Please try again shortly.');
   const session={id,containerId,expires:now+SESSION_MS,aiCalls:0,lastAI:null,window:0,requests:0};
   ledger.sessions[id]=session;ledger.created++;
   return {ok:true,session};
 }
-export function authorize(ledger,id,now,count=false){
+export function authorize(ledger,id,now,count=false,limits=capacity()){
+  daily(ledger,now);
   const session=Object.hasOwn(ledger.sessions,id||'')?ledger.sessions[id]:null;
   if(!session||session.expires<=now) return fail(401,'Session ended. Start a new lab.');
   if(count){
@@ -59,17 +74,17 @@ export function authorize(ledger,id,now,count=false){
     if(session.requests>=180) return fail(429,'Please slow down and retry in a minute.');
     session.requests++;
   }
-  return {ok:true,session};
+  return {ok:true,session,ai_remaining:remaining(ledger,session,limits)};
 }
-export function consumeAI(ledger,containerId,now){
+export function consumeAI(ledger,containerId,now,limits=capacity()){
   daily(ledger,now);
   const session=Object.values(ledger.sessions).find(s=>s.containerId===containerId&&s.expires>now);
   if(!session) return fail(401,'No active inference session.');
-  if(ledger.aiCalls>=200||session.aiCalls>=10) return fail(429,'AI allowance reached. Rule-based simulation remains available.');
+  if(ledger.aiCalls>=limits.dailyAI||session.aiCalls>=limits.sessionAI) return fail(429,'AI allowance reached. Rule-based simulation remains available.');
   if(session.lastAI!==null&&now-session.lastAI<10000) return fail(429,'Wait ten seconds between AI calls.');
   // Reserve before invoking the model: failed calls still count toward spend limits.
   ledger.aiCalls++;session.aiCalls++;session.lastAI=now;
-  return {ok:true,remaining:10-session.aiCalls};
+  return {ok:true,remaining:remaining(ledger,session,limits)};
 }
 export function modelRequest(body){
   if(!Array.isArray(body.messages)||body.messages.length<1||body.messages.length>10) throw new Error('Invalid messages');

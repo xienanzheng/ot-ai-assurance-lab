@@ -30,9 +30,9 @@ CRITICAL=list(BANDS)+['CLEARWELL_OVERFLOW','NAOH_FEED_FAILURE','MODEL_SENSOR_MIS
  'ALUM_DAY_TANK_LOW','NAOH_DAY_TANK_LOW','HYPOCHLORITE_DAY_TANK_LOW']
 
 
-def case(index,split):
+def case(index,split,*,seed_offset=0,episode_count=None,critical_fraction=None):
     # Every case belongs to a distinct episode; no adjacent snapshots cross splits.
-    seed={'train':100000,'valid':200000,'test':300000}[split]+index
+    seed=seed_offset+{'train':100000,'valid':200000,'test':300000}[split]+index
     rng=random.Random(seed)
     sim=WaterPlantSimulator(seed=seed)
     sim.advance(rng.randint(1,3))
@@ -54,8 +54,8 @@ def case(index,split):
     snapshot.sensors['chlorine_residual_mg_l'].value=targets['chlorine_target_mg_l']
     snapshot.sensors['chlorine_model_estimate_mg_l'].value=targets['chlorine_target_mg_l']
     controls=controller.status()
-    count={'train':2000,'valid':400,'test':1000}[split]
-    critical_count=count//2 if split=='test' else count*2//5
+    count=episode_count or {'train':2000,'valid':400,'test':1000}[split]
+    critical_count=int(count*critical_fraction) if critical_fraction is not None else (count//2 if split=='test' else count*2//5)
     kind='critical' if index<critical_count else ['prerequisite','hold','adjust'][(index-critical_count)%3]
     expected={'disposition':'escalate' if kind in {'critical','prerequisite'} else 'continue',
               'kind':kind,'required_alarm_codes':[],'required_sensor_groups':[],'required_checks':[], 'allowed_actions':[]}

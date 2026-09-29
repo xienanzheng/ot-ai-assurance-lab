@@ -1,7 +1,7 @@
 import { visitors, registered } from './visitors.mjs';
 import { Container, ContainerProxy } from '@cloudflare/containers';
 import { DurableObject } from 'cloudflare:workers';
-import { admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
+import { capacity, admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
 export { ContainerProxy };
 
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
@@ -66,11 +66,11 @@ export class SessionRegistry extends DurableObject {
   }
   async create(){
     const id=crypto.randomUUID(),containerId=this.env.LABS.idFromName(id).toString();
-    const result=await this.mutate(ledger=>admit(ledger,id,containerId,Date.now()));
+    const result=await this.mutate(ledger=>admit(ledger,id,containerId,Date.now(),capacity(this.env)));
     if(result.ok&&await this.ctx.storage.getAlarm()===null) await this.ctx.storage.setAlarm(Date.now()+60000);
     return result;
   }
-  async check(id,count=false){return this.mutate(ledger=>authorize(ledger,id,Date.now(),count));}
+  async check(id,count=false){return this.mutate(ledger=>authorize(ledger,id,Date.now(),count,capacity(this.env)));}
   async modelReady(){
     // One cheap probe, cached, and deliberately outside the visitor's AI allowance.
     const cached=await this.ctx.storage.get('modelProbe');
@@ -82,7 +82,7 @@ export class SessionRegistry extends DurableObject {
     await this.ctx.storage.put('modelProbe',{ok,expires:Date.now()+(ok?3600000:120000)});
     return ok;
   }
-  async reserveAI(containerId){return this.mutate(ledger=>consumeAI(ledger,containerId,Date.now()));}
+  async reserveAI(containerId){return this.mutate(ledger=>consumeAI(ledger,containerId,Date.now(),capacity(this.env)));}
   async end(id){
     const result=await this.mutate(ledger=>{
       if(!Object.hasOwn(ledger.sessions,id)) return {ok:false};
@@ -115,7 +115,7 @@ export default {
       const id=cookie(request);
       if(request.method==='GET'){
         const result=await registry(env).check(id);
-        return json(result.ok?{active:true,expires:result.session.expires,ai_remaining:10-result.session.aiCalls,model:HOSTED_MODEL}:{active:false});
+        return json(result.ok?{active:true,expires:result.session.expires,ai_remaining:result.ai_remaining,model:HOSTED_MODEL}:{active:false});
       }
       if(request.method==='DELETE'){if(id) await registry(env).end(id);return json({active:false});}
       if(request.method!=='POST') return json({detail:'Method not allowed'},405);
