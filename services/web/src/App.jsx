@@ -111,8 +111,7 @@ function Header({ plant, activeTab, setActiveTab, connection }) {
     </header>
     {activeTab !== "research" && <div className={`alarm-strip ${plant?.safety_state || "normal"}`}>
       <Icon name={plant?.safety_state === "normal" ? "shield" : "alert"} />
-      <span>{plant?.safety_state === "normal" ? "All monitored values are inside the illustrative safety envelope" : `${(plant?.active_alarms || plant?.alarms || []).length} active alarm${(plant?.active_alarms || plant?.alarms || []).length === 1 ? "" : "s"}`}</span>
-      <small>Values shown here are for simulation and research only</small>
+      <span>{plant?.safety_state === "normal" ? "Monitored values within operating limits" : `${(plant?.active_alarms || plant?.alarms || []).length} active alarm${(plant?.active_alarms || plant?.alarms || []).length === 1 ? "" : "s"}`}</span>
     </div>}
   </>;
 }
@@ -196,7 +195,7 @@ function ChemicalPanel({ plant }) {
   return <div className="hmi-panel chemical-panel"><h2>Chemical feed train <span>3</span></h2>
     <div className={`chemical-proof ${flowProof ? "proved" : "blocked"}`}><i /><span>Treatment flow permissive</span><strong>{flowProof ? "PROVED" : "FEED INHIBITED"}</strong></div>
     {feeds.map((feed) => <div className={`chemical-feed-row ${feed.state}`} key={feed.tag}><i /><div><strong>{feed.name}</strong><small>{feed.tag} · {feed.detail}</small></div><b>{fmt(feed.command, 2)} <small>mg/L</small></b></div>)}
-    <div className="contact-card"><span>Clearwell contact calculation</span><strong>{fmt(value(plant, "chlorine_contact_time_min"), 0)} min <small>T10 estimate</small></strong><strong>{fmt(value(plant, "chlorine_ct_mg_min_l"), 0)} <small>mg-min/L CT</small></strong><p>Uses active volume, current flow, and a 0.30 illustrative baffling factor. It is not a compliance result.</p></div>
+    <div className="contact-card"><span>Clearwell contact calculation</span><strong>{fmt(value(plant, "chlorine_contact_time_min"), 0)} min <small>T10 estimate</small></strong><strong>{fmt(value(plant, "chlorine_ct_mg_min_l"), 0)} <small>mg-min/L CT</small></strong><p>Calculated from active volume, current flow and a 0.30 baffling factor.</p></div>
   </div>;
 }
 
@@ -243,7 +242,7 @@ function FaultInjectionPanel({ definitions, active, onInject, onClear }) {
     try { await onInject(definition.id, definition.default_duration_minutes); } finally { setPending(""); }
   };
   return <section className="fault-lab">
-    <div className="fault-heading"><div><span className="section-kicker">Isolated simulation only</span><h2>Attack and hazard injection</h2><p>Press an exercise to override simulated field behavior. The plant starts automatically so you can watch the consequence and protection response.</p></div>{active?.length > 0 && <button className="clear-faults" onClick={onClear}>Clear all injections</button>}</div>
+    <div className="fault-heading"><div><span className="section-kicker">Scenario controls</span><h2>Attack and hazard injection</h2><p>Choose a fault to start the plant and observe its response.</p></div>{active?.length > 0 && <button className="clear-faults" onClick={onClear}>Clear all injections</button>}</div>
     <div className="fault-grid">{definitions.map((definition) => {
       const isActive = active?.includes(definition.id);
       return <button className={`fault-card ${isActive ? "active" : ""}`} key={definition.id} onClick={() => trigger(definition)} disabled={pending === definition.id}>

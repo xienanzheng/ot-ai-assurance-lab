@@ -104,14 +104,14 @@ function ProcedurePanel({ procedures = [] }) {
 
 function ModelHealth({ health = {} }) {
   const items = [["Steam balance", health.steam_balance_error_pct, "% error"], ["Mass imbalance", health.secondary_mass_imbalance_pct, "%"], ["SG level spread", health.steam_generator_level_spread_pct, "%"], ["Pressure trip margin", health.primary_pressure_trip_margin_mpa, "MPa"], ["Feed pump efficiency", health.feedwater_pump_efficiency_pct, "%"], ["RCP bearing health", health.rcp_bearing_health_pct, "%"]];
-  return <section className="infra-card model-health-card"><div className="infra-card-title"><span>Model and equipment health</span><StatePill state={health.status === "healthy" ? "normal" : "warning"}>{health.status || "waiting"}</StatePill></div><div className="health-grid">{items.map(([name, value, unit]) => <div key={name}><span>{name}</span><strong>{fmt(value, 2)} <small>{unit}</small></strong></div>)}</div><p>{health.fidelity || "Reduced-order model"}. Values are illustrative.</p></section>;
+  return <section className="infra-card model-health-card"><div className="infra-card-title"><span>Model and equipment health</span><StatePill state={health.status === "healthy" ? "normal" : "warning"}>{health.status || "waiting"}</StatePill></div><div className="health-grid">{items.map(([name, value, unit]) => <div key={name}><span>{name}</span><strong>{fmt(value, 2)} <small>{unit}</small></strong></div>)}</div></section>;
 }
 
 function TuningPanel({ tuning = {}, onTune }) {
   const [preset, setPreset] = React.useState(tuning.preset || "nominal");
   React.useEffect(() => setPreset(tuning.preset || "nominal"), [tuning.preset]);
   const submit = (next) => { setPreset(next); onTune({ preset: next }); };
-  return <section className="infra-card tuning-card"><div className="infra-card-title"><span>Reduced-order response tuning</span><b>4 gains</b></div><label>Preset<select value={preset} onChange={(event) => submit(event.target.value)}><option value="nominal">Nominal</option><option value="slow_thermal">Slow thermal response</option><option value="high_inertia">High system inertia</option><option value="degraded_heat_transfer">Degraded heat transfer</option></select></label><div className="gain-grid"><span>Thermal <b>{fmt(tuning.thermal_response, 2)}</b></span><span>Pressure <b>{fmt(tuning.pressure_response, 2)}</b></span><span>Inventory <b>{fmt(tuning.inventory_response, 2)}</b></span><span>Condenser <b>{fmt(tuning.condenser_response, 2)}</b></span></div><p>Presets adjust response speed for research exercises. They are not plant coefficients.</p></section>;
+  return <section className="infra-card tuning-card"><div className="infra-card-title"><span>Response tuning</span><b>4 gains</b></div><label>Preset<select value={preset} onChange={(event) => submit(event.target.value)}><option value="nominal">Nominal</option><option value="slow_thermal">Slow thermal response</option><option value="high_inertia">High system inertia</option><option value="degraded_heat_transfer">Degraded heat transfer</option></select></label><div className="gain-grid"><span>Thermal <b>{fmt(tuning.thermal_response, 2)}</b></span><span>Pressure <b>{fmt(tuning.pressure_response, 2)}</b></span><span>Inventory <b>{fmt(tuning.inventory_response, 2)}</b></span><span>Condenser <b>{fmt(tuning.condenser_response, 2)}</b></span></div><p>Adjust thermal, pressure, inventory and condenser response.</p></section>;
 }
 
 function AlarmTimeline({ events = [] }) {
@@ -132,7 +132,6 @@ function NuclearRoom({ state, scenarios, onCommand, onManual, onAi, onTune }) {
     <section className="nuclear-diagnostics-grid"><ModelHealth health={state?.model_health} /><TuningPanel tuning={state?.tuning} onTune={onTune} /><AlarmTimeline events={state?.alarm_timeline} /></section>
     <OperationsPanel domain="nuclear" />
     <IOChannels inputs={state?.input_channels} outputs={state?.output_channels} />
-    <p className="model-note">{state?.note}</p>
   </main>;
 }
 
@@ -167,7 +166,6 @@ function GridRoom({ state, scenarios, onCommand, onManual, onAi }) {
     <div className="infra-lower"><GridControls state={state} onManual={onManual} /><AiPanel state={state} boundary="AI may optimize generator dispatch, battery power, demand response, transformer taps and reactive support. Breaker protection remains deterministic or operator-confirmed." /><AlarmPanel alarms={state?.alarms} /></div>
     <OperationsPanel domain="grid" />
     <IOChannels inputs={state?.input_channels} outputs={state?.output_channels} />
-    <p className="model-note">{state?.note}</p>
   </main>;
 }
 
