@@ -6,6 +6,8 @@ The `deploy/cloudflare-live` package runs the simulator on Cloudflare Containers
 
 Production acceptance results are recorded in [18 September verification](VERIFICATION_2026_09_18.md).
 
+The [29 September hydraulic release](WATER_HYDRAULICS.md#hosted-release-verification--29-september) is deployed with `water-hydraulics-v2` and SOP 1.1.0. A fresh hosted session verified Qwen/Jev operator guidance and rejected critical-state actuation. Admission and AI-call allowances remain unchanged.
+
 ## Online versus offline
 
 | | Local lab | Public hosted sandbox |
