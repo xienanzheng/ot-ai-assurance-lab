@@ -31,7 +31,7 @@ def render():
               'This is the evidence contract for implementation and review; fields must not be fabricated when unavailable.', '',
               '## Response timing', '',
               'For a first-order update `y += alpha * (target - y)`, one time constant is `-1 / log(1 - alpha)` simulation steps: approximately 63% of a fixed step response. It is not full settling. Roughly three time constants reach 95% only under an unchanged target and an ideal, undisturbed first-order model.', '',
-              'Storage follows net inflow minus outflow; its response cannot be inferred from valve position alone. Water valves travel at up to 12 percentage points per simulated minute; hydraulic calculations refresh every five simulated minutes. Coagulation calculations currently lack a calibrated transport-delay model.', '',
+              'Storage follows net inflow minus outflow; its response cannot be inferred from valve position alone. Water valves travel at up to 12 percentage points per simulated minute; hydraulic calculations refresh every simulated minute. The pressure review floor remains five minutes. Coagulation calculations currently lack a calibrated transport-delay model.', '',
               'The timing helper uses conservative review floors and a bounded lease. Manual single analyses and feedback-loop leases can differ; inspect the actual recorded lease. Simulator tuning and disturbances affect response. Regression slopes describe observed trends and do not prove causation.', '',
               '## Procedures', '']
     for p in book['procedures']:
