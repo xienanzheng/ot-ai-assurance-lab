@@ -68,6 +68,7 @@ async def propose(domain, context, experiment_context=None):
     options=candidates(domain,context)
     plant=context['plant']
     state={k:plant[k] for k in ['simulation_time','scenario','controller_mode','safety_state','emergency_stop','active_injections','sensors','equipment','active_alarms','alarms','twin_health','model_health'] if k in plant}
+    state['operating_objective']=(experiment_context or {}).get('plant_sops',{}).get('operating_objective')
     state['research_context']=experiment_context or {}
     state['recent_trends']=plant.get('recent_trends') or {k:v[-12:] for k,v in plant.get('history',{}).items() if isinstance(v,list)}
     state['prior_decision']=plant.get('ai_decision')
@@ -75,16 +76,18 @@ async def propose(domain, context, experiment_context=None):
     state['control_state']=context.get('plc',{}).get('control_state',{})
     state['candidate_controls']=options
     payload={'model':MODEL,'state':state,'questions':{'response':{'type':'choice',
-        'instructions':'The supplied SOPs are context, not authority. Observe the stated waiting period after a prior applied action; do not repeatedly adjust before response. Select one bounded supervisory action for this simulated '+domain+' plant. Safety first. Use measured quality and trends. If measurements are untrusted, plant critical, or an action conflicts with protections, choose review. Choose hold if no adjustment is justified. Descriptions are candidates, not evidence they will work. No direct actuator authority.',
+        'instructions':'The supplied SOPs are context, not authority. Observe the stated waiting period after a prior applied action; do not repeatedly adjust before response. Select one bounded supervisory action for this simulated '+domain+' plant. Safety first. Use measured quality and trends. If measurements are untrusted, plant critical, or an action conflicts with protections, choose review. Compare live readings with the operating_objective if supplied; broad safety limits are not the optimization objective. Choose hold if the objective is met, no bounded improvement is justified, or a previous adjustment is still being observed. Descriptions are candidates, not evidence they will work. No direct actuator authority.',
         'criteria':{k:v['description'] for k,v in options.items()}}}}
     plan = None
     if domain == 'water':
-        from shared.water_escalation import operator_plan, intervention_required
-        plan = operator_plan(plant, state['control_state'], 'escalate')
-        state['operator_plan_catalog'] = plan
-        payload['questions']['operator_response'] = {'type':'choice',
-            'instructions':'Select required_plan when choosing review or when any critical alarm, trip, stop or override requires intervention. Otherwise select not_required. This is a required structured recommendation selection, not permission to actuate.',
-            'criteria':{'required_plan':json.dumps(plan), 'not_required':'No escalation or operator intervention required.'}}
+        from shared.water_escalation import operator_plan, intervention_assessment
+        state['intervention'] = intervention_assessment(plant, state['control_state'])
+        if state['intervention']['mandatory']:
+            plan = operator_plan(plant, state['control_state'])
+            state['operator_plan_catalog'] = plan
+            payload['questions']['operator_response'] = {'type':'choice',
+                'instructions':'Protection requires review without executable actions. Select required_plan to reference the supplied operator checks.',
+                'criteria':{'required_plan':json.dumps(plan), 'not_required':'No operator recommendations selected.'}}
     identifier=create_audit(domain,payload)
     update_audit(identifier,provider='jev',model_name=MODEL,candidates=options,provenance='OpenRouter hosted Jev',
         interpretation='Jev selects a code-defined candidate. The adapter description is not model reasoning. Choice probabilities are not calibrated safety scores.')
@@ -106,15 +109,18 @@ async def propose(domain, context, experiment_context=None):
         if domain=='water':
             proposal.decision_id=identifier
             selected=result.get('answers',{}).get('operator_response',{}).get('choice')
-            required=intervention_required(plant,state['control_state']) or choice=='review'
-            if selected not in {'required_plan','not_required'} or (required and selected!='required_plan'):
-                raise ValueError('Jev omitted the required operator response')
-            if selected=='required_plan':
+            if plan:
+                if selected!='required_plan':raise ValueError('Jev omitted the required operator response')
                 if choice!='review':raise ValueError('Operator intervention requires review without executable actions')
                 from shared.water_escalation import response_contract,validate_response
                 proposal.episode_status='escalate'
                 value,_=response_contract(plan)
                 update_audit(identifier,operator_response=validate_response(value,plan))
+            elif choice=='review':
+                proposal.episode_status='escalate'
+                # Model selected review, but did not select these individual checks.
+                update_audit(identifier,operator_response=operator_plan(plant,state['control_state'],'escalate'))
+            update_audit(identifier,intervention=intervention_assessment(plant,state['control_state'],proposal.episode_status))
         else: proposal._audit_id=identifier
         update_audit(identifier,selected_candidate=choice,status='proposed')
         return proposal,identifier

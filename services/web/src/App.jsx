@@ -1,3 +1,4 @@
+import { readCatalog } from "./readCatalog.mjs";
 import React from "react";
 import { HOSTED, HOSTED_MODEL } from "./HostedSession";
 import ResearchDashboard from "./ResearchDashboard";
@@ -421,7 +422,7 @@ export default function App() {
   const refreshRuns = React.useCallback(() => api("/api/v1/runs").then(setRuns).catch(() => {}), []);
   React.useEffect(() => {
     api("/api/v1/state").then(setData).catch(() => {});
-    api("/api/v1/scenarios").then(setScenarios).catch(() => {});
+    readCatalog(() => api("/api/v1/scenarios")).then(setScenarios).catch(() => setError("Scenario list could not load. Refresh to retry."));
     api("/api/v1/injections").then((result) => setInjections(result.definitions || [])).catch(() => {});
     refreshRuns();
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
@@ -445,7 +446,7 @@ export default function App() {
   const refreshInfrastructure = React.useCallback(() => api("/api/v1/infrastructure/state").then((next) => { setInfrastructure(next); setInfraConnection("live"); }).catch(() => setInfraConnection("reconnecting")), []);
   React.useEffect(() => {
     refreshInfrastructure();
-    api("/api/v1/infrastructure/scenarios").then(setInfrastructureScenarios).catch(() => {});
+    readCatalog(() => api("/api/v1/infrastructure/scenarios")).then(setInfrastructureScenarios).catch(() => setError("Infrastructure scenario list could not load. Refresh to retry."));
     const timer = window.setInterval(refreshInfrastructure, 4000);
     return () => window.clearInterval(timer);
   }, [refreshInfrastructure]);
@@ -528,7 +529,7 @@ export default function App() {
     {activeTab === "walkthrough" && <Walkthrough domain={walkDomain} setDomain={setWalkDomain} chapter={chapter} setChapter={setChapter} evidence={walkEvidence} setEvidence={setWalkEvidence} water={data?.plant} infrastructure={infrastructure} onOpen={openWorkspace} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
     {activeTab === "research" && <ResearchDashboard />}
     {activeTab === "agents" && <AgentResearchRoom domain={agentDomain} setDomain={next=>{setAgentDomain(next);setAgentRecordId(null);}} initialRecordId={agentRecordId} plant={activePlant} />}
-    {activeTab === "training" && <TrainingRoom domain={trainingDomain} onDomainChange={setTrainingDomain} water={data?.plant} infrastructure={infrastructure} scenarios={scenarios} infrastructureScenarios={infrastructureScenarios} onOpenRoom={setActiveTab} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
+    {activeTab === "training" && <TrainingRoom domain={trainingDomain} onDomainChange={setTrainingDomain} water={data?.plant} infrastructure={infrastructure} scenarios={scenarios} infrastructureScenarios={infrastructureScenarios} onOpenRoom={setActiveTab} onOpenAgents={domain=>openWorkspace("agents",domain)} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
     {activeTab === "overview" && <Overview data={data} />}
     {activeTab === "hmi" && <Hmi plant={data?.plant} plc={data?.plc} onManual={manual} onResetTrips={resetTrips} injections={injections} onInject={injectFault} onClearInjections={clearInjections} />}
     {activeTab === "nuclear" && <NuclearRoom state={infrastructure.nuclear} scenarios={infrastructureScenarios.nuclear} onCommand={uiAction((action, options) => infrastructureCommand("nuclear", action, options))} onManual={uiAction(infrastructureManual)} onAi={uiAction(infrastructureAi)} onTune={uiAction(infrastructureTuning)} />}

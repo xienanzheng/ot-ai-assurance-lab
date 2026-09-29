@@ -1,4 +1,5 @@
 import React from "react";
+import { decisionOutcome } from "./decisionOutcome.mjs";
 import { HOSTED } from "./HostedSession";
 
 async function api(path, payload, signal) {
@@ -21,16 +22,19 @@ function JsonEvidence({ title, value, open=false }) {
 }
 
 function DecisionSummary({ record }) {
+  const outcome=decisionOutcome(record);
+  const intervention=record.operator_response?.intervention || record.intervention;
   const changes=Object.entries(record.proposal?.changes||{}).filter(([,value])=>value!==null);
   const approved=record.gate?.applied_values||record.gate?.applied||{};
-  const reasons=record.gate?.violated_constraints||record.gate?.reasons||[];
+  const reasons=record.gate?.violated_constraints||record.gate?.reasons||(record.gate?.reason?[record.gate.reason]:[]);
   return <section className="agent-readable">
-    <div className="agent-readable-status"><span className={`walk-verdict ${record.gate?.status}`}>{record.gate?.status||record.status}</span><strong>{record.applied?"Targets applied through gate":"No targets applied"}</strong></div>
+    <div className="agent-readable-status"><span className={`walk-verdict ${outcome.kind}`}>{outcome.label}</span><strong>{record.applied?"Targets applied through gate":"No targets applied"}</strong></div>
     <h3>{record.proposal?.objective||record.proposal?.expected_effect||"Inference evidence"}</h3>
     <p>{record.proposal?.explanation||record.error||"Model response is pending."}</p>
     {!!changes.length&&<dl>{changes.map(([key,value])=><div key={key}><dt>{key.replaceAll("_"," ")}</dt><dd>{String(value)}{record.applied&&approved[key]!==undefined&&approved[key]!==null&&approved[key]!==value&&<small> → applied {String(approved[key])}</small>}</dd></div>)}</dl>}
-    {!changes.length&&<p><strong>{(record.operator_response||record.proposal?.episode_status==="escalate")?"Operator review requested":"Hold current targets"}</strong> · no setpoint change proposed.</p>}
-    {record.operator_response&&<section className="agent-readable-reasons"><h3>Operator intervention required</h3>
+    {!changes.length&&record.proposal&&<p><strong>{(record.operator_response||record.proposal?.episode_status==="escalate")?"Operator review requested":"Hold current targets"}</strong> · no setpoint change proposed.</p>}
+    {record.operator_response&&<section className="agent-readable-reasons"><h3>{intervention?.mandatory ? "Protection requires operator intervention" : "Model requested operator review"}</h3>
+      {!!intervention?.reasons?.length&&<ul>{intervention.reasons.map((reason,i)=><li key={i}>{reason.message}</li>)}</ul>}
       <small>{record.operator_response.source==="model_selected_sop"?"Model-selected SOP guidance":"Server fallback SOP guidance"}</small>
       <ol>{record.operator_response.recommended_actions.map(action=><li key={action.id}>{action.instruction}</li>)}</ol>
       <p>{record.operator_response.monitoring_plan.instructions}</p>
@@ -39,7 +43,7 @@ function DecisionSummary({ record }) {
     {record.shadow_only&&<p><strong>Shadow only</strong> · {record.runtime||"Research comparison"}</p>}
     {record.proposal?.alarm_assessment&&<JsonEvidence title="Alarm evidence and operator checks" value={record.proposal.alarm_assessment} open/>}
     {record.applied&&<p>Control lease: {record.lease_minutes||5} simulated minutes. Observe the HMI as the simulation advances.</p>}
-    {!!reasons.length&&<div className="agent-readable-reasons"><strong>Why the gate intervened</strong><ul>{reasons.map(reason=><li key={reason}>{reason}</li>)}</ul></div>}
+    {!!reasons.length&&<div className="agent-readable-reasons"><strong>{outcome.kind==="operator_review"?"Why automatic control is paused":"Gate / execution details"}</strong><ul>{reasons.map(reason=><li key={reason}>{reason}</li>)}</ul></div>}
     {record.error&&<p role="alert">Validation / execution error: {record.error}</p>}
     <small>{record.proposal?.confidence!==undefined?`Model-reported confidence: ${Math.round(record.proposal.confidence*100)}% · `:""}{record.latency_seconds!==undefined?`${record.latency_seconds.toFixed(1)} s inference`:""}</small>
   </section>;
@@ -130,7 +134,7 @@ export default function AgentResearchRoom({ domain, setDomain, plant, initialRec
     {pending && <div className="agent-job" role="status">{HOSTED?"Cloud inference is running.":"Local inference is running."} Deterministic process control continues independently. Results will appear below.</div>}
 
     {status?.jobs.slice(-3).filter(j=>j.status==="failed").map(j=><div className="training-error" key={j.id}>Agent job failed: {j.error}</div>)}
-    <div className="agent-review"><section className="agent-records"><h2>Decision records</h2><button disabled={!records.length} onClick={()=>download(true)}>Export session · JSON</button>{records.length?records.map(r=><button key={r.id} className={selected===r.id?"selected":""} onClick={()=>{setSelected(r.id);setDetail(null);}}><span>{r.record_type==="comparison"?(r.shadow_only?"Water alarm comparison":"Qwen / Jev comparison"):r.record_type==="study"?"Paired study":r.model_name || "Model decision"}</span><strong>{r.study?.kind || r.proposal?.objective || r.proposal?.expected_effect || r.status}</strong><small>{new Date(r.created_at).toLocaleTimeString()} · {r.gate?.status || r.status}{r.applied?" · applied":""}</small></button>):<p>No recorded inferences for this domain yet.</p>}</section><section className="agent-detail">{detail?<><div className="agent-detail-heading"><h2>{detail.record_type==="study"?"Study evidence":"Decision evidence"}</h2><button onClick={()=>download(false)}>Export full record</button></div>{detail.record_type!=="study"&&detail.record_type!=="comparison"&&<DecisionSummary record={detail} />}
+    <div className="agent-review"><section className="agent-records"><h2>Decision records</h2><button disabled={!records.length} onClick={()=>download(true)}>Export session · JSON</button>{records.length?records.map(r=><button key={r.id} className={selected===r.id?"selected":""} onClick={()=>{setSelected(r.id);setDetail(null);}}><span>{r.record_type==="comparison"?(r.shadow_only?"Water alarm comparison":"Qwen / Jev comparison"):r.record_type==="study"?"Paired study":r.model_name || "Model decision"}</span><strong>{r.study?.kind || r.proposal?.objective || r.proposal?.expected_effect || r.status}</strong><small>{new Date(r.created_at).toLocaleTimeString()} · {decisionOutcome(r).label}{r.applied?" · applied":""}</small></button>):<p>No recorded inferences for this domain yet.</p>}</section><section className="agent-detail">{detail?<><div className="agent-detail-heading"><h2>{detail.record_type==="study"?"Study evidence":"Decision evidence"}</h2><button onClick={()=>download(false)}>Export full record</button></div>{detail.record_type!=="study"&&detail.record_type!=="comparison"&&<DecisionSummary record={detail} />}
       {detail.comparison&&<><div className="agent-comparison">{comparison.map(record=><section key={record.id}><h3>{record.provider==="qwen-water-candidate"?"Water alarm candidate":record.provider==="jev"?"Jev":"Current Qwen"}</h3><DecisionSummary record={record}/><button disabled={record.shadow_only||looping||busy||pending||!!record.application_id||record.gate?.status==="rejected"||!Object.values(record.proposal?.changes||{}).some(v=>v!==null)} onClick={()=>apply(record)}>{record.shadow_only?"Shadow only":record.application_id?"Application recorded":"Apply through live gate"}</button><button onClick={()=>setSelected(record.id)}>Inspect record</button></section>)}</div>{detail.comparison.failures?.map(f=><p role="alert" key={f.provider}>{f.provider}: {f.error}</p>)}</>}
       {detail.response?.answers&&<JsonEvidence title="Jev choice and probabilities" value={detail.response.answers} open/>}<p className="agent-interpretation">{detail.interpretation} Gate behavior and subsequent process measurements are separate evidence.</p>{detail.study && <JsonEvidence title="Study result and interpretation" value={detail.study} open />}
       {detail.record_type!=="comparison"&&<>

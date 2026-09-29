@@ -34,7 +34,7 @@ function Trend({ samples, tag, unit }) {
   </svg>;
 }
 
-export default function TrainingRoom({ domain, onDomainChange, water, infrastructure, scenarios, infrastructureScenarios, onOpenRoom, onWaterAction, onInfrastructureCommand }) {
+export default function TrainingRoom({ domain, onDomainChange, water, infrastructure, scenarios, infrastructureScenarios, onOpenRoom, onOpenAgents, onWaterAction, onInfrastructureCommand }) {
   const setDomain = onDomainChange;
   const [report, setReport] = React.useState(null);
   const [error, setError] = React.useState("");
@@ -80,7 +80,7 @@ export default function TrainingRoom({ domain, onDomainChange, water, infrastruc
     <div className="training-domains" role="group" aria-label="Simulation domain">{Object.entries(names).map(([id, name]) => <button disabled={busy} aria-pressed={domain === id} className={domain === id ? "active" : ""} key={id} onClick={() => selectDomain(id)}>{name}</button>)}</div>
     {(error || fetchError) && <div role="alert" className="training-error">{error || fetchError}</div>}
     <section className="training-toolbar">
-      <label>Scenario · selecting starts a fresh record<select disabled={busy} value={plant?.scenario || ""} onChange={(e) => command("configure", { scenario: e.target.value })}>{choices.map((s) => <option value={s.id} key={s.id}>{s.name}</option>)}</select></label>
+      <label>Scenario · selecting starts a fresh record<select disabled={busy || !choices.length} value={plant?.scenario || ""} onChange={(e) => command("configure", { scenario: e.target.value })}>{!choices.length&&<option value="">Loading scenarios…</option>}{choices.map((s) => <option value={s.id} key={s.id}>{s.name}</option>)}</select></label>
       <div className="training-clock"><small>{plant?.running ? "RUNNING" : "PAUSED"}</small><strong>{plant?.elapsed_minutes ?? 0} <small>min</small></strong></div>
       <button disabled={busy || !plant} onClick={() => command(plant.running ? "pause" : "start")}>{plant?.running ? "Pause" : "Start / resume"}</button>
       <button disabled={busy || !plant} onClick={() => command("step", { minutes: 1 })}>+1 minute</button>
@@ -88,6 +88,13 @@ export default function TrainingRoom({ domain, onDomainChange, water, infrastruc
       <button disabled={busy || !plant} onClick={() => command("reset")}>Reset exercise</button>
     </section>
     <p className="training-caption">{choices.find((s) => s.id === plant?.scenario)?.description} Export your record before changing scenario or resetting.</p>
+    {domain==="water"&&plant?.scenario==="chlorine_efficiency_trim"&&<section className="training-demo">
+      <h2>A useful adjustment, without a critical fault</h2>
+      <ol><li>Reset, then advance to minute 15. Keep overrides off.</li><li>Open AI decisions and compare Qwen / Jev. Both receive the same plant snapshot and residual objective: 0.90–1.00 mg/L.</li><li>Inspect proposed targets and the gate result. A hold or review remains a valid model choice.</li><li>For an applied-response run, select one model and start feedback with one call. Start the simulation, then observe the 12-minute chlorine response window in Water HMI.</li></ol>
+      <button disabled={busy||!plant||plant.running||plant.elapsed_minutes>=15} onClick={()=>command("step",{minutes:15-plant.elapsed_minutes})}>Advance to minute 15</button>{" "}
+      <button onClick={()=>onOpenAgents("water")}>Open AI decisions →</button>
+      <p>Compare residual, CT and delivered dose. Feedback uses a bounded lease and returns to baseline; an approved target does not guarantee improvement.</p>
+    </section>}
     <section className="training-metrics">
       <div><span>Recorded samples</span><strong>{current?.sample_count ?? "—"}</strong><small>One per simulated minute, including initial state</small></div>
       <div><span>Time in critical condition</span><strong>{current?.critical_minutes ?? "—"} <small>min</small></strong><small>Measured at minute boundaries</small></div>

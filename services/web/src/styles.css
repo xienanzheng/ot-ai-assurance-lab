@@ -885,3 +885,10 @@ h1 { margin-bottom: 8px; font-size: clamp(30px, 3vw, 44px); line-height: 1.03; l
 
 .agent-help > button { color:inherit; margin-top:0; background:transparent; }
 .agent-model-options > button { margin-top:0; }
+
+/* Decision outcomes preserve the raw verdict in the evidence panel. */
+.walk-verdict.operator_review { color:#f6d18c; background:#382f20; border-color:#8c754d; }
+.walk-verdict.blocked,.walk-verdict.inference_failure,.walk-verdict.execution_failure { color:#f2b79c; background:#3f2b2a; border-color:#b47a69; }
+.walk-verdict.hold,.walk-verdict.pending { color:#bfd5e3; background:#223541; border-color:#557080; }
+.training-demo { padding:20px 24px; margin:18px 0; border:1px solid #487d70; border-left:4px solid #60ddc4; border-radius:8px; background:#132f30; }
+.training-demo h2 { margin:0 0 10px; font-size:20px; }.training-demo ol { padding-left:20px; line-height:1.8; color:#c5d8dc; }

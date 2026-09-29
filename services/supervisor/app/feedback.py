@@ -102,7 +102,7 @@ class FeedbackController:
         loop_id=state['id'];frozen=deepcopy(context)
         feedback_context={'loop_id':loop_id,'previous_record_ids':state['records'][-4:],
             'observations':deepcopy(self.samples[-8:]),'response':deepcopy(state['response']),
-            'policy':'Hold during delayed response. Review observed trends before any new target. Request escalation if no safe correction is justified.'}
+            'policy':'Hold during delayed response. Review observed trends before any new target. Hold when no adjustment is justified and observations remain trustworthy. Escalate for protection triggers, unresolved unsafe conditions or unreliable required evidence.'}
         async def decide():
             try:
                 record=await self.service.cycle(state['domain'],provider=state['provider'],evaluate_only=False,context=frozen,
@@ -110,18 +110,21 @@ class FeedbackController:
                     experiment={'feedback':feedback_context},application_guard=lambda:self.permitted(loop_id),adaptive_timing=True)
                 if not self.permitted(loop_id):return record
                 state['records'].append(record['id'])
-                if record.get('status')!='complete' or record.get('gate',{}).get('status')=='rejected':
-                    await self.stop('Decision rejected or invalid; operator review required');return record
-                if record.get('proposal',{}).get('episode_status')=='escalate' or record.get('selected_candidate')=='review':
+                changes=any(v is not None for v in record.get('proposal',{}).get('changes',{}).values())
+                if record.get('status')=='complete' and not changes and (record.get('proposal',{}).get('episode_status')=='escalate' or record.get('selected_candidate')=='review'):
                     await self.stop('Model requested operator review');return record
+                if record.get('status')!='complete' or record.get('gate',{}).get('status')=='rejected':
+                    await self.stop('Proposal blocked or invalid; inspect the decision record');return record
                 latest=await self.service.context(state['domain'])
                 state['next_review_minute']=latest['plant']['elapsed_minutes']+record.get('response_window',{}).get('observe_minutes',5)
                 self.service.schedule_feedback_outcome(record['id'],latest['plant']['elapsed_minutes'],state['next_review_minute'])
                 self.samples=[]  # Next window describes this exchange, not prior interventions.
                 state.update(status='observing',reason='Waiting for measured process response')
                 return record
-            except Exception:
-                if self.permitted(loop_id):await self.stop('Inference failed; no automatic retry')
+            except Exception as exc:
+                if self.permitted(loop_id):
+                    if getattr(exc,'audit_id',None) and exc.audit_id not in state['records']:state['records'].append(exc.audit_id)
+                    await self.stop('Inference or response validation failed; inspect the recorded exchange. No automatic retry')
                 raise
         try:job=self.service.enqueue(state['domain'],decide);state['job_id']=job['id']
         except HTTPException:
