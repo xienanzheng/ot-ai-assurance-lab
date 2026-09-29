@@ -75,8 +75,10 @@ def clear_injections():
 
 
 @app.put("/mode")
-def mode(request: ModeChange):
+async def mode(request: ModeChange):
     simulator.controller_mode = request.mode
+    # Acknowledge only after the PLC-visible snapshot has the new mode.
+    await opcua.sync()
     return {"mode": request.mode}
 
 
