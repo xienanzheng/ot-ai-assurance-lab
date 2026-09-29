@@ -33,3 +33,7 @@ Provider tests use controlled HTTP responses, exercise both HOSTED_MODE settings
 This is one live scenario check, not a measured improvement in general model accuracy or a safety certification. SOP wording is code-derived; the model explicitly selects/returns its references. The ongoing frozen training evaluation remains separate.
 
 The final focused contract suite passed 30 tests; the corrected standalone web Docker build also passed. The sanitized live result is saved in `docs/evidence/water-operator-response-live-2026-09-28.json`.
+
+Live verification used clearly marked test registrations (`ot-lab-check@example.invalid`, no contact consent). Cleanup was attempted, but the current Wrangler credentials were denied D1 query access (7403); those test registrations remain and should be excluded from audience counts.
+
+All three updated local Docker images (web, supervisor, PLC) built successfully. A fresh supervisor image loaded its packaged SOPs and returned an intervention plan; the unapproved training candidate remained unavailable.
