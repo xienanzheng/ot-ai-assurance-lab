@@ -31,7 +31,7 @@ function DecisionSummary({ record }) {
     {!!changes.length&&<dl>{changes.map(([key,value])=><div key={key}><dt>{key.replaceAll("_"," ")}</dt><dd>{String(value)}{record.applied&&approved[key]!==undefined&&approved[key]!==null&&approved[key]!==value&&<small> → applied {String(approved[key])}</small>}</dd></div>)}</dl>}
     {!changes.length&&<p><strong>{(record.operator_response||record.proposal?.episode_status==="escalate")?"Operator review requested":"Hold current targets"}</strong> · no setpoint change proposed.</p>}
     {record.operator_response&&<section className="agent-readable-reasons"><h3>Operator intervention required</h3>
-      <small>{record.operator_response.source==="model_selected_sop"?"Model-selected SOP guidance":"Server fallback SOP guidance · not a validated model response"}</small>
+      <small>{record.operator_response.source==="model_selected_sop"?"Model-selected SOP guidance":"Server fallback SOP guidance"}</small>
       <ol>{record.operator_response.recommended_actions.map(action=><li key={action.id}>{action.instruction}</li>)}</ol>
       <p>{record.operator_response.monitoring_plan.instructions}</p>
       <JsonEvidence title="Monitoring, prerequisites and source" value={record.operator_response}/>
@@ -41,7 +41,7 @@ function DecisionSummary({ record }) {
     {record.applied&&<p>Control lease: {record.lease_minutes||5} simulated minutes. Observe the HMI as the simulation advances.</p>}
     {!!reasons.length&&<div className="agent-readable-reasons"><strong>Why the gate intervened</strong><ul>{reasons.map(reason=><li key={reason}>{reason}</li>)}</ul></div>}
     {record.error&&<p role="alert">Validation / execution error: {record.error}</p>}
-    <small>{record.proposal?.confidence!==undefined?`Model-reported confidence: ${Math.round(record.proposal.confidence*100)}% · `:""}{record.latency_seconds!==undefined?`${record.latency_seconds.toFixed(1)} s inference`:""} · Confidence is not a calibrated safety score.</small>
+    <small>{record.proposal?.confidence!==undefined?`Model-reported confidence: ${Math.round(record.proposal.confidence*100)}% · `:""}{record.latency_seconds!==undefined?`${record.latency_seconds.toFixed(1)} s inference`:""}</small>
   </section>;
 }
 
@@ -140,13 +140,13 @@ export default function AgentResearchRoom({ domain, setDomain, plant, initialRec
       {detail.response_window && <JsonEvidence title="Response observation window" value={detail.response_window} />}
       {detail.retrieval && <JsonEvidence title="Retrieved plant knowledge and sources" value={detail.retrieval} />}
       {detail.before && <JsonEvidence title="Captured process and controller context" value={detail.before} />}
-      <JsonEvidence title="2. Model-emitted reasoning (unverified self-report)" value={detail.response?.message?.thinking || "No reasoning text returned for this call. This does not imply the model performed no internal computation."} />
+      <JsonEvidence title="2. Model-emitted reasoning (unverified self-report)" value={detail.response?.message?.thinking || "No reasoning text returned for this call."} />
       <JsonEvidence title="3. Structured proposal and stated rationale" value={detail.proposal || detail.response?.message?.content || detail.error || "Waiting for output"} open />
       <JsonEvidence title="4. Deterministic gate decision" value={{...detail.gate,actually_applied:detail.applied ?? false,evaluation_only:detail.evaluate_only}} open />
       <JsonEvidence title="5. Observed outcome and attribution limits" value={detail.outcome || "No later process observation recorded yet."} />
       <JsonEvidence title="Model provenance and timing" value={{model:detail.response?.model,manifest:detail.model_manifest,latency_seconds:detail.latency_seconds,profile:detail.inference_profile?.profile,prompt_seconds:detail.response?.prompt_eval_duration/1e9,generation_seconds:detail.response?.eval_duration/1e9,retrieval_ms:detail.retrieval?.retrieval_ms,prompt_tokens:detail.response?.prompt_eval_count,generated_tokens:detail.response?.eval_count,done_reason:detail.response?.done_reason}} />
       </>}
       {detail.comparison&&<JsonEvidence title="Shared captured state" value={detail.before}/>}
-    </>:<div className="agent-empty"><h2>Select a decision to inspect</h2><p>A reasoning trace can be useful evidence, but it does not establish intent, alignment or absence of bias. Start with a paired study and inspect its individual records.</p></div>}</section></div>
+    </>:<div className="agent-empty"><h2>Select a decision to inspect</h2><p>Choose a saved decision or run a comparison to inspect inputs, proposed targets and the gate result.</p></div>}</section></div>
   </main>;
 }
