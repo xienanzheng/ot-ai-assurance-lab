@@ -213,7 +213,8 @@ class AgentService:
             update_audit(audit_id, status="complete", gate=gate, applied=applied, lease_minutes=(window["lease_minutes"] if adaptive_timing else 5) if applied else None,
                          outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"awaiting feedback window" if adaptive_timing else "awaiting later simulation sample"})
         except Exception as exc:
-            update_audit(audit_id, status="gate_failed", applied=False, gate={"status":"rejected", "reason":str(exc)})
+            update_audit(audit_id, status="gate_failed", applied=False, error=str(exc), gate={"status":"rejected", "reason":str(exc)})
+            exc.audit_id = audit_id
             raise
         return get_audit(audit_id)
 
@@ -232,6 +233,13 @@ class AgentService:
                     params={"apply": str(state["controller_mode"]=="gated_auto").lower(), "lease_minutes":lease_minutes,
                             "expected_controller_generation":context["plc"]["controller_generation"],
                             "expected_time":original["simulation_time"], "expected_mode":state["controller_mode"]})
+                if response.status_code == 409:
+                    try: detail = response.json().get("detail")
+                    except ValueError: detail = None
+                    known = {"PLC reset while the model was reasoning", "Control mode changed during inference",
+                             "Proposal snapshot is stale or clock was reset", "AI actuation requires gated_auto mode"}
+                    reason = detail if isinstance(detail,str) and detail in known else "Plant or controller state changed before application"
+                    raise RuntimeError(f"Controller state conflict: {reason}. No targets applied. Pause the simulation and run a fresh analysis without resetting or changing mode.")
                 response.raise_for_status()
                 gate = response.json()
             applied = state["controller_mode"]=="gated_auto" and gate["status"] in {"accepted", "modified"} and any(v is not None for v in gate.get("applied_values", {}).values())

@@ -263,3 +263,102 @@ def test_escalation_cannot_apply_accompanying_targets(audit_database,monkeypatch
     record=asyncio.run(service.cycle('grid',context={'run_id':'r','plant':GridSimulator().snapshot().model_dump(mode='json')},evaluate_only=False))
     assert not record['applied']
     assert record['gate']['status']=='rejected'
+
+
+def test_fast_water_application_waits_for_mode_publication(audit_database,monkeypatch,safe_snapshot):
+    """The HTTP plant mode and PLC's published snapshot are distinct state copies."""
+    import httpx
+    from shared.models import ControlMode,ControlProposal,SetpointChanges,RunConfig
+    from services.plant_sim.app import main as plant
+    from services.plc_control.app import main as plc
+    from services.plc_control.app.controller import BaselineController,SafetyGate
+    from services.supervisor.app import agent_audit
+    current=safe_snapshot.model_copy(deep=True);current.controller_mode=ControlMode.BASELINE
+    published=current.model_copy(deep=True)
+    sim=SimpleNamespace(controller_mode=ControlMode.BASELINE)
+    monkeypatch.setattr(plant,'simulator',sim)
+    async def publish():
+        await asyncio.sleep(0)
+        current.controller_mode=sim.controller_mode
+        published.controller_mode=sim.controller_mode
+    monkeypatch.setattr(plant.opcua,'sync',publish)
+    controller=BaselineController();monkeypatch.setattr(plc,'controller',controller);monkeypatch.setattr(plc,'gate',SafetyGate(controller))
+    async def snapshot():return published
+    monkeypatch.setattr(plc,'fetch_snapshot',snapshot)
+    worker=OllamaSupervisor()
+    async def propose(*args,**kwargs):
+        p=ControlProposal(changes=SetpointChanges(chlorine_target_mg_l=1.1),confidence=.75,expected_effect='Trim chlorine',explanation='Bounded target change')
+        p.decision_id=agent_audit.create_audit('water',{});return p
+    monkeypatch.setattr(worker,'propose',propose)
+    manager=SimpleNamespace(ollama=worker,active_config=RunConfig(),plant_url='http://plant',plc_url='http://plc')
+    service=AgentService(manager,'http://unused')
+    async def context(domain):
+        current.controller_mode=sim.controller_mode
+        return {'plant':current.model_dump(mode='json'),'plc':plc.status(),'run_id':'r'}
+    monkeypatch.setattr(service,'context',context)
+    real=httpx.AsyncClient
+    async def route(request):
+        app=plant.app if request.url.host=='plant' else plc.app
+        async with real(transport=httpx.ASGITransport(app=app)) as client:return await client.send(request)
+    monkeypatch.setattr(httpx,'AsyncClient',lambda **kwargs:real(transport=httpx.MockTransport(route),**kwargs))
+    record=asyncio.run(service.requested_cycle('water',AgentRequest(evaluate_only=False)))
+    assert record['applied'] and record['gate']['status']=='accepted'
+    assert controller.setpoints.chlorine_target_mg_l==1.1
+    assert published.controller_mode is ControlMode.GATED_AUTO
+
+
+@pytest.mark.parametrize('reason',['PLC reset while the model was reasoning','Control mode changed during inference','Proposal snapshot is stale or clock was reset'])
+def test_plc_conflict_exposes_reason_without_internal_url(reason,monkeypatch,safe_snapshot):
+    import httpx
+    from shared.models import ControlProposal,SetpointChanges
+    service=AgentService(SimpleNamespace(plc_url='http://127.0.0.1:8082'),'http://unused')
+    context={'plant':safe_snapshot.model_dump(mode='json'),'plc':{'controller_generation':'test-generation'}}
+    proposal=ControlProposal(changes=SetpointChanges(chlorine_target_mg_l=1.1),confidence=.75,expected_effect='Trim',explanation='Test')
+    real=httpx.AsyncClient
+    monkeypatch.setattr(httpx,'AsyncClient',lambda **kw:real(transport=httpx.MockTransport(lambda req:httpx.Response(409,json={'detail':reason})),**kw))
+    with pytest.raises(Exception) as failure:asyncio.run(service.submit('water',context,proposal,'qwen'))
+    assert reason in str(failure.value)
+    assert '127.0.0.1' not in str(failure.value)
+
+
+@pytest.mark.parametrize('conflict',['reset','mode','stale'])
+def test_real_state_conflicts_still_prevent_water_actuation(conflict,monkeypatch,safe_snapshot):
+    from datetime import timedelta
+    from services.plc_control.app import main
+    from services.plc_control.app.controller import BaselineController,SafetyGate
+    from shared.models import ControlMode,ControlProposal,SetpointChanges
+    safe_snapshot.controller_mode=ControlMode.GATED_AUTO
+    controller=BaselineController();monkeypatch.setattr(main,'controller',controller);monkeypatch.setattr(main,'gate',SafetyGate(controller))
+    async def snapshot():return safe_snapshot
+    monkeypatch.setattr(main,'fetch_snapshot',snapshot)
+    args={'expected_controller_generation':main.controller_generation,'expected_mode':'gated_auto','expected_time':safe_snapshot.simulation_time.isoformat()}
+    if conflict=='reset':args['expected_controller_generation']='previous-generation'
+    if conflict=='mode':args['expected_mode']='baseline'
+    if conflict=='stale':args['expected_time']=(safe_snapshot.simulation_time-timedelta(minutes=6)).isoformat()
+    proposal=ControlProposal(changes=SetpointChanges(chlorine_target_mg_l=1.1),confidence=.75,expected_effect='Trim',explanation='Test')
+    with pytest.raises(HTTPException) as failure:asyncio.run(main.evaluate_proposal(proposal,apply=True,**args))
+    assert failure.value.status_code==409
+    assert controller.setpoints.chlorine_target_mg_l==1.15
+
+
+def test_opc_publications_cannot_overwrite_new_mode_with_older_snapshot(safe_snapshot):
+    from services.plant_sim.app.opcua_server import WaterOpcUaServer
+    from shared.models import ControlMode
+    async def run():
+        entered=asyncio.Event();release=asyncio.Event();new_started=asyncio.Event()
+        values={};snapshot=safe_snapshot.model_copy(deep=True);snapshot.controller_mode=ControlMode.BASELINE
+        class Node:
+            def __init__(self,name):self.name=name
+            async def write_value(self,value):
+                if self.name=='controller_mode' and value=='baseline':entered.set();await release.wait()
+                values[self.name]=value
+        server=WaterOpcUaServer(SimpleNamespace(snapshot=lambda:snapshot.model_copy(deep=True),set_actuators=lambda changes:None))
+        server.system_nodes={name:Node(name) for name in ['simulation_time','elapsed_minutes','simulation_speed','controller_mode','active_scenario','alarm_state','emergency_stop']}
+        old=asyncio.create_task(server.sync());await entered.wait()
+        snapshot.controller_mode=ControlMode.GATED_AUTO
+        async def publish_new():new_started.set();await server.sync()
+        new=asyncio.create_task(publish_new());await new_started.wait();await asyncio.sleep(0)
+        assert not new.done()  # Waits for older publication instead of racing it.
+        release.set();await asyncio.gather(old,new)
+        assert values['controller_mode']=='gated_auto'
+    asyncio.run(run())
