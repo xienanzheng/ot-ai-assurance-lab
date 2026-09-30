@@ -1,4 +1,5 @@
 import { visitors, registered } from './visitors.mjs';
+import { crawlerResponse } from '../crawler-policy.mjs';
 import { Container, ContainerProxy } from '@cloudflare/containers';
 import { DurableObject } from 'cloudflare:workers';
 import { capacity, admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
@@ -107,6 +108,7 @@ export class SessionRegistry extends DurableObject {
 
 export default {
   async fetch(request,env){
+    const crawler=crawlerResponse(request);if(crawler)return crawler;
     const url=new URL(request.url),path=url.pathname;
     const write=!['GET','HEAD'].includes(request.method);
     if((write||request.headers.get('Upgrade')==='websocket')&&request.headers.get('Origin')!==url.origin) return json({detail:'Same-origin request required'},403);
