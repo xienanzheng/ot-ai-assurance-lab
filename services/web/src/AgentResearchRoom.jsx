@@ -66,6 +66,7 @@ export default function AgentResearchRoom({ domain, setDomain, plant, plc, onOpe
   const [activeJob,setActiveJob] = React.useState(null);
   const [study,setStudy] = React.useState("label_invariance");
   const [error,setError] = React.useState("");
+  const [loopSpeed,setLoopSpeed]=React.useState(30);
   const [loopCalls,setLoopCalls] = React.useState(3);
   const [busy,setBusy] = React.useState(false);
   const [revision,refresh] = React.useReducer(n=>n+1,0);
@@ -91,7 +92,7 @@ export default function AgentResearchRoom({ domain, setDomain, plant, plc, onOpe
   };
   const loop=status?.feedback;
   const looping=!!loop && loop.status!=="stopped" && loop.status!=="idle";
-  const controlFeedback=async(stop=false)=>{setBusy(true);setError("");try{await api(stop?"/feedback/stop":`/${domain}/feedback`,stop?{}:{provider,max_calls:loopCalls,max_minutes:90,knowledge_mode:knowledge,inference_profile:profile,start_clock:true});refresh();}catch(e){setError(e.message);}finally{setBusy(false);}};
+  const controlFeedback=async(stop=false)=>{setBusy(true);setError("");try{await api(stop?"/feedback/stop":`/${domain}/feedback`,stop?{}:{provider,max_calls:loopCalls,max_minutes:90,knowledge_mode:knowledge,inference_profile:profile,start_clock:true,simulation_speed:domain==="water"?loopSpeed:null,monitor_after_budget:domain==="water"});refresh();}catch(e){setError(e.message);}finally{setBusy(false);}};
   const pending=waterBusy||status?.jobs.some(job=>job.status==="running");
   const qwenReady=status?.model.available && status?.model.model_pulled;
   const ready=provider==="jev"?status?.jev_available:qwenReady;
@@ -122,8 +123,8 @@ export default function AgentResearchRoom({ domain, setDomain, plant, plc, onOpe
       {provider==="jev"&&!status?.jev_available&&<small role="status">Jev is not configured or its connection is unavailable.</small>}
       {!HOSTED&&domain==="water"&&<div className="agent-run-actions"><button disabled={looping||busy||pending||!qwenReady||!status?.water_candidate?.available} onClick={()=>run("compare-candidate")}>Compare water alarm candidate</button><Help label="About the water alarm candidate">Local shadow comparison. Available only after the candidate passes every evaluation check. Neither result can be applied.</Help>{!status?.water_candidate?.available&&<small>Candidate awaiting validation or local service.</small>}</div>}
       <div className="agent-feedback">
-        <div className="agent-option-label"><h3>Observe & adjust</h3><Help label="About feedback control">Starts the current exercise clock. Applies gate-approved proposals, waits for the required response window, then calls the selected model again. Chlorine: 12 simulated minutes. Stop or budget end returns baseline control.</Help></div>
-        <div className="agent-run-actions"><label>AI calls <select aria-label="Feedback call budget" disabled={looping||busy} value={loopCalls} onChange={e=>setLoopCalls(Number(e.target.value))}>{[1,2,3,4,5,6].map(n=><option key={n} value={n}>{n}</option>)}</select></label>
+        <div className="agent-option-label"><h3>Observe & adjust</h3><Help label="About feedback control">Starts the current exercise clock. Applies gate-approved proposals, waits for the required response window, then calls the selected model again. Chlorine: 12 simulated minutes. After the last call, water monitoring keeps recording sensor trends under baseline control. Stop ends monitoring.</Help></div>
+        <div className="agent-run-actions"><label>AI calls <select aria-label="Feedback call budget" disabled={looping||busy} value={loopCalls} onChange={e=>setLoopCalls(Number(e.target.value))}>{[1,2,3,4,5,6].map(n=><option key={n} value={n}>{n}</option>)}</select></label>{domain==="water"&&<label>Demo clock <select aria-label="Demo simulation speed" disabled={looping||busy} value={loopSpeed} onChange={e=>setLoopSpeed(Number(e.target.value))}><option value="10">10× · 72s window</option><option value="30">30× · 24s window</option><option value="60">60× · 12s window</option></select></label>}
           {looping?<button disabled={busy} onClick={()=>controlFeedback(true)}>Stop monitoring</button>:<button disabled={busy||pending||!ready} onClick={()=>controlFeedback()}>Start monitoring &amp; control</button>}
         </div>
         {loop&&<div role="status"><strong>{loop.provider?.toUpperCase()} · {loop.status}</strong><p>{loop.calls_used}/{loop.max_calls} calls · {loop.observation_only?"Read-only monitoring · ":""}{loop.reason}</p>{looping&&loop.next_review_minute!=null&&<small>Next review: simulation minute {loop.next_review_minute}</small>}</div>}

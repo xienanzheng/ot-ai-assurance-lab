@@ -99,6 +99,11 @@ async def command(request: SimulationCommand):
             simulator.controller_mode = current.controller_mode
         await opcua.push_actuators()
         await opcua.sync()
+    elif request.action == "speed":
+        if request.speed is None:
+            raise HTTPException(status_code=400, detail="Choose a simulation speed")
+        with simulator.lock:
+            simulator.speed = request.speed
     elif request.action == "step":
         simulator.running = False
         await opcua.sync()

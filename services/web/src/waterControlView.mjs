@@ -6,6 +6,7 @@ export function feedbackView(loop, plant, plc) {
   const current=loop?.domain==='water'&&!!plc?.controller_generation&&loop.controller_generation===plc.controller_generation?loop:null;
   if(!current)return {loop:null,label:'Off',detail:'Start monitoring & control to enable automatic reviews.'};
   if(current.status==='stopped')return {loop:current,label:'Stopped · baseline control',detail:current.reason};
+  if(current.budget_complete)return {loop:current,label:plant?.running?'Monitoring · baseline control':'Paused · baseline control',detail:'AI call budget complete. Sensor trends continue until stopped or the session limit is reached.'};
   if(!plant?.running)return {loop:current,label:'Paused · clock stopped',detail:'Resume the exercise clock to continue monitoring.'};
   if(current.status==='inferencing')return {loop:current,label:`${current.provider?.toUpperCase()} is analysing`,detail:'A fresh gate check is required before applying targets.'};
   const remaining=Math.max(0,(current.next_review_minute??plant.elapsed_minutes)-plant.elapsed_minutes);

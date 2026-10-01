@@ -303,10 +303,12 @@ class AgentService:
                 response = await client.post(f"{self.infrastructure_url}/{domain}/command", json={"action":"configure", "controller_mode":"gated_auto"})
             response.raise_for_status()
 
-    async def resume_simulation(self, domain):
+    async def resume_simulation(self, domain, speed=None):
         if domain == 'water':
             if not self.manager.active_run_id:
                 raise HTTPException(409, 'Select a water exercise before starting monitoring')
+            if speed is not None:
+                await self.manager.set_speed(speed)
             await self.manager.start(self.manager.active_run_id)
         else:
             async with httpx.AsyncClient(timeout=8) as client:

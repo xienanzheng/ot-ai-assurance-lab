@@ -19,6 +19,8 @@ class FeedbackRequest(BaseModel):
     knowledge_mode:Literal['off','lexical','hybrid']='lexical'
     inference_profile:Literal['standard','fast']='fast'
     start_clock:bool=False
+    simulation_speed:Literal[10,30,60]|None=None
+    monitor_after_budget:bool=False
 
 
 class FeedbackController:
@@ -38,7 +40,10 @@ class FeedbackController:
             try:
                 await self._start(domain,request)
                 if request.start_clock:
-                    await self.service.resume_simulation(domain)
+                    if request.simulation_speed is not None:
+                        await self.service.resume_simulation(domain, speed=request.simulation_speed)
+                    else:
+                        await self.service.resume_simulation(domain)
                     self.state['reason']='Clock running; waiting for the next analysis'
                 return deepcopy(self.state)
             except BaseException:
@@ -148,11 +153,23 @@ class FeedbackController:
             self.samples=(self.samples+[sample])[-30:]
             state['response']=response_summary(self.samples)
         if state['status'] in {'inferencing','disarming'}:return
+        if state.get('budget_complete'):
+            state.update(status='monitoring' if plant.get('running') else 'paused',
+                         reason='AI call budget complete; baseline control; sensor monitoring continues')
+            return
         if not plant.get('running'):
             state.update(status='paused',reason='Simulation paused; no AI calls');return
         if minute<state['next_review_minute']:
             state.update(status='observing',reason=f"Observe until simulated minute {state['next_review_minute']}");return
         if state['calls_used']>=state['max_calls']:
+            if state['settings'].get('monitor_after_budget') and state['domain']=='water':
+                try:
+                    await self.service.baseline(state['domain'])
+                except Exception:
+                    await self.stop('Could not confirm baseline return; monitoring ended');return
+                state.update(status='monitoring',observation_only=True,budget_complete=True,
+                             next_review_minute=None,reason='AI call budget complete; baseline control; sensor monitoring continues')
+                return
             await self.stop('Call budget complete; observation window recorded');return
         if self.service.tasks:return
         if os.getenv('HOSTED_MODE')=='true' and time.monotonic()-self.last_call_wall<11:return
