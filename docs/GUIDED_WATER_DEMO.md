@@ -1,6 +1,6 @@
 # Water monitoring demo
 
-Open **AI decisions → Water agent** and choose **Water exercise**: **Chlorine residual adjustment**, **Chlorine overdose** or **Rising filtered-water turbidity**. Choose Qwen or Jev, set a call budget (at least two for a repeat analysis), choose a demo clock (30× by default), then click **Start monitoring & control**. This resumes the selected exercise without resetting it. The previous special guided-run button has been removed.
+Open **AI decisions → Water agent** and choose **Water exercise**: **Chlorine residual adjustment**, **Chlorine overdose** or **Rising filtered-water turbidity**. Choose Qwen or Jev, set a call budget (at least two for a repeat analysis), choose a demo clock (10× by default), then click **Start monitoring & control**. This resumes the selected exercise without resetting it. The previous special guided-run button has been removed.
 
 For chlorine, the simulator's operating limits are 0.20–4.00 mg/L; the baseline PLC target is 1.15 mg/L. The narrower 0.90–1.00 mg/L band is an efficiency goal, not a high-chlorine alarm. The panel displays these separately. **Chlorine overdose** is a separate selectable exercise: the existing overfeed fault begins at minute 10 for 60 simulated minutes and requires operator intervention. It can also be injected from Water HMI. Turbidity uses the filtered-water sensor and its 0–1 NTU operating band; the coagulant target is displayed separately in mg/L.
 
@@ -20,7 +20,7 @@ The live panel separates the measured residual, exercise objective, current PLC 
 - A rejected executable change, other protection failure, invalid response, critical transition, reset or operator stop still ends feedback. Model confidence is never increased by the adapter.
 - Ending a loop finalizes unfinished observation records. Audit-write failure cannot prevent an attempted baseline return. Late completed decisions remain attached to the ended loop.
 
-`POST /api/v1/agents/water/feedback` accepts `start_clock: true`, optional `simulation_speed` (10, 30 or 60) and `monitor_after_budget: true` to resume the current exercise. The legacy `POST /api/v1/agents/water/guided` remains API-compatible but is no longer exposed as a UI button. It reserves supervision before setup, rejects overlapping loops/jobs and pauses/releases on setup failure. `POST /api/v1/agents/feedback/stop` ends the loop. The existing hosted session and inference budgets still apply.
+`POST /api/v1/agents/water/feedback` accepts `start_clock: true`, optional `simulation_speed` (10, 20, 30 or 60) and `monitor_after_budget: true` to resume the current exercise. The legacy `POST /api/v1/agents/water/guided` remains API-compatible but is no longer exposed as a UI button. It reserves supervision before setup, rejects overlapping loops/jobs and pauses/releases on setup failure. `POST /api/v1/agents/feedback/stop` ends the loop. The existing hosted session and inference budgets still apply.
 
 ## Verification
 
