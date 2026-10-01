@@ -8,6 +8,7 @@ from typing import Literal
 from fastapi import HTTPException
 from pydantic import BaseModel,ConfigDict,Field
 from .sop_context import compact_sample,response_summary,select_sops
+from shared.water_exercises import WATER_EXERCISES
 
 
 class FeedbackRequest(BaseModel):
@@ -17,6 +18,7 @@ class FeedbackRequest(BaseModel):
     max_minutes:int=Field(default=90,ge=5,le=120)
     knowledge_mode:Literal['off','lexical','hybrid']='lexical'
     inference_profile:Literal['standard','fast']='fast'
+    start_clock:bool=False
 
 
 class FeedbackController:
@@ -34,8 +36,14 @@ class FeedbackController:
             previous=self.state
             self.active=True;self.state=None
             try:
-                return await self._start(domain,request)
+                await self._start(domain,request)
+                if request.start_clock:
+                    await self.service.resume_simulation(domain)
+                    self.state['reason']='Clock running; waiting for the next analysis'
+                return deepcopy(self.state)
             except BaseException:
+                if self.state:
+                    await self._stop('Monitoring could not start; baseline retained control',True)
                 self.active=False;self.state=previous
                 raise
 
@@ -78,7 +86,7 @@ class FeedbackController:
             'calls_used':0,'max_calls':request.max_calls,'max_minutes':request.max_minutes,
             'started_minute':context['plant']['elapsed_minutes'],'next_review_minute':context['plant']['elapsed_minutes'],
             'run_id':context['run_id'],'controller_generation':context.get('plc',{}).get('controller_generation'),
-            'objective_history':[],'observation_only':False,'records':[],'reason':'Waiting for the simulation clock to run','job_id':None,'settings':request.model_dump(),
+            'objective_history':[],'process_history':[],'observation_only':False,'records':[],'reason':'Waiting for the simulation clock to run','job_id':None,'settings':request.model_dump(),
             'response':{'status':'insufficient_observations'}}
         return deepcopy(self.state)
 
@@ -116,6 +124,15 @@ class FeedbackController:
         if minute-state['started_minute']>=state['max_minutes'] or time.monotonic()-self.started_wall>900:
             await self.stop('Feedback time limit reached');return
         objective=select_sops(state['domain'],plant).get('operating_objective')
+        exercise=WATER_EXERCISES.get(plant.get('scenario')) if state['domain']=='water' else None
+        if exercise:
+            sensor=plant.get('sensors',{}).get(exercise['signal'],{})
+            history=state['process_history']
+            if not history or history[-1]['minute']!=minute:
+                history.append({'minute':minute,'value':sensor.get('value'),'quality':sensor.get('quality'),
+                    'timestamp':sensor.get('timestamp'),'simulation_time':plant.get('simulation_time'),
+                    'target':context.get('plc',{}).get('setpoints',{}).get(exercise['target'])})
+                del history[:-120]
         if objective:
             state['objective']=objective
             history=state['objective_history']

@@ -69,3 +69,38 @@ def test_jev_objective_choices_are_focused_and_use_actual_loop_timing(safe_snaps
     assert manual['decrease_chlorine_target_mg_l']['lease_minutes']==5
     state['scenario']='normal_day'
     assert 'decrease_pressure_target_m' in candidates('water',context)
+
+
+def test_water_exercise_catalog_separates_process_and_efficiency_limits():
+    from services.plant_sim.app.scenarios import scenario_list
+    from shared.limits import LIMITS
+    catalog={x['id']:x for x in scenario_list()}
+    chlorine=catalog['chlorine_efficiency_trim']['objective']
+    assert chlorine['operating_band']==list(LIMITS['chlorine_residual_mg_l'])
+    assert chlorine['operating_band'][0]<1.15<chlorine['operating_band'][1]
+    assert chlorine['optimization_band']==select_sops('water',{'scenario':'chlorine_efficiency_trim'})['operating_objective']['residual_band_mg_l']
+    turbidity=catalog['gradual_turbidity_rise']['objective']
+    assert turbidity['signal']=='filtered_turbidity_ntu' and turbidity['operating_band']==[0,1]
+    assert 'optimization_band' not in turbidity
+
+
+def test_overdose_exercise_uses_existing_fault_and_cannot_be_fixed_by_ai_target():
+    sim=WaterPlantSimulator();sim.reset(scenario='chlorine_overdose');sim.controller_mode=ControlMode.GATED_AUTO
+    plc=BaselineController()
+    for minute in range(11):
+        snapshot=sim.snapshot()
+        if minute < 10:
+            assert 'chlorine_overfeed' not in snapshot.active_injections
+        else:
+            assert 'chlorine_overfeed' in snapshot.active_injections
+            assert snapshot.safety_state == 'critical'
+            proposal=ControlProposal(changes=SetpointChanges(chlorine_target_mg_l=1.0),confidence=.99,expected_effect='Lower residual',explanation='Lower target')
+            gate=SafetyGate(plc).evaluate(proposal,snapshot)
+            assert gate.status == 'rejected'
+            assert 'Plant is in a critical state' in gate.violated_constraints
+            break
+        sim.set_actuators(plc.calculate(snapshot).model_dump(exclude_none=True));sim.advance(1)
+    sim.clear_injections();sim.advance(1)
+    assert 'chlorine_overfeed' not in sim.active_injections()
+    sim.reset(scenario='chlorine_efficiency_trim')
+    assert not sim.active_injections()

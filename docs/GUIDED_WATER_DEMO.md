@@ -1,6 +1,10 @@
 # Guided water demo
 
-Open **AI decisions → Water agent**, select Qwen or Jev and choose **Start guided water run**. This creates a fresh chlorine-efficiency exercise (seed 42), advances 15 simulated minutes under baseline control, reserves feedback ownership and starts the clock at 10× speed. Existing decision records remain available. The default budget is three model calls.
+Open **AI decisions → Water agent** and choose **Water exercise**: **Chlorine residual adjustment**, **Chlorine overdose** or **Rising filtered-water turbidity**. Choose Qwen or Jev, set a call budget (at least two for a repeat analysis), then click **Start monitoring & control**. This resumes the selected exercise without resetting it. The previous special guided-run button has been removed.
+
+For chlorine, the simulator's operating limits are 0.20–4.00 mg/L; the baseline PLC target is 1.15 mg/L. The narrower 0.90–1.00 mg/L band is an efficiency goal, not a high-chlorine alarm. The panel displays these separately. **Chlorine overdose** is a separate selectable exercise: the existing overfeed fault begins at minute 10 for 60 simulated minutes and requires operator intervention. It can also be injected from Water HMI. Turbidity uses the filtered-water sensor and its 0–1 NTU operating band; the coagulant target is displayed separately in mg/L.
+
+Monitoring shows the current owner, next review minute and remaining simulated minutes. Chlorine adjustments require 12 simulated minutes before re-analysis (14-minute lease); other actions use their existing process-specific windows. A single **Run & apply through gate** remains one call with a five-minute lease, not an automatic feedback loop. Pausing the clock also pauses feedback. Stop, a critical condition or budget completion releases control to baseline, so measurements may move back toward its target.
 
 The exercise objective is residual chlorine of **0.90–1.00 mg/L**. A normal safety state does not mean that this efficiency objective is satisfied. The agent receives the measured objective gap, SOP prerequisites, the direction of the target-to-process relationship, prior actions, recent observations and simulator-derived response windows. Both interfaces limit this exercise to chlorine-target adjustments, hold or escalation. Other water scenarios retain their existing control vocabulary.
 
@@ -16,7 +20,7 @@ The live panel separates the measured residual, exercise objective, current PLC 
 - A rejected executable change, other protection failure, invalid response, critical transition, reset or operator stop still ends feedback. Model confidence is never increased by the adapter.
 - Ending a loop finalizes unfinished observation records. Audit-write failure cannot prevent an attempted baseline return. Late completed decisions remain attached to the ended loop.
 
-`POST /api/v1/agents/water/guided` accepts the existing feedback request. It reserves supervision before setup, rejects overlapping loops/jobs and pauses/releases on setup failure. `POST /api/v1/agents/feedback/stop` ends the loop. The existing hosted session and inference budgets still apply.
+`POST /api/v1/agents/water/feedback` accepts `start_clock: true` to resume the current exercise. The legacy `POST /api/v1/agents/water/guided` remains API-compatible but is no longer exposed as a UI button. It reserves supervision before setup, rejects overlapping loops/jobs and pauses/releases on setup failure. `POST /api/v1/agents/feedback/stop` ends the loop. The existing hosted session and inference budgets still apply.
 
 ## Verification
 

@@ -292,6 +292,9 @@ class WaterPlantSimulator:
     def _step_minute(self) -> None:
         self.minute += 1
         self.simulation_time += timedelta(minutes=1)
+        if self.scenario == "chlorine_overdose" and self.minute == 10:
+            # Reuse the existing fault model; clearing it does not re-inject it.
+            self.injection_expiry["chlorine_overfeed"] = self.minute + 60
         self.operations.tick(self.minute, self.exercise, backwash=bool(self.actuators["backwash_request"]), emergency=bool(self.actuators["emergency_stop"]))
         mods = scenario_modifiers(self.minute, self.scenario)
         if self.operations.active("storm_water_quality"):

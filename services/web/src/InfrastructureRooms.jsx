@@ -37,7 +37,7 @@ function AiPanel({ state, boundary }) {
   return <section className="infra-card ai-supervisor-card">
     <div className="infra-card-title"><span>AI supervisory layer</span><StatePill state={decision?.gate?.status === "accepted" ? "normal" : decision?.gate?.status === "rejected" ? "critical" : "warning"}>{decision ? label(decision.gate.status) : "Waiting"}</StatePill></div>
     <div className="ai-boundary"><strong>Authority boundary</strong><p>{boundary}</p></div>
-    {decision ? <><div className="decision-source">{decision.source}</div><h3>{decision.objective}</h3><p>{decision.explanation}</p><div className="proposal-grid">{Object.entries(decision.changes || {}).map(([name, value]) => <div key={name}><span>{label(name)}</span><strong>{fmt(value, 1)}</strong></div>)}</div>{decision.gate.reasons?.map((reason) => <div className="gate-block" key={reason}>{reason}</div>)}</> : <div className="infra-empty">Run the AI supervisor to create a bounded recommendation.</div>}
+    {decision ? <><div className="decision-source">{decision.source}</div><h3>{decision.objective}</h3><p>{decision.explanation}</p><div className="proposal-grid">{Object.entries(decision.changes || {}).map(([name, value]) => <div key={name}><span>{label(name)}</span><strong>{fmt(value, 1)}</strong></div>)}</div>{(decision.gate.reasons||[decision.gate.reason].filter(Boolean)).map((reason) => <div className="gate-block" key={reason}>{reason}</div>)}</> : <div className="infra-empty">Run the AI supervisor to create a bounded recommendation.</div>}
   </section>;
 }
 

@@ -256,3 +256,42 @@ def test_audit_failure_does_not_prevent_baseline_return():
         assert not f.active and s.current['plant']['controller_mode']=='baseline'
         assert state['outcome_warning']
     asyncio.run(run())
+
+
+def test_start_can_resume_existing_clock_without_resetting_the_exercise():
+    async def run():
+        s=Service();s.current['plant'].update(running=False,elapsed_minutes=55)
+        f=FeedbackController(s);events=[]
+        async def resume(domain):
+            assert f.active and f.state['run_id']=='r'
+            events.append(domain);s.current['plant']['running']=True
+        s.resume_simulation=resume
+        await f.start('water',FeedbackRequest(max_calls=2,start_clock=True))
+        assert events==['water'] and s.current['plant']['elapsed_minutes']==55
+        await f.tick();await s.calls[0]()
+        s.current['plant']['elapsed_minutes']=59;await f.tick();assert len(s.calls)==1
+        s.current['plant']['elapsed_minutes']=60;await f.tick();assert len(s.calls)==2
+    asyncio.run(run())
+
+
+def test_failed_clock_start_releases_control_and_leaves_no_active_loop():
+    async def run():
+        s=Service();f=FeedbackController(s)
+        async def fail(domain):raise RuntimeError('clock unavailable')
+        s.resume_simulation=fail
+        with pytest.raises(RuntimeError):await f.start('water',FeedbackRequest(start_clock=True))
+        assert not f.active and s.current['plant']['controller_mode']=='baseline'
+    asyncio.run(run())
+
+
+def test_chlorine_feedback_uses_twelve_minutes_before_next_call():
+    async def run():
+        s=Service();f=FeedbackController(s)
+        async def cycle(*args,**kwargs):
+            return {'id':'adjust','status':'complete','gate':{'status':'accepted'},'proposal':{'changes':{'chlorine_target_mg_l':1.1}},'response_window':{'observe_minutes':12}}
+        s.cycle=cycle
+        await f.start('water',FeedbackRequest(max_calls=2));await f.tick();await s.calls[0]()
+        s.current['plant']['elapsed_minutes']=5;await f.tick();assert len(s.calls)==1
+        s.current['plant']['elapsed_minutes']=11;await f.tick();assert len(s.calls)==1
+        s.current['plant']['elapsed_minutes']=12;await f.tick();assert len(s.calls)==2
+    asyncio.run(run())

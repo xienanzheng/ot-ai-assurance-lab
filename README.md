@@ -330,9 +330,9 @@ The [Plant SOP and context book](docs/PLANT_CONTEXT_BOOK.md) records water, nucl
 
 ### Delay-aware feedback and adapter experiments
 
-For a complete water demonstration, open **AI decisions / Local AI agents**, select a model, then **Start guided water run**. The lab prepares the chlorine-efficiency exercise, starts the clock and displays the measured objective, proposed/applied targets and response trend. See [guided water demo](docs/GUIDED_WATER_DEMO.md).
+For a water exercise, open **AI decisions / Local AI agents → Water exercise** and choose **Chlorine residual adjustment**, **Chlorine overdose** or **Rising filtered-water turbidity**. Select a model and at least two calls, then **Start monitoring & control**. The current exercise clock resumes; each proposal is gated before application and the next review waits for the process response window. Operating limits, optional efficiency goals, PLC targets and measured trends are displayed separately. See [water monitoring workflow](docs/GUIDED_WATER_DEMO.md).
 
-For other scenarios, in **Local AI agents → Observe & adjust**, choose a call budget and start feedback, then run the simulation clock from the HMI. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.
+For other scenarios, in **Local AI agents → Observe & adjust**, choose a call budget and **Start monitoring & control** to resume the simulation clock. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.
 
 ### Water critical-alarm candidate (local shadow only)
 
