@@ -1,4 +1,5 @@
 import React from "react";
+import WaterDemoPanel from "./WaterDemoPanel";
 import { decisionOutcome } from "./decisionOutcome.mjs";
 import { HOSTED } from "./HostedSession";
 
@@ -44,12 +45,14 @@ function DecisionSummary({ record }) {
     {record.proposal?.alarm_assessment&&<JsonEvidence title="Alarm evidence and operator checks" value={record.proposal.alarm_assessment} open/>}
     {record.applied&&<p>Control lease: {record.lease_minutes||5} simulated minutes. Observe the HMI as the simulation advances.</p>}
     {!!reasons.length&&<div className="agent-readable-reasons"><strong>{outcome.kind==="operator_review"?"Why automatic control is paused":"Gate / execution details"}</strong><ul>{reasons.map(reason=><li key={reason}>{reason}</li>)}</ul></div>}
+    {record.outcome?.status&&<p><strong>Observed outcome:</strong> {record.outcome.status}{record.outcome.reason?` · ${record.outcome.reason}`:""}</p>}
     {record.error&&<p role="alert">Validation / execution error: {record.error}</p>}
     <small>{record.proposal?.confidence!==undefined?`Model-reported confidence: ${Math.round(record.proposal.confidence*100)}% · `:""}{record.latency_seconds!==undefined?`${record.latency_seconds.toFixed(1)} s inference`:""}</small>
   </section>;
 }
 
-export default function AgentResearchRoom({ domain, setDomain, plant, initialRecordId = null }) {
+export default function AgentResearchRoom({ domain, setDomain, plant, plc, onOpenHmi, initialRecordId = null }) {
+  const lastLoopRecord=React.useRef(null);
   const [status,setStatus] = React.useState(null);
   const [records,setRecords] = React.useState([]);
   const [selected,setSelected] = React.useState(initialRecordId);
@@ -73,7 +76,7 @@ export default function AgentResearchRoom({ domain, setDomain, plant, initialRec
     const poll=async()=>{
       try {
         const [s,r]=await Promise.all([api("/state",null,controller.signal),api(`/records?domain=${domain}`,null,controller.signal)]);
-        if(!controller.signal.aborted){setStatus(s);setRecords(r);const done=s.jobs.find(j=>j.id===activeJob&&j.status==='complete');if(done){setSelected(done.record_id);setActiveJob(null);}}
+        if(!controller.signal.aborted){setStatus(s);setRecords(r);const latest=s.feedback?.records?.at(-1);if(latest&&latest!==lastLoopRecord.current){lastLoopRecord.current=latest;setSelected(latest);}const done=s.jobs.find(j=>j.id===activeJob&&j.status==='complete');if(done){setSelected(done.record_id);setActiveJob(null);}}
         if(selected){const d=await api(`/records/${selected}`,null,controller.signal);if(!controller.signal.aborted)setDetail(d);
           const children=await Promise.all((d.comparison?.record_ids||[]).map(id=>api(`/records/${id}`,null,controller.signal)));
           if(!controller.signal.aborted)setComparison(children);}
@@ -89,6 +92,7 @@ export default function AgentResearchRoom({ domain, setDomain, plant, initialRec
   const loop=status?.feedback;
   const looping=!!loop && loop.status!=="stopped" && loop.status!=="idle";
   const controlFeedback=async(stop=false)=>{setBusy(true);setError("");try{await api(stop?"/feedback/stop":`/${domain}/feedback`,stop?{}:{provider,max_calls:loopCalls,max_minutes:90,knowledge_mode:knowledge,inference_profile:profile});refresh();}catch(e){setError(e.message);}finally{setBusy(false);}};
+  const guided=async()=>{setBusy(true);setError("");try{await api('/water/guided',{provider,max_calls:loopCalls,max_minutes:90,knowledge_mode:knowledge,inference_profile:profile});setSelected(null);setDetail(null);refresh();}catch(e){setError(e.message);}finally{setBusy(false);}};
   const pending=status?.jobs.some(job=>job.status==="running");
   const qwenReady=status?.model.available && status?.model.model_pulled;
   const ready=provider==="jev"?status?.jev_available:qwenReady;
@@ -105,6 +109,7 @@ export default function AgentResearchRoom({ domain, setDomain, plant, initialRec
     <div className="agent-architecture"><div><span>01 · PROCESS CONTROL</span><strong>Deterministic PLC / baseline</strong><p>Runs the process and retains protection authority.</p></div><div><span>02 · SUPERVISORY AGENT</span><strong>{provider==="jev"?"Jev · typed decisions":status?.model.model || "Loading model…"}</strong><p>Uses sensor quality, trends, equipment and current targets.</p></div><div><span>03 · REQUIRED GATE</span><strong>Validate → allow or reject</strong><p>Bounds, freshness, operating mode and protective conditions.</p></div></div>
     <div className="training-domains">{["water","nuclear","grid"].map(d=><button key={d} disabled={busy||looping} className={domain===d?"active":""} aria-pressed={domain===d} onClick={()=>choose(d)}>{d==="water"?"Water agent":d==="nuclear"?"Nuclear agent":"Grid agent"}</button>)}</div>
     {error && <div className="training-error" role="alert">{error}<button onClick={()=>setError("")}>Dismiss</button></div>}
+    {domain==="water"&&<WaterDemoPanel plant={plant} plc={plc} loop={loop} record={detail} onOpenHmi={onOpenHmi}/>}
     <section className="agent-controls"><div>
       <h2>Next analysis</h2>
       <label className="agent-option-label">Model <Help label="About model switching">Changes the next analysis only. Plant state and records stay intact.</Help></label>
@@ -121,7 +126,8 @@ export default function AgentResearchRoom({ domain, setDomain, plant, initialRec
         <div className="agent-run-actions"><label>AI calls <select aria-label="Feedback call budget" disabled={looping||busy} value={loopCalls} onChange={e=>setLoopCalls(Number(e.target.value))}>{[1,2,3,4,5,6].map(n=><option key={n} value={n}>{n}</option>)}</select></label>
           {looping?<button disabled={busy} onClick={()=>controlFeedback(true)}>Stop feedback</button>:<button disabled={busy||pending||!ready} onClick={()=>controlFeedback()}>Start feedback</button>}
         </div>
-        {loop&&<div role="status"><strong>{loop.provider?.toUpperCase()} · {loop.status}</strong><p>{loop.calls_used}/{loop.max_calls} calls · {loop.reason}</p>{looping&&loop.next_review_minute!=null&&<small>Next review: simulation minute {loop.next_review_minute}</small>}</div>}
+        {domain==="water"&&<div className="guided-water-launch"><button disabled={busy||pending||looping||!ready} onClick={guided}>{busy?"Preparing…":"Start guided water run"}</button><small>Fresh chlorine-efficiency exercise · selected model · clock starts at minute 15. Existing decision records stay available.</small></div>}
+        {loop&&<div role="status"><strong>{loop.provider?.toUpperCase()} · {loop.status}</strong><p>{loop.calls_used}/{loop.max_calls} calls · {loop.observation_only?"Read-only monitoring · ":""}{loop.reason}</p>{looping&&loop.next_review_minute!=null&&<small>Next review: simulation minute {loop.next_review_minute}</small>}</div>}
         {loop&&<JsonEvidence title="Feedback observations" value={loop}/>}
       </div>
       <details className="agent-settings"><summary>Analysis options</summary>
