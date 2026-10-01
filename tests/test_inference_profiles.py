@@ -91,3 +91,10 @@ def test_fast_feedback_history_compresses_without_losing_quality_or_timing():
     assert isinstance(packed,dict)
     assert unpack_history(packed)==rows
     assert result['research_context']['feedback']['previous_record_ids']==['decision-1']
+
+
+def test_explicit_efficiency_objective_limits_fast_action_vocabulary():
+    payload={'options':{},'format':ControlProposal.model_json_schema(),
+        'messages':[{'role':'system','content':'Respect limits.'},{'role':'user','content':json.dumps({'operating_objective':{'id':'chlorine_efficiency_trim_v1','relevant_targets':['chlorine_target_mg_l']}})}]}
+    wire=apply_profile(payload,'water','fast')
+    assert wire['format']['properties']['actions']['items']['properties']['target']['enum']==['chlorine_target_mg_l']

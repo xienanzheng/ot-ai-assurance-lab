@@ -150,8 +150,12 @@ class AgentService:
         state = context["plant"]
         from .sop_context import select_sops
         sop=select_sops(domain,state)
+        from shared.supervision import response_window
+        target_windows={target:response_window(domain,{target:0},state.get("tuning")) for procedure in sop["procedures"] for target in procedure["targets"]}
         prior_timing=context.get("plc",{}).get("control_state",{}).get("supervisory_timing") or state.get("supervisory_timing")
-        experiment={**(experiment or {}), "plant_sops":sop, "previous_application":prior_timing,
+        experiment={**(experiment or {}), "plant_sops":sop, "previous_application":prior_timing, "adaptive_timing":adaptive_timing,
+            "response_windows":target_windows,
+            "application_policy":"Response-window lease, then previous targets return" if adaptive_timing else "Five-minute lease, then previous targets return",
             "timing_rule":"Wait for the process response before adjusting again; confidence is not evidence of recovery."}
         # Per-call configuration never mutates the shared scheduled worker.
         from copy import copy
@@ -191,6 +195,12 @@ class AgentService:
         update_audit(audit_id, before=context, experiment=experiment, evaluate_only=evaluate_only,
                      provider=provider, model_name="typesafe/jev-1.13" if provider=="jev" else worker.model, record_type="decision",
                      proposal=proposal.model_dump(mode="json"))
+        scope=(sop.get("operating_objective") or {}).get("relevant_targets")
+        if scope and set(changed)-set(scope):
+            update_audit(audit_id,status="invalid_proposal",applied=False,
+                gate={"status":"rejected","reason":"Proposed targets are outside this exercise scope"},
+                outcome={"status":"not applied; outside exercise scope"})
+            return get_audit(audit_id)
         if raw_proposal.get("episode_status")=="escalate" and changed:
             update_audit(audit_id,status="invalid_proposal",applied=False,
                 gate={"status":"rejected","reason":"Escalation cannot include target changes"})
@@ -211,7 +221,7 @@ class AgentService:
                         return get_audit(audit_id)
                     gate, applied = await self.submit(domain, context, proposal, f"{provider}:{'typesafe/jev-1.13' if provider=='jev' else worker.model}",lease_minutes=window["lease_minutes"] if adaptive_timing else 5)
             update_audit(audit_id, status="complete", gate=gate, applied=applied, lease_minutes=(window["lease_minutes"] if adaptive_timing else 5) if applied else None,
-                         outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"awaiting feedback window" if adaptive_timing else "awaiting later simulation sample"})
+                         outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"not applied; gate rejected" if gate.get("status")=="rejected" else "awaiting feedback window" if adaptive_timing else "awaiting later simulation sample"})
         except Exception as exc:
             update_audit(audit_id, status="gate_failed", applied=False, error=str(exc), gate={"status":"rejected", "reason":str(exc)})
             exc.audit_id = audit_id
@@ -221,6 +231,13 @@ class AgentService:
     def schedule_feedback_outcome(self, identifier, start, review):
         update_audit(identifier,response_started_minute=start,outcome_review_minute=review,
                      outcome={"status":"awaiting later simulation sample"})
+
+    def close_feedback_outcomes(self, identifiers, reason):
+        for identifier in identifiers:
+            record=get_audit(identifier)
+            if record and (record.get("outcome") or {}).get("status") in {"awaiting feedback window","awaiting later simulation sample"}:
+                update_audit(identifier,outcome={"status":"observation ended before review","reason":reason,
+                    "interpretation":"No complete response window was recorded; recovery is not established."})
 
     async def submit(self, domain, context, proposal, source, freshness=None, lease_minutes=5):
         state = context["plant"]
@@ -485,6 +502,10 @@ class AgentService:
             try:approval()
             except ValueError as exc:raise HTTPException(409,str(exc))
             return self.enqueue("water",self.compare_candidate)
+
+        @router.post("/water/guided",status_code=201)
+        async def guided_water(request:FeedbackRequest):
+            return await self.feedback.start_guided_water(request)
 
         @router.post("/{domain}/feedback",status_code=201)
         async def start_feedback(domain:Literal["water","nuclear","grid"],request:FeedbackRequest):

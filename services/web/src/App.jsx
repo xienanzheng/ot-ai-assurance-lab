@@ -528,7 +528,7 @@ export default function App() {
     {error && activeTab !== "research" && <div className="training-error" role="alert">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
     {activeTab === "walkthrough" && <Walkthrough domain={walkDomain} setDomain={setWalkDomain} chapter={chapter} setChapter={setChapter} evidence={walkEvidence} setEvidence={setWalkEvidence} water={data?.plant} infrastructure={infrastructure} onOpen={openWorkspace} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
     {activeTab === "research" && <ResearchDashboard />}
-    {activeTab === "agents" && <AgentResearchRoom domain={agentDomain} setDomain={next=>{setAgentDomain(next);setAgentRecordId(null);}} initialRecordId={agentRecordId} plant={activePlant} />}
+    {activeTab === "agents" && <AgentResearchRoom domain={agentDomain} setDomain={next=>{setAgentDomain(next);setAgentRecordId(null);}} initialRecordId={agentRecordId} plant={activePlant} plc={data?.plc} onOpenHmi={()=>setActiveTab("hmi")} />}
     {activeTab === "training" && <TrainingRoom domain={trainingDomain} onDomainChange={setTrainingDomain} water={data?.plant} infrastructure={infrastructure} scenarios={scenarios} infrastructureScenarios={infrastructureScenarios} onOpenRoom={setActiveTab} onOpenAgents={domain=>openWorkspace("agents",domain)} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
     {activeTab === "overview" && <Overview data={data} />}
     {activeTab === "hmi" && <Hmi plant={data?.plant} plc={data?.plc} onManual={manual} onResetTrips={resetTrips} injections={injections} onInject={injectFault} onClearInjections={clearInjections} />}

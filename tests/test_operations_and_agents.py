@@ -271,3 +271,33 @@ def test_retrieval_mode_is_per_call_and_audited_without_provider_metadata(audit_
     assert record['retrieval']['pack_sha256']
     assert '_retrieval' not in record['request']
     assert record['applied'] is False
+
+
+def test_stopped_feedback_record_does_not_promise_future_observation(audit_database):
+    identifier=agent_audit.create_audit('water',{})
+    agent_audit.update_audit(identifier,status='complete',outcome={'status':'awaiting feedback window'})
+    AgentService.close_feedback_outcomes(None,[identifier],'Operator stopped feedback')
+    outcome=agent_audit.get_audit(identifier)['outcome']
+    assert outcome['status']=='observation ended before review'
+    assert outcome['reason']=='Operator stopped feedback'
+    agent_audit.update_audit(identifier,outcome={'status':'observed','plant':{'elapsed_minutes':12}})
+    AgentService.close_feedback_outcomes(None,[identifier],'Operator stopped feedback')
+    assert agent_audit.get_audit(identifier)['outcome']['status']=='observed'
+
+
+def test_efficiency_exercise_rejects_out_of_scope_target_before_submission(audit_database,monkeypatch,safe_snapshot):
+    from services.plc_control.app.controller import BaselineController
+    proposal=ControlProposal(changes=SetpointChanges(pressure_target_m=45),confidence=.9,
+        explanation='Unrelated adjustment',expected_effect='Change pressure')
+    async def propose(*args,**kwargs):
+        proposal.decision_id=agent_audit.create_audit('water',{})
+        return proposal
+    worker=OllamaSupervisor();monkeypatch.setattr(worker,'propose',propose)
+    service=AgentService(SimpleNamespace(ollama=worker),'http://unused')
+    async def submit(*args,**kwargs):return {'status':'accepted'},True
+    service.submit=submit
+    state=safe_snapshot.model_dump(mode='json');state['scenario']='chlorine_efficiency_trim'
+    context={'plant':state,'run_id':'scope-test','plc':{'setpoints':BaselineController().setpoint_dict()}}
+    record=asyncio.run(service.cycle('water',context=context,evaluate_only=False))
+    assert record['status']=='invalid_proposal' and not record['applied']
+    assert 'exercise scope' in record['gate']['reason']

@@ -52,3 +52,20 @@ def test_objective_evidence_is_computed_from_measurements_not_assumed(safe_snaps
     assert select_sops('water',snapshot)['operating_objective']['position']=='within_objective'
     snapshot['sensors']['chlorine_residual_mg_l']['quality']='bad'
     assert select_sops('water',snapshot)['operating_objective']['position']=='unreliable_measurement'
+
+
+def test_jev_objective_choices_are_focused_and_use_actual_loop_timing(safe_snapshot):
+    from dataclasses import asdict
+    from services.supervisor.app.jev_client import candidates
+    state=safe_snapshot.model_dump(mode='json');state['scenario']='chlorine_efficiency_trim'
+    context={'plant':state,'plc':{'setpoints':asdict(BaselineController().setpoints)}}
+    options=candidates('water',context,adaptive_timing=True)
+    assert set(options)=={'hold','review','decrease_chlorine_target_mg_l','increase_chlorine_target_mg_l'}
+    trim=options['decrease_chlorine_target_mg_l']
+    assert trim['changes']=={'chlorine_target_mg_l':1.025}
+    assert trim['observe_minutes']==12 and trim['lease_minutes']==14
+    assert '14 simulated minutes' in trim['description']
+    manual=candidates('water',context)
+    assert manual['decrease_chlorine_target_mg_l']['lease_minutes']==5
+    state['scenario']='normal_day'
+    assert 'decrease_pressure_target_m' in candidates('water',context)

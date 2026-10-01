@@ -140,3 +140,119 @@ def test_failed_inference_record_remains_accessible_from_loop():
         assert f.state['records']==['failed-record']
         assert not f.active
     asyncio.run(run())
+
+
+def test_low_confidence_water_hold_continues_read_only_without_rearming():
+    async def run():
+        s=Service();f=FeedbackController(s);evaluations=[]
+        async def hold(*args,**kwargs):
+            evaluations.append(kwargs['evaluate_only'])
+            return {'id':str(len(evaluations)), 'status':'complete','applied':False,
+                'gate':{'status':'rejected','violated_constraints':['Confidence is below the 0.55 gate threshold']},
+                'proposal':{'changes':{},'episode_status':'continue','confidence':0},'response_window':{'observe_minutes':5}}
+        s.cycle=hold
+        await f.start('water',FeedbackRequest(max_calls=2));await f.tick();await s.calls[0]()
+        assert f.active and f.state['observation_only']
+        assert s.current['plant']['controller_mode']=='baseline'
+        s.current['plant']['elapsed_minutes']=5
+        await f.tick();await s.calls[1]()
+        assert evaluations==[False,True]
+        s.current['plant']['elapsed_minutes']=10
+        await f.tick();assert not f.active
+    asyncio.run(run())
+
+
+def test_rejected_action_or_additional_protection_failure_still_stops():
+    async def run():
+        for changes,reasons in [({'chlorine_target_mg_l':1.0},['Confidence is below the 0.55 gate threshold']),
+                               ({},['Confidence is below the 0.55 gate threshold','Sensor data is stale'])]:
+            s=Service();f=FeedbackController(s)
+            async def blocked(*args,**kwargs):
+                return {'id':'blocked','status':'complete','applied':False,'gate':{'status':'rejected','violated_constraints':reasons},'proposal':{'changes':changes,'episode_status':'continue'}}
+            s.cycle=blocked
+            await f.start('water',FeedbackRequest());await f.tick();await s.calls[0]()
+            assert not f.active
+    asyncio.run(run())
+
+
+def test_read_only_loop_still_stops_for_critical_condition():
+    async def run():
+        s=Service();f=FeedbackController(s)
+        await f.start('water',FeedbackRequest())
+        f.state['observation_only']=True;s.current['plant']['controller_mode']='baseline'
+        s.current['plant']['safety_state']='critical'
+        await f.tick()
+        assert not f.active and not s.calls and 'Critical' in f.state['reason']
+    asyncio.run(run())
+
+
+def test_guided_setup_reserves_owner_and_starts_only_after_warmup():
+    async def run():
+        s=Service();f=FeedbackController(s);events=[]
+        def create(config):
+            assert f.active and f.state is None
+            assert config.scenario=='chlorine_efficiency_trim' and not config.ai_schedule_enabled
+            events.append('create');return 'guided'
+        async def reset(identifier):events.append('reset')
+        async def step(identifier,minutes):assert minutes==15;events.append('warmup')
+        async def start(identifier):assert f.state['domain']=='water';events.append('start')
+        s.manager=SimpleNamespace(ollama=SimpleNamespace(model='test'),create_run=create,reset=reset,step=step,start=start)
+        await f.start_guided_water(FeedbackRequest())
+        assert events==['create','reset','warmup','start'] and f.active
+        with pytest.raises(Exception):await f.start_guided_water(FeedbackRequest())
+    asyncio.run(run())
+
+
+def test_guided_failure_pauses_and_releases_supervision():
+    async def run():
+        s=Service();f=FeedbackController(s);events=[]
+        async def reset(identifier):raise RuntimeError('offline')
+        async def pause(identifier):events.append('pause')
+        s.manager=SimpleNamespace(ollama=SimpleNamespace(model='test'),create_run=lambda c:'guided',reset=reset,pause=pause)
+        with pytest.raises(RuntimeError):await f.start_guided_water(FeedbackRequest())
+        assert not f.active and events==['pause'] and s.current['plant']['controller_mode']=='baseline'
+    asyncio.run(run())
+
+
+def test_disarming_can_be_observed_and_operator_stop_is_never_undone():
+    async def run():
+        s=Service();f=FeedbackController(s)
+        async def hold(*args,**kwargs):
+            return {'id':'hold','status':'complete','gate':{'status':'rejected','violated_constraints':['Confidence is below the 0.55 gate threshold']},'proposal':{'changes':{},'episode_status':'continue'}}
+        async def baseline(domain):
+            await f.tick()  # Concurrent monitor sees old mode while release is in flight.
+            assert f.active and len(s.calls)==1
+            s.current['plant']['controller_mode']='baseline'
+            await f.tick()  # Publication may arrive before the HTTP call completes.
+            assert f.active and len(s.calls)==1
+            await f.stop('Operator stopped feedback',release=False)
+        s.cycle=hold;s.baseline=baseline
+        await f.start('water',FeedbackRequest());await f.tick();await s.calls[0]()
+        assert not f.active and f.state['status']=='stopped'
+    asyncio.run(run())
+
+
+def test_record_completing_after_stop_is_retained_and_finalized():
+    async def run():
+        s=Service();f=FeedbackController(s);closed=[]
+        s.close_feedback_outcomes=lambda ids,reason:closed.extend(ids)
+        async def late(*args,**kwargs):
+            await f.stop('Operator stopped feedback')
+            return {'id':'late','status':'complete','applied':True,'outcome':{'status':'awaiting feedback window'}}
+        s.cycle=late
+        await f.start('water',FeedbackRequest());await f.tick();await s.calls[0]()
+        assert f.state['records']==['late'] and 'late' in closed
+        assert f.state['status']=='stopped' and not f.active
+    asyncio.run(run())
+
+
+def test_audit_failure_does_not_prevent_baseline_return():
+    async def run():
+        s=Service();f=FeedbackController(s)
+        def broken(*args):raise RuntimeError('audit unavailable')
+        s.close_feedback_outcomes=broken
+        await f.start('water',FeedbackRequest())
+        state=await f.stop()
+        assert not f.active and s.current['plant']['controller_mode']=='baseline'
+        assert state['outcome_warning']
+    asyncio.run(run())

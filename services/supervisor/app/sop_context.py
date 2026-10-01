@@ -73,6 +73,9 @@ def select_sops(domain, state):
                    'observed_residual_mg_l':residual if reliable else None,'position':position,
                    'evidence_source':'deterministic comparison of captured sensor against scenario objective; not model diagnosis or gate approval',
                    'rule':'If reliable residual is above the objective band, consider a small bounded residual-target reduction after checking CT, flow proof, model agreement and prior observation windows. Hold if within band or still observing. Do not trade away CT, pH or any protection constraint. This objective is not a fault or mandatory escalation.',
+                   'relevant_targets':['chlorine_target_mg_l'],
+                   'control_relationship':'The chlorine residual target drives a PLC dosing loop. A small target decrease can reduce residual and chemical use over time; the sensor value does not change immediately. Do not alter pressure or storage to solve this objective.',
+                   'decision_requirement':'When above objective, assess a bounded decrease. A hold must identify a specific unmet prerequisite, active observation window or uncertainty; being inside broad safety limits alone does not justify a hold. Never raise confidence just to pass a gate. Predicted improvement is not measured recovery.',
                    'observe_minutes':12,'scope':'simulated_lab_only'}
     selected=ranked[:1] if objective else ranked[:3]
     return {'version':pack['version'],'sha256':hashlib.sha256(PATH.read_bytes()).hexdigest(),

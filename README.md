@@ -330,7 +330,9 @@ The [Plant SOP and context book](docs/PLANT_CONTEXT_BOOK.md) records water, nucl
 
 ### Delay-aware feedback and adapter experiments
 
-In **Local AI agents → Observe & adjust**, choose a call budget and start feedback, then run the simulation clock from the HMI. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.
+For a complete water demonstration, open **AI decisions / Local AI agents**, select a model, then **Start guided water run**. The lab prepares the chlorine-efficiency exercise, starts the clock and displays the measured objective, proposed/applied targets and response trend. See [guided water demo](docs/GUIDED_WATER_DEMO.md).
+
+For other scenarios, in **Local AI agents → Observe & adjust**, choose a call budget and start feedback, then run the simulation clock from the HMI. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.
 
 ### Water critical-alarm candidate (local shadow only)
 
