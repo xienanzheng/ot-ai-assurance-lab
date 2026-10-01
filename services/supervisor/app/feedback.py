@@ -19,7 +19,7 @@ class FeedbackRequest(BaseModel):
     knowledge_mode:Literal['off','lexical','hybrid']='lexical'
     inference_profile:Literal['standard','fast']='fast'
     start_clock:bool=False
-    simulation_speed:Literal[10,30,60]|None=None
+    simulation_speed:Literal[10,20,30,60]|None=None
     monitor_after_budget:bool=False
 
 

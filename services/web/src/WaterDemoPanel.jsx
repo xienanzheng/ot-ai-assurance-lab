@@ -24,7 +24,7 @@ export default function WaterDemoPanel({plant,plc,loop,record,scenarios=[],onOpe
       <div><span>Operating limits</span><strong>{low.toFixed(2)}–{high.toFixed(2)} <small>{exercise.unit}</small></strong><em>Plant safety state: {plant.safety_state}</em></div>
       <div><span>{exercise.target_label}</span><strong>{number(plc?.setpoints?.[exercise.target])} <small>{exercise.target_unit}</small></strong><em>{plc?.control_state?.setpoint_lease_expires?'AI control lease active':'Baseline / operator control'}</em></div>
     </div>
-    <p className="water-objective-note">{exercise.optimization_band&&<strong>Efficiency goal: {exercise.optimization_band.map(v=>v.toFixed(2)).join('–')} {exercise.unit}. </strong>}{exercise.note}</p>
+    <p className="water-objective-note">{exercise.optimization_band&&<strong>Efficiency goal: {exercise.optimization_band.map(v=>v.toFixed(2)).join('–')} {exercise.unit}. </strong>}{!exercise.optimization_band&&exercise.note}</p>
     <div className="water-demo-response">
       <div>{points.length<2?<p className="training-empty">Start monitoring to record the measured response.</p>:<><svg viewBox="0 0 620 158" role="img" aria-label={`${exercise.measurement} over simulated time; shaded ${exercise.optimization_band?'efficiency goal':'operating range'}`}>
         <rect x="20" y={y(chartBand[1])} width="580" height={y(chartBand[0])-y(chartBand[1])} fill="#244e42"/>

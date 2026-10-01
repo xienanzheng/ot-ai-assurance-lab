@@ -42,7 +42,15 @@ export default function TrainingRoom({ waterBusy = false, domain, onDomainChange
   const [localBusy, setBusy] = React.useState(false);
   const busy=localBusy||(domain==="water"&&waterBusy);
   const [note, setNote] = React.useState("");
-  const [tag, setTag] = React.useState(initialTags[domain]);
+  const [selectedTags,setSelectedTags]=React.useState(()=>{
+    try {
+      const saved=JSON.parse(sessionStorage.getItem('ot-exercise-sensors')||'{}');
+      return Object.fromEntries(Object.entries(initialTags).map(([key,value])=>[key,typeof saved?.[key]==='string'?saved[key]:value]));
+    } catch {return initialTags;}
+  });
+  React.useEffect(()=>{try{sessionStorage.setItem('ot-exercise-sensors',JSON.stringify(selectedTags));}catch{}},[selectedTags]);
+  const tag=selectedTags[domain]||initialTags[domain];
+  const setTag=value=>setSelectedTags(current=>({...current,[domain]:value}));
   const [revision, refresh] = React.useReducer((n) => n + 1, 0);
   const plant = domain === "water" ? water : infrastructure[domain];
   const choices = domain === "water" ? scenarios : infrastructureScenarios[domain];
@@ -71,30 +79,30 @@ export default function TrainingRoom({ waterBusy = false, domain, onDomainChange
     await request(`/api/v1/training/${domain}`, { method: "POST", body: JSON.stringify(body) });
     if (body.action === "note") setNote("");
   });
-  const selectDomain = (next) => { setDomain(next); setTag(initialTags[next]); setReport(null); setNote(""); setError(""); };
+  const selectDomain = (next) => { setDomain(next); setReport(null); setNote(""); setError(""); };
   const current = report?.domain === domain ? report : null;
   const tags = Object.keys(plant?.sensors || {}).sort();
   const sensor = plant?.sensors?.[tag];
   const trip = plant?.equipment?.reactor_protection?.first_out;
   return <main className="page training-page">
-    <div className="room-intro"><div><span className="eyebrow">Operator exercise workspace</span><h1>Run. Observe. Explain.</h1><p>One exercise record for each control room, with minute samples, alarm transitions and operator observations.</p></div><button onClick={() => onOpenRoom(domain === "water" ? "hmi" : domain)}>Open {names[domain]} HMI →</button></div>
+    <div className="room-intro"><div><span className="eyebrow">Operator exercise workspace</span><h1>Run. Observe. Explain.</h1><p>Process trends, alarms and operator notes.</p></div><button onClick={() => onOpenRoom(domain === "water" ? "hmi" : domain)}>Open {names[domain]} HMI →</button></div>
     <div className="training-domains" role="group" aria-label="Simulation domain">{Object.entries(names).map(([id, name]) => <button disabled={busy} aria-pressed={domain === id} className={domain === id ? "active" : ""} key={id} onClick={() => selectDomain(id)}>{name}</button>)}</div>
     {(error || fetchError) && <div role="alert" className="training-error">{error || fetchError}</div>}
     <section className="training-toolbar">
-      <label>Scenario · selecting starts a fresh record<select disabled={busy || !choices.length} value={plant?.scenario || ""} onChange={(e) => command("configure", { scenario: e.target.value })}>{!choices.length&&<option value="">Loading scenarios…</option>}{choices.map((s) => <option value={s.id} key={s.id}>{s.name}</option>)}</select></label>
+      <label>Scenario<select title="Changing scenario resets the exercise" disabled={busy || !choices.length} value={plant?.scenario || ""} onChange={(e) => command("configure", { scenario: e.target.value })}>{!choices.length&&<option value="">Loading scenarios…</option>}{choices.map((s) => <option value={s.id} key={s.id}>{s.name}</option>)}</select></label>
       <div className="training-clock"><small>{plant?.running ? "RUNNING" : "PAUSED"}</small><strong>{plant?.elapsed_minutes ?? 0} <small>min</small></strong></div>
       <button disabled={busy || !plant} onClick={() => command(plant.running ? "pause" : "start")}>{plant?.running ? "Pause" : "Start / resume"}</button>
       <button disabled={busy || !plant} onClick={() => command("step", { minutes: 1 })}>+1 minute</button>
       {domain !== "water" && <button disabled={busy || !plant} onClick={() => command("step", { minutes: 10 })}>+10 minutes</button>}
       <button disabled={busy || !plant} onClick={() => command("reset")}>Reset exercise</button>
     </section>
-    <p className="training-caption">{choices.find((s) => s.id === plant?.scenario)?.description} Export your record before changing scenario or resetting.</p>
+    <p className="training-caption">{choices.find((s) => s.id === plant?.scenario)?.description}</p>
     {domain==="water"&&plant?.scenario==="chlorine_efficiency_trim"&&<section className="training-demo">
       <h2>Chlorine residual adjustment</h2>
-      <ol><li>Reset, then advance to minute 15. Keep overrides off.</li><li>Open AI decisions and compare Qwen / Jev. Both receive the same plant snapshot and efficiency goal: 0.90–1.00 mg/L, within the broader operating limits.</li><li>Inspect proposed targets and the gate result. A hold or review remains a valid model choice.</li><li>For an applied-response run, select one model and choose at least two AI calls. Start monitoring & control resumes the clock and schedules the next review after the 12-minute chlorine response window.</li></ol>
+      <details><summary>Quick steps</summary><ol><li>Advance to minute 15.</li><li>Open AI decisions and select a model.</li><li>Choose two or more calls, then start monitoring.</li></ol></details>
       <button disabled={busy||!plant||plant.running||plant.elapsed_minutes>=15} onClick={()=>command("step",{minutes:15-plant.elapsed_minutes})}>Advance to minute 15</button>{" "}
       <button onClick={()=>onOpenAgents("water")}>Open AI decisions →</button>
-      <p>Compare residual, CT and delivered dose. Feedback uses a bounded lease and returns to baseline; an approved target does not guarantee improvement.</p>
+
     </section>}
     <section className="training-metrics">
       <div><span>Recorded samples</span><strong>{current?.sample_count ?? "—"}</strong><small>One per simulated minute, including initial state</small></div>
@@ -103,7 +111,7 @@ export default function TrainingRoom({ waterBusy = false, domain, onDomainChange
       {Object.entries(current?.metrics || {}).map(([name, value]) => <div key={name}><span>{pretty(name)}</span><strong>{Number(value).toFixed(2)}</strong><small>Integrated over this exercise</small></div>)}
     </section>
     <div className="training-columns">
-      <section className="infra-card training-trend"><div className="infra-card-title"><span>Process trend · latest 120 minutes</span><strong>{sensor ? `${Number(sensor.value).toFixed(3)} ${sensor.unit}` : "Waiting"}</strong></div><label>Sensor<select value={tag} onChange={(e) => setTag(e.target.value)}>{tags.map((name) => <option value={name} key={name}>{pretty(name)} · {plant.sensors[name].unit}</option>)}</select></label><Trend samples={current?.recent_samples || []} tag={tag} unit={sensor?.unit || ""} /><small>Reported quality: {sensor?.quality || "unavailable"}. Export JSON includes quality and commands for each sample.</small></section>
+      <section className="infra-card training-trend"><div className="infra-card-title"><span>Process trend · latest 120 minutes</span><strong>{sensor ? `${Number(sensor.value).toFixed(3)} ${sensor.unit}` : "Waiting"}</strong></div><label>Sensor<select value={tag} onChange={(e) => setTag(e.target.value)}>{tags.map((name) => <option value={name} key={name}>{pretty(name)} · {plant.sensors[name].unit}</option>)}</select></label><Trend samples={current?.recent_samples || []} tag={tag} unit={sensor?.unit || ""} /><small>Sensor quality: {sensor?.quality || "unavailable"}</small></section>
       <section className="infra-card training-guide"><div className="infra-card-title">Exercise objectives</div><ol>{guidance[domain].map((step) => <li key={step}>{step}</li>)}</ol>{trip && <div className="training-trip"><strong>First-out trip · minute {trip.minute}</strong><p>{trip.causes.join("; ")}</p><small>Causes detected at the same scan are recorded together.</small></div>}{domain === "grid" && plant?.model_health?.islands?.map((island) => <div className="training-island" key={island.reference_bus}><strong>{island.buses.join(" · ")}</strong><span>{island.energized ? "Energized" : "De-energized"} · {island.served_mw.toFixed(1)} / {island.demand_mw.toFixed(1)} MW served</span></div>)}</section>
     </div>
     <div className="training-columns">
