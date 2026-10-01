@@ -104,7 +104,7 @@ class RunConfig(BaseModel):
     scenario: str = "normal_day"
     seed: int = 42
     duration_hours: float = Field(default=24, gt=0, le=168)
-    speed: Literal[1, 10, 60] = 10
+    speed: Literal[1, 10, 30, 60] = 10
     controller_mode: ControlMode = ControlMode.BASELINE
     model: str = "qwen3:8b"
     ai_decision_interval_minutes: int = Field(default=5, ge=5, le=60)
@@ -191,9 +191,10 @@ class StepRequest(BaseModel):
 
 
 class SimulationCommand(BaseModel):
-    action: Literal["start", "pause", "reset", "step", "configure"]
+    action: Literal["start", "pause", "reset", "step", "configure", "speed"]
     config: RunConfig | None = None
     minutes: int = 1
+    speed: Literal[1, 10, 30, 60] | None = None
 
 
 class FaultInjectionRequest(BaseModel):

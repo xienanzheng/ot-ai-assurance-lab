@@ -52,3 +52,9 @@ test('failed water commands are reported and do not poison the queue',async()=>{
  await assert.rejects(command('reset'),/Reset interrupted/);
  assert.equal((await command('pause')).state.active_run_id,'current');
 });
+test('call budget completion remains visible as read-only monitoring',()=>{
+ const loop={domain:'water',controller_generation:'g',status:'monitoring',budget_complete:true,calls_used:2,max_calls:2};
+ const view=feedbackView(loop,{running:true,elapsed_minutes:40},{controller_generation:'g'});
+ assert.match(view.label,/Monitoring · baseline control/);
+ assert.match(view.detail,/AI call budget complete/);
+});

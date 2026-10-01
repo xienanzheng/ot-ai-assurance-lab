@@ -295,3 +295,39 @@ def test_chlorine_feedback_uses_twelve_minutes_before_next_call():
         s.current['plant']['elapsed_minutes']=11;await f.tick();assert len(s.calls)==1
         s.current['plant']['elapsed_minutes']=12;await f.tick();assert len(s.calls)==2
     asyncio.run(run())
+
+
+def test_demo_clock_preserves_the_exercise_and_forwards_requested_speed():
+    async def run():
+        s=Service();s.current['plant'].update(running=False,elapsed_minutes=37)
+        seen=[]
+        async def resume(domain,speed=None):
+            seen.append((domain,speed));s.current['plant']['running']=True
+        s.resume_simulation=resume
+        f=FeedbackController(s)
+        await f.start('water',FeedbackRequest(start_clock=True,simulation_speed=30,max_calls=2))
+        assert seen==[('water',30)]
+        assert f.state['started_minute']==37 and s.current['plant']['elapsed_minutes']==37
+    asyncio.run(run())
+
+
+def test_water_budget_returns_baseline_and_keeps_read_only_trends_until_stop():
+    async def run():
+        s=Service()
+        s.current['plant'].update(scenario='chlorine_efficiency_trim',sensors={'chlorine_residual_mg_l':{'value':1.1,'quality':'good','timestamp':'2026-01-01T00:00:00Z'}},simulation_time='2026-01-01T00:00:00Z')
+        f=FeedbackController(s)
+        await f.start('water',FeedbackRequest(max_calls=1,monitor_after_budget=True))
+        await f.tick();await s.calls[0]()
+        s.current['plant']['elapsed_minutes']=5
+        s.current['plant']['sensors']['chlorine_residual_mg_l']['value']=1.02
+        await f.tick()
+        assert f.active and f.state['budget_complete'] and f.state['status']=='monitoring'
+        assert s.current['plant']['controller_mode']=='baseline'
+        s.current['plant']['elapsed_minutes']=6
+        s.current['plant']['sensors']['chlorine_residual_mg_l']['value']=.99
+        await f.tick()
+        assert len(s.calls)==1 and f.state['process_history'][-1]['value']==.99
+        s.current['plant']['safety_state']='critical'
+        await f.tick()
+        assert not f.active and f.state['status']=='stopped'
+    asyncio.run(run())
