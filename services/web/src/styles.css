@@ -905,3 +905,8 @@ h1 { margin-bottom: 8px; font-size: clamp(30px, 3vw, 44px); line-height: 1.03; l
 .water-demo-response dl { margin:0; display:grid; gap:12px; align-content:center; }.water-demo-response dd { margin:4px 0 0; font-size:14px; }
 .guided-water-launch { margin:18px 0; padding-top:10px; border-top:1px solid #36554d; }.guided-water-launch small { display:block; max-width:440px; color:#aac2ba; font-size:12px; line-height:1.6; margin-top:8px; }
 @media(max-width:700px) { .water-demo-heading { align-items:flex-start; flex-direction:column; }.water-demo-metrics,.water-demo-response { grid-template-columns:1fr; }.water-demo-metrics { gap:14px; }.water-demo-panel { padding:18px; } }
+.water-exercise-select { display:flex; gap:18px; align-items:end; margin-top:22px; }
+.water-exercise-select label { display:grid; gap:8px; flex:1; max-width:560px; }
+.water-exercise-select select { width:100%; }
+.water-objective-note { color:#aac2ba; line-height:1.5; font-size:13px; }
+@media(max-width:700px) { .water-exercise-select { align-items:stretch; flex-direction:column; } }

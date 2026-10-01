@@ -157,10 +157,10 @@ async def infrastructure_ai(domain: str):
     try:
         record = await agents.cycle(domain, evaluate_only=False)
     except OllamaUnavailable as exc:
-        raise HTTPException(503, "Local AI unavailable; baseline retained control. Inspect the agent audit.") from exc
+        raise HTTPException(503, "AI unavailable; baseline retained control. Inspect the agent audit.") from exc
     context = await agents.context(domain)
     proposal = record["proposal"]
-    return {"decision":{**proposal,"gate":record["gate"],"source":f"ollama:{manager.ollama.model}"},"plant":context["plant"],"audit_id":record["id"]}
+    return {"decision":{**proposal,"gate":record["gate"],"source":record.get("model_name") or manager.ollama.model},"plant":context["plant"],"audit_id":record["id"]}
 
 
 @app.get("/api/v1/runs")

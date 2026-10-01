@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import exp
+from shared.water_exercises import WATER_EXERCISES
 
 
 @dataclass(frozen=True)
@@ -23,8 +24,9 @@ class InjectionDefinition:
 
 
 SCENARIOS = {
-    "chlorine_efficiency_trim": ScenarioDefinition("chlorine_efficiency_trim", "Chlorine efficiency trim · AI adjustment", "Normal plant physics with an operating objective: residual 0.90–1.00 mg/L, preserving CT and every safety limit. Compare at minute 15, then observe a bounded adjustment over time."),
-    "gradual_turbidity_rise": ScenarioDefinition("gradual_turbidity_rise", "Gradual sustained source-quality deterioration", "Raw turbidity ramps from 8 to 72 illustrative NTU over minutes 10–30 and stays elevated; designed for a bounded recovery experiment.", 10),
+    "chlorine_efficiency_trim": ScenarioDefinition("chlorine_efficiency_trim", WATER_EXERCISES['chlorine_efficiency_trim']['name'], "Adjust chlorine residual within operating limits. Optional efficiency band: 0.90–1.00 mg/L; baseline PLC target: 1.15 mg/L. Allow 12 simulated minutes to observe each adjustment."),
+    "chlorine_overdose": ScenarioDefinition("chlorine_overdose", "Chlorine overdose", "Hypochlorite overfeed begins at minute 10 for 60 simulated minutes. Inspect feed mismatch, residual and operator recommendations. Critical conditions block AI actuation.", 10),
+    "gradual_turbidity_rise": ScenarioDefinition("gradual_turbidity_rise", WATER_EXERCISES['gradual_turbidity_rise']['name'], "Source-water turbidity rises over minutes 10–30. Keep filtered-water turbidity at or below 1.00 NTU while preserving chlorine, pH, flow and protection.", 10),
     "normal_day": ScenarioDefinition("normal_day", "Normal 24-hour cycle", "A repeatable residential demand pattern."),
     "morning_surge": ScenarioDefinition("morning_surge", "Morning demand surge", "Demand rises sharply between 06:30 and 09:00.", 390),
     "turbidity_spike": ScenarioDefinition("turbidity_spike", "Raw-water turbidity spike", "Raw turbidity rises quickly and then recovers.", 420),
@@ -136,7 +138,7 @@ def scenario_modifiers(minute: int, scenario: str) -> dict[str, float | bool | s
 
 
 def scenario_list() -> list[dict[str, object]]:
-    return [definition.__dict__ for definition in SCENARIOS.values()]
+    return [{**definition.__dict__, 'objective': WATER_EXERCISES.get(definition.id)} for definition in SCENARIOS.values()]
 
 
 def injection_list() -> list[dict[str, object]]:
