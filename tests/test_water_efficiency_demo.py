@@ -104,3 +104,33 @@ def test_overdose_exercise_uses_existing_fault_and_cannot_be_fixed_by_ai_target(
     assert 'chlorine_overfeed' not in sim.active_injections()
     sim.reset(scenario='chlorine_efficiency_trim')
     assert not sim.active_injections()
+
+
+def test_chlorine_high_alarm_boundaries_and_recovery():
+    sim=WaterPlantSimulator();sim.reset(scenario='chlorine_efficiency_trim')
+    for value,severity in [(1.499,None),(1.5,'warning'),(1.999,'warning'),(2.0,'critical'),(1.8,'warning'),(1.49,None),(.1,'critical')]:
+        sim.true_chlorine_mg_l=value
+        snapshot=sim.snapshot()
+        alarms=[a for a in snapshot.active_alarms if a.code=='CHLORINE_RESIDUAL']
+        assert [a.severity for a in alarms]==([] if severity is None else [severity])
+        if severity:assert snapshot.safety_state==severity
+
+
+def test_chlorine_yellow_allows_bounded_reduction_but_red_blocks_actuation():
+    sim=WaterPlantSimulator();sim.reset(scenario='chlorine_efficiency_trim');sim.controller_mode=ControlMode.GATED_AUTO
+    plc=BaselineController()
+    proposal=ControlProposal(changes=SetpointChanges(chlorine_target_mg_l=1.05),confidence=.9,expected_effect='Lower residual',explanation='Observe a bounded reduction')
+    sim.true_chlorine_mg_l=1.5
+    assert SafetyGate(plc).evaluate(proposal,sim.snapshot()).status=='accepted'
+    sim.true_chlorine_mg_l=2.0
+    result=SafetyGate(plc).evaluate(proposal,sim.snapshot())
+    assert result.status=='rejected' and 'Plant is in a critical state' in result.violated_constraints
+
+
+def test_alarm_thresholds_are_shared_by_exercise_display_and_model_context():
+    from services.plant_sim.app.scenarios import scenario_list
+    catalog={s['id']:s for s in scenario_list()}
+    for scenario in ('chlorine_efficiency_trim','chlorine_overdose'):
+        thresholds=catalog[scenario]['objective']['alarm_thresholds']
+        assert thresholds['warning_high_mg_l']==1.5 and thresholds['critical_high_mg_l']==2.0
+        assert select_sops('water',{'scenario':scenario})['alarm_thresholds']==thresholds

@@ -3,7 +3,7 @@ import hashlib
 import json
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
-from shared.limits import LIMITS, SETPOINT_LIMITS, MAX_SETPOINT_STEP
+from shared.limits import LIMITS, SETPOINT_LIMITS, MAX_SETPOINT_STEP, CHLORINE_RESIDUAL_ALARMS
 from shared.models import PlantSnapshot, AlarmAssessment
 from .sop_context import load_book, PATH
 
@@ -94,7 +94,7 @@ def build_payload(snapshot, setpoints, control_state, history=None, retrieved_te
       'safety_state':snapshot.safety_state,'alarms':alarms,'emergency_stop':snapshot.emergency_stop,
       'active_overrides':snapshot.active_injections,'sensors':sensors,'current_setpoints':setpoints,
       'limits':{k:v for k,v in LIMITS.items() if k in sensors},'target_limits':SETPOINT_LIMITS,
-      'max_target_steps':MAX_SETPOINT_STEP,
+      'max_target_steps':MAX_SETPOINT_STEP,'alarm_thresholds':dict(CHLORINE_RESIDUAL_ALARMS),
       'control_state':{k:v for k,v in (control_state or {}).items() if k in {'trips','permissives','supervisory_timing','backwash_sequence','equipment_runtime','sensor_selection','control_source'}},
       'previous_observations':history or [],'retrieved_text':retrieved_text or '',
       'sop':SOP,'sop_version':book['version'],'sop_sha256':hashlib.sha256(PATH.read_bytes()).hexdigest(),

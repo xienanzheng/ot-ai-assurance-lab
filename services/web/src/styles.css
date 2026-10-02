@@ -910,3 +910,26 @@ h1 { margin-bottom: 8px; font-size: clamp(30px, 3vw, 44px); line-height: 1.03; l
 .water-exercise-select select { width:100%; }
 .water-objective-note { color:#aac2ba; line-height:1.5; font-size:13px; }
 @media(max-width:700px) { .water-exercise-select { align-items:stretch; flex-direction:column; } }
+
+.water-alarm-thresholds { display:flex; flex-wrap:wrap; gap:12px 28px; margin-top:18px; font-size:13px; }
+.water-alarm-thresholds span { border-left:3px solid currentColor; padding-left:10px; }
+.water-alarm-thresholds strong { margin-left:8px; font-variant-numeric:tabular-nums; }
+.water-alarm-thresholds .warning { color:#f2c476; }
+.water-alarm-thresholds .critical { color:#ff969c; }
+
+.training-sensor-selectors { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.training-sensor-selectors label,.training-sensor-selectors select { min-width:0; width:100%; }
+.training-sensor-plot { border-top:1px solid #30414c; padding-top:14px; margin-top:16px; }
+.training-plot-heading { display:flex; align-items:center; gap:10px; font-size:13px; }
+.training-plot-heading > span { border-left:3px solid var(--plot-color); padding-left:8px; }
+.training-plot-heading strong { margin-left:auto; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.training-plot-heading small { font-weight:400; color:#a9bdc8; }
+.training-plot-heading .training-remove-sensor { padding:4px 10px; min-height:32px; font-size:20px; }
+.training-sensor-plot > small { color:#f2c476; }
+@media(max-width:600px) { .training-sensor-selectors { grid-template-columns:1fr; }.training-plot-heading { flex-wrap:wrap; } }
+
+.training-plot-chart { margin-top:12px; }
+.training-plot-frame { display:grid; grid-template-columns:52px minmax(0,1fr); gap:8px; }
+.training-plot-scale { display:flex; flex-direction:column; justify-content:space-between; padding:8px 0; text-align:right; font-size:11px; font-variant-numeric:tabular-nums; color:#a9bdc8; }
+.training-plot-frame svg { display:block; height:120px; width:100%; margin:0; }
+.training-plot-ticks { display:flex; justify-content:space-between; margin:4px 0 0 60px; color:#a9bdc8; font-size:11px; }

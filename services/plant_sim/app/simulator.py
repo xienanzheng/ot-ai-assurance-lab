@@ -21,7 +21,7 @@ from shared.chemistry import (
     ph_from_alkalinity,
     solution_flow_lph,
 )
-from shared.limits import LIMITS, VALVE_TRAVEL_RATE_PCT_MIN
+from shared.limits import LIMITS, VALVE_TRAVEL_RATE_PCT_MIN, CHLORINE_RESIDUAL_ALARMS
 from shared.models import (
     Alarm,
     ControlMode,
@@ -854,7 +854,13 @@ class WaterPlantSimulator:
         for sensor, code, message in checks:
             low, high = LIMITS[sensor]
             reading = sensors[sensor].value
-            if reading < low or reading > high:
+            if sensor == "chlorine_residual_mg_l" and reading >= CHLORINE_RESIDUAL_ALARMS["warning_high_mg_l"]:
+                critical = reading >= CHLORINE_RESIDUAL_ALARMS["critical_high_mg_l"]
+                severity = "critical" if critical else "warning"
+                level = "high-high" if critical else "high"
+                threshold = CHLORINE_RESIDUAL_ALARMS["critical_high_mg_l" if critical else "warning_high_mg_l"]
+                alarms.append(Alarm(code=code, severity=severity, message=f"Chlorine residual {level}: {reading:.3f} mg/L (alarm at {threshold:.2f} mg/L)", started_at=self.simulation_time))
+            elif reading < low or reading > high:
                 severity = "critical" if reading < low * 0.7 or reading > high * 1.35 else "warning"
                 alarms.append(Alarm(code=code, severity=severity, message=message, started_at=self.simulation_time))
         for index in range(1, 4):

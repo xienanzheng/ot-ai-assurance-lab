@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "scope": "simulated_lab_only",
   "procedures": [
     {
@@ -19,7 +19,8 @@
         "Check residual, CT, pH, sensor quality and flow proof together.",
         "Low residual with adequate flow may justify one small target increase; high residual may justify a decrease. Low CT alone does not justify increasing dose blindly.",
         "Residual has alpha 0.08 per simulated minute: wait at least 12 minutes for review; full response takes longer.",
-        "If residual fails to respond, check delivered dose and upstream conditions; do not stack increases."
+        "If residual fails to respond, check delivered dose and upstream conditions; do not stack increases.",
+        "Use supplied alarm_thresholds for high-residual warning and critical boundaries. A warning permits consideration of a bounded reduction only if other prerequisites pass; critical alarms require escalation and operator recommendations, with no automatic actuation."
       ],
       "prerequisites": [
         "Good required measurements",
