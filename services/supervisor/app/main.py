@@ -37,13 +37,15 @@ async def background_sampler() -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     initialize_database()
+    agents.auditor.recover()
     task = asyncio.create_task(background_sampler())
     agent_task = asyncio.create_task(agents.monitor())
     yield
     task.cancel()
     agent_task.cancel()
-    for pending in agents.tasks:
+    for pending in list(agents.tasks):
         pending.cancel()
+    await agents.auditor.close()
 
 
 app = FastAPI(title="WaterLab Supervisor API", version="1.0.0", lifespan=lifespan)

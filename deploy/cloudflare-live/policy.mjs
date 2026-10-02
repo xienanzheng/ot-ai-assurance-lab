@@ -1,3 +1,4 @@
+export const AUDIT_MODEL='@cf/google/gemma-4-26b-a4b-it';
 export const HOSTED_MODEL='@cf/qwen/qwen3-30b-a3b-fp8';
 export const SESSION_MS=20*60*1000;
 // Keep the active upper bound aligned with wrangler's max_instances.
@@ -11,7 +12,8 @@ export function capacity(env={}){
     return value;
   };
   return {active:number('LAB_MAX_ACTIVE',3,MAX_CONTAINER_INSTANCES),dailySessions:number('LAB_DAILY_SESSIONS',20,500),
-    sessionAI:number('LAB_SESSION_AI',10,100),dailyAI:number('LAB_DAILY_AI',200,10000)};
+    sessionAI:number('LAB_SESSION_AI',10,100),dailyAI:number('LAB_DAILY_AI',200,10000),
+    sessionAudit:number('LAB_SESSION_AUDIT',10,100),dailyAudit:number('LAB_DAILY_AUDIT',200,10000)};
 }
 function remaining(ledger,session,limits){return Math.max(0,Math.min(limits.sessionAI-session.aiCalls,limits.dailyAI-ledger.aiCalls));}
 // Actuation remains bounded by the independent gate inside each isolated simulator.
@@ -53,7 +55,7 @@ const fail=(status,detail)=>({ok:false,status,detail});
 export const emptyLedger=now=>({day:Math.floor(now/86400000),created:0,aiCalls:0,sessions:{}});
 function daily(ledger,now){
   const day=Math.floor(now/86400000);
-  if(ledger.day!==day){ledger.day=day;ledger.created=0;ledger.aiCalls=0;}
+  if(ledger.day!==day){ledger.day=day;ledger.created=0;ledger.aiCalls=0;ledger.auditCalls=0;}
 }
 export function admit(ledger,id,containerId,now,limits=capacity()){
   daily(ledger,now);
@@ -105,4 +107,21 @@ export function modelResponse(body){
   return {model:HOSTED_MODEL,provider:'cloudflare-workers-ai',execution_location:'cloud',done:true,
     message:{role:'assistant',content,thinking:message?.reasoning_content??''},
     prompt_eval_count:body.usage?.prompt_tokens,eval_count:body.usage?.completion_tokens};
+}
+
+export function consumeAudit(ledger,containerId,recordId,now,limits=capacity()){
+  daily(ledger,now);
+  const session=Object.values(ledger.sessions).find(s=>s.containerId===containerId&&s.expires>now);
+  if(!session)return fail(401,'No active audit session.');
+  if(typeof recordId!=='string'||recordId.length>80||!/^[a-zA-Z0-9-]+$/.test(recordId))return fail(400,'Invalid audit record.');
+  if(Object.hasOwn(session.auditRecords||{},recordId))return fail(409,'Record already reserved for audit.');
+  if((ledger.auditCalls||0)>=limits.dailyAudit||(session.auditCalls||0)>=limits.sessionAudit)return fail(429,'Audit allowance reached.');
+  session.auditRecords={...(session.auditRecords||{}),[recordId]:true};
+  session.auditCalls=(session.auditCalls||0)+1;ledger.auditCalls=(ledger.auditCalls||0)+1;
+  return {ok:true};
+}
+export function auditRequest(body){
+  if(typeof body.record_id!=='string'||body.record_id.length>80)throw new Error('Invalid audit record');
+  const input=modelRequest(body);
+  return {...input,max_tokens:768,chat_template_kwargs:{enable_thinking:false}};
 }

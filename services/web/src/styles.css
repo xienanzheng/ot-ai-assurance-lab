@@ -933,3 +933,10 @@ h1 { margin-bottom: 8px; font-size: clamp(30px, 3vw, 44px); line-height: 1.03; l
 .training-plot-scale { display:flex; flex-direction:column; justify-content:space-between; padding:8px 0; text-align:right; font-size:11px; font-variant-numeric:tabular-nums; color:#a9bdc8; }
 .training-plot-frame svg { display:block; height:120px; width:100%; margin:0; }
 .training-plot-ticks { display:flex; justify-content:space-between; margin:4px 0 0 60px; color:#a9bdc8; font-size:11px; }
+
+.decision-audit-badge { margin:10px 0; font-size:12px; }
+.decision-audit-badge summary,.decision-audit-label { display:inline-block; border:1px solid currentColor; border-radius:6px; padding:5px 9px; cursor:pointer; }
+.decision-audit-badge.passed { color:#8de0b7; }.decision-audit-badge.flagged { color:#f2c476; }
+.decision-audit-badge.pending { color:#a7c9ed; }.decision-audit-badge.unavailable,.decision-audit-label.unavailable { color:#a9bdc8; }
+.decision-audit-badge > div { margin-top:8px; padding:10px 12px; background:#0a191f; border-radius:6px; color:#c6d7de; }
+.decision-audit-badge p { margin:0 0 6px; }.decision-audit-badge blockquote { margin:4px 0; overflow-wrap:anywhere; }
