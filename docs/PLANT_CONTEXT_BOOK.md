@@ -1,6 +1,6 @@
 # Plant SOP and context book
 
-Version 1.1.0 · Water / Nuclear / Power grid
+Version 1.1.1 · Water / Nuclear / Power grid
 
 This book describes the simulation lab. Procedures are grounded in simulator code and have not been validated as operating procedures for a physical facility.
 
@@ -59,6 +59,7 @@ The timing helper uses conservative review floors and a bounded lease. Manual si
 2. Low residual with adequate flow may justify one small target increase; high residual may justify a decrease. Low CT alone does not justify increasing dose blindly.
 3. Residual has alpha 0.08 per simulated minute: wait at least 12 minutes for review; full response takes longer.
 4. If residual fails to respond, check delivered dose and upstream conditions; do not stack increases.
+5. Use supplied alarm_thresholds for high-residual warning and critical boundaries. A warning permits consideration of a bounded reduction only if other prerequisites pass; critical alarms require escalation and operator recommendations, with no automatic actuation.
 
 **Escalate:** Required measurements are missing or unreliable. Independent protection is active, a prerequisite fails, or the observed response worsens.
 

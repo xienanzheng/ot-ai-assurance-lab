@@ -6,6 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from shared.limits import CHLORINE_RESIDUAL_ALARMS
 from shared.supervision import response_window, temporal_check
 from .retrieval_ranking import terms
 
@@ -81,6 +82,7 @@ def select_sops(domain, state):
     return {'version':pack['version'],'sha256':hashlib.sha256(PATH.read_bytes()).hexdigest(),
             'scope':'simulated_lab_only','authority':'context_only','procedures':selected,'operating_objective':objective,
             'principles':pack['principles'],
+            'alarm_thresholds':dict(CHLORINE_RESIDUAL_ALARMS) if domain=='water' else None,
             'retrieval':'deterministic_domain_and_signal','query':query,
             'rule':'Live measurements, temporal interlocks and the independent process gate override procedural suggestions.'}
 
