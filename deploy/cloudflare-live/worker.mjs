@@ -2,7 +2,7 @@ import { visitors, registered } from './visitors.mjs';
 import { crawlerResponse } from '../crawler-policy.mjs';
 import { Container, ContainerProxy } from '@cloudflare/containers';
 import { DurableObject } from 'cloudflare:workers';
-import { capacity, admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
+import { capacity, admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, AUDIT_MODEL, consumeAudit, auditRequest, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
 export { ContainerProxy };
 
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
@@ -14,7 +14,7 @@ export class LabContainer extends Container {
   sleepAfter='5m';
   enableInternet=false;
   allowedHosts=['inference.lab'];
-  envVars={OLLAMA_BASE_URL:'http://inference.lab',OLLAMA_MODEL:HOSTED_MODEL,HOSTED_MODE:'true',LESSON_MEMORY_ENABLED:'false'};
+  envVars={OLLAMA_BASE_URL:'http://inference.lab',OLLAMA_MODEL:HOSTED_MODEL,HOSTED_MODE:'true',LESSON_MEMORY_ENABLED:'false',DECISION_AUDIT_ENABLED:'true'};
   async fetch(request){
     // Python scientific imports and OPC UA startup exceed the SDK's short default.
     await this.startAndWaitForPorts({ports:[8080],cancellationOptions:{instanceGetTimeoutMS:90000,portReadyTimeoutMS:90000}});
@@ -31,13 +31,23 @@ LabContainer.outboundByHost={
       return json({models:ready?[{name:HOSTED_MODEL,model:HOSTED_MODEL,provider:'cloudflare-workers-ai',execution_location:'cloud'}]:[]});
     }
     if(path==='/api/providers'&&request.method==='GET') return json({jev:!!env.OPENROUTER_API_KEY});
-    if(!['/api/chat','/api/decisions'].includes(path)||request.method!=='POST') return json({error:'Unsupported inference route'},404);
+    if(!['/api/chat','/api/decisions','/api/audit'].includes(path)||request.method!=='POST') return json({error:'Unsupported inference route'},404);
     try{
       const raw=await request.text();
       if(raw.length>50000) return json({error:'Context exceeds hosted limit'},413);
+      const body=JSON.parse(raw);
+      if(path==='/api/audit'){
+        const input=auditRequest(body);
+        const allowance=await registry(env).reserveAudit(ctx.containerId,body.record_id);
+        if(!allowance.ok)return json({error:allowance.detail},allowance.status);
+        const output=await env.AI.run(AUDIT_MODEL,input);
+        const message=output.choices?.[0]?.message;let content=message?.content??output.response;
+        if(content&&typeof content==='object')content=JSON.stringify(content);
+        return json({model:output.model||AUDIT_MODEL,requested_model:AUDIT_MODEL,message:{content},usage:output.usage,done_reason:output.choices?.[0]?.finish_reason});
+      }
       const jev=path==='/api/decisions';
       if(jev&&!env.OPENROUTER_API_KEY) return json({error:'Jev is not configured'},503);
-      const input=jev?jevRequest(JSON.parse(raw)):modelRequest(JSON.parse(raw));
+      const input=jev?jevRequest(body):modelRequest(body);
       const allowance=await registry(env).reserveAI(ctx.containerId);
       if(!allowance.ok) return json({error:allowance.detail},allowance.status);
       if(jev){
@@ -84,6 +94,7 @@ export class SessionRegistry extends DurableObject {
     return ok;
   }
   async reserveAI(containerId){return this.mutate(ledger=>consumeAI(ledger,containerId,Date.now(),capacity(this.env)));}
+  async reserveAudit(containerId,recordId){return this.mutate(ledger=>consumeAudit(ledger,containerId,recordId,Date.now(),capacity(this.env)));}
   async end(id){
     const result=await this.mutate(ledger=>{
       if(!Object.hasOwn(ledger.sessions,id)) return {ok:false};

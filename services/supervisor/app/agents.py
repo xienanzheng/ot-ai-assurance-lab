@@ -89,7 +89,16 @@ class AgentService:
         self.router = APIRouter(prefix="/api/v1/agents")
         from .feedback import FeedbackController
         self.feedback = FeedbackController(self)
+        from .decision_auditor import DecisionAuditor
+        self.auditor=DecisionAuditor(read=lambda identifier:get_audit(identifier),write=lambda identifier,**fields:update_audit(identifier,**fields))
         self._routes()
+
+    def reviewed_record(self,identifier):
+        record=get_audit(identifier)
+        # Review scheduling must never affect application or the control job.
+        try:self.auditor.schedule(record)
+        except Exception:pass
+        return get_audit(identifier)
 
     async def context(self, domain):
         if domain == "water":
@@ -200,15 +209,15 @@ class AgentService:
             update_audit(audit_id,status="invalid_proposal",applied=False,
                 gate={"status":"rejected","reason":"Proposed targets are outside this exercise scope"},
                 outcome={"status":"not applied; outside exercise scope"})
-            return get_audit(audit_id)
+            return self.reviewed_record(audit_id)
         if raw_proposal.get("episode_status")=="escalate" and changed:
             update_audit(audit_id,status="invalid_proposal",applied=False,
                 gate={"status":"rejected","reason":"Escalation cannot include target changes"})
-            return get_audit(audit_id)
+            return self.reviewed_record(audit_id)
         if application_guard is not None and not application_guard():
             update_audit(audit_id,status="cancelled",before=context,proposal=proposal.model_dump(mode="json"),applied=False,
                 gate={"status":"not_submitted","reason":"Feedback stopped before application"})
-            return get_audit(audit_id)
+            return self.reviewed_record(audit_id)
         try:
             if evaluate_only:
                 gate = frozen_gate(domain, context, proposal)
@@ -218,15 +227,16 @@ class AgentService:
                     if application_guard is not None and not application_guard():
                         update_audit(audit_id,status="cancelled",applied=False,
                             gate={"status":"not_submitted","reason":"Feedback stopped before application"})
-                        return get_audit(audit_id)
+                        return self.reviewed_record(audit_id)
                     gate, applied = await self.submit(domain, context, proposal, f"{provider}:{'typesafe/jev-1.13' if provider=='jev' else worker.model}",lease_minutes=window["lease_minutes"] if adaptive_timing else 5)
             update_audit(audit_id, status="complete", gate=gate, applied=applied, lease_minutes=(window["lease_minutes"] if adaptive_timing else 5) if applied else None,
                          outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"not applied; gate rejected" if gate.get("status")=="rejected" else "awaiting feedback window" if adaptive_timing else "awaiting later simulation sample"})
         except Exception as exc:
             update_audit(audit_id, status="gate_failed", applied=False, error=str(exc), gate={"status":"rejected", "reason":str(exc)})
             exc.audit_id = audit_id
+            self.reviewed_record(audit_id)
             raise
-        return get_audit(audit_id)
+        return self.reviewed_record(audit_id)
 
     def schedule_feedback_outcome(self, identifier, start, review):
         update_audit(identifier,response_started_minute=start,outcome_review_minute=review,
@@ -498,7 +508,12 @@ class AgentService:
 
         @router.get("/records")
         def records(domain: Literal["water","nuclear","grid"]|None=None, limit:int=Query(30,ge=1,le=100)):
-            return [{k:v for k,v in r.items() if k not in {"request","response","before","outcome"}} for r in list_audits(domain,limit)]
+            rows=[]
+            for record in list_audits(domain,limit):
+                row={k:v for k,v in record.items() if k not in {"request","response","before","outcome"}}
+                if row.get('decision_audit'):row['decision_audit']={k:v for k,v in row['decision_audit'].items() if k not in {'request','response','evidence'}}
+                rows.append(row)
+            return rows
 
         @router.get("/records/{identifier}")
         def record(identifier:str):

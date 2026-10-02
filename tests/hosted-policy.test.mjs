@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { capacity, jevRequest, actuationGuard, admit, authorize, consumeAI, emptyLedger, modelRequest, modelResponse, HOSTED_MODEL, forwardRequest } from '../deploy/cloudflare-live/policy.mjs';
 
 test('capacity is configured server-side with bounded integers',()=>{
-  assert.deepEqual(capacity(),{active:3,dailySessions:20,sessionAI:10,dailyAI:200});
+  assert.deepEqual(capacity(),{active:3,dailySessions:20,sessionAI:10,dailyAI:200,sessionAudit:10,dailyAudit:200});
   const settings=capacity({LAB_MAX_ACTIVE:'6',LAB_DAILY_SESSIONS:'60',LAB_SESSION_AI:'20',LAB_DAILY_AI:'600'});
   const ledger=emptyLedger(0);
   for(let i=0;i<6;i++)assert.equal(admit(ledger,`s${i}`,`c${i}`,0,settings).ok,true);
@@ -119,4 +119,25 @@ test('Jev operator response survives the hosted adapter',()=>{
   const request=jevRequest({state:{},questions:{response,operator_response}});
   assert.deepEqual(request.questions.operator_response,operator_response);
   assert.throws(()=>jevRequest({state:{},questions:{response,operator_response:{...operator_response,criteria:{bad:'Unapproved'}}}}));
+});
+
+test('audit reservations are separate, capped, deduplicated and require a live session', async()=>{
+  const {consumeAudit}=await import('../deploy/cloudflare-live/policy.mjs');
+  const ledger=emptyLedger(0), limits=capacity();admit(ledger,'audit-session','audit-container',0,limits);
+  assert.equal(consumeAudit(ledger,'other','decision-1',1,limits).status,401);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-1',1,limits).ok,true);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-1',2,limits).status,409);
+  assert.equal(ledger.aiCalls,0);assert.equal(ledger.sessions['audit-session'].aiCalls,0);
+  for(let i=2;i<=10;i++)assert.equal(consumeAudit(ledger,'audit-container',`decision-${i}`,i,limits).ok,true);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-11',20,limits).status,429);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-12',20*60*1000+1,limits).status,401);
+});
+
+
+test('audit requests pin bounded generation and disable reasoning',async()=>{
+  const {auditRequest,AUDIT_MODEL}=await import('../deploy/cloudflare-live/policy.mjs');
+  const input=auditRequest({record_id:'test-1',messages:[{role:'user',content:'Captured evidence'}],format:{type:'object'},model:'untrusted'});
+  assert.equal(AUDIT_MODEL,'@cf/google/gemma-4-26b-a4b-it');
+  assert.equal(input.max_tokens,768);assert.equal(input.chat_template_kwargs.enable_thinking,false);
+  assert.equal(input.model,undefined);assert.throws(()=>auditRequest({messages:[]}));
 });

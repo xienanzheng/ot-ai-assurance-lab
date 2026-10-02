@@ -22,6 +22,19 @@ function JsonEvidence({ title, value, open=false }) {
   return <details className="agent-evidence" open={open}><summary>{title}</summary><pre>{typeof value === "string" ? value : JSON.stringify(value,null,2)}</pre></details>;
 }
 
+const auditLabel=audit=>({pending:'Audit pending',passed:'Audit passed',flagged:'Audit flagged',unavailable:'Audit unavailable'}[audit?.status]||'Not audited');
+function AuditBadge({ audit }) {
+  if(!audit)return <span className="decision-audit-label unavailable">Not audited</span>;
+  return <details className={`decision-audit-badge ${audit.status}`}>
+    <summary title={`${audit.reason||'Independent review in progress.'} Reviews proposal logic; the gate decides actuation.`}>{auditLabel(audit)}</summary>
+    <div><p>{audit.reason||'Reviewing the captured state, SOPs and original proposal.'}</p>
+      <small>{audit.model}{Number.isFinite(audit.latency_seconds)?` · ${audit.latency_seconds.toFixed(1)} s`:''} · Read-only</small>
+      {audit.evidence&&<JsonEvidence title="Cited evidence" value={audit.evidence}/>}
+      {audit.request&&<JsonEvidence title="Audit evidence" value={audit}/>}
+    </div>
+  </details>;
+}
+
 function DecisionSummary({ record }) {
   const outcome=decisionOutcome(record);
   const intervention=record.operator_response?.intervention || record.intervention;
@@ -30,6 +43,7 @@ function DecisionSummary({ record }) {
   const reasons=record.gate?.violated_constraints||record.gate?.reasons||(record.gate?.reason?[record.gate.reason]:[]);
   return <section className="agent-readable">
     <div className="agent-readable-status"><span className={`walk-verdict ${outcome.kind}`}>{outcome.label}</span><strong>{record.applied?"Targets applied through gate":"No targets applied"}</strong></div>
+    {record.proposal&&<AuditBadge audit={record.decision_audit}/> }
     <h3>{record.proposal?.objective||record.proposal?.expected_effect||"Inference evidence"}</h3>
     <p>{record.proposal?.explanation||record.error||"Model response is pending."}</p>
     {!!changes.length&&<dl>{changes.map(([key,value])=><div key={key}><dt>{key.replaceAll("_"," ")}</dt><dd>{String(value)}{record.applied&&approved[key]!==undefined&&approved[key]!==null&&approved[key]!==value&&<small> → applied {String(approved[key])}</small>}</dd></div>)}</dl>}
@@ -143,7 +157,7 @@ export default function AgentResearchRoom({ domain, setDomain, plant, plc, onOpe
     {pending && <div className="agent-job" role="status">{HOSTED?"Cloud inference is running.":"Local inference is running."} Deterministic process control continues independently. Results will appear below.</div>}
 
     {status?.jobs.slice(-3).filter(j=>j.status==="failed").map(j=><div className="training-error" key={j.id}>Agent job failed: {j.error}</div>)}
-    <div className="agent-review"><section className="agent-records"><h2>Decision records</h2><button disabled={!records.length} onClick={()=>download(true)}>Export session · JSON</button>{records.length?records.map(r=><button key={r.id} className={selected===r.id?"selected":""} onClick={()=>{setSelected(r.id);setDetail(null);}}><span>{r.record_type==="comparison"?(r.shadow_only?"Water alarm comparison":"Qwen / Jev comparison"):r.record_type==="study"?"Paired study":r.model_name || "Model decision"}</span><strong>{r.study?.kind || r.proposal?.objective || r.proposal?.expected_effect || r.status}</strong><small>{new Date(r.created_at).toLocaleTimeString()} · {decisionOutcome(r).label}{r.applied?" · applied":""}</small></button>):<p>No recorded inferences for this domain yet.</p>}</section><section className="agent-detail">{detail?<><div className="agent-detail-heading"><h2>{detail.record_type==="study"?"Study evidence":"Decision evidence"}</h2><button onClick={()=>download(false)}>Export full record</button></div>{detail.record_type!=="study"&&detail.record_type!=="comparison"&&<DecisionSummary record={detail} />}
+    <div className="agent-review"><section className="agent-records"><h2>Decision records</h2><button disabled={!records.length} onClick={()=>download(true)}>Export session · JSON</button>{records.length?records.map(r=><button key={r.id} className={selected===r.id?"selected":""} onClick={()=>{setSelected(r.id);setDetail(null);}}><span>{r.record_type==="comparison"?(r.shadow_only?"Water alarm comparison":"Qwen / Jev comparison"):r.record_type==="study"?"Paired study":r.model_name || "Model decision"}</span><strong>{r.study?.kind || r.proposal?.objective || r.proposal?.expected_effect || r.status}</strong><small>{new Date(r.created_at).toLocaleTimeString()} · {decisionOutcome(r).label}{r.applied?" · applied":""}{r.decision_audit?` · ${auditLabel(r.decision_audit)}`:""}</small></button>):<p>No recorded inferences for this domain yet.</p>}</section><section className="agent-detail">{detail?<><div className="agent-detail-heading"><h2>{detail.record_type==="study"?"Study evidence":"Decision evidence"}</h2><button onClick={()=>download(false)}>Export full record</button></div>{detail.record_type!=="study"&&detail.record_type!=="comparison"&&<DecisionSummary record={detail} />}
       {detail.comparison&&<><div className="agent-comparison">{comparison.map(record=><section key={record.id}><h3>{record.provider==="qwen-water-candidate"?"Water alarm candidate":record.provider==="jev"?"Jev":"Current Qwen"}</h3><DecisionSummary record={record}/><button disabled={record.shadow_only||looping||busy||pending||!!record.application_id||record.gate?.status==="rejected"||!Object.values(record.proposal?.changes||{}).some(v=>v!==null)} onClick={()=>apply(record)}>{record.shadow_only?"Shadow only":record.application_id?"Application recorded":"Apply through live gate"}</button><button onClick={()=>setSelected(record.id)}>Inspect record</button></section>)}</div>{detail.comparison.failures?.map(f=><p role="alert" key={f.provider}>{f.provider}: {f.error}</p>)}</>}
       {detail.response?.answers&&<JsonEvidence title="Jev choice and probabilities" value={detail.response.answers} open/>}<JsonEvidence title="Evidence notes" value={detail.interpretation}/>{detail.study && <JsonEvidence title="Study result and interpretation" value={detail.study} open />}
       {detail.record_type!=="comparison"&&<>

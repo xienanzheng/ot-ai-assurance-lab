@@ -12,6 +12,10 @@ WaterLab is currently a software-in-the-loop operator-training and control-resea
 
 The [water hydraulic response update](docs/WATER_HYDRAULICS.md) makes manual valve closures and injected equipment faults share the treatment pump/resistance calculation. It includes reproducible pressure, flow, storage and chemical-response trajectories, with explicit model limitations and versioning.
 
+## Independent audit agent
+
+Qwen and Jev recommendation cards now support a background Gemma review: **Audit pending → passed / flagged / unavailable**. Click the badge for its reason and evidence; exports retain the full review. It is read-only and does not delay or override the deterministic gate. Hosted review uses Cloudflare Gemma; local review is opt-in. See [setup, evidence and limits](docs/DECISION_AUDIT.md).
+
 ## Model switching and gated application
 
 In **AI decisions**, select **Qwen** or **Jev** for the next analysis. Switching preserves the plant and decision history. **Apply approved targets** runs the independent gate before changing simulated setpoints; the HMI reflects those targets. A five-simulated-minute lease returns prior targets without rewinding process measurements. Advance the simulation to observe the response.
