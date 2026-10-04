@@ -1,5 +1,14 @@
 """Illustrative simulation limits. These are not regulatory requirements."""
 
+# High-residual annunciation for the simulated water plant, independent of
+# the broader admissible process envelope below. Keep UI and agent context aligned.
+CHLORINE_RESIDUAL_ALARMS = {
+    "version": "water-chlorine-alarms-v1",
+    "warning_high_mg_l": 1.5,
+    "critical_high_mg_l": 2.0,
+    "comparison": ">=",
+}
+
 LIMITS = {
     "clearwell_level_pct": (25.0, 92.0),
     "elevated_tank_level_pct": (25.0, 95.0),

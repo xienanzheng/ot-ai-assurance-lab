@@ -1,3 +1,5 @@
+import {changedTargets,createWaterCommandQueue} from "./waterControlView.mjs";
+import { readCatalog } from "./readCatalog.mjs";
 import React from "react";
 import { HOSTED, HOSTED_MODEL } from "./HostedSession";
 import ResearchDashboard from "./ResearchDashboard";
@@ -111,8 +113,7 @@ function Header({ plant, activeTab, setActiveTab, connection }) {
     </header>
     {activeTab !== "research" && <div className={`alarm-strip ${plant?.safety_state || "normal"}`}>
       <Icon name={plant?.safety_state === "normal" ? "shield" : "alert"} />
-      <span>{plant?.safety_state === "normal" ? "All monitored values are inside the illustrative safety envelope" : `${(plant?.active_alarms || plant?.alarms || []).length} active alarm${(plant?.active_alarms || plant?.alarms || []).length === 1 ? "" : "s"}`}</span>
-      <small>Values shown here are for simulation and research only</small>
+      <span>{plant?.safety_state === "normal" ? "Monitored values within operating limits" : `${(plant?.active_alarms || plant?.alarms || []).length} active alarm${(plant?.active_alarms || plant?.alarms || []).length === 1 ? "" : "s"}`}</span>
     </div>}
   </>;
 }
@@ -196,7 +197,7 @@ function ChemicalPanel({ plant }) {
   return <div className="hmi-panel chemical-panel"><h2>Chemical feed train <span>3</span></h2>
     <div className={`chemical-proof ${flowProof ? "proved" : "blocked"}`}><i /><span>Treatment flow permissive</span><strong>{flowProof ? "PROVED" : "FEED INHIBITED"}</strong></div>
     {feeds.map((feed) => <div className={`chemical-feed-row ${feed.state}`} key={feed.tag}><i /><div><strong>{feed.name}</strong><small>{feed.tag} · {feed.detail}</small></div><b>{fmt(feed.command, 2)} <small>mg/L</small></b></div>)}
-    <div className="contact-card"><span>Clearwell contact calculation</span><strong>{fmt(value(plant, "chlorine_contact_time_min"), 0)} min <small>T10 estimate</small></strong><strong>{fmt(value(plant, "chlorine_ct_mg_min_l"), 0)} <small>mg-min/L CT</small></strong><p>Uses active volume, current flow, and a 0.30 illustrative baffling factor. It is not a compliance result.</p></div>
+    <div className="contact-card"><span>Clearwell contact calculation</span><strong>{fmt(value(plant, "chlorine_contact_time_min"), 0)} min <small>T10 estimate</small></strong><strong>{fmt(value(plant, "chlorine_ct_mg_min_l"), 0)} <small>mg-min/L CT</small></strong><p>Calculated from active volume, current flow and a 0.30 baffling factor.</p></div>
   </div>;
 }
 
@@ -243,7 +244,7 @@ function FaultInjectionPanel({ definitions, active, onInject, onClear }) {
     try { await onInject(definition.id, definition.default_duration_minutes); } finally { setPending(""); }
   };
   return <section className="fault-lab">
-    <div className="fault-heading"><div><span className="section-kicker">Isolated simulation only</span><h2>Attack and hazard injection</h2><p>Press an exercise to override simulated field behavior. The plant starts automatically so you can watch the consequence and protection response.</p></div>{active?.length > 0 && <button className="clear-faults" onClick={onClear}>Clear all injections</button>}</div>
+    <div className="fault-heading"><div><span className="section-kicker">Scenario controls</span><h2>Attack and hazard injection</h2><p>Choose a fault to start the plant and observe its response.</p></div>{active?.length > 0 && <button className="clear-faults" onClick={onClear}>Clear all injections</button>}</div>
     <div className="fault-grid">{definitions.map((definition) => {
       const isActive = active?.includes(definition.id);
       return <button className={`fault-card ${isActive ? "active" : ""}`} key={definition.id} onClick={() => trigger(definition)} disabled={pending === definition.id}>
@@ -322,25 +323,23 @@ function WaterProcessExpanded({ plant }) {
 
 function Hmi({ plant, plc, onManual, onResetTrips, injections, onInject, onClearInjections }) {
   const [manualOpen, setManualOpen] = React.useState(false);
-  const [manual, setManual] = React.useState({ pressure_target_m: 44, chlorine_target_mg_l: 1.15, finished_water_ph_target: 7.35, intake_gate_target_pct: 95, filter_outlet_valve_target_pct: 95, zone_1_isolation_target_pct: 100, zone_2_isolation_target_pct: 100, zone_3_isolation_target_pct: 100, backwash_request: false });
-  const submit = async () => {
-    const changes = {
-      pressure_target_m: manual.pressure_target_m,
-      chlorine_target_mg_l: manual.chlorine_target_mg_l,
-      finished_water_ph_target: manual.finished_water_ph_target,
-      intake_gate_target_pct: manual.intake_gate_target_pct,
-      filter_outlet_valve_target_pct: manual.filter_outlet_valve_target_pct,
-      zone_1_isolation_target_pct: manual.zone_1_isolation_target_pct,
-      zone_2_isolation_target_pct: manual.zone_2_isolation_target_pct,
-      zone_3_isolation_target_pct: manual.zone_3_isolation_target_pct,
-      backwash_request: manual.backwash_request,
-    };
-    await onManual({ changes, confirmation: "CONFIRM" });
-    setManual({ ...manual, backwash_request: false });
-    setManualOpen(false);
+  const [manual, setManual] = React.useState({});
+  const [manualError,setManualError] = React.useState("");
+  const [manualBusy,setManualBusy] = React.useState(false);
+  const initialManual=React.useRef({});
+  const openManual=()=>{const targets={...plc?.setpoints,backwash_request:false};initialManual.current=targets;setManual(targets);setManualError("");setManualOpen(true);};
+  const submit=async()=>{
+    setManualBusy(true);setManualError("");
+    try {
+      const changes=changedTargets(initialManual.current,manual,plc?.setpoints||{});
+      if(!Object.keys(changes).length){setManualOpen(false);return;}
+      const result=await onManual({changes,confirmation:"CONFIRM"});
+      if(result.status==='rejected')throw Error((result.violated_constraints||[]).join('; ')||'Command rejected');
+      setManualOpen(false);
+    }catch(error){setManualError(error.message);}finally{setManualBusy(false);}
   };
   return <main className="page hmi-page">
-    <div className="page-intro compact"><div><span className="eyebrow">Operator station 01</span><h1>Water treatment and distribution</h1></div><div className="hmi-run-clock"><span>{plant?.running ? "RUN" : "HOLD"}</span><strong>{elapsedClock(plant?.elapsed_minutes)}</strong><small>{plant?.simulation_speed || 10}x simulated time</small></div><button className="secondary-button" onClick={() => setManualOpen(!manualOpen)}>Direct controls</button></div>
+    <div className="page-intro compact"><div><span className="eyebrow">Operator station 01</span><h1>Water treatment and distribution</h1></div><div className="hmi-run-clock"><span>{plant?.running ? "RUN" : "HOLD"}</span><strong>{elapsedClock(plant?.elapsed_minutes)}</strong><small>{plant?.simulation_speed || 10}x simulated time</small></div><button className="secondary-button" onClick={openManual}>Direct controls</button></div>
     <FaultInjectionPanel definitions={injections} active={plant?.active_injections || []} onInject={onInject} onClear={onClearInjections} />
     <div className="hmi-layout">
       <WaterProcessExpanded plant={plant} />
@@ -371,7 +370,7 @@ function Hmi({ plant, plc, onManual, onResetTrips, injections, onInject, onClear
       </aside>
     </div>
     <OperationsPanel domain="water" />
-    {manualOpen && <div className="modal-backdrop" onMouseDown={() => setManualOpen(false)}><div className="modal direct-control-modal" onMouseDown={(event) => event.stopPropagation()}><span className="section-kicker">Confirmed operator action</span><h2>Direct supervisory controls</h2><div className="direct-control-columns"><div><h3>Process targets</h3><label>Pressure target <span>{manual.pressure_target_m} m</span><input type="range" min="35" max="55" step="1" value={manual.pressure_target_m} onChange={(e) => setManual({ ...manual, pressure_target_m: Number(e.target.value) })} /></label><label>Chlorine residual target <span>{manual.chlorine_target_mg_l} mg/L</span><input type="range" min="0.5" max="2" step="0.05" value={manual.chlorine_target_mg_l} onChange={(e) => setManual({ ...manual, chlorine_target_mg_l: Number(e.target.value) })} /></label><label>Finished-water pH target <span>{manual.finished_water_ph_target}</span><input type="range" min="7" max="8.8" step="0.05" value={manual.finished_water_ph_target} onChange={(e) => setManual({ ...manual, finished_water_ph_target: Number(e.target.value) })} /></label><label className="sequence-request"><input type="checkbox" checked={manual.backwash_request} onChange={(e) => setManual({ ...manual, backwash_request: e.target.checked })} /><span><strong>Request filter backwash</strong><small>The sequencer checks storage, differential pressure, valve feedback, and sensor quality before starting.</small></span></label></div><div><h3>Direct valve targets</h3>{[["intake_gate_target_pct", "XV-101 intake gate", 30], ["filter_outlet_valve_target_pct", "XV-151 filter outlet", 30], ["zone_1_isolation_target_pct", "XV-301 Zone 1", 50], ["zone_2_isolation_target_pct", "XV-302 Zone 2", 50], ["zone_3_isolation_target_pct", "XV-303 Zone 3", 50]].map(([name, title, min]) => <label key={name}>{title} <span>{manual[name]}%</span><input type="range" min={min} max="100" step="5" value={manual[name]} onChange={(e) => setManual({ ...manual, [name]: Number(e.target.value) })} /></label>)}</div></div><p>Valve targets remain rate-limited and safety-gated. The operator selects a pH target, while the PLC calculates the bounded NaOH dose.</p><div className="modal-actions"><button className="text-button" onClick={() => setManualOpen(false)}>Cancel</button><button className="primary-button" onClick={submit}>Confirm and apply</button></div></div></div>}
+    {manualOpen && <div className="modal-backdrop" onMouseDown={() => setManualOpen(false)}><div className="modal direct-control-modal" onMouseDown={(event) => event.stopPropagation()}><span className="section-kicker">Confirmed operator action</span><h2>Direct supervisory controls</h2>{manualError&&<p role="alert">{manualError}</p>}<div className="direct-control-columns"><div><h3>Process targets</h3><label>Pressure target <span>{manual.pressure_target_m} m</span><input type="range" min="35" max="55" step="1" value={manual.pressure_target_m} onChange={(e) => setManual({ ...manual, pressure_target_m: Number(e.target.value) })} /></label><label>Chlorine residual target <span>{manual.chlorine_target_mg_l} mg/L</span><input type="range" min="0.5" max="2" step="0.05" value={manual.chlorine_target_mg_l} onChange={(e) => setManual({ ...manual, chlorine_target_mg_l: Number(e.target.value) })} /></label><label>Finished-water pH target <span>{manual.finished_water_ph_target}</span><input type="range" min="7" max="8.8" step="0.05" value={manual.finished_water_ph_target} onChange={(e) => setManual({ ...manual, finished_water_ph_target: Number(e.target.value) })} /></label><label className="sequence-request"><input type="checkbox" checked={manual.backwash_request} onChange={(e) => setManual({ ...manual, backwash_request: e.target.checked })} /><span><strong>Request filter backwash</strong><small>The sequencer checks storage, differential pressure, valve feedback, and sensor quality before starting.</small></span></label></div><div><h3>Direct valve targets</h3>{[["intake_gate_target_pct", "XV-101 intake gate", 30], ["filter_outlet_valve_target_pct", "XV-151 filter outlet", 30], ["zone_1_isolation_target_pct", "XV-301 Zone 1", 50], ["zone_2_isolation_target_pct", "XV-302 Zone 2", 50], ["zone_3_isolation_target_pct", "XV-303 Zone 3", 50]].map(([name, title, min]) => <label key={name}>{title} <span>{manual[name]}%</span><input type="range" min={min} max="100" step="5" value={manual[name]} onChange={(e) => setManual({ ...manual, [name]: Number(e.target.value) })} /></label>)}</div></div><p>Valve targets remain rate-limited and safety-gated. The operator selects a pH target, while the PLC calculates the bounded NaOH dose.</p><div className="modal-actions"><button className="text-button" onClick={() => setManualOpen(false)}>Cancel</button><button className="primary-button" disabled={manualBusy} onClick={submit}>Confirm and apply</button></div></div></div>}
   </main>;
 }
 
@@ -413,16 +412,20 @@ export default function App() {
   const [scenarios, setScenarios] = React.useState([]);
   const [injections, setInjections] = React.useState([]);
   const [infrastructure, setInfrastructure] = React.useState({ nuclear: null, grid: null });
+  const [supervisorDecisions,setSupervisorDecisions] = React.useState({});
   const [infraConnection, setInfraConnection] = React.useState("connecting");
   const [infrastructureScenarios, setInfrastructureScenarios] = React.useState({ nuclear: [], grid: [] });
   const [runs, setRuns] = React.useState([]);
   const [config, setConfig] = React.useState(INITIAL_CONFIG);
+  const [waterBusy,setWaterBusy] = React.useState(false);
+  const waterCommands=React.useRef(null);
+  if (!waterCommands.current) waterCommands.current=createWaterCommandQueue(api,setWaterBusy);
   const [error, setError] = React.useState("");
 
   const refreshRuns = React.useCallback(() => api("/api/v1/runs").then(setRuns).catch(() => {}), []);
   React.useEffect(() => {
     api("/api/v1/state").then(setData).catch(() => {});
-    api("/api/v1/scenarios").then(setScenarios).catch(() => {});
+    readCatalog(() => api("/api/v1/scenarios")).then(setScenarios).catch(() => setError("Scenario list could not load. Refresh to retry."));
     api("/api/v1/injections").then((result) => setInjections(result.definitions || [])).catch(() => {});
     refreshRuns();
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
@@ -446,7 +449,7 @@ export default function App() {
   const refreshInfrastructure = React.useCallback(() => api("/api/v1/infrastructure/state").then((next) => { setInfrastructure(next); setInfraConnection("live"); }).catch(() => setInfraConnection("reconnecting")), []);
   React.useEffect(() => {
     refreshInfrastructure();
-    api("/api/v1/infrastructure/scenarios").then(setInfrastructureScenarios).catch(() => {});
+    readCatalog(() => api("/api/v1/infrastructure/scenarios")).then(setInfrastructureScenarios).catch(() => setError("Infrastructure scenario list could not load. Refresh to retry."));
     const timer = window.setInterval(refreshInfrastructure, 4000);
     return () => window.clearInterval(timer);
   }, [refreshInfrastructure]);
@@ -485,6 +488,7 @@ export default function App() {
     try { await api("/api/v1/injections", { method: "DELETE" }); } catch (problem) { setError(problem.message); }
   };
   const infrastructureCommand = async (domain, action, options = {}) => {
+    if(action==="reset"||(options.scenario&&options.scenario!==infrastructure[domain]?.scenario))setSupervisorDecisions(current=>({...current,[domain]:null}));
     const result = await api(`/api/v1/infrastructure/${domain}/command`, { method: "POST", body: JSON.stringify({ action, minutes: 1, ...options }) });
     setInfrastructure((current) => ({ ...current, [domain]: result }));
   };
@@ -495,6 +499,7 @@ export default function App() {
   };
   const infrastructureAi = async (domain) => {
     const result = await api(`/api/v1/infrastructure/${domain}/ai`, { method: "POST" });
+    setSupervisorDecisions(current=>({...current,[domain]:{...result.decision,audit_id:result.audit_id}}));
     setInfrastructure((current) => ({ ...current, [domain]: result.plant }));
   };
   const infrastructureTuning = async (settings) => {
@@ -503,16 +508,9 @@ export default function App() {
   };
 
   const trainingWaterAction = async (action, options) => {
-    if (action === "configure" || !data?.active_run_id) {
-      const next = { ...config, ...options };
-      const created = await api("/api/v1/runs", { method: "POST", body: JSON.stringify(next) });
-      await api(`/api/v1/runs/${created.id}/reset`, { method: "POST" });
-      setConfig(next);
-      if (action === "start" || action === "step") await api(`/api/v1/runs/${created.id}/${action}`, { method: "POST", body: action === "step" ? JSON.stringify(options) : undefined });
-    } else {
-      await api(`/api/v1/runs/${data.active_run_id}/${action}`, { method: "POST", body: action === "step" ? JSON.stringify(options) : undefined });
-    }
-    setData(await api("/api/v1/state"));
+    const result=await waterCommands.current(action,options,config);
+    if(result.config)setConfig(result.config);
+    setData(result.state);
     await refreshRuns();
   };
 
@@ -528,12 +526,12 @@ export default function App() {
     {error && activeTab !== "research" && <div className="training-error" role="alert">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
     {activeTab === "walkthrough" && <Walkthrough domain={walkDomain} setDomain={setWalkDomain} chapter={chapter} setChapter={setChapter} evidence={walkEvidence} setEvidence={setWalkEvidence} water={data?.plant} infrastructure={infrastructure} onOpen={openWorkspace} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
     {activeTab === "research" && <ResearchDashboard />}
-    {activeTab === "agents" && <AgentResearchRoom domain={agentDomain} setDomain={next=>{setAgentDomain(next);setAgentRecordId(null);}} initialRecordId={agentRecordId} plant={activePlant} />}
-    {activeTab === "training" && <TrainingRoom domain={trainingDomain} onDomainChange={setTrainingDomain} water={data?.plant} infrastructure={infrastructure} scenarios={scenarios} infrastructureScenarios={infrastructureScenarios} onOpenRoom={setActiveTab} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
+    {activeTab === "agents" && <AgentResearchRoom waterBusy={waterBusy} domain={agentDomain} setDomain={next=>{setAgentDomain(next);setAgentRecordId(null);}} initialRecordId={agentRecordId} plant={activePlant} plc={data?.plc} scenarios={scenarios} onWaterAction={trainingWaterAction} onOpenExercise={()=>openWorkspace("training","water")} onOpenHmi={()=>setActiveTab("hmi")} />}
+    {activeTab === "training" && <TrainingRoom waterBusy={waterBusy} domain={trainingDomain} onDomainChange={setTrainingDomain} water={data?.plant} infrastructure={infrastructure} scenarios={scenarios} infrastructureScenarios={infrastructureScenarios} onOpenRoom={setActiveTab} onOpenAgents={domain=>openWorkspace("agents",domain)} onWaterAction={trainingWaterAction} onInfrastructureCommand={infrastructureCommand} />}
     {activeTab === "overview" && <Overview data={data} />}
     {activeTab === "hmi" && <Hmi plant={data?.plant} plc={data?.plc} onManual={manual} onResetTrips={resetTrips} injections={injections} onInject={injectFault} onClearInjections={clearInjections} />}
-    {activeTab === "nuclear" && <NuclearRoom state={infrastructure.nuclear} scenarios={infrastructureScenarios.nuclear} onCommand={uiAction((action, options) => infrastructureCommand("nuclear", action, options))} onManual={uiAction(infrastructureManual)} onAi={uiAction(infrastructureAi)} onTune={uiAction(infrastructureTuning)} />}
-    {activeTab === "grid" && <GridRoom state={infrastructure.grid} scenarios={infrastructureScenarios.grid} onCommand={uiAction((action, options) => infrastructureCommand("grid", action, options))} onManual={uiAction(infrastructureManual)} onAi={uiAction(infrastructureAi)} />}
+    {activeTab === "nuclear" && <NuclearRoom state={infrastructure.nuclear?{...infrastructure.nuclear,ai_decision:supervisorDecisions.nuclear||infrastructure.nuclear.ai_decision}:null} scenarios={infrastructureScenarios.nuclear} onCommand={uiAction((action, options) => infrastructureCommand("nuclear", action, options))} onManual={uiAction(infrastructureManual)} onAi={uiAction(infrastructureAi)} onTune={uiAction(infrastructureTuning)} />}
+    {activeTab === "grid" && <GridRoom state={infrastructure.grid?{...infrastructure.grid,ai_decision:supervisorDecisions.grid||infrastructure.grid.ai_decision}:null} scenarios={infrastructureScenarios.grid} onCommand={uiAction((action, options) => infrastructureCommand("grid", action, options))} onManual={uiAction(infrastructureManual)} onAi={uiAction(infrastructureAi)} />}
     {activeTab === "experiments" && <Experiments scenarios={scenarios} runs={runs} config={config} setConfig={setConfig} activeRunId={data?.active_run_id} onCreateStart={createStart} onAction={runAction} error={error} />}
     {isWaterRoom && activeTab !== "research" && <button className="emergency-button" onClick={uiAction(emergencyStop)}><span>STOP</span><small>Emergency return to baseline</small></button>}
   </div>;

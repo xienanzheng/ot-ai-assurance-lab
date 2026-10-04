@@ -1,7 +1,8 @@
 import { visitors, registered } from './visitors.mjs';
+import { crawlerResponse } from '../crawler-policy.mjs';
 import { Container, ContainerProxy } from '@cloudflare/containers';
 import { DurableObject } from 'cloudflare:workers';
-import { admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
+import { capacity, admit, authorize, consumeAI, emptyLedger, HOSTED_MODEL, AUDIT_MODEL, consumeAudit, auditRequest, jevRequest, modelRequest, modelResponse, forwardRequest } from './policy.mjs';
 export { ContainerProxy };
 
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
@@ -13,7 +14,7 @@ export class LabContainer extends Container {
   sleepAfter='5m';
   enableInternet=false;
   allowedHosts=['inference.lab'];
-  envVars={OLLAMA_BASE_URL:'http://inference.lab',OLLAMA_MODEL:HOSTED_MODEL,HOSTED_MODE:'true',LESSON_MEMORY_ENABLED:'false'};
+  envVars={OLLAMA_BASE_URL:'http://inference.lab',OLLAMA_MODEL:HOSTED_MODEL,HOSTED_MODE:'true',LESSON_MEMORY_ENABLED:'false',DECISION_AUDIT_ENABLED:'true'};
   async fetch(request){
     // Python scientific imports and OPC UA startup exceed the SDK's short default.
     await this.startAndWaitForPorts({ports:[8080],cancellationOptions:{instanceGetTimeoutMS:90000,portReadyTimeoutMS:90000}});
@@ -30,13 +31,23 @@ LabContainer.outboundByHost={
       return json({models:ready?[{name:HOSTED_MODEL,model:HOSTED_MODEL,provider:'cloudflare-workers-ai',execution_location:'cloud'}]:[]});
     }
     if(path==='/api/providers'&&request.method==='GET') return json({jev:!!env.OPENROUTER_API_KEY});
-    if(!['/api/chat','/api/decisions'].includes(path)||request.method!=='POST') return json({error:'Unsupported inference route'},404);
+    if(!['/api/chat','/api/decisions','/api/audit'].includes(path)||request.method!=='POST') return json({error:'Unsupported inference route'},404);
     try{
       const raw=await request.text();
       if(raw.length>50000) return json({error:'Context exceeds hosted limit'},413);
+      const body=JSON.parse(raw);
+      if(path==='/api/audit'){
+        const input=auditRequest(body);
+        const allowance=await registry(env).reserveAudit(ctx.containerId,body.record_id);
+        if(!allowance.ok)return json({error:allowance.detail},allowance.status);
+        const output=await env.AI.run(AUDIT_MODEL,input);
+        const message=output.choices?.[0]?.message;let content=message?.content??output.response;
+        if(content&&typeof content==='object')content=JSON.stringify(content);
+        return json({model:output.model||AUDIT_MODEL,requested_model:AUDIT_MODEL,message:{content},usage:output.usage,done_reason:output.choices?.[0]?.finish_reason});
+      }
       const jev=path==='/api/decisions';
       if(jev&&!env.OPENROUTER_API_KEY) return json({error:'Jev is not configured'},503);
-      const input=jev?jevRequest(JSON.parse(raw)):modelRequest(JSON.parse(raw));
+      const input=jev?jevRequest(body):modelRequest(body);
       const allowance=await registry(env).reserveAI(ctx.containerId);
       if(!allowance.ok) return json({error:allowance.detail},allowance.status);
       if(jev){
@@ -66,11 +77,11 @@ export class SessionRegistry extends DurableObject {
   }
   async create(){
     const id=crypto.randomUUID(),containerId=this.env.LABS.idFromName(id).toString();
-    const result=await this.mutate(ledger=>admit(ledger,id,containerId,Date.now()));
+    const result=await this.mutate(ledger=>admit(ledger,id,containerId,Date.now(),capacity(this.env)));
     if(result.ok&&await this.ctx.storage.getAlarm()===null) await this.ctx.storage.setAlarm(Date.now()+60000);
     return result;
   }
-  async check(id,count=false){return this.mutate(ledger=>authorize(ledger,id,Date.now(),count));}
+  async check(id,count=false){return this.mutate(ledger=>authorize(ledger,id,Date.now(),count,capacity(this.env)));}
   async modelReady(){
     // One cheap probe, cached, and deliberately outside the visitor's AI allowance.
     const cached=await this.ctx.storage.get('modelProbe');
@@ -82,7 +93,8 @@ export class SessionRegistry extends DurableObject {
     await this.ctx.storage.put('modelProbe',{ok,expires:Date.now()+(ok?3600000:120000)});
     return ok;
   }
-  async reserveAI(containerId){return this.mutate(ledger=>consumeAI(ledger,containerId,Date.now()));}
+  async reserveAI(containerId){return this.mutate(ledger=>consumeAI(ledger,containerId,Date.now(),capacity(this.env)));}
+  async reserveAudit(containerId,recordId){return this.mutate(ledger=>consumeAudit(ledger,containerId,recordId,Date.now(),capacity(this.env)));}
   async end(id){
     const result=await this.mutate(ledger=>{
       if(!Object.hasOwn(ledger.sessions,id)) return {ok:false};
@@ -107,6 +119,7 @@ export class SessionRegistry extends DurableObject {
 
 export default {
   async fetch(request,env){
+    const crawler=crawlerResponse(request);if(crawler)return crawler;
     const url=new URL(request.url),path=url.pathname;
     const write=!['GET','HEAD'].includes(request.method);
     if((write||request.headers.get('Upgrade')==='websocket')&&request.headers.get('Origin')!==url.origin) return json({detail:'Same-origin request required'},403);
@@ -115,7 +128,7 @@ export default {
       const id=cookie(request);
       if(request.method==='GET'){
         const result=await registry(env).check(id);
-        return json(result.ok?{active:true,expires:result.session.expires,ai_remaining:10-result.session.aiCalls,model:HOSTED_MODEL}:{active:false});
+        return json(result.ok?{active:true,expires:result.session.expires,ai_remaining:result.ai_remaining,model:HOSTED_MODEL}:{active:false});
       }
       if(request.method==='DELETE'){if(id) await registry(env).end(id);return json({active:false});}
       if(request.method!=='POST') return json({detail:'Method not allowed'},405);

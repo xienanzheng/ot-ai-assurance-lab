@@ -23,6 +23,9 @@ def frozen_gate(domain, context, proposal):
     """Execute the actual gate implementation against detached captured state."""
     plant = context["plant"]
     if domain == "water":
+        from shared.water_escalation import intervention_required, intervention_assessment
+        if intervention_required(plant, context.get("plc", {}).get("control_state"), proposal.episode_status):
+            return {"status":"rejected", "violated_constraints":[r["message"] for r in intervention_assessment(plant, context.get("plc", {}).get("control_state"), proposal.episode_status)["reasons"]], "applied_values":{}}
         try:
             from plc_app.controller import BaselineController, SafetyGate
         except ModuleNotFoundError:
@@ -64,6 +67,10 @@ class AgentRequest(BaseModel):
     knowledge_mode: Literal["off", "lexical", "hybrid"] | None = None
 
 
+class CandidateComparisonRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
 class StudyRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     kind: Literal["label_invariance", "repeatability", "safety_priority"] = "label_invariance"
@@ -82,7 +89,16 @@ class AgentService:
         self.router = APIRouter(prefix="/api/v1/agents")
         from .feedback import FeedbackController
         self.feedback = FeedbackController(self)
+        from .decision_auditor import DecisionAuditor
+        self.auditor=DecisionAuditor(read=lambda identifier:get_audit(identifier),write=lambda identifier,**fields:update_audit(identifier,**fields))
         self._routes()
+
+    def reviewed_record(self,identifier):
+        record=get_audit(identifier)
+        # Review scheduling must never affect application or the control job.
+        try:self.auditor.schedule(record)
+        except Exception:pass
+        return get_audit(identifier)
 
     async def context(self, domain):
         if domain == "water":
@@ -143,8 +159,12 @@ class AgentService:
         state = context["plant"]
         from .sop_context import select_sops
         sop=select_sops(domain,state)
+        from shared.supervision import response_window
+        target_windows={target:response_window(domain,{target:0},state.get("tuning")) for procedure in sop["procedures"] for target in procedure["targets"]}
         prior_timing=context.get("plc",{}).get("control_state",{}).get("supervisory_timing") or state.get("supervisory_timing")
-        experiment={**(experiment or {}), "plant_sops":sop, "previous_application":prior_timing,
+        experiment={**(experiment or {}), "plant_sops":sop, "previous_application":prior_timing, "adaptive_timing":adaptive_timing,
+            "response_windows":target_windows,
+            "application_policy":"Response-window lease, then previous targets return" if adaptive_timing else "Five-minute lease, then previous targets return",
             "timing_rule":"Wait for the process response before adjusting again; confidence is not evidence of recovery."}
         # Per-call configuration never mutates the shared scheduled worker.
         from copy import copy
@@ -184,14 +204,20 @@ class AgentService:
         update_audit(audit_id, before=context, experiment=experiment, evaluate_only=evaluate_only,
                      provider=provider, model_name="typesafe/jev-1.13" if provider=="jev" else worker.model, record_type="decision",
                      proposal=proposal.model_dump(mode="json"))
+        scope=(sop.get("operating_objective") or {}).get("relevant_targets")
+        if scope and set(changed)-set(scope):
+            update_audit(audit_id,status="invalid_proposal",applied=False,
+                gate={"status":"rejected","reason":"Proposed targets are outside this exercise scope"},
+                outcome={"status":"not applied; outside exercise scope"})
+            return self.reviewed_record(audit_id)
         if raw_proposal.get("episode_status")=="escalate" and changed:
             update_audit(audit_id,status="invalid_proposal",applied=False,
                 gate={"status":"rejected","reason":"Escalation cannot include target changes"})
-            return get_audit(audit_id)
+            return self.reviewed_record(audit_id)
         if application_guard is not None and not application_guard():
             update_audit(audit_id,status="cancelled",before=context,proposal=proposal.model_dump(mode="json"),applied=False,
                 gate={"status":"not_submitted","reason":"Feedback stopped before application"})
-            return get_audit(audit_id)
+            return self.reviewed_record(audit_id)
         try:
             if evaluate_only:
                 gate = frozen_gate(domain, context, proposal)
@@ -201,18 +227,27 @@ class AgentService:
                     if application_guard is not None and not application_guard():
                         update_audit(audit_id,status="cancelled",applied=False,
                             gate={"status":"not_submitted","reason":"Feedback stopped before application"})
-                        return get_audit(audit_id)
+                        return self.reviewed_record(audit_id)
                     gate, applied = await self.submit(domain, context, proposal, f"{provider}:{'typesafe/jev-1.13' if provider=='jev' else worker.model}",lease_minutes=window["lease_minutes"] if adaptive_timing else 5)
             update_audit(audit_id, status="complete", gate=gate, applied=applied, lease_minutes=(window["lease_minutes"] if adaptive_timing else 5) if applied else None,
-                         outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"awaiting feedback window" if adaptive_timing else "awaiting later simulation sample"})
+                         outcome={"status":"offline evaluation; no actuation"} if evaluate_only else {"status":"not applied; gate rejected" if gate.get("status")=="rejected" else "awaiting feedback window" if adaptive_timing else "awaiting later simulation sample"})
         except Exception as exc:
-            update_audit(audit_id, status="gate_failed", applied=False, gate={"status":"rejected", "reason":str(exc)})
+            update_audit(audit_id, status="gate_failed", applied=False, error=str(exc), gate={"status":"rejected", "reason":str(exc)})
+            exc.audit_id = audit_id
+            self.reviewed_record(audit_id)
             raise
-        return get_audit(audit_id)
+        return self.reviewed_record(audit_id)
 
     def schedule_feedback_outcome(self, identifier, start, review):
         update_audit(identifier,response_started_minute=start,outcome_review_minute=review,
                      outcome={"status":"awaiting later simulation sample"})
+
+    def close_feedback_outcomes(self, identifiers, reason):
+        for identifier in identifiers:
+            record=get_audit(identifier)
+            if record and (record.get("outcome") or {}).get("status") in {"awaiting feedback window","awaiting later simulation sample"}:
+                update_audit(identifier,outcome={"status":"observation ended before review","reason":reason,
+                    "interpretation":"No complete response window was recorded; recovery is not established."})
 
     async def submit(self, domain, context, proposal, source, freshness=None, lease_minutes=5):
         state = context["plant"]
@@ -225,6 +260,13 @@ class AgentService:
                     params={"apply": str(state["controller_mode"]=="gated_auto").lower(), "lease_minutes":lease_minutes,
                             "expected_controller_generation":context["plc"]["controller_generation"],
                             "expected_time":original["simulation_time"], "expected_mode":state["controller_mode"]})
+                if response.status_code == 409:
+                    try: detail = response.json().get("detail")
+                    except ValueError: detail = None
+                    known = {"PLC reset while the model was reasoning", "Control mode changed during inference",
+                             "Proposal snapshot is stale or clock was reset", "AI actuation requires gated_auto mode"}
+                    reason = detail if isinstance(detail,str) and detail in known else "Plant or controller state changed before application"
+                    raise RuntimeError(f"Controller state conflict: {reason}. No targets applied. Pause the simulation and run a fresh analysis without resetting or changing mode.")
                 response.raise_for_status()
                 gate = response.json()
             applied = state["controller_mode"]=="gated_auto" and gate["status"] in {"accepted", "modified"} and any(v is not None for v in gate.get("applied_values", {}).values())
@@ -271,6 +313,18 @@ class AgentService:
                 response = await client.post(f"{self.infrastructure_url}/{domain}/command", json={"action":"configure", "controller_mode":"gated_auto"})
             response.raise_for_status()
 
+    async def resume_simulation(self, domain, speed=None):
+        if domain == 'water':
+            if not self.manager.active_run_id:
+                raise HTTPException(409, 'Select a water exercise before starting monitoring')
+            if speed is not None:
+                await self.manager.set_speed(speed)
+            await self.manager.start(self.manager.active_run_id)
+        else:
+            async with httpx.AsyncClient(timeout=8) as client:
+                response=await client.post(f'{self.infrastructure_url}/{domain}/command',json={'action':'start'})
+                response.raise_for_status()
+
     async def requested_cycle(self, domain, request):
         if not request.evaluate_only:
             await self.enable_application(domain)
@@ -296,9 +350,36 @@ class AgentService:
             interpretation="Same captured plant state; Qwen generates setpoints, Jev selects bounded candidates. Different decision spaces, not a like-for-like model benchmark.")
         return get_audit(identifier)
 
+    async def compare_candidate(self):
+        from .water_candidate import approval,propose
+        approval()
+        context=await self.context("water")
+        parent=create_audit("water",{"kind":"water_candidate_comparison"})
+        update_audit(parent,record_type="comparison",shadow_only=True,evaluate_only=True,before=context,applied=False)
+        records=[];failures=[]
+        try:
+            baseline=await self.cycle("water",context=context,evaluate_only=True,provider="qwen",inference_profile="fast")
+            update_audit(baseline["id"],shadow_only=True,comparison_id=parent,runtime="Ollama")
+            records.append(baseline["id"])
+        except Exception as exc:
+            if getattr(exc,"audit_id",None):update_audit(exc.audit_id,shadow_only=True,comparison_id=parent)
+            failures.append({"provider":"current-qwen","error":str(exc)})
+        try:
+            proposal,identifier=await propose(context)
+            gate=frozen_gate("water",context,proposal)
+            update_audit(identifier,status="complete",comparison_id=parent,gate=gate,applied=False,
+                outcome={"status":"shadow comparison; no actuation"})
+            records.append(identifier)
+        except Exception as exc:failures.append({"provider":"water-candidate","error":str(exc)})
+        update_audit(parent,status="complete",comparison={"record_ids":records,"failures":failures},
+            interpretation="One captured water state. Current Qwen uses Ollama and its existing prompt; candidate uses MLX and the water alarm context. Latencies include runtime and prompt differences. Both records are permanently shadow-only.")
+        return get_audit(parent)
+
     async def apply_record(self, identifier):
         record = get_audit(identifier)
         if not record: raise HTTPException(404,"Unknown decision")
+        if record.get("operator_response"): raise HTTPException(409,"Operator recommendations cannot be applied as AI commands")
+        if record.get("shadow_only"): raise HTTPException(409,"This record is permanently shadow-only")
         if record.get("status")!="complete" or not record.get("evaluate_only") or not record.get("proposal") or record.get("application_id"):
             raise HTTPException(409,"Decision is not available for application")
         if record.get("gate",{}).get("status") not in {"accepted","modified","shadow","advisory"}:
@@ -418,18 +499,40 @@ class AgentService:
         @router.get("/state")
         async def status():
             from .jev_client import availability
-            return {"feedback":self.feedback.state, "jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
+            candidate = {"available":False}
+            if not HOSTED:
+                from .water_candidate import status as candidate_status
+                candidate = await candidate_status()
+            return {"water_candidate": candidate, "feedback":self.feedback.state, "jev_available":await availability(), "model":await self.manager.ollama.status(), "jobs":list(self.jobs.values()),
                 "agents":[{"domain":d,"role":"bounded supervisory optimizer", "gate":"deterministic domain gate", "actuator_authority":False} for d in ["water","nuclear","grid"]]}
 
         @router.get("/records")
         def records(domain: Literal["water","nuclear","grid"]|None=None, limit:int=Query(30,ge=1,le=100)):
-            return [{k:v for k,v in r.items() if k not in {"request","response","before","outcome"}} for r in list_audits(domain,limit)]
+            rows=[]
+            for record in list_audits(domain,limit):
+                row={k:v for k,v in record.items() if k not in {"request","response","before","outcome"}}
+                if row.get('decision_audit'):row['decision_audit']={k:v for k,v in row['decision_audit'].items() if k not in {'request','response','evidence'}}
+                rows.append(row)
+            return rows
 
         @router.get("/records/{identifier}")
         def record(identifier:str):
             result=get_audit(identifier)
             if not result: raise HTTPException(404,"Unknown agent record")
             return result
+
+        @router.post("/water/compare-candidate",status_code=202)
+        async def compare_water_candidate(request:CandidateComparisonRequest):
+            if HOSTED:raise HTTPException(403,"Water candidate comparison is local-only")
+            if self.feedback.active:raise HTTPException(409,"Stop feedback before a candidate comparison")
+            from .water_candidate import approval
+            try:approval()
+            except ValueError as exc:raise HTTPException(409,str(exc))
+            return self.enqueue("water",self.compare_candidate)
+
+        @router.post("/water/guided",status_code=201)
+        async def guided_water(request:FeedbackRequest):
+            return await self.feedback.start_guided_water(request)
 
         @router.post("/{domain}/feedback",status_code=201)
         async def start_feedback(domain:Literal["water","nuclear","grid"],request:FeedbackRequest):

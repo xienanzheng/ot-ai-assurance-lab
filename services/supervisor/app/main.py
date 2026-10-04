@@ -37,13 +37,15 @@ async def background_sampler() -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     initialize_database()
+    agents.auditor.recover()
     task = asyncio.create_task(background_sampler())
     agent_task = asyncio.create_task(agents.monitor())
     yield
     task.cancel()
     agent_task.cancel()
-    for pending in agents.tasks:
+    for pending in list(agents.tasks):
         pending.cancel()
+    await agents.auditor.close()
 
 
 app = FastAPI(title="WaterLab Supervisor API", version="1.0.0", lifespan=lifespan)
@@ -157,10 +159,10 @@ async def infrastructure_ai(domain: str):
     try:
         record = await agents.cycle(domain, evaluate_only=False)
     except OllamaUnavailable as exc:
-        raise HTTPException(503, "Local AI unavailable; baseline retained control. Inspect the agent audit.") from exc
+        raise HTTPException(503, "AI unavailable; baseline retained control. Inspect the agent audit.") from exc
     context = await agents.context(domain)
     proposal = record["proposal"]
-    return {"decision":{**proposal,"gate":record["gate"],"source":f"ollama:{manager.ollama.model}"},"plant":context["plant"],"audit_id":record["id"]}
+    return {"decision":{**proposal,"gate":record["gate"],"source":record.get("model_name") or manager.ollama.model},"plant":context["plant"],"audit_id":record["id"]}
 
 
 @app.get("/api/v1/runs")

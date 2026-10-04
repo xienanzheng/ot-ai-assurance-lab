@@ -104,7 +104,7 @@ class RunConfig(BaseModel):
     scenario: str = "normal_day"
     seed: int = 42
     duration_hours: float = Field(default=24, gt=0, le=168)
-    speed: Literal[1, 10, 60] = 10
+    speed: Literal[1, 10, 20, 30, 60] = 10
     controller_mode: ControlMode = ControlMode.BASELINE
     model: str = "qwen3:8b"
     ai_decision_interval_minutes: int = Field(default=5, ge=5, le=60)
@@ -129,11 +129,19 @@ class SetpointChanges(BaseModel):
     backwash_request: bool | None = None
 
 
+class AlarmAssessment(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    alarm_codes: list[str] = Field(default_factory=list, max_length=12)
+    sensor_ids: list[str] = Field(default_factory=list, max_length=12)
+    operator_check_ids: list[str] = Field(default_factory=list, max_length=8)
+
+
 class ControlProposal(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
     decision_id: str = Field(default_factory=lambda: str(uuid4()))
     proposed_at: datetime = Field(default_factory=utc_now)
     changes: SetpointChanges
+    alarm_assessment: AlarmAssessment | None = None
     expected_effect: str = Field(min_length=1, max_length=240)
     confidence: float = Field(ge=0, le=1)
     explanation: str = Field(min_length=1, max_length=280)
@@ -183,9 +191,10 @@ class StepRequest(BaseModel):
 
 
 class SimulationCommand(BaseModel):
-    action: Literal["start", "pause", "reset", "step", "configure"]
+    action: Literal["start", "pause", "reset", "step", "configure", "speed"]
     config: RunConfig | None = None
     minutes: int = 1
+    speed: Literal[1, 10, 20, 30, 60] | None = None
 
 
 class FaultInjectionRequest(BaseModel):

@@ -83,6 +83,11 @@ def apply_profile(payload, domain, profile):
     state=json.loads(payload['messages'][-1]['content'])
     original=json.dumps(state,separators=(',',':'))
     metadata={'profile':profile,'original_context_bytes':len(original.encode()),'context_sha256':digest(state)}
+    scope=(state.get('operating_objective') or {}).get('relevant_targets') if domain=='water' else None
+    if scope:
+        payload['messages'][0]['content'] += ' This exercise permits only these target changes: '+', '.join(scope)+'. Hold and escalation remain available; all protection evidence still applies.'
+        for name in payload['format'].get('$defs',{}).get('SetpointChanges',{}).get('properties',{}):
+            if name not in scope:payload['format']['$defs']['SetpointChanges']['properties'][name]={'type':'null'}
     if profile=='fast':
         compact=compact_context(state, domain)
         payload['messages'][-1]['content']=json.dumps(compact,separators=(',',':'))
@@ -99,6 +104,7 @@ def apply_profile(payload, domain, profile):
             targets = list(payload['format']['$defs']['SetpointChanges']['properties'])
         else:
             targets = list(state['allowed_changes'])
+        if scope:targets=[target for target in targets if target in scope]
         payload['format'] = {
             'type':'object','additionalProperties':False,
             'properties':{
@@ -108,13 +114,13 @@ def apply_profile(payload, domain, profile):
                                   'value':{'anyOf':[{'type':'number'},{'type':'boolean'}]}},
                     'required':['target','value']}},
                 'confidence':{'type':'number','minimum':0,'maximum':1},
-                'reason':{'type':'string','minLength':1,'maxLength':96},
+                'reason':{'type':'string','minLength':1,'maxLength':160},
                 'episode_status':{'type':'string','enum':['continue','resolved','escalate']}},
             'required':['actions','confidence','reason','episode_status']}
         payload['messages'][0]['content'] += (
             ' Output actions [{target,value}], confidence, reason, episode_status only. '
             'Use actions [] to hold or escalate; never echo unchanged setpoints. '
-            'The reason must describe the chosen actions in at most ten words; do not repeat readings. '
+            'The reason must state the action or specific obstacle in one complete English sentence of at most eighteen words. '
             'If no adjustment is justified, hold baseline targets rather than invent a change. '
             'A resolved claim needs the supplied sustained-recovery evidence.')
         metadata['uncompressed_context']=state
@@ -131,12 +137,14 @@ def normalize_fast_response(content, payload, domain):
         model_config = ConfigDict(extra='forbid')
         target: str
         value: Any
+    from shared.models import AlarmAssessment
     class Response(BaseModel):
         model_config = ConfigDict(extra='forbid', allow_inf_nan=False)
         actions: list[Action] = Field(max_length=2)
         confidence: float = Field(ge=0,le=1)
-        reason: str = Field(min_length=1,max_length=96)
+        reason: str = Field(min_length=1,max_length=160)
         episode_status: Literal['continue','resolved','escalate']
+        alarm_assessment: AlarmAssessment | None = None
     response = Response.model_validate_json(content)
     allowed = payload['format']['properties']['actions']['items']['properties']['target']['enum']
     changes = {}
@@ -151,6 +159,7 @@ def normalize_fast_response(content, payload, domain):
     normalized = {'changes':changes,'confidence':response.confidence,'explanation':response.reason}
     if domain == 'water':
         normalized.update(expected_effect=response.reason,episode_status=response.episode_status)
+        if response.alarm_assessment is not None: normalized["alarm_assessment"]=response.alarm_assessment.model_dump()
     else:
         normalized['objective'] = 'Bounded simulator supervision'
         normalized['episode_status'] = response.episode_status

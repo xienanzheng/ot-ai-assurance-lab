@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import asyncio
+
 from asyncua import Server, ua
 
 from shared.opcua_nodes import ACTUATOR_NODES, NAMESPACE_URI, SENSOR_NODES
@@ -14,6 +16,7 @@ class WaterOpcUaServer:
         self.quality_nodes = {}
         self.actuator_nodes = {}
         self.system_nodes = {}
+        self.sync_lock = asyncio.Lock()
 
     async def start(self) -> None:
         await self.server.init()
@@ -49,6 +52,12 @@ class WaterOpcUaServer:
         await self.server.start()
 
     async def sync(self) -> None:
+        # A background publication must finish before a mode-change publication;
+        # an older snapshot must never overwrite the acknowledged mode.
+        async with self.sync_lock:
+            await self._sync_unlocked()
+
+    async def _sync_unlocked(self) -> None:
         snapshot = self.simulator.snapshot()
         changes = {}
         for name, node in self.actuator_nodes.items():

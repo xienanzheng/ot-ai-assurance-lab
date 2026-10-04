@@ -1,5 +1,21 @@
+export const AUDIT_MODEL='@cf/google/gemma-4-26b-a4b-it';
 export const HOSTED_MODEL='@cf/qwen/qwen3-30b-a3b-fp8';
 export const SESSION_MS=20*60*1000;
+// Keep the active upper bound aligned with wrangler's max_instances.
+export const MAX_CONTAINER_INSTANCES=6;
+export function capacity(env={}){
+  const number=(name,fallback,max)=>{
+    const raw=env[name]===undefined?fallback:env[name];
+    if(!['number','string'].includes(typeof raw)||!/^\d+$/.test(String(raw))) throw new Error(`Invalid ${name}`);
+    const value=Number(raw);
+    if(!Number.isSafeInteger(value)||value<1||value>max) throw new Error(`Invalid ${name}`);
+    return value;
+  };
+  return {active:number('LAB_MAX_ACTIVE',3,MAX_CONTAINER_INSTANCES),dailySessions:number('LAB_DAILY_SESSIONS',20,500),
+    sessionAI:number('LAB_SESSION_AI',10,100),dailyAI:number('LAB_DAILY_AI',200,10000),
+    sessionAudit:number('LAB_SESSION_AUDIT',10,100),dailyAudit:number('LAB_DAILY_AUDIT',200,10000)};
+}
+function remaining(ledger,session,limits){return Math.max(0,Math.min(limits.sessionAI-session.aiCalls,limits.dailyAI-ledger.aiCalls));}
 // Actuation remains bounded by the independent gate inside each isolated simulator.
 export function actuationGuard(){return null;}
 export function jevRequest(body){
@@ -8,7 +24,13 @@ export function jevRequest(body){
   if(!body.state||typeof body.state!=='object'||Array.isArray(body.state)||question?.type!=='choice'||typeof question.instructions!=='string') throw new Error('Invalid Jev decision');
   const criteria=question.criteria;
   if(!criteria||typeof criteria!=='object'||Array.isArray(criteria)||Object.keys(criteria).length<2||Object.keys(criteria).length>30||Object.values(criteria).some(v=>typeof v!=='string'||v.length>500)) throw new Error('Invalid candidates');
-  return {model:'typesafe/jev-1.13',state:body.state,questions:{response:{type:'choice',instructions:question.instructions,criteria}}};
+  const questions={response:{type:'choice',instructions:question.instructions,criteria}};
+  const plan=body.questions.operator_response;
+  if(plan!==undefined){
+    if(plan?.type!=='choice'||typeof plan.instructions!=='string'||plan.instructions.length>2000||!plan.criteria||Object.keys(plan.criteria).sort().join(',')!=='not_required,required_plan'||Object.values(plan.criteria).some(v=>typeof v!=='string'||v.length>12000)) throw new Error('Invalid operator plan');
+    questions.operator_response={type:'choice',instructions:plan.instructions,criteria:plan.criteria};
+  }
+  return {model:'typesafe/jev-1.13',state:body.state,questions};
 }
 export async function forwardRequest(request){
   const url=new URL(request.url),headers=new Headers(request.headers);
@@ -33,18 +55,19 @@ const fail=(status,detail)=>({ok:false,status,detail});
 export const emptyLedger=now=>({day:Math.floor(now/86400000),created:0,aiCalls:0,sessions:{}});
 function daily(ledger,now){
   const day=Math.floor(now/86400000);
-  if(ledger.day!==day){ledger.day=day;ledger.created=0;ledger.aiCalls=0;}
+  if(ledger.day!==day){ledger.day=day;ledger.created=0;ledger.aiCalls=0;ledger.auditCalls=0;}
 }
-export function admit(ledger,id,containerId,now){
+export function admit(ledger,id,containerId,now,limits=capacity()){
   daily(ledger,now);
-  if(ledger.created>=20) return fail(429,'Daily demo capacity reached. Please return tomorrow (UTC).');
+  if(ledger.created>=limits.dailySessions) return fail(429,'Daily demo capacity reached. Please return tomorrow (UTC).');
   // Expired containers continue occupying capacity until cleanup confirms destruction.
-  if(Object.keys(ledger.sessions).length>=3) return fail(429,'All three labs are in use. Please try again shortly.');
+  if(Object.keys(ledger.sessions).length>=limits.active) return fail(429,'All available labs are in use. Please try again shortly.');
   const session={id,containerId,expires:now+SESSION_MS,aiCalls:0,lastAI:null,window:0,requests:0};
   ledger.sessions[id]=session;ledger.created++;
   return {ok:true,session};
 }
-export function authorize(ledger,id,now,count=false){
+export function authorize(ledger,id,now,count=false,limits=capacity()){
+  daily(ledger,now);
   const session=Object.hasOwn(ledger.sessions,id||'')?ledger.sessions[id]:null;
   if(!session||session.expires<=now) return fail(401,'Session ended. Start a new lab.');
   if(count){
@@ -53,17 +76,17 @@ export function authorize(ledger,id,now,count=false){
     if(session.requests>=180) return fail(429,'Please slow down and retry in a minute.');
     session.requests++;
   }
-  return {ok:true,session};
+  return {ok:true,session,ai_remaining:remaining(ledger,session,limits)};
 }
-export function consumeAI(ledger,containerId,now){
+export function consumeAI(ledger,containerId,now,limits=capacity()){
   daily(ledger,now);
   const session=Object.values(ledger.sessions).find(s=>s.containerId===containerId&&s.expires>now);
   if(!session) return fail(401,'No active inference session.');
-  if(ledger.aiCalls>=200||session.aiCalls>=10) return fail(429,'AI allowance reached. Rule-based simulation remains available.');
+  if(ledger.aiCalls>=limits.dailyAI||session.aiCalls>=limits.sessionAI) return fail(429,'AI allowance reached. Rule-based simulation remains available.');
   if(session.lastAI!==null&&now-session.lastAI<10000) return fail(429,'Wait ten seconds between AI calls.');
   // Reserve before invoking the model: failed calls still count toward spend limits.
   ledger.aiCalls++;session.aiCalls++;session.lastAI=now;
-  return {ok:true,remaining:10-session.aiCalls};
+  return {ok:true,remaining:remaining(ledger,session,limits)};
 }
 export function modelRequest(body){
   if(!Array.isArray(body.messages)||body.messages.length<1||body.messages.length>10) throw new Error('Invalid messages');
@@ -84,4 +107,21 @@ export function modelResponse(body){
   return {model:HOSTED_MODEL,provider:'cloudflare-workers-ai',execution_location:'cloud',done:true,
     message:{role:'assistant',content,thinking:message?.reasoning_content??''},
     prompt_eval_count:body.usage?.prompt_tokens,eval_count:body.usage?.completion_tokens};
+}
+
+export function consumeAudit(ledger,containerId,recordId,now,limits=capacity()){
+  daily(ledger,now);
+  const session=Object.values(ledger.sessions).find(s=>s.containerId===containerId&&s.expires>now);
+  if(!session)return fail(401,'No active audit session.');
+  if(typeof recordId!=='string'||recordId.length>80||!/^[a-zA-Z0-9-]+$/.test(recordId))return fail(400,'Invalid audit record.');
+  if(Object.hasOwn(session.auditRecords||{},recordId))return fail(409,'Record already reserved for audit.');
+  if((ledger.auditCalls||0)>=limits.dailyAudit||(session.auditCalls||0)>=limits.sessionAudit)return fail(429,'Audit allowance reached.');
+  session.auditRecords={...(session.auditRecords||{}),[recordId]:true};
+  session.auditCalls=(session.auditCalls||0)+1;ledger.auditCalls=(ledger.auditCalls||0)+1;
+  return {ok:true};
+}
+export function auditRequest(body){
+  if(typeof body.record_id!=='string'||body.record_id.length>80)throw new Error('Invalid audit record');
+  const input=modelRequest(body);
+  return {...input,max_tokens:768,chat_template_kwargs:{enable_thinking:false}};
 }

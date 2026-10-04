@@ -7,7 +7,8 @@ const guidance = {
   nuclear: ["Run nominal conditions, then select a transient and step through its onset.", "Observe primary-loop flow, steam-generator inventory and the first-out trip indication.", "Track residual heat after shutdown and verify that AI proposals cannot change protection."],
   grid: ["Establish normal dispatch and inspect supply, demand and battery state of charge.", "Run a line or generator outage and inspect each electrical island and its served load.", "Compare unserved energy and alarm duration across repeated dispatch strategies."],
 };
-const pretty = (s) => s.replaceAll("_", " ");
+const pretty = (s) => ({chlorine_residual_mg_l:"Chlorine residual",chlorine_dose_actual_mg_l:"Actual chlorine dose",chlorine_ct_mg_min_l:"Chlorine CT"}[s] || s.replaceAll("_", " "));
+const plotColors = ["#60ddc4", "#f2c476", "#80bcff", "#eea9d2"];
 
 async function request(path, options = {}) {
   const response = await fetch(path, { ...options, headers: { "Content-Type": "application/json" } });
@@ -19,29 +20,49 @@ async function request(path, options = {}) {
   return response.json();
 }
 
-function Trend({ samples, tag, unit }) {
-  const points = samples.filter((s) => Number.isFinite(s.values[tag]));
+function Trend({ samples, tag, unit, color }) {
+  const valid=s=>Number.isFinite(s.values[tag])&&(!s.quality?.[tag]||s.quality[tag]==='good');
+  const points = samples.filter(valid);
   if (points.length < 2) return <p className="training-empty">Step or start the simulation to build a trend.</p>;
   const values = points.map((s) => s.values[tag]);
   const low = Math.min(...values), high = Math.max(...values), span = high - low || 1;
-  const start = points[0].minute, end = points.at(-1).minute;
-  const coords = points.map((s) => `${50 + (s.minute-start)/(end-start || 1)*830},${175-(s.values[tag]-low)/span*135}`).join(" ");
-  return <svg viewBox="0 0 920 220" role="img" aria-label={`${pretty(tag)} from minute ${start} to ${end}, minimum ${low.toFixed(3)}, maximum ${high.toFixed(3)} ${unit}`}>
-    {[40, 85, 130, 175].map((y) => <line key={y} x1="50" x2="880" y1={y} y2={y} stroke="#30414c" />)}
-    <polyline points={coords} fill="none" stroke="#60ddc4" strokeWidth="2.5" />
-    <text x="50" y="25">{high.toFixed(3)} {unit}</text><text x="50" y="198">{low.toFixed(3)} {unit}</text>
-    <text x="220" y="212">Minute {start}</text><text x="790" y="212">Minute {end}</text>
-  </svg>;
+  const start = samples[0].minute, end = samples.at(-1).minute;
+  const path=samples.map((s,i)=>valid(s)?`${i>0&&valid(samples[i-1])?'L':'M'} ${((s.minute-start)/(end-start||1))*920} ${130-(s.values[tag]-low)/span*120}`:'').join(' ');
+  return <div className="training-plot-chart">
+    <div className="training-plot-frame"><div className="training-plot-scale"><span>{high.toFixed(3)}</span><span>{low.toFixed(3)}</span></div>
+      <svg viewBox="0 0 920 140" preserveAspectRatio="none" role="img" aria-label={`${pretty(tag)} from minute ${start} to ${end}, minimum ${low.toFixed(3)}, maximum ${high.toFixed(3)} ${unit}`}>
+        {[10,50,90,130].map(y=><line key={y} x1="0" x2="920" y1={y} y2={y} stroke="#30414c" />)}
+        <path d={path} fill="none" stroke={color} strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      </svg>
+    </div>
+    <div className="training-plot-ticks"><span>Minute {start}</span><span>Minute {end}</span></div>
+  </div>;
 }
 
-export default function TrainingRoom({ domain, onDomainChange, water, infrastructure, scenarios, infrastructureScenarios, onOpenRoom, onWaterAction, onInfrastructureCommand }) {
+export default function TrainingRoom({ waterBusy = false, domain, onDomainChange, water, infrastructure, scenarios, infrastructureScenarios, onOpenRoom, onOpenAgents, onWaterAction, onInfrastructureCommand }) {
   const setDomain = onDomainChange;
   const [report, setReport] = React.useState(null);
   const [error, setError] = React.useState("");
   const [fetchError, setFetchError] = React.useState("");
-  const [busy, setBusy] = React.useState(false);
+  const [localBusy, setBusy] = React.useState(false);
+  const busy=localBusy||(domain==="water"&&waterBusy);
   const [note, setNote] = React.useState("");
-  const [tag, setTag] = React.useState(initialTags[domain]);
+  const [selectedTags,setSelectedTags]=React.useState(()=>{
+    try {
+      const saved=JSON.parse(sessionStorage.getItem('ot-exercise-sensors')||'{}');
+      return Object.fromEntries(Object.entries(initialTags).map(([key,value])=>[key,typeof saved?.[key]==='string'?saved[key]:value]));
+    } catch {return initialTags;}
+  });
+  React.useEffect(()=>{try{sessionStorage.setItem('ot-exercise-sensors',JSON.stringify(selectedTags));}catch{}},[selectedTags]);
+  const tag=selectedTags[domain]||initialTags[domain];
+  const setTag=value=>setSelectedTags(current=>({...current,[domain]:value}));
+  const [comparisons,setComparisons]=React.useState(()=>{
+    try {
+      const saved=JSON.parse(sessionStorage.getItem('ot-exercise-comparisons')||'{}');
+      return Object.fromEntries(Object.keys(initialTags).map(key=>[key,Array.isArray(saved?.[key])?[...new Set(saved[key].filter(value=>typeof value==='string'))].slice(0,3):[]]));
+    } catch {return {};}
+  });
+  React.useEffect(()=>{try{sessionStorage.setItem('ot-exercise-comparisons',JSON.stringify(comparisons));}catch{}},[comparisons]);
   const [revision, refresh] = React.useReducer((n) => n + 1, 0);
   const plant = domain === "water" ? water : infrastructure[domain];
   const choices = domain === "water" ? scenarios : infrastructureScenarios[domain];
@@ -70,24 +91,33 @@ export default function TrainingRoom({ domain, onDomainChange, water, infrastruc
     await request(`/api/v1/training/${domain}`, { method: "POST", body: JSON.stringify(body) });
     if (body.action === "note") setNote("");
   });
-  const selectDomain = (next) => { setDomain(next); setTag(initialTags[next]); setReport(null); setNote(""); setError(""); };
+  const selectDomain = (next) => { setDomain(next); setReport(null); setNote(""); setError(""); };
   const current = report?.domain === domain ? report : null;
   const tags = Object.keys(plant?.sensors || {}).sort();
-  const sensor = plant?.sensors?.[tag];
+  const plotTags=[tag,...(comparisons[domain]||[]).filter(name=>name!==tag&&tags.includes(name))].slice(0,4);
+  const addSensor=name=>setComparisons(previous=>({...previous,[domain]:[...new Set([...(previous[domain]||[]).filter(value=>value!==tag&&tags.includes(value)),name])].slice(0,3)}));
+  const removeSensor=name=>setComparisons(previous=>({...previous,[domain]:(previous[domain]||[]).filter(value=>value!==name)}));
   const trip = plant?.equipment?.reactor_protection?.first_out;
   return <main className="page training-page">
-    <div className="room-intro"><div><span className="eyebrow">Operator exercise workspace</span><h1>Run. Observe. Explain.</h1><p>One exercise record for each control room, with minute samples, alarm transitions and operator observations.</p></div><button onClick={() => onOpenRoom(domain === "water" ? "hmi" : domain)}>Open {names[domain]} HMI →</button></div>
+    <div className="room-intro"><div><span className="eyebrow">Operator exercise workspace</span><h1>Run. Observe. Explain.</h1><p>Process trends, alarms and operator notes.</p></div><button onClick={() => onOpenRoom(domain === "water" ? "hmi" : domain)}>Open {names[domain]} HMI →</button></div>
     <div className="training-domains" role="group" aria-label="Simulation domain">{Object.entries(names).map(([id, name]) => <button disabled={busy} aria-pressed={domain === id} className={domain === id ? "active" : ""} key={id} onClick={() => selectDomain(id)}>{name}</button>)}</div>
     {(error || fetchError) && <div role="alert" className="training-error">{error || fetchError}</div>}
     <section className="training-toolbar">
-      <label>Scenario · selecting starts a fresh record<select disabled={busy} value={plant?.scenario || ""} onChange={(e) => command("configure", { scenario: e.target.value })}>{choices.map((s) => <option value={s.id} key={s.id}>{s.name}</option>)}</select></label>
+      <label>Scenario<select title="Changing scenario resets the exercise" disabled={busy || !choices.length} value={plant?.scenario || ""} onChange={(e) => command("configure", { scenario: e.target.value })}>{!choices.length&&<option value="">Loading scenarios…</option>}{choices.map((s) => <option value={s.id} key={s.id}>{s.name}</option>)}</select></label>
       <div className="training-clock"><small>{plant?.running ? "RUNNING" : "PAUSED"}</small><strong>{plant?.elapsed_minutes ?? 0} <small>min</small></strong></div>
       <button disabled={busy || !plant} onClick={() => command(plant.running ? "pause" : "start")}>{plant?.running ? "Pause" : "Start / resume"}</button>
       <button disabled={busy || !plant} onClick={() => command("step", { minutes: 1 })}>+1 minute</button>
       {domain !== "water" && <button disabled={busy || !plant} onClick={() => command("step", { minutes: 10 })}>+10 minutes</button>}
       <button disabled={busy || !plant} onClick={() => command("reset")}>Reset exercise</button>
     </section>
-    <p className="training-caption">{choices.find((s) => s.id === plant?.scenario)?.description} Export your record before changing scenario or resetting.</p>
+    <p className="training-caption">{choices.find((s) => s.id === plant?.scenario)?.description}</p>
+    {domain==="water"&&plant?.scenario==="chlorine_efficiency_trim"&&<section className="training-demo">
+      <h2>Chlorine residual adjustment</h2>
+      <details><summary>Quick steps</summary><ol><li>Advance to minute 15.</li><li>Open AI decisions and select a model.</li><li>Choose two or more calls, then start monitoring.</li></ol></details>
+      <button disabled={busy||!plant||plant.running||plant.elapsed_minutes>=15} onClick={()=>command("step",{minutes:15-plant.elapsed_minutes})}>Advance to minute 15</button>{" "}
+      <button onClick={()=>onOpenAgents("water")}>Open AI decisions →</button>
+
+    </section>}
     <section className="training-metrics">
       <div><span>Recorded samples</span><strong>{current?.sample_count ?? "—"}</strong><small>One per simulated minute, including initial state</small></div>
       <div><span>Time in critical condition</span><strong>{current?.critical_minutes ?? "—"} <small>min</small></strong><small>Measured at minute boundaries</small></div>
@@ -95,7 +125,21 @@ export default function TrainingRoom({ domain, onDomainChange, water, infrastruc
       {Object.entries(current?.metrics || {}).map(([name, value]) => <div key={name}><span>{pretty(name)}</span><strong>{Number(value).toFixed(2)}</strong><small>Integrated over this exercise</small></div>)}
     </section>
     <div className="training-columns">
-      <section className="infra-card training-trend"><div className="infra-card-title"><span>Process trend · latest 120 minutes</span><strong>{sensor ? `${Number(sensor.value).toFixed(3)} ${sensor.unit}` : "Waiting"}</strong></div><label>Sensor<select value={tag} onChange={(e) => setTag(e.target.value)}>{tags.map((name) => <option value={name} key={name}>{pretty(name)} · {plant.sensors[name].unit}</option>)}</select></label><Trend samples={current?.recent_samples || []} tag={tag} unit={sensor?.unit || ""} /><small>Reported quality: {sensor?.quality || "unavailable"}. Export JSON includes quality and commands for each sample.</small></section>
+      <section className="infra-card training-trend" aria-label="Process trends">
+        <div className="infra-card-title"><span>Process trends</span><small>Shared time · separate scales</small></div>
+        <div className="training-sensor-selectors">
+          <label>Sensor<select value={tag} onChange={(e) => setTag(e.target.value)}>{tags.map((name) => <option value={name} key={name}>{pretty(name)} · {plant.sensors[name].unit}</option>)}</select></label>
+          <label>Add sensor<select value="" disabled={plotTags.length>=4||!tags.length} title="Compare up to four sensors" onChange={e=>{if(e.target.value)addSensor(e.target.value);}}><option value="">{plotTags.length>=4?'Four selected':'+ Compare'}</option>{tags.filter(name=>!plotTags.includes(name)).map(name=><option value={name} key={name}>{pretty(name)} · {plant.sensors[name].unit}</option>)}</select></label>
+        </div>
+        {plotTags.map((name,index)=>{
+          const sensor=plant?.sensors?.[name];
+          return <div className="training-sensor-plot" key={name} data-sensor={name} style={{'--plot-color':plotColors[index]}}>
+            <div className="training-plot-heading"><span>{pretty(name)}</span><strong>{Number.isFinite(sensor?.value)?sensor.value.toFixed(3):'—'} <small>{sensor?.unit}</small></strong>{index>0&&<button className="training-remove-sensor" onClick={()=>removeSensor(name)} aria-label={`Remove ${pretty(name)}`}>×</button>}</div>
+            <Trend samples={current?.recent_samples || []} tag={name} unit={sensor?.unit || ''} color={plotColors[index]} />
+            {sensor?.quality!=='good'&&<small>Sensor quality: {sensor?.quality || 'unavailable'}</small>}
+          </div>;
+        })}
+      </section>
       <section className="infra-card training-guide"><div className="infra-card-title">Exercise objectives</div><ol>{guidance[domain].map((step) => <li key={step}>{step}</li>)}</ol>{trip && <div className="training-trip"><strong>First-out trip · minute {trip.minute}</strong><p>{trip.causes.join("; ")}</p><small>Causes detected at the same scan are recorded together.</small></div>}{domain === "grid" && plant?.model_health?.islands?.map((island) => <div className="training-island" key={island.reference_bus}><strong>{island.buses.join(" · ")}</strong><span>{island.energized ? "Energized" : "De-energized"} · {island.served_mw.toFixed(1)} / {island.demand_mw.toFixed(1)} MW served</span></div>)}</section>
     </div>
     <div className="training-columns">

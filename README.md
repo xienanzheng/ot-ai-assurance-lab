@@ -10,6 +10,12 @@ The lab combines a treatment model, WNTR distribution hydraulics, a conceptual p
 
 WaterLab is currently a software-in-the-loop operator-training and control-research twin. It becomes an operational digital twin only after a reviewed physical asset model and read-only utility telemetry are synchronized and calibrated. See the [digital twin benchmark](docs/DIGITAL_TWIN_BENCHMARK.md) for a feature-by-feature comparison with EPA, Bentley, Autodesk, and Siemens approaches.
 
+The [water hydraulic response update](docs/WATER_HYDRAULICS.md) makes manual valve closures and injected equipment faults share the treatment pump/resistance calculation. It includes reproducible pressure, flow, storage and chemical-response trajectories, with explicit model limitations and versioning.
+
+## Independent audit agent
+
+Qwen and Jev recommendation cards now support a background Gemma review: **Audit pending → passed / flagged / unavailable**. Click the badge for its reason and evidence; exports retain the full review. It is read-only and does not delay or override the deterministic gate. Hosted review uses Cloudflare Gemma; local review is opt-in. See [setup, evidence and limits](docs/DECISION_AUDIT.md).
+
 ## Model switching and gated application
 
 In **AI decisions**, select **Qwen** or **Jev** for the next analysis. Switching preserves the plant and decision history. **Apply approved targets** runs the independent gate before changing simulated setpoints; the HMI reflects those targets. A five-simulated-minute lease returns prior targets without rewinding process measurements. Advance the simulation to observe the response.
@@ -328,4 +334,12 @@ The [Plant SOP and context book](docs/PLANT_CONTEXT_BOOK.md) records water, nucl
 
 ### Delay-aware feedback and adapter experiments
 
-In **Local AI agents → Observe & adjust**, choose a call budget and start feedback, then run the simulation clock from the HMI. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.
+For a water exercise, open **AI decisions / Local AI agents → Water exercise** and choose **Chlorine residual adjustment**, **Chlorine overdose** or **Rising filtered-water turbidity**. Select a model and at least two calls, then **Start monitoring & control**. The current exercise clock resumes at the selected demo speed (10× default); each proposal is gated before application and the next review waits for the process response window. After the final call, baseline control resumes while sensor monitoring continues within the session limit. The chlorine panel separates the exercise goal, residual target and measured response, with yellow at 1.50 mg/L and red at 2.00 mg/L. See [water monitoring workflow](docs/GUIDED_WATER_DEMO.md).
+
+For other scenarios, in **Local AI agents → Observe & adjust**, choose a call budget and **Start monitoring & control** to resume the simulation clock. The selected model receives updated SOP and observation context; only gate-approved targets reach the simulated plant. Stop returns baseline control. See [feedback behavior and local training](docs/FEEDBACK_AND_POSTTRAINING.md). The experimental Qwen adapter is kept separate from the active model until it passes evaluation.
+
+### Water critical-alarm candidate (local shadow only)
+
+The [water alarm evaluation protocol and results](docs/WATER_ALARM_EVALUATION.md) documents the completed version-2 benchmark, matched QLoRA experiment, strict approval checks and local comparison workflow. That adapter failed acceptance: **no new adapter is approved or active**. A separate [context and QLoRA development pilot](docs/WATER_CONTEXT_STUDY.md) studies fresh cases, code-assisted context and hosted typed decisions. Critical states require escalation without actuation. Candidate comparison records are permanently shadow-only and cannot change HMI targets. The optional approved service uses loopback port **18784**; it is not exposed in Cloudflare.
+
+Water decision labels and the noncritical adjustment walkthrough: [Water decision outcomes](docs/WATER_DECISION_OUTCOMES.md).

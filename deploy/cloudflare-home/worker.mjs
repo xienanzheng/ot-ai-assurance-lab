@@ -1,8 +1,9 @@
+import { crawlerResponse } from '../crawler-policy.mjs';
 export default {
  async fetch(request,env){
+  const crawler=crawlerResponse(request);if(crawler)return crawler;
   const url=new URL(request.url);
   if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD'}});
-  if(url.pathname==='/robots.txt')return new Response('User-agent: *\nAllow: /\nSitemap: https://securecritcticalinfra.dev/sitemap.xml\n',{headers:{'Content-Type':'text/plain'}});
   if(url.pathname==='/sitemap.xml')return new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://securecritcticalinfra.dev/</loc></url></urlset>',{headers:{'Content-Type':'application/xml'}});
   if(url.pathname!=='/'&&url.pathname!=='/home.html'&&!url.pathname.startsWith('/assets/'))return new Response('Not found',{status:404});
   if(url.pathname==='/home.html')return Response.redirect(new URL('/',url),301);

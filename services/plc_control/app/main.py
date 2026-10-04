@@ -90,6 +90,11 @@ async def evaluate_proposal(proposal: ControlProposal, apply: bool = False, leas
                 raise HTTPException(409, "Proposal snapshot is stale or clock was reset")
             if apply and snapshot.controller_mode.value != "gated_auto":
                 raise HTTPException(409, "AI actuation requires gated_auto mode")
+            from shared.water_escalation import intervention_required, intervention_assessment
+            if intervention_required(snapshot.model_dump(mode="json"), controller.status(), proposal.episode_status):
+                return GateDecision(decision_id=proposal.decision_id, status="rejected", risk_level="high",
+                    violated_constraints=[r["message"] for r in intervention_assessment(snapshot.model_dump(mode="json"), controller.status(), proposal.episode_status)["reasons"]],
+                    fallback_reason="Retain independent protection and obtain operator review")
             decision = gate.evaluate(proposal, snapshot)
             if decision.status in {"accepted", "modified"} and apply:
                 from shared.supervision import response_window

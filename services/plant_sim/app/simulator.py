@@ -21,7 +21,7 @@ from shared.chemistry import (
     ph_from_alkalinity,
     solution_flow_lph,
 )
-from shared.limits import LIMITS, VALVE_TRAVEL_RATE_PCT_MIN
+from shared.limits import LIMITS, VALVE_TRAVEL_RATE_PCT_MIN, CHLORINE_RESIDUAL_ALARMS
 from shared.models import (
     Alarm,
     ControlMode,
@@ -48,6 +48,8 @@ VALVE_COMMANDS = {
     "zone_3_isolation": "zone_3_isolation_valve_pct",
 }
 
+WATER_HYDRAULIC_VERSION = "water-hydraulics-v2"
+
 
 class WaterPlantSimulator:
     """Treatment and pressure-dependent distribution model for a local OT lab."""
@@ -72,6 +74,9 @@ class WaterPlantSimulator:
             self.clearwell_level_pct = 65.0
             self.elevated_tank_level_pct = 68.0
             self.filter_dp_kpa = 18.0
+            # Fouling resistance expressed as pressure loss at the reference flow.
+            # Measured differential pressure is separately calculated at actual flow.
+            self.filter_resistance_kpa = 18.0
             self.filtered_turbidity_ntu = 0.18
             self.clarified_turbidity_ntu = 1.4
             self.true_chlorine_mg_l = 1.15
@@ -171,8 +176,10 @@ class WaterPlantSimulator:
             return
         try:
             network = wntr.network.WaterNetworkModel()
-            network.options.time.duration = 300
-            network.options.time.hydraulic_timestep = 300
+            # Storage/time are integrated by this simulator, not advanced again
+            # inside each hydraulic solve. WNTR supplies an instantaneous state.
+            network.options.time.duration = 0
+            network.options.time.hydraulic_timestep = 60
             network.options.hydraulic.demand_model = "PDD"
             network.options.hydraulic.minimum_pressure = 10.0
             network.options.hydraulic.required_pressure = 30.0
@@ -252,9 +259,42 @@ class WaterPlantSimulator:
             movement = float(np.clip(target - current, -VALVE_TRAVEL_RATE_PCT_MIN, VALVE_TRAVEL_RATE_PCT_MIN))
             self.valve_positions[name] = float(np.clip(current + movement, 0.0, 100.0))
 
+    def _treatment_hydraulics(self, pump_speed: float) -> None:
+        """One quasi-steady pump/system intersection, independent of fault names.
+
+        Heads in metres; flow in m3/h. Illustrative centrifugal pump:
+        H = 50 * speed_ratio**2 - 0.00018 * Q**2.
+        A check valve prevents reverse flow. This is not a surge solver.
+        """
+        inlet = self.valve_positions['intake_gate']
+        outlet = self.valve_positions['filter_outlet']
+        filters = (self.operations.fraction('FT-151A') + self.operations.fraction('FT-151B')) / 2
+        static_head = 2.0 + self.clearwell_level_pct * 0.03
+        shutoff_head = 50.0 * (pump_speed / 100.0) ** 2
+        inlet_r = self._valve_headloss_m(1.0, inlet)
+        outlet_r = self._valve_headloss_m(1.0, outlet)
+        filter_r = self.filter_resistance_kpa / (9.80665 * 280.0**2 * max(filters, 0.01)**2)
+        pipe_r = 0.00009
+        blocked = inlet <= 0 or outlet <= 0 or filters <= 0
+        flow = 0.0 if blocked else sqrt(max(0.0, shutoff_head-static_head) /
+                                       (0.00018 + inlet_r + outlet_r + filter_r + pipe_r))
+        self.raw_flow_m3h = flow
+        # No sustained head is generated when the pump has no open suction path.
+        pump_head = max(0.0, shutoff_head-0.00018*flow**2) if inlet > 0 else 0.0
+        inlet_loss = inlet_r * flow**2
+        self.intake_downstream_pressure_m = max(0.0, self.intake_upstream_pressure_m-inlet_loss)
+        self.filter_inlet_pressure_kpa = max(0.0, pump_head-inlet_loss) * 9.80665
+        self.filter_dp_kpa = filter_r * flow**2 * 9.80665
+        self.filter_outlet_pressure_kpa = (static_head + pipe_r*flow**2) * 9.80665
+        deadheaded = inlet > 0 and pump_speed > 20 and flow < 1.0 and (outlet <= 0 or filters <= 0)
+        self.pump_deadhead_pressure_kpa = self.filter_inlet_pressure_kpa if deadheaded else 0.0
+
     def _step_minute(self) -> None:
         self.minute += 1
         self.simulation_time += timedelta(minutes=1)
+        if self.scenario == "chlorine_overdose" and self.minute == 10:
+            # Reuse the existing fault model; clearing it does not re-inject it.
+            self.injection_expiry["chlorine_overfeed"] = self.minute + 60
         self.operations.tick(self.minute, self.exercise, backwash=bool(self.actuators["backwash_request"]), emergency=bool(self.actuators["emergency_stop"]))
         mods = scenario_modifiers(self.minute, self.scenario)
         if self.operations.active("storm_water_quality"):
@@ -281,10 +321,12 @@ class WaterPlantSimulator:
         self.actual_intake_speed_pct = intake_speed
         self.actual_high_lift_speed_pct = high_lift_speed
 
-        intake_factor = self._flow_factor(self.valve_positions["intake_gate"])
-        self.raw_flow_m3h = 4.1 * intake_speed * intake_factor
-        if "pump_valve_conflict" in injections:
-            self.raw_flow_m3h *= 0.04
+        backwashing = bool(self.actuators['backwash_request'])
+        if backwashing:
+            self.filter_resistance_kpa = max(12.0, self.filter_resistance_kpa - 8.0*min(self.operations.fraction('P-171'), self.operations.fraction('BL-172')))
+        else:
+            self.filter_resistance_kpa = min(80.0, self.filter_resistance_kpa + self.raw_flow_m3h * (0.0003 + float(mods['raw_turbidity_ntu'])*0.000008))
+        self._treatment_hydraulics(intake_speed)
         self.raw_turbidity_ntu = max(0.01, float(mods["raw_turbidity_ntu"]) + float(self.rng.normal(0, 0.18)))
         self.raw_ph = float(np.clip(float(mods["raw_ph"]) + float(self.rng.normal(0, 0.006)), 5.5, 9.5))
         self.raw_alkalinity_mg_l_caco3 = max(
@@ -292,8 +334,6 @@ class WaterPlantSimulator:
             float(mods["raw_alkalinity_mg_l_caco3"]) + float(self.rng.normal(0, 0.25)),
         )
         self.water_temperature_c = float(mods["water_temperature_c"])
-        intake_loss = self._valve_headloss_m(self.raw_flow_m3h, self.valve_positions["intake_gate"])
-        self.intake_downstream_pressure_m = max(0.0, self.intake_upstream_pressure_m - intake_loss)
 
         self.chemical_feed_flow_proof = self.raw_flow_m3h >= 25.0 and not emergency
         alum_inventory_ok = self.chemical_tanks["alum"]["day_volume_l"] > 0.5
@@ -319,23 +359,11 @@ class WaterPlantSimulator:
         removal *= 1-max(0.0, self.operations.sludge_inventory_pct-70)*.005
         self.clarified_turbidity_ntu = max(0.05, self.raw_turbidity_ntu * (1 - removal))
 
-        backwashing = bool(self.actuators["backwash_request"])
         if backwashing:
-            self.filter_dp_kpa = max(12.0, self.filter_dp_kpa - 8.0*min(self.operations.fraction("P-171"),self.operations.fraction("BL-172")))
             filtration_factor = 0.24
         else:
-            self.filter_dp_kpa = min(80.0, self.filter_dp_kpa + self.raw_flow_m3h * (0.0003 + self.raw_turbidity_ntu * 0.000008))
-            filtration_factor = 0.11 + max(0.0, self.filter_dp_kpa - 45.0) * 0.006
+            filtration_factor = 0.11 + max(0.0, self.filter_resistance_kpa - 45.0) * 0.006
         self.filtered_turbidity_ntu = max(0.02, self.clarified_turbidity_ntu * filtration_factor)
-        self.pump_deadhead_pressure_kpa = 0.0
-        self.filter_inlet_pressure_kpa = 112.0 + self.raw_flow_m3h * 0.015
-        if "pump_valve_conflict" in injections and intake_speed > 20.0:
-            self.pump_deadhead_pressure_kpa = 175.0 + intake_speed * 1.15
-            self.filter_inlet_pressure_kpa = self.pump_deadhead_pressure_kpa
-        outlet_valve_loss_kpa = 9.80665 * self._valve_headloss_m(self.raw_flow_m3h, self.valve_positions["filter_outlet"])
-        self.filter_outlet_pressure_kpa = max(0.0, self.filter_inlet_pressure_kpa - self.filter_dp_kpa - outlet_valve_loss_kpa)
-        if "pump_valve_conflict" in injections:
-            self.filter_outlet_pressure_kpa = 0.0
 
         naoh_command = float(self.actuators["naoh_dose_mg_l"])
         self.actual_naoh_dose_mg_l = naoh_command if bool(mods["naoh_available"]) and self.chemical_feed_flow_proof and naoh_inventory_ok else 0.0
@@ -353,13 +381,13 @@ class WaterPlantSimulator:
         requested_flow = sum(self.zone_demands) + self.leak_flow_m3h
         pump_efficiency = float(mods["pump_efficiency_pct"]) / 100.0
         pump_capacity = 4.5 * high_lift_speed * pump_efficiency
-        filter_factor = self._flow_factor(self.valve_positions["filter_outlet"])
         zone_capacity_factor = sum(self._flow_factor(self.valve_positions[f"zone_{index}_isolation"]) for index in range(1, 4)) / 3.0
-        available_flow = pump_capacity * filter_factor * zone_capacity_factor
+        # The clearwell separates treatment from distribution. Closing its inlet
+        # does not close the independent high-lift discharge path.
+        available_flow = pump_capacity * zone_capacity_factor
         self.distribution_flow_m3h = min(requested_flow * 1.08, available_flow)
 
-        filter_factor *= (self.operations.fraction("FT-151A")+self.operations.fraction("FT-151B"))/2
-        treatment_outflow = min(self.raw_flow_m3h * 0.97 * filter_factor * (0.15 if backwashing else 1.0), 330.0)
+        treatment_outflow = self.raw_flow_m3h * 0.97 * (0.15 if backwashing else 1.0)
         initial_storage = self.clearwell_level_pct * 22.0 + self.elevated_tank_level_pct * 9.5
         pump_flow = min(self.distribution_flow_m3h, self.clearwell_level_pct * 22 * 60 + treatment_outflow)
         # Elevated storage can supply up to 25 m3/h through its modeled gravity path.
@@ -389,8 +417,7 @@ class WaterPlantSimulator:
 
         self._update_chemical_storage()
 
-        if self.minute % 5 == 0:
-            self._run_hydraulics(requested_flow, high_lift_speed)
+        self._run_hydraulics(requested_flow, high_lift_speed)
         self._update_served_demand()
         delivered = self.distribution_flow_m3h
         tank_draw = max(0.0, delivered - pump_flow)
@@ -462,6 +489,7 @@ class WaterPlantSimulator:
             valve_loss = self._valve_headloss_m(allocation, position)
             analytical.append(max(0.0, self.distribution_header_pressure_m - base_pipe_loss - valve_loss - shortage * 0.06 - leak_penalty))
         if self.network is None:
+            self.hydraulic_engine = "analytical fallback"
             self.zone_pressures = analytical
             self._update_valve_differentials()
             return
@@ -472,12 +500,18 @@ class WaterPlantSimulator:
                 valve = self.network.get_link(f"VZ{index + 1}")
                 position = self.valve_positions[f"zone_{index + 1}_isolation"]
                 valve.initial_setting = min(1_000_000.0, 0.2 + 80.0 * ((100.0 - position) / max(position, 2.0)) ** 2)
+                valve.initial_status = wntr.network.LinkStatus.Closed if position <= 0 else wntr.network.LinkStatus.Active
             self.network.get_link("HeaderPRV").initial_setting = prv_setpoint
             self.network.get_node("Elevated").init_level = 20.0 * self.elevated_tank_level_pct / 100.0
             speed_ratio = float(np.clip(pump_speed / 70.0, 0.20, 1.35))
             base_curve = [(0.0, 70.0), (0.15, 55.0), (0.30, 20.0)]
             self.network.get_curve("HighLiftCurve").points = [(flow * speed_ratio, head * speed_ratio**2) for flow, head in base_curve]
             self.network.get_link("HighLift").base_speed = 1.0
+            self.network.get_link("HighLift").initial_status = (
+                wntr.network.LinkStatus.Closed if pump_speed <= 0 or self.clearwell_level_pct <= 0
+                else wntr.network.LinkStatus.Open
+            )
+            self.network.reset_initial_values()
             result = wntr.sim.WNTRSimulator(self.network).run_sim()
             last_pressure = result.node["pressure"].iloc[-1]
             calculated = [float(last_pressure[name]) for name in ["Zone1", "Zone2", "Zone3"]]
@@ -486,6 +520,7 @@ class WaterPlantSimulator:
                 self.pump_discharge_pressure_m = max(0.0, float(last_pressure["PumpDischarge"]))
                 self.distribution_header_pressure_m = max(0.0, float(last_pressure["Header"]))
                 self.hydraulic_engine = "WNTR PDD with PRV and TCV valves"
+                self.hydraulic_error = None
                 self._update_valve_differentials()
                 return
         except Exception as exc:
@@ -514,6 +549,10 @@ class WaterPlantSimulator:
     def _update_valve_differentials(self) -> None:
         self.zone_valve_dp_kpa = []
         for index in range(1, 4):
+            if self.valve_positions[f'zone_{index}_isolation'] <= 0:
+                # A closed valve supports a static differential even at zero flow.
+                self.zone_valve_dp_kpa.append(max(0.0, self.distribution_header_pressure_m-self.zone_pressures[index-1])*9.80665)
+                continue
             loss_m = self._valve_headloss_m(
                 self.zone_served[index - 1],
                 self.valve_positions[f"zone_{index}_isolation"],
@@ -561,7 +600,7 @@ class WaterPlantSimulator:
         states: dict[str, ValveState] = {}
         valve_data = {
             "intake_gate": ("gate", self.intake_upstream_pressure_m, self.intake_downstream_pressure_m, self.raw_flow_m3h, False),
-            "filter_outlet": ("isolation", self.filter_inlet_pressure_kpa / 9.80665, self.filter_outlet_pressure_kpa / 9.80665, self.raw_flow_m3h, bool(self.actuators["backwash_request"])),
+            "filter_outlet": ("isolation", (self.filter_inlet_pressure_kpa-self.filter_dp_kpa) / 9.80665, self.filter_outlet_pressure_kpa / 9.80665, self.raw_flow_m3h, bool(self.actuators["backwash_request"])),
         }
         for index in range(1, 4):
             valve_data[f"zone_{index}_isolation"] = (
@@ -796,7 +835,7 @@ class WaterPlantSimulator:
                 safety_state=safety_state,
                 emergency_stop=bool(self.actuators["emergency_stop"]),
                 active_injections=sorted(injections),
-                note=f"Illustrative simulation values. Not regulatory limits. Hydraulics: {self.hydraulic_engine}.",
+                note=f"Illustrative simulation values. Not regulatory limits. Hydraulics: {self.hydraulic_engine}; {WATER_HYDRAULIC_VERSION}.",
             )
 
     def _alarms(self, sensors: dict[str, SensorValue]) -> list[Alarm]:
@@ -815,7 +854,13 @@ class WaterPlantSimulator:
         for sensor, code, message in checks:
             low, high = LIMITS[sensor]
             reading = sensors[sensor].value
-            if reading < low or reading > high:
+            if sensor == "chlorine_residual_mg_l" and reading >= CHLORINE_RESIDUAL_ALARMS["warning_high_mg_l"]:
+                critical = reading >= CHLORINE_RESIDUAL_ALARMS["critical_high_mg_l"]
+                severity = "critical" if critical else "warning"
+                level = "high-high" if critical else "high"
+                threshold = CHLORINE_RESIDUAL_ALARMS["critical_high_mg_l" if critical else "warning_high_mg_l"]
+                alarms.append(Alarm(code=code, severity=severity, message=f"Chlorine residual {level}: {reading:.3f} mg/L (alarm at {threshold:.2f} mg/L)", started_at=self.simulation_time))
+            elif reading < low or reading > high:
                 severity = "critical" if reading < low * 0.7 or reading > high * 1.35 else "warning"
                 alarms.append(Alarm(code=code, severity=severity, message=message, started_at=self.simulation_time))
         for index in range(1, 4):
@@ -838,8 +883,9 @@ class WaterPlantSimulator:
             alarms.append(Alarm(code="CLEARWELL_OVERFLOW", severity="critical", message="Physical clearwell level is at the overflow point", started_at=self.simulation_time))
         if "level_sensor_spoof_low" in injections or "chlorine_sensor_spoof_high" in injections:
             alarms.append(Alarm(code="MODEL_SENSOR_MISMATCH", severity="critical", message="A reported sensor value conflicts with the independent process-model estimate", started_at=self.simulation_time))
+        if self.pump_deadhead_pressure_kpa > 0:
+            alarms.append(Alarm(code="PUMP_DEADHEAD", severity="critical", message="Intake pump is running with a blocked treatment outlet and no forward flow", started_at=self.simulation_time))
         if "pump_valve_conflict" in injections:
-            alarms.append(Alarm(code="PUMP_DEADHEAD", severity="critical", message="Intake pump is running against a forced-closed filter outlet valve", started_at=self.simulation_time))
             alarms.append(Alarm(code="VALVE_COMMAND_MISMATCH", severity="critical", message="Filter outlet field position does not follow its PLC command", started_at=self.simulation_time))
         if "zone_2_valve_forced_closed" in injections:
             alarms.append(Alarm(code="VALVE_COMMAND_MISMATCH", severity="critical", message="Zone 2 valve field position does not follow its PLC command", started_at=self.simulation_time))

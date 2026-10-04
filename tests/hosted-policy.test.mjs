@@ -1,6 +1,44 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { jevRequest, actuationGuard, admit, authorize, consumeAI, emptyLedger, modelRequest, modelResponse, HOSTED_MODEL, forwardRequest } from '../deploy/cloudflare-live/policy.mjs';
+import { readFileSync } from 'node:fs';
+import { capacity, jevRequest, actuationGuard, admit, authorize, consumeAI, emptyLedger, modelRequest, modelResponse, HOSTED_MODEL, forwardRequest } from '../deploy/cloudflare-live/policy.mjs';
+
+test('capacity is configured server-side with bounded integers',()=>{
+  assert.deepEqual(capacity(),{active:3,dailySessions:20,sessionAI:10,dailyAI:200,sessionAudit:10,dailyAudit:200});
+  const settings=capacity({LAB_MAX_ACTIVE:'6',LAB_DAILY_SESSIONS:'60',LAB_SESSION_AI:'20',LAB_DAILY_AI:'600'});
+  const ledger=emptyLedger(0);
+  for(let i=0;i<6;i++)assert.equal(admit(ledger,`s${i}`,`c${i}`,0,settings).ok,true);
+  assert.equal(admit(ledger,'s6','c6',0,settings).status,429);
+  for(const bad of ['0','-1','2.5','NaN','Infinity','7','',true])assert.throws(()=>capacity({LAB_MAX_ACTIVE:bad}));
+  assert.throws(()=>capacity({LAB_SESSION_AI:'101'}));
+  assert.throws(()=>capacity({LAB_DAILY_AI:'10001'}));
+});
+test('remaining allowance includes both daily and session budgets, even after config reductions',()=>{
+  const settings=capacity({LAB_SESSION_AI:'20',LAB_DAILY_AI:'21'});
+  const ledger=emptyLedger(0);admit(ledger,'s','c',0,settings);
+  ledger.aiCalls=20;
+  assert.equal(authorize(ledger,'s',0,false,settings).ai_remaining,1);
+  assert.equal(consumeAI(ledger,'c',0,settings).remaining,0);
+  assert.equal(consumeAI(ledger,'c',11000,settings).status,429);
+  assert.equal(authorize(ledger,'s',11000,false,settings).ai_remaining,0);
+  ledger.sessions.s.aiCalls=22;
+  assert.equal(authorize(ledger,'s',12000,false,settings).ai_remaining,0);
+});
+test('container ceiling and configured admission capacity agree',async()=>{
+  const {MAX_CONTAINER_INSTANCES}=await import('../deploy/cloudflare-live/policy.mjs');
+  const config=JSON.parse(readFileSync(new URL('../deploy/cloudflare-live/wrangler.jsonc',import.meta.url),'utf8'));
+  assert.equal(config.containers[0].max_instances,MAX_CONTAINER_INSTANCES);
+  assert.ok(capacity(config.vars).active<=config.containers[0].max_instances);
+});
+test('capacity increase preserves expiry cleanup and failed-call reservations',()=>{
+  const settings=capacity({LAB_MAX_ACTIVE:'6',LAB_SESSION_AI:'20'});
+  const ledger=emptyLedger(0);
+  for(let i=0;i<6;i++)admit(ledger,`s${i}`,`c${i}`,0,settings);
+  assert.equal(consumeAI(ledger,'c0',0,settings).remaining,19);
+  assert.equal(consumeAI(ledger,'c0',1,settings).status,429);
+  assert.equal(ledger.aiCalls,1);
+  assert.equal(admit(ledger,'new','new',1200001,settings).status,429);
+});
 
 test('sessions are separate, expire, and have a global admission limit', () => {
   const ledger=emptyLedger(0);
@@ -73,4 +111,33 @@ test('Jev requests pin the provider and reject unrestricted questions',()=>{
   assert.equal(output.model,'typesafe/jev-1.13');
   assert.throws(()=>jevRequest({...input,questions:{response:{type:'text'}}}));
   assert.throws(()=>jevRequest({...input,state:'x'.repeat(50001)}));
+});
+
+test('Jev operator response survives the hosted adapter',()=>{
+  const response={type:'choice',instructions:'Choose',criteria:{hold:'Hold',review:'Review'}};
+  const operator_response={type:'choice',instructions:'Select required operator plan',criteria:{required_plan:'SOP plan',not_required:'No escalation'}};
+  const request=jevRequest({state:{},questions:{response,operator_response}});
+  assert.deepEqual(request.questions.operator_response,operator_response);
+  assert.throws(()=>jevRequest({state:{},questions:{response,operator_response:{...operator_response,criteria:{bad:'Unapproved'}}}}));
+});
+
+test('audit reservations are separate, capped, deduplicated and require a live session', async()=>{
+  const {consumeAudit}=await import('../deploy/cloudflare-live/policy.mjs');
+  const ledger=emptyLedger(0), limits=capacity();admit(ledger,'audit-session','audit-container',0,limits);
+  assert.equal(consumeAudit(ledger,'other','decision-1',1,limits).status,401);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-1',1,limits).ok,true);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-1',2,limits).status,409);
+  assert.equal(ledger.aiCalls,0);assert.equal(ledger.sessions['audit-session'].aiCalls,0);
+  for(let i=2;i<=10;i++)assert.equal(consumeAudit(ledger,'audit-container',`decision-${i}`,i,limits).ok,true);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-11',20,limits).status,429);
+  assert.equal(consumeAudit(ledger,'audit-container','decision-12',20*60*1000+1,limits).status,401);
+});
+
+
+test('audit requests pin bounded generation and disable reasoning',async()=>{
+  const {auditRequest,AUDIT_MODEL}=await import('../deploy/cloudflare-live/policy.mjs');
+  const input=auditRequest({record_id:'test-1',messages:[{role:'user',content:'Captured evidence'}],format:{type:'object'},model:'untrusted'});
+  assert.equal(AUDIT_MODEL,'@cf/google/gemma-4-26b-a4b-it');
+  assert.equal(input.max_tokens,768);assert.equal(input.chat_template_kwargs.enable_thinking,false);
+  assert.equal(input.model,undefined);assert.throws(()=>auditRequest({messages:[]}));
 });

@@ -6,6 +6,8 @@ The `deploy/cloudflare-live` package runs the simulator on Cloudflare Containers
 
 Production acceptance results are recorded in [18 September verification](VERIFICATION_2026_09_18.md).
 
+The [29 September hydraulic release](WATER_HYDRAULICS.md#hosted-release-verification--29-september) is deployed with `water-hydraulics-v2` and SOP 1.1.0. A fresh hosted session verified Qwen/Jev operator guidance and rejected critical-state actuation. Admission and AI-call allowances remain unchanged.
+
 ## Online versus offline
 
 | | Local lab | Public hosted sandbox |
@@ -32,6 +34,23 @@ The session registry serializes and persists quota reservations. Failed inferenc
 The container's public internet access is disabled. The only allowed egress hostname, `inference.lab`, is intercepted by trusted Worker code using the Qwen AI binding or a fixed OpenRouter Jev endpoint with a Worker secret. No API credential is supplied to the browser or container. Cloudflare, and OpenRouter/TypeSafe when Jev is selected, process simulated sensor context, operator-entered notes included in that context, and model outputs. Do not enter operational or personal data.
 
 ## Build and deploy the full version
+
+### Capacity configuration (28 September)
+
+Server-side Worker variables now control admission and inference budgets. The checked-in profile retains the original allowances; the container ceiling is six to permit a measured expansion without changing policy code.
+
+| Worker variable | Current profile | Proposed audience profile | Validation ceiling |
+|---|---:|---:|---:|
+| `LAB_MAX_ACTIVE` | 3 | 6 | 6 |
+| `LAB_DAILY_SESSIONS` | 20 | 60 | 500 |
+| `LAB_SESSION_AI` | 10 | 20 | 100 |
+| `LAB_DAILY_AI` | 200 | 600 | 10,000 |
+
+These are positive integer settings in `deploy/cloudflare-live/wrangler.jsonc`. Invalid settings fail closed. Changing a browser request cannot increase them. The session API reports the smaller of the remaining personal-session allowance and the shared daily allowance, clamped at zero. Existing sessions, expiry cleanup, call spacing, model restrictions and gates retain their behavior.
+
+The audience profile is a recommendation, not a verified account credit balance or a deployed increase. More credit does not change these application limits automatically. Under the documented standard-1 rates, a continuously running 20-minute container costs approximately $0.012 memory plus $0.000672 disk, before included allowances; CPU, inference, egress and Worker/Durable Object costs are additional. Measure actual CPU and session demand before changing the instance size. Giving the simulator more CPU does not accelerate remote model generation. [Cloudflare pricing](https://developers.cloudflare.com/containers/platform/pricing/)
+
+### Commands
 
 ```sh
 npm --prefix services/web ci

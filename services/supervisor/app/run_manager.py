@@ -40,8 +40,8 @@ class RunManager:
             response.raise_for_status()
         return response.json()
 
-    async def command_plant(self, action: str, config: RunConfig | None = None, minutes: int = 1) -> PlantSnapshot:
-        payload = {"action": action, "minutes": minutes, "config": config.model_dump(mode="json") if config else None}
+    async def command_plant(self, action: str, config: RunConfig | None = None, minutes: int = 1, speed: int | None = None) -> PlantSnapshot:
+        payload = {"action": action, "minutes": minutes, "config": config.model_dump(mode="json") if config else None, "speed": speed}
         async with httpx.AsyncClient(timeout=8) as client:
             response = await client.post(f"{self.plant_url}/command", json=payload)
             response.raise_for_status()
@@ -77,6 +77,19 @@ class RunManager:
             run.status = "running"
             run.started_at = datetime.now(timezone.utc)
             db.commit()
+        return snapshot
+
+    async def set_speed(self, speed: int) -> PlantSnapshot:
+        if not self.active_run_id or self.active_config is None:
+            raise KeyError('No active water exercise')
+        # The command changes clock rate only; it does not reset plant state.
+        snapshot = await self.command_plant('speed', speed=speed)
+        self.active_config.speed = speed
+        with SessionLocal() as db:
+            run = db.get(RunRecord, self.active_run_id)
+            if run is not None:
+                run.config = {**run.config, 'speed': speed}
+                db.commit()
         return snapshot
 
     async def pause(self, run_id: str) -> PlantSnapshot:

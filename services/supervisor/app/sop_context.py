@@ -2,9 +2,11 @@
 import hashlib
 import json
 import math
+from datetime import datetime
 from pathlib import Path
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from shared.limits import CHLORINE_RESIDUAL_ALARMS
 from shared.supervision import response_window, temporal_check
 from .retrieval_ranking import terms
 
@@ -55,10 +57,32 @@ def select_sops(domain, state):
     words=set(terms(query))
     docs=[d for d in pack['procedures'] if d['domain']==domain]
     ranked=sorted(docs,key=lambda d:(-len(words&set(terms(json.dumps(d)))),-len(set(d['signals'])&set(sensors)),d['id']))
-    selected=ranked[:3]
+    objective=None
+    if domain=='water' and state.get('scenario')=='chlorine_efficiency_trim':
+        ranked.sort(key=lambda p:p['id']!='water.disinfection')
+        sensor=sensors.get('chlorine_residual_mg_l',{})
+        residual=sensor.get('value')
+        fresh=False
+        try:
+            age=(datetime.fromisoformat(state['simulation_time'])-datetime.fromisoformat(sensor['timestamp'])).total_seconds()
+            fresh=0<=age<=120
+        except (ValueError,TypeError,KeyError):pass
+        reliable=isinstance(residual,(int,float)) and not isinstance(residual,bool) and math.isfinite(residual) and sensor.get('quality')=='good' and fresh
+        position=('above_objective' if residual>1.0 else 'below_objective' if residual<.9 else 'within_objective') if reliable else 'unreliable_measurement'
+        objective={'id':'chlorine_efficiency_trim_v1','purpose':'Reduce unnecessary chemical consumption in stable operation',
+                   'residual_band_mg_l':[0.9,1.0],'unit':'mg/L',
+                   'observed_residual_mg_l':residual if reliable else None,'position':position,
+                   'evidence_source':'deterministic comparison of captured sensor against scenario objective; not model diagnosis or gate approval',
+                   'rule':'If reliable residual is above the objective band, consider a small bounded residual-target reduction after checking CT, flow proof, model agreement and prior observation windows. Hold if within band or still observing. Do not trade away CT, pH or any protection constraint. This objective is not a fault or mandatory escalation.',
+                   'relevant_targets':['chlorine_target_mg_l'],
+                   'control_relationship':'The chlorine residual target drives a PLC dosing loop. A small target decrease can reduce residual and chemical use over time; the sensor value does not change immediately. Do not alter pressure or storage to solve this objective.',
+                   'decision_requirement':'When above objective, assess a bounded decrease. A hold must identify a specific unmet prerequisite, active observation window or uncertainty; being inside broad safety limits alone does not justify a hold. Never raise confidence just to pass a gate. Predicted improvement is not measured recovery.',
+                   'observe_minutes':12,'scope':'simulated_lab_only'}
+    selected=ranked[:1] if objective else ranked[:3]
     return {'version':pack['version'],'sha256':hashlib.sha256(PATH.read_bytes()).hexdigest(),
-            'scope':'simulated_lab_only','authority':'context_only','procedures':selected,
+            'scope':'simulated_lab_only','authority':'context_only','procedures':selected,'operating_objective':objective,
             'principles':pack['principles'],
+            'alarm_thresholds':dict(CHLORINE_RESIDUAL_ALARMS) if domain=='water' else None,
             'retrieval':'deterministic_domain_and_signal','query':query,
             'rule':'Live measurements, temporal interlocks and the independent process gate override procedural suggestions.'}
 

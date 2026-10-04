@@ -91,6 +91,8 @@ services:
       INFRASTRUCTURE_API_URL: http://infrastructure-sim:8083
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
       OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:8b}
+      DECISION_AUDIT_ENABLED: ${DECISION_AUDIT_ENABLED:-false}
+      DECISION_AUDIT_MODEL: ${DECISION_AUDIT_MODEL:-gemma3:4b}
       QWEN_INFERENCE_PROFILE: ${QWEN_INFERENCE_PROFILE:-standard}
       PLANT_KNOWLEDGE_MODE: ${PLANT_KNOWLEDGE_MODE:-off}
       KNOWLEDGE_CACHE_PATH: ${KNOWLEDGE_CACHE_PATH:-/tmp/ot-ai-knowledge.sqlite3}
@@ -128,7 +130,8 @@ services:
   web:
     restart: unless-stopped
     build:
-      context: services/web
+      context: .
+      dockerfile: services/web/Dockerfile
     ports:
       - "127.0.0.1:18780:80"
     networks:
