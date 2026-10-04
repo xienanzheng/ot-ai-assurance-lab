@@ -1,8 +1,8 @@
 # OT lab — silent live walkthrough
 
-[Download / play the video](OT_Lab_Live_Walkthrough_Silent_58s_No_Cursor.mp4)
+[Download / play the video](OT_Lab_Live_Walkthrough_Silent_58s_Updated.mp4)
 
-![Walkthrough preview](Preview_No_Cursor.png)
+![Walkthrough preview](Preview_Updated.png)
 
 **58 seconds · 1920 × 1080 · no audio**
 
