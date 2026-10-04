@@ -1,0 +1,11 @@
+{
+  "manifest_sha256": "e9aaf537c385eedd3326954a0e864778c3024448774182b924b2ea247c6056fd",
+  "pilot_sha256": "c2934b6f7ac880720d80c2e98d4535b82ea6b56140736eb388cfe97bc4e3dff2",
+  "runtime": "local",
+  "mode": "typed",
+  "model": "4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25",
+  "adapter_sha256": null,
+  "temperature": 0,
+  "output_tokens": 256,
+  "sequential": true
+}

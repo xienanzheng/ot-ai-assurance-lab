@@ -1,0 +1,21 @@
+variant,category,correct,denominator
+Assisted base,critical,2,8
+Assisted base,prerequisite,5,8
+Assisted base,hold,0,8
+Assisted base,adjust,0,8
+Previous adapter + assistance,critical,6,8
+Previous adapter + assistance,prerequisite,1,8
+Previous adapter + assistance,hold,8,8
+Previous adapter + assistance,adjust,0,8
+New assisted adapter,critical,8,8
+New assisted adapter,prerequisite,8,8
+New assisted adapter,hold,0,8
+New assisted adapter,adjust,0,8
+Compact base,critical,4,8
+Compact base,prerequisite,0,8
+Compact base,hold,8,8
+Compact base,adjust,0,8
+New compact adapter,critical,8,8
+New compact adapter,prerequisite,8,8
+New compact adapter,hold,0,8
+New compact adapter,adjust,0,8

@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="959.76pt" height="540pt" viewBox="0 0 959.76 540" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-04T09:53:55.652179</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 540 
+L 959.76 540 
+L 959.76 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 86.3784 410.4 
+L 930.9672 410.4 
+L 930.9672 129.6 
+L 86.3784 129.6 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m06c2cd757a" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m06c2cd757a" x="200.316173" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(181.428361 428.56)">Critical</text>
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(172.667423 444.16)">escalation</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m06c2cd757a" x="405.887258" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(373.192883 428.56)">Prerequisite</text>
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(382.679445 444.16)">handling</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m06c2cd757a" x="611.458342" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(583.127092 428.56)">Legitimate</text>
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(596.656155 444.16)">holds</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m06c2cd757a" x="817.029427" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(793.899427 428.56)">Justified</text>
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'" transform="translate(783.483802 444.16)">adjustments</text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_5">
+      <path d="M 86.3784 410.4 
+L 930.9672 410.4 
+" clip-path="url(#pfff1dd058f)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.12; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <defs>
+       <path id="m5ec6123f64" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m5ec6123f64" x="86.3784" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="79.3784" y="415.08" transform="rotate(-0 79.3784 415.08)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <path d="M 86.3784 361.136842 
+L 930.9672 361.136842 
+" clip-path="url(#pfff1dd058f)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.12; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m5ec6123f64" x="86.3784" y="361.136842" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="79.3784" y="365.816842" transform="rotate(-0 79.3784 365.816842)">20</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_9">
+      <path d="M 86.3784 311.873684 
+L 930.9672 311.873684 
+" clip-path="url(#pfff1dd058f)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.12; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m5ec6123f64" x="86.3784" y="311.873684" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="79.3784" y="316.553684" transform="rotate(-0 79.3784 316.553684)">40</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_11">
+      <path d="M 86.3784 262.610526 
+L 930.9672 262.610526 
+" clip-path="url(#pfff1dd058f)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.12; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m5ec6123f64" x="86.3784" y="262.610526" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="79.3784" y="267.290526" transform="rotate(-0 79.3784 267.290526)">60</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_13">
+      <path d="M 86.3784 213.347368 
+L 930.9672 213.347368 
+" clip-path="url(#pfff1dd058f)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.12; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m5ec6123f64" x="86.3784" y="213.347368" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="79.3784" y="218.027368" transform="rotate(-0 79.3784 218.027368)">80</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_15">
+      <path d="M 86.3784 164.084211 
+L 930.9672 164.084211 
+" clip-path="url(#pfff1dd058f)" style="fill: none; stroke: #b0b0b0; stroke-opacity: 0.12; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m5ec6123f64" x="86.3784" y="164.084211" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="79.3784" y="168.764211" transform="rotate(-0 79.3784 168.764211)">100</text>
+     </g>
+    </g>
+    <g id="text_11">
+     <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="51.1384" y="270" transform="rotate(-90 51.1384 270)">Correct decisions (%)</text>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 124.7688 410.4 
+L 173.078005 410.4 
+L 173.078005 225.663158 
+L 124.7688 225.663158 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #226c9b"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 330.339884 410.4 
+L 378.649089 410.4 
+L 378.649089 410.4 
+L 330.339884 410.4 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #226c9b"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 535.910969 410.4 
+L 584.220173 410.4 
+L 584.220173 164.084211 
+L 535.910969 164.084211 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #226c9b"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 741.482053 410.4 
+L 789.791258 410.4 
+L 789.791258 410.4 
+L 741.482053 410.4 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #226c9b"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 176.161571 410.4 
+L 224.470776 410.4 
+L 224.470776 165.623684 
+L 176.161571 165.623684 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #157347"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 381.732655 410.4 
+L 430.04186 410.4 
+L 430.04186 278.005263 
+L 381.732655 278.005263 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #157347"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 587.30374 410.4 
+L 635.612945 410.4 
+L 635.612945 167.163158 
+L 587.30374 167.163158 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #157347"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 792.874824 410.4 
+L 841.184029 410.4 
+L 841.184029 388.847368 
+L 792.874824 388.847368 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #157347"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 227.554342 410.4 
+L 275.863547 410.4 
+L 275.863547 164.084211 
+L 227.554342 164.084211 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #b76c14"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 433.125427 410.4 
+L 481.434631 410.4 
+L 481.434631 290.321053 
+L 433.125427 290.321053 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #b76c14"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 638.696511 410.4 
+L 687.005716 410.4 
+L 687.005716 164.084211 
+L 638.696511 164.084211 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #b76c14"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 844.267595 410.4 
+L 892.5768 410.4 
+L 892.5768 173.321053 
+L 844.267595 173.321053 
+z
+" clip-path="url(#pfff1dd058f)" style="fill: #b76c14"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 86.3784 410.4 
+L 86.3784 129.6 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 86.3784 410.4 
+L 930.9672 410.4 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="148.923402" y="218.243158" transform="rotate(-0 148.923402 218.243158)">120/160</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="354.494487" y="402.98" transform="rotate(-0 354.494487 402.98)">0/80</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="560.065571" y="156.664211" transform="rotate(-0 560.065571 156.664211)">80/80</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="765.636655" y="402.98" transform="rotate(-0 765.636655 402.98)">0/80</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="200.316173" y="158.203684" transform="rotate(-0 200.316173 158.203684)">159/160</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="405.887258" y="270.585263" transform="rotate(-0 405.887258 270.585263)">43/80</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="611.458342" y="159.743158" transform="rotate(-0 611.458342 159.743158)">79/80</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="817.029427" y="381.427368" transform="rotate(-0 817.029427 381.427368)">7/80</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="251.708945" y="156.664211" transform="rotate(-0 251.708945 156.664211)">160/160</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="457.280029" y="282.901053" transform="rotate(-0 457.280029 282.901053)">39/80</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="662.851113" y="156.664211" transform="rotate(-0 662.851113 156.664211)">80/80</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="868.422198" y="165.901053" transform="rotate(-0 868.422198 165.901053)">77/80</text>
+   </g>
+   <g id="legend_1">
+    <g id="patch_17">
+     <path d="M 288.509363 121.68 
+L 312.509363 121.68 
+L 312.509363 113.28 
+L 288.509363 113.28 
+z
+" style="fill: #226c9b"/>
+    </g>
+    <g id="text_24">
+     <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="322.109363" y="121.68" transform="rotate(-0 322.109363 121.68)">Cloud Qwen30B</text>
+    </g>
+    <g id="patch_18">
+     <path d="M 433.443112 121.68 
+L 457.443112 121.68 
+L 457.443112 113.28 
+L 433.443112 113.28 
+z
+" style="fill: #157347"/>
+    </g>
+    <g id="text_25">
+     <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="467.043113" y="121.68" transform="rotate(-0 467.043113 121.68)">Fine-tuned Qwen4B</text>
+    </g>
+    <g id="patch_19">
+     <path d="M 599.378737 121.68 
+L 623.378737 121.68 
+L 623.378737 113.28 
+L 599.378737 113.28 
+z
+" style="fill: #b76c14"/>
+    </g>
+    <g id="text_26">
+     <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="632.978737" y="121.68" transform="rotate(-0 632.978737 121.68)">Jev typed choices</text>
+    </g>
+   </g>
+  </g>
+  <g id="text_27">
+   <text style="font-weight: 700; font-size: 25px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="52.7868" y="37.8" transform="rotate(-0 52.7868 37.8)">Shared cases: where each system succeeded</text>
+  </g>
+  <g id="text_28">
+   <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #53635c" x="52.7868" y="84.053828" transform="rotate(-0 52.7868 84.053828)">400 development cases. The adapter was selected using this set; Jev receives code-defined choices and evidence assistance.</text>
+  </g>
+  <g id="text_29">
+   <text style="font-size: 10px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #68776f" x="52.7868" y="521.1" transform="rotate(-0 52.7868 521.1)">OT AI assurance lab | Recorded experiments | Compiled 4 October 2026</text>
+  </g>
+  <g id="text_30">
+   <text style="font-size: 11px; font-family: 'IBM Plex Sans'; fill: #53635c" transform="translate(52.7868 486.617656)">Overall correct: Cloud Qwen30B 200/400; fine-tuned Qwen4B 288/400; Jev 356/400.</text>
+   <text style="font-size: 11px; font-family: 'IBM Plex Sans'; fill: #53635c" transform="translate(52.7868 502.853828)">This is a system comparison across different interfaces, not a controlled comparison of model intelligence.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pfff1dd058f">
+   <rect x="86.3784" y="129.6" width="844.5888" height="280.8"/>
+  </clipPath>
+ </defs>
+</svg>

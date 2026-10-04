@@ -1,0 +1,12 @@
+{
+  "pages": 8,
+  "individual_pngs": 8,
+  "individual_svgs": 8,
+  "individual_pdfs": 8,
+  "score_checks": "Recomputed from saved outputs using the preserved scorer; shared-case IDs and locked-test IDs verified.",
+  "latency_checks": "Warm medians and original p95 conventions recomputed from per-response measurements; matched IDs verified.",
+  "layout_checks": "All eight final pages rendered and visually inspected after margin corrections.",
+  "new_inference_calls": 0,
+  "new_training_updates": 0,
+  "original_artifacts_changed": false
+}

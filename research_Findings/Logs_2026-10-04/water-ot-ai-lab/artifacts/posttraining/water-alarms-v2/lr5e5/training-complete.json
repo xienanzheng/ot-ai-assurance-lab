@@ -1,0 +1,18 @@
+{
+  "training_identity": {
+    "steps": 160,
+    "learning_rate": "0.00005",
+    "base_revision": "4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25",
+    "thinking": false,
+    "layers": 4,
+    "rank": 8,
+    "batch_size": 1,
+    "seed": 42,
+    "max_sequence": 4096,
+    "trainer_sha256": "8e34c23f05f92e20e55c5385d84ee5e88bcce0a0e074f8503bcf829488824f18",
+    "train_sha256": "2bdad30865aad14c4fb6836435cb781c98e35a5e4e666513ec2a37364610a636",
+    "valid_sha256": "8582ce45e1752bc8061a88402b5ca8ba8f09de0129c81be9fb2e6dbf3cecd260"
+  },
+  "weights": "9d379f72e5af9085696a359f93d30f29eff4811e90408ca7899287cac043f289",
+  "config": "d3fe5fe45ebb48ebf0683b151a7427980b7d16556598e6afa8080375a109c127"
+}

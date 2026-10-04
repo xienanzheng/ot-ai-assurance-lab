@@ -1,0 +1,21 @@
+{
+  "source_manifest_sha256": "e9aaf537c385eedd3326954a0e864778c3024448774182b924b2ea247c6056fd",
+  "script_sha256": "e79ca5a8a6040cfd93e5231d3a3a8e2c0cdeb6099ac2f81376ab84d41ecd9478",
+  "scope": "Same fresh development splits, compact typed supervision; no locked test",
+  "updates": 80,
+  "rank": 8,
+  "layers": 4,
+  "learning_rate": 5e-05,
+  "splits": {
+    "train": {
+      "count": 1200,
+      "sha256": "9337833f8336b20fe99529c0f78c6ddf5f3767c25419e619e69efa3a40129fe0",
+      "max_tokens": 2099
+    },
+    "valid": {
+      "count": 160,
+      "sha256": "e988356f5bea3bb446a57496cf4e4ae77407b891f2df67e8ce0755d59c7d4f2c",
+      "max_tokens": 2100
+    }
+  }
+}

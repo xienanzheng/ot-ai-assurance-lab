@@ -1,0 +1,354 @@
+{
+  "count": 32,
+  "critical_count": 8,
+  "critical_correct": 6,
+  "valid": 32,
+  "supported_assessments": 0,
+  "other_count": 24,
+  "other_correct": 9,
+  "reference_errors": 0,
+  "correct": 15,
+  "by_kind": {
+    "critical": {
+      "count": 8,
+      "critical_count": 8,
+      "critical_correct": 6,
+      "valid": 8,
+      "supported_assessments": 0,
+      "other_count": 0,
+      "other_correct": 0,
+      "reference_errors": 0,
+      "correct": 6
+    },
+    "prerequisite": {
+      "count": 8,
+      "critical_count": 0,
+      "critical_correct": 0,
+      "valid": 8,
+      "supported_assessments": 0,
+      "other_count": 8,
+      "other_correct": 0,
+      "reference_errors": 0,
+      "correct": 0
+    },
+    "hold": {
+      "count": 8,
+      "critical_count": 0,
+      "critical_correct": 0,
+      "valid": 8,
+      "supported_assessments": 0,
+      "other_count": 8,
+      "other_correct": 8,
+      "reference_errors": 0,
+      "correct": 8
+    },
+    "adjust": {
+      "count": 8,
+      "critical_count": 0,
+      "critical_correct": 0,
+      "valid": 8,
+      "supported_assessments": 0,
+      "other_count": 8,
+      "other_correct": 1,
+      "reference_errors": 0,
+      "correct": 1
+    }
+  },
+  "transport_errors": 0,
+  "denominator": 32,
+  "warm_median_seconds": 0.7101868750032736,
+  "warm_p95_seconds": 1.0844829999987269,
+  "timing_note": "Sequential, first excluded. Local matched prompts; hosted timing is a separate system measurement.",
+  "reported_usage": [
+    {
+      "prompt_tokens": 2594,
+      "completion_tokens": 47,
+      "total_tokens": 2641,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.428478240966797
+    },
+    {
+      "prompt_tokens": 2543,
+      "completion_tokens": 46,
+      "total_tokens": 2589,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.162149429321289
+    },
+    {
+      "prompt_tokens": 2564,
+      "completion_tokens": 43,
+      "total_tokens": 2607,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.167841911315918
+    },
+    {
+      "prompt_tokens": 2551,
+      "completion_tokens": 39,
+      "total_tokens": 2590,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 12.985822677612305
+    },
+    {
+      "prompt_tokens": 2616,
+      "completion_tokens": 57,
+      "total_tokens": 2673,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.834966659545898
+    },
+    {
+      "prompt_tokens": 2551,
+      "completion_tokens": 41,
+      "total_tokens": 2592,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.046772956848145
+    },
+    {
+      "prompt_tokens": 2582,
+      "completion_tokens": 40,
+      "total_tokens": 2622,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.159660339355469
+    },
+    {
+      "prompt_tokens": 2543,
+      "completion_tokens": 64,
+      "total_tokens": 2607,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.710695266723633
+    },
+    {
+      "prompt_tokens": 2653,
+      "completion_tokens": 55,
+      "total_tokens": 2708,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.9451265335083
+    },
+    {
+      "prompt_tokens": 2543,
+      "completion_tokens": 43,
+      "total_tokens": 2586,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.070725440979004
+    },
+    {
+      "prompt_tokens": 2560,
+      "completion_tokens": 43,
+      "total_tokens": 2603,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.149343490600586
+    },
+    {
+      "prompt_tokens": 2550,
+      "completion_tokens": 60,
+      "total_tokens": 2610,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.621169090270996
+    },
+    {
+      "prompt_tokens": 2541,
+      "completion_tokens": 41,
+      "total_tokens": 2582,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.000527381896973
+    },
+    {
+      "prompt_tokens": 2557,
+      "completion_tokens": 37,
+      "total_tokens": 2594,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 12.952621459960938
+    },
+    {
+      "prompt_tokens": 2562,
+      "completion_tokens": 38,
+      "total_tokens": 2600,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.006218910217285
+    },
+    {
+      "prompt_tokens": 2553,
+      "completion_tokens": 42,
+      "total_tokens": 2595,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.08649730682373
+    },
+    {
+      "prompt_tokens": 2611,
+      "completion_tokens": 42,
+      "total_tokens": 2653,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.35472297668457
+    },
+    {
+      "prompt_tokens": 2541,
+      "completion_tokens": 41,
+      "total_tokens": 2582,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.000527381896973
+    },
+    {
+      "prompt_tokens": 2554,
+      "completion_tokens": 42,
+      "total_tokens": 2596,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.091121673583984
+    },
+    {
+      "prompt_tokens": 2543,
+      "completion_tokens": 54,
+      "total_tokens": 2597,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.4059476852417
+    },
+    {
+      "prompt_tokens": 2548,
+      "completion_tokens": 40,
+      "total_tokens": 2588,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.002424240112305
+    },
+    {
+      "prompt_tokens": 2543,
+      "completion_tokens": 41,
+      "total_tokens": 2584,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.00977611541748
+    },
+    {
+      "prompt_tokens": 2554,
+      "completion_tokens": 38,
+      "total_tokens": 2592,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 12.969222068786621
+    },
+    {
+      "prompt_tokens": 2543,
+      "completion_tokens": 44,
+      "total_tokens": 2587,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.101200103759766
+    },
+    {
+      "prompt_tokens": 2587,
+      "completion_tokens": 44,
+      "total_tokens": 2631,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.304681777954102
+    },
+    {
+      "prompt_tokens": 2548,
+      "completion_tokens": 46,
+      "total_tokens": 2594,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.185273170471191
+    },
+    {
+      "prompt_tokens": 2552,
+      "completion_tokens": 43,
+      "total_tokens": 2595,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.112346649169922
+    },
+    {
+      "prompt_tokens": 2543,
+      "completion_tokens": 40,
+      "total_tokens": 2583,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 12.979301452636719
+    },
+    {
+      "prompt_tokens": 2619,
+      "completion_tokens": 54,
+      "total_tokens": 2673,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.757416725158691
+    },
+    {
+      "prompt_tokens": 2545,
+      "completion_tokens": 40,
+      "total_tokens": 2585,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 12.988550186157227
+    },
+    {
+      "prompt_tokens": 2582,
+      "completion_tokens": 44,
+      "total_tokens": 2626,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.281558990478516
+    },
+    {
+      "prompt_tokens": 2549,
+      "completion_tokens": 41,
+      "total_tokens": 2590,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 13.037524223327637
+    }
+  ],
+  "approved": false,
+  "locked_test_used": false
+}

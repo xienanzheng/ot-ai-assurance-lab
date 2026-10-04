@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="959.76pt" height="540pt" viewBox="0 0 959.76 540" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-04T09:53:57.521971</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 540 
+L 959.76 540 
+L 959.76 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 201.5496 410.4 
+L 930.9672 410.4 
+L 930.9672 129.6 
+L 201.5496 129.6 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 201.5496 142.363636 
+L 827.817236 142.363636 
+L 827.817236 177.573668 
+L 201.5496 177.573668 
+z
+" clip-path="url(#p64c4a9b635)" style="fill: #687b89"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 201.5496 186.376176 
+L 864.656509 186.376176 
+L 864.656509 221.586207 
+L 201.5496 221.586207 
+z
+" clip-path="url(#p64c4a9b635)" style="fill: #157347"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 201.5496 230.388715 
+L 827.817236 230.388715 
+L 827.817236 265.598746 
+L 201.5496 265.598746 
+z
+" clip-path="url(#p64c4a9b635)" style="fill: #687b89"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 201.5496 274.401254 
+L 864.656509 274.401254 
+L 864.656509 309.611285 
+L 201.5496 309.611285 
+z
+" clip-path="url(#p64c4a9b635)" style="fill: #157347"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 201.5496 318.413793 
+L 827.817236 318.413793 
+L 827.817236 353.623824 
+L 201.5496 353.623824 
+z
+" clip-path="url(#p64c4a9b635)" style="fill: #687b89"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 201.5496 362.426332 
+L 864.656509 362.426332 
+L 864.656509 397.636364 
+L 201.5496 397.636364 
+z
+" clip-path="url(#p64c4a9b635)" style="fill: #157347"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="mc58188823b" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mc58188823b" x="201.5496" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: middle" x="201.5496" y="426.76" transform="rotate(-0 201.5496 426.76)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#mc58188823b" x="367.326327" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: middle" x="367.326327" y="426.76" transform="rotate(-0 367.326327 426.76)">25</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#mc58188823b" x="533.103055" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: middle" x="533.103055" y="426.76" transform="rotate(-0 533.103055 426.76)">50</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mc58188823b" x="698.879782" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: middle" x="698.879782" y="426.76" transform="rotate(-0 698.879782 426.76)">75</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#mc58188823b" x="864.656509" y="410.4" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: middle" x="864.656509" y="426.76" transform="rotate(-0 864.656509 426.76)">100</text>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: middle; fill: #23332d" x="566.2584" y="442.76" transform="rotate(-0 566.2584 442.76)">Top-1 relevance (%)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_6">
+      <defs>
+       <path id="m221d89e03e" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m221d89e03e" x="201.5496" y="159.968652" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="194.5496" y="164.648652" transform="rotate(-0 194.5496 164.648652)">Legacy keyword</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m221d89e03e" x="201.5496" y="203.981191" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="194.5496" y="208.661191" transform="rotate(-0 194.5496 208.661191)">BM25</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m221d89e03e" x="201.5496" y="247.99373" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="194.5496" y="252.67373" transform="rotate(-0 194.5496 252.67373)">Local dense</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m221d89e03e" x="201.5496" y="292.00627" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="194.5496" y="296.68627" transform="rotate(-0 194.5496 296.68627)">Local hybrid</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m221d89e03e" x="201.5496" y="336.018809" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="194.5496" y="340.698809" transform="rotate(-0 194.5496 340.698809)">OpenAI dense</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#m221d89e03e" x="201.5496" y="380.031348" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: end" x="194.5496" y="384.711348" transform="rotate(-0 194.5496 384.711348)">OpenAI hybrid</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_9">
+    <path d="M 201.5496 410.4 
+L 201.5496 129.6 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 201.5496 410.4 
+L 930.9672 410.4 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="833.817236" y="163.328652" transform="rotate(-0 833.817236 163.328652)">17/18</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="870.656509" y="207.341191" transform="rotate(-0 870.656509 207.341191)">18/18</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="833.817236" y="251.35373" transform="rotate(-0 833.817236 251.35373)">17/18</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="870.656509" y="295.36627" transform="rotate(-0 870.656509 295.36627)">18/18</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="833.817236" y="339.378809" transform="rotate(-0 833.817236 339.378809)">17/18</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 12px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="870.656509" y="383.391348" transform="rotate(-0 870.656509 383.391348)">18/18</text>
+   </g>
+  </g>
+  <g id="text_19">
+   <text style="font-weight: 700; font-size: 25px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #23332d" x="52.7868" y="37.8" transform="rotate(-0 52.7868 37.8)">Plant retrieval: a small, recorded relevance check</text>
+  </g>
+  <g id="text_20">
+   <text style="font-size: 11px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #53635c" x="52.7868" y="84.053828" transform="rotate(-0 52.7868 84.053828)">18 developer-authored queries spanning water, grid and nuclear. Metric: expected SOP record ranked first.</text>
+  </g>
+  <g id="text_21">
+   <text style="font-size: 10px; font-family: 'IBM Plex Sans'; text-anchor: start; fill: #68776f" x="52.7868" y="521.1" transform="rotate(-0 52.7868 521.1)">OT AI assurance lab | Recorded experiments | Compiled 4 October 2026</text>
+  </g>
+  <g id="text_22">
+   <text style="font-size: 11px; font-family: 'IBM Plex Sans'; fill: #53635c" transform="translate(52.7868 486.353828)">BM25 and both hybrid methods found the expected first result in 18/18 cases; dense-only and legacy keyword found 17/18.</text>
+   <text style="font-size: 11px; font-family: 'IBM Plex Sans'; fill: #53635c" transform="translate(52.7868 502.92)">These relevance results do not measure model decision accuracy or plant recovery.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p64c4a9b635">
+   <rect x="201.5496" y="129.6" width="729.4176" height="280.8"/>
+  </clipPath>
+ </defs>
+</svg>

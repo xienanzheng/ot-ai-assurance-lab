@@ -1,0 +1,5 @@
+metric,numerator,denominator,required_percent,passed
+Critical escalation,477,500,100,False
+Structured validity,995,1000,99,True
+Supported assessments,631,1000,95,False
+Correct noncritical decisions,239,500,95,False

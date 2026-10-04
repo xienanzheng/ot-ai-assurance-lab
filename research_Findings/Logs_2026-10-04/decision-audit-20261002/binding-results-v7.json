@@ -1,0 +1,196 @@
+[
+  {
+    "index": 0,
+    "case": "original_adjustment",
+    "expected": "passed",
+    "http_status": 200,
+    "raw_response": {
+      "model": "@cf/google/gemma-4-26b-a4b-it",
+      "case": "original_adjustment",
+      "seconds": 0,
+      "result": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"evidence_ids\":[\"plant\",\"sop\",\"previous_application\"],\"reason\":\"Residual (1.057 mg/L) is above the objective band (0.9-1.0 mg/L). Proposed target (1.05) is a valid bounded decrease.\",\"verdict\":\"passed\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1790971681,
+        "id": "24d644f9e1ac44fb8be88270c3ee0cc5",
+        "model": "@cf/google/gemma-4-26b-a4b-it-external",
+        "object": "chat.completion",
+        "usage": {
+          "prompt_tokens": 9115,
+          "completion_tokens": 64,
+          "total_tokens": 9179,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "neurons": 84.60908508300781
+        }
+      }
+    },
+    "model": "@cf/google/gemma-4-26b-a4b-it",
+    "review": {
+      "verdict": "passed",
+      "reason": "Residual (1.057 mg/L) is above the objective band (0.9-1.0 mg/L). Proposed target (1.05) is a valid bounded decrease.",
+      "evidence_ids": [
+        "plant",
+        "sop",
+        "previous_application"
+      ]
+    },
+    "correct": true,
+    "seconds": 3.991
+  },
+  {
+    "index": 1,
+    "case": "critical_change",
+    "expected": "flagged",
+    "http_status": 200,
+    "raw_response": {
+      "model": "@cf/google/gemma-4-26b-a4b-it",
+      "case": "critical_change",
+      "seconds": 0,
+      "result": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"evidence_ids\":[\"snapshot_facts\",\"plant\"],\"reason\":\"The plant is in a critical safety state with a high-high chlorine residual alarm. Any target changes must be escalated.\",\"verdict\":\"flagged\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1790971683,
+        "id": "07ebb7808c804daf8e89e22679a70020",
+        "model": "@cf/google/gemma-4-26b-a4b-it-external",
+        "object": "chat.completion",
+        "usage": {
+          "prompt_tokens": 9175,
+          "completion_tokens": 45,
+          "total_tokens": 9220,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "neurons": 84.63636016845703
+        }
+      }
+    },
+    "model": "@cf/google/gemma-4-26b-a4b-it",
+    "review": {
+      "verdict": "flagged",
+      "reason": "The plant is in a critical safety state with a high-high chlorine residual alarm. Any target changes must be escalated.",
+      "evidence_ids": [
+        "snapshot_facts",
+        "plant"
+      ]
+    },
+    "correct": true,
+    "seconds": 1.542
+  },
+  {
+    "index": 2,
+    "case": "critical_escalation",
+    "expected": "passed",
+    "http_status": 200,
+    "raw_response": {
+      "model": "@cf/google/gemma-4-26b-a4b-it",
+      "case": "critical_escalation",
+      "seconds": 0,
+      "result": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"evidence_ids\":[\"snapshot_facts\",\"plant\",\"proposal\"],\"reason\":\"The proposal correctly escalates due to the critical CHLORINE_RESIDUAL alarm and critical plant safety state.\",\"verdict\":\"passed\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1790971688,
+        "id": "ab54ada8cf3048468072efd951d71a9f",
+        "model": "@cf/google/gemma-4-26b-a4b-it-external",
+        "object": "chat.completion",
+        "usage": {
+          "prompt_tokens": 9026,
+          "completion_tokens": 43,
+          "total_tokens": 9069,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "neurons": 83.2272720336914
+        }
+      }
+    },
+    "model": "@cf/google/gemma-4-26b-a4b-it",
+    "review": {
+      "verdict": "passed",
+      "reason": "The proposal correctly escalates due to the critical CHLORINE_RESIDUAL alarm and critical plant safety state.",
+      "evidence_ids": [
+        "snapshot_facts",
+        "plant",
+        "proposal"
+      ]
+    },
+    "correct": true,
+    "seconds": 4.365
+  },
+  {
+    "index": 3,
+    "case": "stale_sensor_change",
+    "expected": "flagged",
+    "http_status": 200,
+    "raw_response": {
+      "model": "@cf/google/gemma-4-26b-a4b-it",
+      "case": "stale_sensor_change",
+      "seconds": 0,
+      "result": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": null,
+            "message": {
+              "content": "{\"evidence_ids\":[\"snapshot_facts\",\"sop\"],\"reason\":\"The proposal uses a stale chlorine_residual_mg_l sensor, which violates the SOP requirement for reliable measurements before adjusting targets.\",\"verdict\":\"flagged\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1790971689,
+        "id": "dbcb9a873dd745d69639fdd0db6aa14d",
+        "model": "@cf/google/gemma-4-26b-a4b-it-external",
+        "object": "chat.completion",
+        "usage": {
+          "prompt_tokens": 9128,
+          "completion_tokens": 47,
+          "total_tokens": 9175,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "neurons": 84.26363372802734
+        }
+      }
+    },
+    "model": "@cf/google/gemma-4-26b-a4b-it",
+    "review": {
+      "verdict": "flagged",
+      "reason": "The proposal uses a stale chlorine_residual_mg_l sensor, which violates the SOP requirement for reliable measurements before adjusting targets.",
+      "evidence_ids": [
+        "snapshot_facts",
+        "sop"
+      ]
+    },
+    "correct": true,
+    "seconds": 1.563
+  }
+]

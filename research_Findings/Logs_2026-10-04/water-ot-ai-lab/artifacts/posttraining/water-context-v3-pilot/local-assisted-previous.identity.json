@@ -1,0 +1,11 @@
+{
+  "manifest_sha256": "e9aaf537c385eedd3326954a0e864778c3024448774182b924b2ea247c6056fd",
+  "pilot_sha256": "c2934b6f7ac880720d80c2e98d4535b82ea6b56140736eb388cfe97bc4e3dff2",
+  "adapter_sha256": "9d379f72e5af9085696a359f93d30f29eff4811e90408ca7899287cac043f289",
+  "adapter_config_sha256": "d3fe5fe45ebb48ebf0683b151a7427980b7d16556598e6afa8080375a109c127",
+  "script_sha256": "8fba81c0bd397035713335cb65f9b482bb48e73e4e8a94147f6ea112069cdfb9",
+  "mode": "assisted",
+  "max_tokens": 256,
+  "temperature": 0,
+  "thinking": false
+}

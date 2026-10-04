@@ -1,0 +1,45 @@
+{
+  "version": "water-alarms-v2",
+  "teacher": "rule-labelled counterfactual simulator cases; no visitor data",
+  "source_hashes": {
+    "services/plant_sim/app/simulator.py": "b1168f8e37ec233079cf43f4d0efc0695758b4b40976782ffa0612231e35ec5a",
+    "services/plc_control/app/controller.py": "524b42d1e2654495785683d4a47af195107e935c67805ea2207fc474894ffe0e",
+    "shared/limits.py": "bfc95d3f6b3d3656d1659241e6f23c1bbef888b012265374bcc208140b1996cc",
+    "services/supervisor/app/water_alarm.py": "1e94a428838abf44b076d51aece5010f0d5d2bc5f8330b7c8314812752c4feac",
+    "services/supervisor/app/plant_sops.json": "19723acd2b7cf99600ec47f516a2004ea7cbc765387d703769797d75226113f9",
+    "shared/models.py": "4921b9e204823dbd10e3bccb211e88c8b088fe8153e5780b1877eaff54696ba9",
+    "scripts/water_alarm_benchmark.py": "4f877195db1adfae75a5aae1c3d8df39231c534aaf22a73b1c7265d5f7b8aff8"
+  },
+  "splits": {
+    "train": {
+      "count": 2000,
+      "kinds": {
+        "adjust": 400,
+        "critical": 800,
+        "prerequisite": 400,
+        "hold": 400
+      },
+      "sha256": "b5c5e711ce86ce25a24b3492baad6a63f6ebc969515373f66aa7d7820d2c8eaf"
+    },
+    "valid": {
+      "count": 400,
+      "kinds": {
+        "hold": 80,
+        "critical": 160,
+        "prerequisite": 80,
+        "adjust": 80
+      },
+      "sha256": "e1ae2209014659fb663b1075dc1d772727bb64359ff7bf21e9122f77b4ceae33"
+    },
+    "test": {
+      "count": 1000,
+      "kinds": {
+        "critical": 500,
+        "hold": 167,
+        "adjust": 166,
+        "prerequisite": 167
+      },
+      "sha256": "621bc82540078fc0630f11817aa47daaccd19ca338a1a96fed71c923afaea56f"
+    }
+  }
+}

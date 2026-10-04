@@ -1,0 +1,51 @@
+{
+  "count": 400,
+  "hosted": {
+    "count": 400,
+    "critical_count": 160,
+    "critical_correct": 120,
+    "valid": 399,
+    "supported_assessments": 99,
+    "other_count": 240,
+    "other_correct": 80,
+    "reference_errors": 0,
+    "correct": 200
+  },
+  "transport_errors": 0,
+  "local": {
+    "base": {
+      "count": 400,
+      "critical_count": 160,
+      "critical_correct": 0,
+      "valid": 78,
+      "supported_assessments": 1,
+      "other_count": 240,
+      "other_correct": 2,
+      "reference_errors": 250,
+      "correct": 2
+    },
+    "lr5e5": {
+      "count": 400,
+      "critical_count": 160,
+      "critical_correct": 159,
+      "valid": 397,
+      "supported_assessments": 286,
+      "other_count": 240,
+      "other_correct": 129,
+      "reference_errors": 0,
+      "correct": 288
+    },
+    "lr1e4": {
+      "count": 400,
+      "critical_count": 160,
+      "critical_correct": 122,
+      "valid": 362,
+      "supported_assessments": 202,
+      "other_count": 240,
+      "other_correct": 54,
+      "reference_errors": 0,
+      "correct": 176
+    }
+  },
+  "authentication_retries": 1
+}

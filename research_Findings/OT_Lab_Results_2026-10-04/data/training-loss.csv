@@ -1,0 +1,42 @@
+experiment,iteration,split,loss
+Original adapter / 160 updates,1,Val,2.006
+Original adapter / 160 updates,10,Train,0.805
+Original adapter / 160 updates,20,Train,0.297
+Original adapter / 160 updates,30,Train,0.215
+Original adapter / 160 updates,40,Train,0.107
+Original adapter / 160 updates,50,Train,0.118
+Original adapter / 160 updates,60,Train,0.07
+Original adapter / 160 updates,70,Train,0.087
+Original adapter / 160 updates,80,Val,0.097
+Original adapter / 160 updates,80,Train,0.071
+Original adapter / 160 updates,90,Train,0.087
+Original adapter / 160 updates,100,Train,0.104
+Original adapter / 160 updates,110,Train,0.075
+Original adapter / 160 updates,120,Train,0.043
+Original adapter / 160 updates,130,Train,0.034
+Original adapter / 160 updates,140,Train,0.049
+Original adapter / 160 updates,150,Train,0.034
+Original adapter / 160 updates,160,Val,0.018
+Original adapter / 160 updates,160,Train,0.044
+Assisted / 80 updates,1,Val,1.698
+Assisted / 80 updates,10,Train,0.804
+Assisted / 80 updates,20,Train,0.415
+Assisted / 80 updates,30,Train,0.099
+Assisted / 80 updates,40,Val,0.064
+Assisted / 80 updates,40,Train,0.108
+Assisted / 80 updates,50,Train,0.051
+Assisted / 80 updates,60,Train,0.052
+Assisted / 80 updates,70,Train,0.055
+Assisted / 80 updates,80,Val,0.029
+Assisted / 80 updates,80,Train,0.027
+Compact / 80 updates,1,Val,3.016
+Compact / 80 updates,10,Train,0.604
+Compact / 80 updates,20,Train,0.186
+Compact / 80 updates,30,Train,0.14
+Compact / 80 updates,40,Val,0.072
+Compact / 80 updates,40,Train,0.149
+Compact / 80 updates,50,Train,0.105
+Compact / 80 updates,60,Train,0.037
+Compact / 80 updates,70,Train,0.153
+Compact / 80 updates,80,Val,0.06
+Compact / 80 updates,80,Train,0.075

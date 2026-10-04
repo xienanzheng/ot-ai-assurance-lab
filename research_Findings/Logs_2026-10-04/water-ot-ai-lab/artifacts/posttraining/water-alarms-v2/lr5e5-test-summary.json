@@ -1,0 +1,57 @@
+{
+  "count": 1000,
+  "critical_count": 500,
+  "critical_correct": 477,
+  "valid": 995,
+  "supported_assessments": 631,
+  "other_count": 500,
+  "other_correct": 239,
+  "reference_errors": 2,
+  "correct": 716,
+  "identity": {
+    "version": 2,
+    "base_files": {
+      "model.safetensors": "e240c0bdc0ebb0681bf0da0f98d9719fd6ebe269a3633f81542c13e81345651d",
+      "added_tokens.json": "c0284b582e14987fbd3d5a2cb2bd139084371ed9acbae488829a1c900833c680",
+      "config.json": "b5efdcf3b0035a3638e7228dad4d85f5c4a23f156eb7cdb0b44c8366a5d34d9b",
+      "model.safetensors.index.json": "f7825defe5865d179c3b593173d37056be5f202dcb7153985cf74e75ecf1628b",
+      "special_tokens_map.json": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+      "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "tokenizer_config.json": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    },
+    "base_revision": "4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25",
+    "adapter_sha256": "9d379f72e5af9085696a359f93d30f29eff4811e90408ca7899287cac043f289",
+    "adapter_config_sha256": "d3fe5fe45ebb48ebf0683b151a7427980b7d16556598e6afa8080375a109c127",
+    "dataset": {
+      "manifest.json": "a65d5daac6262d1a7f42c4970a1b06c28bd6d0c77f9ddfd424e6a554c04233de",
+      "train.cases.jsonl": "b5c5e711ce86ce25a24b3492baad6a63f6ebc969515373f66aa7d7820d2c8eaf",
+      "valid.cases.jsonl": "e1ae2209014659fb663b1075dc1d772727bb64359ff7bf21e9122f77b4ceae33",
+      "test.cases.jsonl": "621bc82540078fc0630f11817aa47daaccd19ca338a1a96fed71c923afaea56f"
+    },
+    "sources": {
+      "scripts/run_water_alarm_study.py": "bfda563237addbbc54d7e61f3cd5a3171a63cb8f1c8391a78628dea864e8044f",
+      "scripts/water_alarm_benchmark.py": "4f877195db1adfae75a5aae1c3d8df39231c534aaf22a73b1c7265d5f7b8aff8",
+      "services/supervisor/app/water_alarm.py": "1e94a428838abf44b076d51aece5010f0d5d2bc5f8330b7c8314812752c4feac",
+      "shared/models.py": "4921b9e204823dbd10e3bccb211e88c8b088fe8153e5780b1877eaff54696ba9",
+      "shared/water_study_provenance.py": "9211392efcfd7293771c1c35852fa9919ec4fb5bdeff525ef465ef4c22fbf673",
+      "scripts/train_water_alarm_adapter.py": "8e34c23f05f92e20e55c5385d84ee5e88bcce0a0e074f8503bcf829488824f18",
+      "scripts/water_alarm_server.py": "364d530def40a34596ea6934162e026b5d42f3673d299c887ad2df365a161539",
+      "services/supervisor/app/plant_sops.json": "19723acd2b7cf99600ec47f516a2004ea7cbc765387d703769797d75226113f9",
+      "services/supervisor/app/sop_context.py": "70f9df6f9cd0e11b22f9a991a36398b2288d114262192f025fbe4a33941b3a7e",
+      "services/plc_control/app/controller.py": "524b42d1e2654495785683d4a47af195107e935c67805ea2207fc474894ffe0e",
+      "services/plant_sim/app/simulator.py": "b1168f8e37ec233079cf43f4d0efc0695758b4b40976782ffa0612231e35ec5a",
+      "shared/limits.py": "bfc95d3f6b3d3656d1659241e6f23c1bbef888b012265374bcc208140b1996cc",
+      "requirements-water-alarm-training.txt": "f2dc645758189e3184db42e5e1ca639e937b8e8b3d1bf958614f14890c7ddabc"
+    },
+    "decoding": {
+      "temperature": 0,
+      "thinking": false,
+      "max_output": 256,
+      "max_sequence": 4096,
+      "completion_batch_size": 8,
+      "prefill_batch_size": 2
+    }
+  },
+  "results_sha256": "9179bfdf4858fe41279b39628c188c14e6ab2c78d9062bca6d8826cf353e7090"
+}

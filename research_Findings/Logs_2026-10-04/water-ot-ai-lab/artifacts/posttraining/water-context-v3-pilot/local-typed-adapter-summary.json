@@ -1,0 +1,65 @@
+{
+  "count": 32,
+  "critical_count": 8,
+  "critical_correct": 8,
+  "valid": 32,
+  "supported_assessments": 24,
+  "other_count": 24,
+  "other_correct": 8,
+  "reference_errors": 0,
+  "correct": 16,
+  "by_kind": {
+    "critical": {
+      "count": 8,
+      "critical_count": 8,
+      "critical_correct": 8,
+      "valid": 8,
+      "supported_assessments": 8,
+      "other_count": 0,
+      "other_correct": 0,
+      "reference_errors": 0,
+      "correct": 8
+    },
+    "prerequisite": {
+      "count": 8,
+      "critical_count": 0,
+      "critical_correct": 0,
+      "valid": 8,
+      "supported_assessments": 8,
+      "other_count": 8,
+      "other_correct": 8,
+      "reference_errors": 0,
+      "correct": 8
+    },
+    "hold": {
+      "count": 8,
+      "critical_count": 0,
+      "critical_correct": 0,
+      "valid": 8,
+      "supported_assessments": 8,
+      "other_count": 8,
+      "other_correct": 0,
+      "reference_errors": 0,
+      "correct": 0
+    },
+    "adjust": {
+      "count": 8,
+      "critical_count": 0,
+      "critical_correct": 0,
+      "valid": 8,
+      "supported_assessments": 0,
+      "other_count": 8,
+      "other_correct": 0,
+      "reference_errors": 0,
+      "correct": 0
+    }
+  },
+  "transport_errors": 0,
+  "denominator": 32,
+  "warm_median_seconds": 6.197244082999532,
+  "warm_p95_seconds": 6.418390625010943,
+  "timing_note": "Sequential, first excluded. Local matched prompts; hosted timing is a separate system measurement.",
+  "reported_usage": [],
+  "approved": false,
+  "locked_test_used": false
+}

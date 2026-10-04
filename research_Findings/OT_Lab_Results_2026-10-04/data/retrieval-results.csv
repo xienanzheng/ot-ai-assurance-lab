@@ -1,0 +1,7 @@
+method,correct_top1,queries
+Legacy keyword,17,18
+BM25,18,18
+Local dense,17,18
+Local hybrid,18,18
+OpenAI dense,17,18
+OpenAI hybrid,18,18

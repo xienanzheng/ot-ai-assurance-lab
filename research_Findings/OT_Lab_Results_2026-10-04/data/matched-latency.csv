@@ -1,0 +1,193 @@
+experiment,model,id,seconds,input_tokens,output_tokens,included_warm
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300111,12.671954290999565,1890,149,False
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300361,12.241210833992227,1918,121,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300237,11.732459875012864,1930,118,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300413,18.377899207989685,1925,118,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300343,12.632594708004035,1964,141,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300376,14.7473389999941,1952,146,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300831,10.81706916600524,1909,97,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300037,13.612943207990611,1884,161,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300020,19.02228245799779,1969,256,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300789,12.918521500003408,1920,154,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300161,12.321573708002688,1886,123,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300213,17.769563791996916,1888,256,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300065,14.001903541997308,1859,178,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300182,14.788277166997432,1860,178,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300732,13.937266167005873,1898,175,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300267,12.899224084001617,1971,134,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300997,10.487367582987645,1865,97,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300855,13.508685499997227,1899,155,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300516,17.533374708000338,1898,245,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300212,16.36858999999822,1901,256,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300270,16.10707020899281,1905,205,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300909,13.170798959006788,1916,137,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300500,16.31383891699079,1882,256,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300004,12.943600667000283,1936,134,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300496,17.81349941600638,1882,252,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300457,11.471173875004752,1863,118,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300664,13.203887875002692,1878,138,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300402,13.563972791991546,1882,174,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300723,13.615305917002843,1908,158,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300531,12.513139834001777,1933,147,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300121,14.865806582994992,1923,182,True
+Original alarm adapter 160 updates,Base,water-alarms-v2:test:episode-300944,15.826156625000294,1859,187,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300111,6.412229708002997,1890,57,False
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300361,6.291573875001632,1918,52,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300237,6.50326062500244,1930,56,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300413,6.591522167000221,1925,56,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300343,6.693328500012285,1964,56,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300376,6.626345124997897,1952,58,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300831,6.057179707990144,1909,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300037,6.303738290996989,1884,48,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300020,6.963505167004769,1969,62,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300789,6.121290084003704,1920,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300161,6.565631207995466,1886,57,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300213,6.265245250004227,1888,48,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300065,6.142689291998977,1859,45,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300182,6.099694249991444,1860,45,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300732,6.091539250002825,1898,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300267,6.703074666002067,1971,53,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300997,6.971004791994346,1865,71,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300855,6.17719987500459,1899,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300516,6.203698166995309,1898,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300212,6.45928237499902,1901,49,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300270,6.544828124999185,1905,52,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300909,6.226901624992024,1916,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300500,6.116947624992463,1882,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300004,6.741959374994622,1936,52,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300496,6.172271291987272,1882,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300457,6.230444000000716,1863,45,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300664,6.163205000004382,1878,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300402,6.6680258749984205,1882,52,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300723,5.980959749998874,1908,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300531,6.000724708006601,1933,41,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300121,6.567500959004974,1923,58,True
+Original alarm adapter 160 updates,Adapter,water-alarms-v2:test:episode-300944,5.888468165998347,1859,43,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200030,9.555287417009822,2183,110,False
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200133,8.399840917001711,2132,84,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200128,10.162244834005833,2153,130,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200084,10.99512366700219,2140,124,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200018,13.42314174999774,2205,120,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200076,12.151836541990633,2140,103,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200065,11.873392624998814,2171,142,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200078,9.282215625004028,2132,86,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200003,10.305454500004998,2242,116,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200061,8.958463667004253,2132,84,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200068,10.240016291005304,2149,124,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200072,10.527859375011758,2139,122,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200015,8.909307750000153,2130,80,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200136,9.950716875013313,2146,119,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200080,11.857837584000663,2151,170,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200156,10.70160070800921,2142,116,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200033,13.123025165987201,2200,148,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200043,10.284986416998436,2130,84,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200122,12.07287937500223,2143,142,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200051,10.276391209001304,2132,89,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200028,8.618111541989492,2137,75,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200097,9.137803083998733,2132,84,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200062,11.776199707994238,2143,131,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200141,9.809870500001125,2132,88,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200022,10.581287541994243,2176,119,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200145,10.542319915999542,2137,118,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200158,10.288633791002212,2141,125,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200117,9.390290540992282,2132,97,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200017,10.259072708999156,2208,119,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200103,9.08681479099323,2134,87,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200149,10.97430129199347,2171,142,True
+Assisted context 80 updates,Base,water-context-v3-pilot:valid:episode-1200048,10.138971375010442,2138,118,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200030,7.472309499993571,2183,52,False
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200133,7.389569249993656,2132,50,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200128,7.230687625007704,2153,42,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200084,7.353904167001019,2140,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200018,8.108573833989794,2205,56,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200076,7.5359191250026925,2140,46,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200065,7.510996500001056,2171,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200078,7.440836499998113,2132,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200003,8.220432458998403,2242,53,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200061,7.675243042001966,2132,50,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200068,7.552086083000177,2149,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200072,7.522765500005335,2139,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200015,7.555752708998625,2130,45,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200136,8.178661291996832,2146,52,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200080,7.687452625003061,2151,42,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200156,7.505814834003104,2142,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200033,8.211821958990186,2200,58,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200043,7.645085666998057,2130,50,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200122,7.412401499997941,2143,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200051,7.357068416007678,2132,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200028,7.532781374990009,2137,45,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200097,7.909855916004744,2132,50,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200062,7.5744320419908036,2143,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200141,8.523742207995383,2132,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200022,8.319273499990231,2176,59,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200145,8.384396583991474,2137,52,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200158,8.100841249994119,2141,42,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200117,7.765873333992204,2132,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200017,8.36556516699784,2208,56,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200103,8.053600290993927,2134,52,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200149,7.872287958001834,2171,43,True
+Assisted context 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200048,7.849620666995179,2138,43,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200030,6.502571749995695,2019,12,False
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200133,5.9857556670031045,1968,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200128,6.179839832999278,1989,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200084,6.167358624996268,1976,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200018,7.037837416006369,2041,12,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200076,6.349717666002107,1976,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200065,6.64512741699582,2007,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200078,6.550294124986976,1968,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200003,6.622064459006651,2078,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200061,6.01158416600083,1968,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200068,6.040521625007386,1985,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200072,6.324650250011473,1975,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200015,6.053766790995724,1966,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200136,6.328483499994036,1982,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200080,6.852989125007298,1987,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200156,6.4856297920050565,1978,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200033,6.9532737499976065,2036,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200043,6.666214458004106,1966,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200122,6.4948094169958495,1979,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200051,6.494877375007491,1968,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200028,6.491441375008435,1973,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200097,6.468913249991601,1968,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200062,6.488459042011527,1979,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200141,7.264748749992577,1968,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200022,7.484593000001041,2012,12,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200145,7.10544800000207,1973,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200158,6.572375082992949,1977,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200117,6.284092250003596,1968,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200017,6.501236042007804,2044,12,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200103,6.219469375006156,1970,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200149,6.3466462919896,2007,11,True
+Compact choices 80 updates,Base,water-context-v3-pilot:valid:episode-1200048,6.242774207988987,1974,11,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200030,6.447461042000214,2019,12,False
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200133,6.232477583005675,1968,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200128,6.249838709001779,1989,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200084,6.228225458005909,1976,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200018,6.418390625010943,2041,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200076,6.1688982079940615,1976,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200065,6.293090375009342,2007,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200078,6.251138458013884,1968,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200003,6.541539292011294,2078,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200061,6.167557334003504,1968,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200068,6.176073334005196,1985,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200072,6.2119489580072695,1975,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200015,6.1947775409935275,1966,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200136,6.197244082999532,1982,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200080,6.29163824999705,1987,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200156,6.126166000001831,1978,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200033,6.379066958994372,2036,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200043,6.211284375007381,1966,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200122,6.137779249998857,1979,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200051,6.25236508299713,1968,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200028,6.199077666999074,1973,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200097,6.216457791000721,1968,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200062,6.336829666004633,1979,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200141,5.882011916997726,1968,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200022,5.993832708001719,2012,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200145,5.857570334002958,1973,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200158,5.920276874996489,1977,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200117,5.944300333008869,1968,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200017,6.0320696249982575,2044,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200103,5.961005875011324,1970,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200149,6.02997333399253,2007,12,True
+Compact choices 80 updates,Adapter,water-context-v3-pilot:valid:episode-1200048,5.891786291002063,1974,12,True

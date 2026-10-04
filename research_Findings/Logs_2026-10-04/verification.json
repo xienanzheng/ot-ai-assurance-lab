@@ -1,0 +1,73 @@
+{
+  "shared_comparison": {
+    "Cloud Qwen30B": {
+      "count": 400,
+      "correct": 200,
+      "valid": 399
+    },
+    "Fine-tuned Qwen4B": {
+      "count": 400,
+      "correct": 288,
+      "valid": 397
+    },
+    "Jev typed choices": {
+      "count": 400,
+      "correct": 356,
+      "valid": 400
+    }
+  },
+  "locked_test": {
+    "count": 1000,
+    "critical_count": 500,
+    "critical_correct": 477,
+    "valid": 995,
+    "supported_assessments": 631,
+    "other_count": 500,
+    "other_correct": 239,
+    "reference_errors": 2
+  },
+  "latency": [
+    {
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-latency.json",
+      "warm_count": 31,
+      "median_seconds": 13.612943207990611,
+      "p95_seconds": 17.81349941600638
+    },
+    {
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-latency.json",
+      "warm_count": 31,
+      "median_seconds": 6.265245250004227,
+      "p95_seconds": 6.741959374994622
+    },
+    {
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base.jsonl",
+      "warm_count": 31,
+      "median_seconds": 10.284986416998436,
+      "p95_seconds": 13.123025165987201
+    },
+    {
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter.jsonl",
+      "warm_count": 31,
+      "median_seconds": 7.675243042001966,
+      "p95_seconds": 8.384396583991474
+    },
+    {
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base.jsonl",
+      "warm_count": 31,
+      "median_seconds": 6.488459042011527,
+      "p95_seconds": 7.264748749992577
+    },
+    {
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter.jsonl",
+      "warm_count": 31,
+      "median_seconds": 6.197244082999532,
+      "p95_seconds": 6.418390625010943
+    }
+  ],
+  "pilot_scored_responses": 160,
+  "training_loss_checkpoints": 41,
+  "retrieval_queries_per_method": 18,
+  "publication_source_hashes_checked": 155,
+  "parsed_json_files": 94,
+  "status": "passed"
+}

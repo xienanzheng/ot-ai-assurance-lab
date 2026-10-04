@@ -1,0 +1,87 @@
+Compact target dataset prepared {'train': {'count': 1200, 'sha256': '9337833f8336b20fe99529c0f78c6ddf5f3767c25419e619e69efa3a40129fe0', 'max_tokens': 2099}, 'valid': {'count': 160, 'sha256': 'e988356f5bea3bb446a57496cf4e4ae77407b891f2df67e8ce0755d59c7d4f2c', 'max_tokens': 2100}}
+local-typed-base 1 critical True 6.5
+local-typed-base 2 prerequisite False 5.99
+local-typed-base 3 hold True 6.18
+local-typed-base 4 adjust False 6.17
+local-typed-base 5 critical True 7.04
+local-typed-base 6 prerequisite False 6.35
+local-typed-base 7 hold True 6.65
+local-typed-base 8 adjust False 6.55
+local-typed-base 9 critical False 6.62
+local-typed-base 10 prerequisite False 6.01
+local-typed-base 11 hold True 6.04
+local-typed-base 12 adjust False 6.32
+local-typed-base 13 critical False 6.05
+local-typed-base 14 prerequisite False 6.33
+local-typed-base 15 hold True 6.85
+local-typed-base 16 adjust False 6.49
+local-typed-base 17 critical False 6.95
+local-typed-base 18 prerequisite False 6.67
+local-typed-base 19 hold True 6.49
+local-typed-base 20 adjust False 6.49
+local-typed-base 21 critical False 6.49
+local-typed-base 22 prerequisite False 6.47
+local-typed-base 23 hold True 6.49
+local-typed-base 24 adjust False 7.26
+local-typed-base 25 critical True 7.48
+local-typed-base 26 prerequisite False 7.11
+local-typed-base 27 hold True 6.57
+local-typed-base 28 adjust False 6.28
+local-typed-base 29 critical True 6.5
+local-typed-base 30 prerequisite False 6.22
+local-typed-base 31 hold True 6.35
+local-typed-base 32 adjust False 6.24
+Loading pretrained model
+Loading datasets
+Training
+Trainable parameters: 0.046% (1.835M/4022.468M)
+Starting training..., iters: 80
+Calculating loss...:   0%|          | 0/4 [00:00<?, ?it/s]Calculating loss...:  25%|██▌       | 1/4 [00:06<00:20,  6.75s/it]Calculating loss...:  50%|█████     | 2/4 [00:13<00:13,  6.58s/it]Calculating loss...:  75%|███████▌  | 3/4 [00:19<00:06,  6.61s/it]Calculating loss...: 100%|██████████| 4/4 [00:26<00:00,  6.57s/it]Calculating loss...: 100%|██████████| 4/4 [00:26<00:00,  6.60s/it]
+Iter 1: Val loss 3.016, Val took 26.402s
+Iter 10: Train loss 0.604, Learning Rate 5.000e-05, It/sec 0.086, Tokens/sec 1.237, Trained Tokens 144, Peak mem 5.783 GB
+Iter 20: Train loss 0.186, Learning Rate 5.000e-05, It/sec 0.085, Tokens/sec 1.245, Trained Tokens 291, Peak mem 5.783 GB
+Iter 30: Train loss 0.140, Learning Rate 5.000e-05, It/sec 0.086, Tokens/sec 1.250, Trained Tokens 436, Peak mem 5.841 GB
+Calculating loss...:   0%|          | 0/4 [00:00<?, ?it/s]Calculating loss...:  25%|██▌       | 1/4 [00:06<00:19,  6.66s/it]Calculating loss...:  50%|█████     | 2/4 [00:13<00:13,  6.65s/it]Calculating loss...:  75%|███████▌  | 3/4 [00:20<00:06,  6.75s/it]Calculating loss...: 100%|██████████| 4/4 [00:27<00:00,  6.81s/it]Calculating loss...: 100%|██████████| 4/4 [00:27<00:00,  6.77s/it]
+Iter 40: Val loss 0.072, Val took 27.101s
+Iter 40: Train loss 0.149, Learning Rate 5.000e-05, It/sec 0.085, Tokens/sec 1.240, Trained Tokens 582, Peak mem 5.841 GB
+Iter 40: Saved adapter weights to <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/adapters.safetensors and <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/0000040_adapters.safetensors.
+Iter 50: Train loss 0.105, Learning Rate 5.000e-05, It/sec 0.085, Tokens/sec 1.228, Trained Tokens 726, Peak mem 5.841 GB
+Iter 60: Train loss 0.037, Learning Rate 5.000e-05, It/sec 0.085, Tokens/sec 1.262, Trained Tokens 875, Peak mem 5.849 GB
+Iter 70: Train loss 0.153, Learning Rate 5.000e-05, It/sec 0.095, Tokens/sec 1.410, Trained Tokens 1024, Peak mem 5.849 GB
+Calculating loss...:   0%|          | 0/4 [00:00<?, ?it/s]Calculating loss...:  25%|██▌       | 1/4 [00:06<00:19,  6.35s/it]Calculating loss...:  50%|█████     | 2/4 [00:12<00:12,  6.30s/it]Calculating loss...:  75%|███████▌  | 3/4 [00:19<00:06,  6.46s/it]Calculating loss...: 100%|██████████| 4/4 [00:25<00:00,  6.46s/it]Calculating loss...: 100%|██████████| 4/4 [00:25<00:00,  6.43s/it]
+Iter 80: Val loss 0.060, Val took 25.730s
+Iter 80: Train loss 0.075, Learning Rate 5.000e-05, It/sec 0.078, Tokens/sec 1.169, Trained Tokens 1173, Peak mem 5.849 GB
+Iter 80: Saved adapter weights to <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/adapters.safetensors and <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/0000080_adapters.safetensors.
+Saved final weights to <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/adapters.safetensors.
+compact-adapter 1 critical True
+compact-adapter 2 prerequisite True
+compact-adapter 3 hold False
+compact-adapter 4 adjust False
+compact-adapter 5 critical True
+compact-adapter 6 prerequisite True
+compact-adapter 7 hold False
+compact-adapter 8 adjust False
+compact-adapter 9 critical True
+compact-adapter 10 prerequisite True
+compact-adapter 11 hold False
+compact-adapter 12 adjust False
+compact-adapter 13 critical True
+compact-adapter 14 prerequisite True
+compact-adapter 15 hold False
+compact-adapter 16 adjust False
+compact-adapter 17 critical True
+compact-adapter 18 prerequisite True
+compact-adapter 19 hold False
+compact-adapter 20 adjust False
+compact-adapter 21 critical True
+compact-adapter 22 prerequisite True
+compact-adapter 23 hold False
+compact-adapter 24 adjust False
+compact-adapter 25 critical True
+compact-adapter 26 prerequisite True
+compact-adapter 27 hold False
+compact-adapter 28 adjust False
+compact-adapter 29 critical True
+compact-adapter 30 prerequisite True
+compact-adapter 31 hold False
+compact-adapter 32 adjust False

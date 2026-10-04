@@ -1,0 +1,1201 @@
+model,id,kind,expected,returned,valid,correct,critical_ok,assessment_supported,reference_errors,latency_seconds
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200239,hold,Hold,Hold,True,True,False,True,0,0.7226607499906095
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200284,hold,Hold,Hold,True,True,False,True,0,0.72321195800032
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200229,prerequisite,Escalate,Hold,True,False,False,False,0,0.7842974579980364
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200186,adjust,Adjust,Hold,True,False,False,False,0,0.5415921670064563
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200106,critical,Escalate,Hold,True,False,False,False,0,1.3295702090108534
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200189,adjust,Adjust,Hold,True,False,False,False,0,0.8156888329976937
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200142,critical,Escalate,Escalate,True,True,True,False,0,0.8704582909995224
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200325,prerequisite,Escalate,Hold,True,False,False,False,0,0.7755423750058981
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200352,prerequisite,Escalate,Hold,True,False,False,False,0,0.747521625002264
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200023,critical,Escalate,Escalate,True,True,True,False,0,1.1907637919939589
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200084,critical,Escalate,Escalate,True,True,True,False,0,0.7078641249972861
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200293,hold,Hold,Hold,True,True,False,True,0,1.603308958990965
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200285,adjust,Adjust,Hold,True,False,False,False,0,0.7597925830050372
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200367,prerequisite,Escalate,Hold,True,False,False,False,0,1.1770457919919863
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200361,prerequisite,Escalate,Hold,True,False,False,False,0,1.0816912500013132
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200109,critical,Escalate,Escalate,True,True,True,False,0,1.2449903749948135
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200054,critical,Escalate,Hold,True,False,False,False,0,0.6215957079984946
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200211,prerequisite,Escalate,Hold,True,False,False,False,0,0.8328315830003703
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200230,hold,Hold,Hold,True,True,False,False,0,0.8461246660008328
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200273,adjust,Adjust,Hold,True,False,False,False,0,0.699399542005267
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200153,critical,Escalate,Escalate,True,True,True,False,0,0.9851915420003934
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200253,prerequisite,Escalate,Hold,True,False,False,False,0,0.8837775830033934
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200074,critical,Escalate,Escalate,True,True,True,True,0,1.0717689580051228
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200202,prerequisite,Escalate,Hold,True,False,False,False,0,0.7416838339995593
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200224,hold,Hold,Hold,True,True,False,False,0,1.2936881670029834
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200108,critical,Escalate,Escalate,True,True,True,False,0,1.1934376249992056
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200226,prerequisite,Escalate,Hold,True,False,False,False,0,0.573745792004047
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200267,adjust,Adjust,Hold,True,False,False,False,0,0.7620795420079958
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200297,adjust,Adjust,Hold,True,False,False,False,0,0.7957650409953203
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200011,critical,Escalate,Escalate,True,True,True,False,0,1.4280825409950921
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200058,critical,Escalate,Escalate,True,True,True,False,0,1.377612374999444
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200346,prerequisite,Escalate,Hold,True,False,False,False,0,0.6140690419997554
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200076,critical,Escalate,Escalate,True,True,True,False,0,1.3427184169995598
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200151,critical,Escalate,Escalate,True,True,True,True,0,0.8388090840016957
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200308,hold,Hold,Hold,True,True,False,True,0,0.5313034160062671
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200208,prerequisite,Escalate,Hold,True,False,False,False,0,0.787341875009588
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200283,prerequisite,Escalate,Hold,True,False,False,False,0,2.0600820830004523
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200185,hold,Hold,Hold,True,True,False,True,0,0.7955155829986325
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200037,critical,Escalate,Escalate,True,True,True,False,0,1.2791727500007255
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200043,critical,Escalate,Escalate,True,True,True,False,0,1.1313236249989131
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200129,critical,Escalate,Escalate,True,True,True,True,0,0.9954538750025677
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200140,critical,Escalate,Escalate,True,True,True,True,0,1.039787208996131
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200241,prerequisite,Escalate,Hold,True,False,False,False,0,0.7442812090012012
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200004,critical,Escalate,Escalate,True,True,True,False,0,1.0898933749995194
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200277,prerequisite,Escalate,Hold,True,False,False,False,0,0.6198916249995818
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200078,critical,Escalate,Hold,True,False,False,False,0,0.6898605000023963
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200114,critical,Escalate,Escalate,True,True,True,False,0,0.9552133749966742
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200332,hold,Hold,Hold,True,True,False,False,0,1.0320242919988232
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200198,adjust,Adjust,Hold,True,False,False,False,0,0.6599051670054905
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200393,adjust,Adjust,Hold,True,False,False,False,0,0.6086527919978835
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200395,hold,Hold,Hold,True,True,False,True,0,0.7052103340101894
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200204,adjust,Adjust,Hold,True,False,False,False,0,0.6128452080010902
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200085,critical,Escalate,Escalate,True,True,True,True,0,0.6596705830015708
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200360,adjust,Adjust,Hold,True,False,False,False,0,0.6922329999943031
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200380,hold,Hold,Hold,True,True,False,False,0,1.5068055410083616
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200180,adjust,Adjust,Hold,True,False,False,False,0,0.847891042008996
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200149,critical,Escalate,Escalate,True,True,True,False,0,0.6651067089987919
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200276,adjust,Adjust,Hold,True,False,False,False,0,0.9128234169911593
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200077,critical,Escalate,Escalate,True,True,True,False,0,1.4083639579912415
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200381,adjust,Adjust,Hold,True,False,False,False,0,0.6333187080017524
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200299,hold,Hold,Hold,True,True,False,True,0,0.912537500000326
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200223,prerequisite,Escalate,Hold,True,False,False,False,0,0.6977832919947105
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200116,critical,Escalate,Escalate,True,True,True,True,0,0.9292913749959553
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200296,hold,Hold,Hold,True,True,False,False,0,0.876857082999777
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200349,prerequisite,Escalate,Hold,True,False,False,False,0,0.7848832080053398
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200177,adjust,Adjust,Hold,True,False,False,False,0,0.9554762089974247
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200047,critical,Escalate,Escalate,True,True,True,True,0,0.8268882499978645
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200344,hold,Hold,Hold,True,True,False,False,0,1.5344865829974879
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200330,adjust,Adjust,Hold,True,False,False,False,0,0.6834623330069007
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200133,critical,Escalate,Escalate,True,True,True,False,0,0.9747753749979893
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200098,critical,Escalate,Escalate,True,True,True,False,0,1.506772833992727
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200354,adjust,Adjust,Hold,True,False,False,False,0,0.8681112499907613
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200246,adjust,Adjust,Hold,True,False,False,False,0,1.0881957090023207
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200200,hold,Hold,Hold,True,True,False,False,0,0.8759377090027556
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200351,adjust,Adjust,Hold,True,False,False,False,0,0.7073016659996938
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200237,adjust,Adjust,Hold,True,False,False,False,0,0.7979389170068316
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200311,hold,Hold,Hold,True,True,False,True,0,0.822739791998174
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200323,hold,Hold,Hold,True,True,False,True,0,0.7696397499967134
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200020,critical,Escalate,Escalate,True,True,True,True,0,0.8222877500083996
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200212,hold,Hold,Hold,True,True,False,False,0,0.7721693749917904
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200104,critical,Escalate,Hold,True,False,False,False,0,0.6917650420073187
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200372,adjust,Adjust,Hold,True,False,False,False,0,0.6689641249977285
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200197,hold,Hold,Hold,True,True,False,True,0,0.7180901250103489
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200365,hold,Hold,Hold,True,True,False,True,0,1.1758250410057371
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200190,prerequisite,Escalate,Hold,True,False,False,False,0,0.923767415995826
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200383,hold,Hold,Hold,True,True,False,True,0,0.7460283749969676
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200112,critical,Escalate,Escalate,True,True,True,True,0,0.7011459579953225
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200111,critical,Escalate,Escalate,True,True,True,False,0,0.7774442499940051
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200363,adjust,Adjust,Hold,True,False,False,False,0,0.5459866669989424
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200233,hold,Hold,Hold,True,True,False,True,0,0.7115334999980405
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200305,hold,Hold,Hold,True,True,False,True,0,0.7132233329903102
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200302,hold,Hold,Hold,True,True,False,False,0,1.3181074999884004
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200036,critical,Escalate,Escalate,True,True,True,False,0,0.6647562919970369
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200309,adjust,Adjust,Hold,True,False,False,False,0,0.6262066659983248
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200193,prerequisite,Escalate,Hold,True,False,False,False,0,1.1802746670000488
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200083,critical,Escalate,Escalate,True,True,True,False,0,1.0343110840040026
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200102,critical,Escalate,Escalate,True,True,True,False,0,1.3397320830117678
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200249,adjust,Adjust,Hold,True,False,False,False,0,0.7211321250069886
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200240,adjust,Adjust,Hold,True,False,False,False,0,0.9310513329983223
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200093,critical,Escalate,Hold,True,False,False,False,0,0.6547795830119867
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200101,critical,Escalate,Escalate,True,True,True,False,0,0.8394782500108704
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200150,critical,Escalate,Escalate,True,True,True,False,0,1.0172724169970024
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200166,prerequisite,Escalate,Hold,True,False,False,False,0,1.0069057079963386
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200187,prerequisite,Escalate,Hold,True,False,False,False,0,0.6090682079957332
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200042,critical,Escalate,Escalate,True,True,True,True,0,1.0392607079993468
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200335,hold,Hold,Hold,True,True,False,True,0,0.5616504159988835
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200123,critical,Escalate,Invalid/unavailable,False,False,False,False,0,2.4553383750026114
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200184,prerequisite,Escalate,Hold,True,False,False,False,0,0.8412282500066794
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200117,critical,Escalate,Hold,True,False,False,False,0,0.6630637920025038
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200391,prerequisite,Escalate,Hold,True,False,False,False,0,0.6759814169927267
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200079,critical,Escalate,Hold,True,False,False,False,0,1.532336917007342
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200038,critical,Escalate,Escalate,True,True,True,False,0,0.7516590420127613
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200156,critical,Escalate,Hold,True,False,False,False,0,1.3955104170017876
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200281,hold,Hold,Hold,True,True,False,True,0,0.689029750006739
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200320,hold,Hold,Hold,True,True,False,False,0,1.3759979580063373
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200119,critical,Escalate,Hold,True,False,False,False,0,0.6789109170058509
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200073,critical,Escalate,Escalate,True,True,True,True,0,0.7538436670001829
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200139,critical,Escalate,Escalate,True,True,True,True,0,0.9655202080029994
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200338,hold,Hold,Hold,True,True,False,False,0,2.101135583987343
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200105,critical,Escalate,Hold,True,False,False,False,0,0.5860712499998044
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200080,critical,Escalate,Hold,True,False,False,False,0,0.7216722089942778
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200147,critical,Escalate,Escalate,True,True,True,False,0,0.7978091249970021
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200260,hold,Hold,Hold,True,True,False,False,0,1.5849995000025956
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200006,critical,Escalate,Escalate,True,True,True,True,0,0.822253374994034
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200146,critical,Escalate,Escalate,True,True,True,False,0,0.7510367079958087
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200337,prerequisite,Escalate,Hold,True,False,False,False,0,0.8386101670039352
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200312,adjust,Adjust,Hold,True,False,False,False,0,0.798358542000642
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200121,critical,Escalate,Escalate,True,True,True,False,0,0.958122457988793
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200244,prerequisite,Escalate,Hold,True,False,False,False,0,0.7803484169999138
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200000,critical,Escalate,Hold,True,False,False,False,0,0.7658565000019735
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200082,critical,Escalate,Escalate,True,True,True,False,0,0.9929433749930467
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200315,adjust,Adjust,Hold,True,False,False,False,0,0.8795612499961862
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200164,hold,Hold,Hold,True,True,False,False,0,1.2542165000049863
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200266,hold,Hold,Hold,True,True,False,True,0,0.7563157089898596
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200013,critical,Escalate,Hold,True,False,False,False,0,0.48183099999732804
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200321,adjust,Adjust,Hold,True,False,False,False,0,0.9206681670038961
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200327,adjust,Adjust,Hold,True,False,False,False,0,0.7457258329959586
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200172,prerequisite,Escalate,Hold,True,False,False,False,0,0.529293207990122
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200086,critical,Escalate,Escalate,True,True,True,True,0,0.8402519170049345
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200225,adjust,Adjust,Hold,True,False,False,False,0,0.7402142089995323
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200257,hold,Hold,Hold,True,True,False,True,0,0.8896002080000471
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200041,critical,Escalate,Hold,True,False,False,False,0,0.7870530420041177
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200310,prerequisite,Escalate,Hold,True,False,False,False,0,0.7312822910025716
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200334,prerequisite,Escalate,Hold,True,False,False,False,0,0.6341583330067806
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200286,prerequisite,Escalate,Hold,True,False,False,False,0,0.7883732920017792
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200345,adjust,Adjust,Hold,True,False,False,False,0,0.6905613749986514
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200328,prerequisite,Escalate,Hold,True,False,False,False,0,0.6410881670017261
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200236,hold,Hold,Hold,True,True,False,True,0,1.3408262909943005
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200160,prerequisite,Escalate,Hold,True,False,False,False,0,0.8509423340001376
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200019,critical,Escalate,Escalate,True,True,True,True,0,1.747303166994243
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200340,prerequisite,Escalate,Hold,True,False,False,False,0,0.6295968749909662
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200195,adjust,Adjust,Hold,True,False,False,False,0,0.4442697920021601
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200034,critical,Escalate,Escalate,True,True,True,False,0,0.974319832996116
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200126,critical,Escalate,Escalate,True,True,True,False,0,1.0247282920026919
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200089,critical,Escalate,Escalate,True,True,True,False,0,0.876242624988663
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200130,critical,Escalate,Hold,True,False,False,False,0,1.4160697500046808
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200231,adjust,Adjust,Hold,True,False,False,False,0,0.739366166992113
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200353,hold,Hold,Hold,True,True,False,True,0,0.54611450000084
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200331,prerequisite,Escalate,Hold,True,False,False,False,0,1.1967256250063656
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200194,hold,Hold,Hold,True,True,False,False,0,1.6440356249950128
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200048,critical,Escalate,Escalate,True,True,True,False,0,0.8024205839901697
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200067,critical,Escalate,Hold,True,False,False,False,0,0.6806807920074789
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200342,adjust,Adjust,Hold,True,False,False,False,0,0.6619141669943929
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200131,critical,Escalate,Hold,True,False,False,False,0,0.9028804169938667
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200199,prerequisite,Escalate,Hold,True,False,False,False,0,0.6492154159932397
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200141,critical,Escalate,Escalate,True,True,True,False,0,0.7855380410037469
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200238,prerequisite,Escalate,Hold,True,False,False,False,0,0.7463861249998445
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200368,hold,Hold,Hold,True,True,False,False,0,1.568971041997429
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200044,critical,Escalate,Escalate,True,True,True,True,0,0.7905660840042401
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200384,adjust,Adjust,Hold,True,False,False,False,0,0.5850839579943568
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200027,critical,Escalate,Hold,True,False,False,False,0,0.778335082999547
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200216,adjust,Adjust,Hold,True,False,False,False,0,0.6426258339924971
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200155,critical,Escalate,Escalate,True,True,True,True,0,0.9248481660033576
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200066,critical,Escalate,Hold,True,False,False,False,0,0.6161101670004427
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200002,critical,Escalate,Hold,True,False,False,False,0,0.8220202500087908
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200261,adjust,Adjust,Hold,True,False,False,False,0,0.6607043330004672
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200254,hold,Hold,Hold,True,True,False,True,0,0.5902166250016307
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200035,critical,Escalate,Escalate,True,True,True,False,0,0.833585917003802
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200110,critical,Escalate,Escalate,True,True,True,True,0,0.7942924590024631
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200113,critical,Escalate,Escalate,True,True,True,True,0,0.7900443329999689
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200207,adjust,Adjust,Hold,True,False,False,False,0,0.6686382079933537
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200169,prerequisite,Escalate,Hold,True,False,False,False,0,0.7172412910003914
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200250,prerequisite,Escalate,Hold,True,False,False,False,0,1.5480331250000745
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200115,critical,Escalate,Escalate,True,True,True,True,0,0.7669088330003433
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200161,hold,Hold,Hold,True,True,False,True,0,0.6395237919932697
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200291,adjust,Adjust,Hold,True,False,False,False,0,0.5193611249997048
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200251,hold,Hold,Hold,True,True,False,True,0,0.8374512079899432
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200001,critical,Escalate,Hold,True,False,False,False,0,0.8309999580087606
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200196,prerequisite,Escalate,Hold,True,False,False,False,0,0.8497957500076154
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200265,prerequisite,Escalate,Hold,True,False,False,False,0,0.5601912089914549
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200374,hold,Hold,Hold,True,True,False,False,0,0.8582518750044983
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200399,adjust,Adjust,Hold,True,False,False,False,0,0.7181240420031827
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200356,hold,Hold,Hold,True,True,False,False,0,1.0269567500072299
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200154,critical,Escalate,Escalate,True,True,True,True,0,1.850263290994917
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200127,critical,Escalate,Escalate,True,True,True,False,0,1.2571060420013964
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200248,hold,Hold,Hold,True,True,False,False,0,2.6313874170009512
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200014,critical,Escalate,Hold,True,False,False,False,0,0.5341107080021175
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200007,critical,Escalate,Escalate,True,True,True,True,0,0.9130560420016991
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200319,prerequisite,Escalate,Hold,True,False,False,False,0,0.5256623329914873
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200165,adjust,Adjust,Hold,True,False,False,False,0,0.8306561660137959
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200388,prerequisite,Escalate,Hold,True,False,False,False,0,0.7171803749952232
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200144,critical,Escalate,Hold,True,False,False,False,0,0.7638391670043347
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200170,hold,Hold,Hold,True,True,False,False,0,0.7437796250014799
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200343,prerequisite,Escalate,Hold,True,False,False,False,0,0.6899449170014123
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200081,critical,Escalate,Escalate,True,True,True,False,0,2.076555624997127
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200290,hold,Hold,Hold,True,True,False,False,0,0.6192502080084523
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200028,critical,Escalate,Hold,True,False,False,False,0,0.7467694169899914
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200059,critical,Escalate,Escalate,True,True,True,False,0,0.6093600840104045
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200063,critical,Escalate,Escalate,True,True,True,True,0,0.8203765000071144
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200107,critical,Escalate,Escalate,True,True,True,True,0,0.6360618750040885
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200387,adjust,Adjust,Hold,True,False,False,False,0,0.767773165993276
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200064,critical,Escalate,Escalate,True,True,True,False,0,0.9638604579959065
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200183,adjust,Adjust,Hold,True,False,False,False,0,0.717151750010089
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200219,adjust,Adjust,Hold,True,False,False,False,0,0.4688849999947706
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200389,hold,Hold,Hold,True,True,False,True,0,0.5705595000035828
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200329,hold,Hold,Hold,True,True,False,True,0,0.731041417006054
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200373,prerequisite,Escalate,Hold,True,False,False,False,0,0.6433533749950584
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200162,adjust,Adjust,Hold,True,False,False,False,0,0.6892072079936042
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200247,prerequisite,Escalate,Hold,True,False,False,False,0,0.8394889170012902
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200052,critical,Escalate,Hold,True,False,False,False,0,0.844507000001613
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200125,critical,Escalate,Escalate,True,True,True,False,0,1.7004386670014355
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200275,hold,Hold,Hold,True,True,False,True,0,1.485341250008787
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200355,prerequisite,Escalate,Hold,True,False,False,False,0,0.6929737500031479
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200008,critical,Escalate,Escalate,True,True,True,True,0,0.92873287499242
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200217,prerequisite,Escalate,Hold,True,False,False,False,0,0.5034972499997821
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200370,prerequisite,Escalate,Hold,True,False,False,False,0,0.8552634160005255
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200060,critical,Escalate,Escalate,True,True,True,False,0,0.7048277090070769
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200324,adjust,Adjust,Hold,True,False,False,False,0,0.7542170829983661
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200096,critical,Escalate,Escalate,True,True,True,True,0,1.0784547920047771
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200245,hold,Hold,Hold,True,True,False,True,0,0.7283863339980599
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200213,adjust,Adjust,Hold,True,False,False,False,0,0.7151425420015585
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200134,critical,Escalate,Escalate,True,True,True,True,0,0.8905482080008369
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200232,prerequisite,Escalate,Hold,True,False,False,False,0,0.634199375010212
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200252,adjust,Adjust,Hold,True,False,False,False,0,0.6044433329952881
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200364,prerequisite,Escalate,Hold,True,False,False,False,0,0.6901165410090471
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200188,hold,Hold,Hold,True,True,False,True,0,1.2834313750063302
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200088,critical,Escalate,Escalate,True,True,True,False,0,0.782142958996701
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200158,critical,Escalate,Hold,True,False,False,False,0,0.6976279579976108
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200120,critical,Escalate,Escalate,True,True,True,False,0,0.68595495900081
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200053,critical,Escalate,Hold,True,False,False,False,0,1.0885833339998499
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200376,prerequisite,Escalate,Hold,True,False,False,False,0,0.7407795000035549
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200148,critical,Escalate,Escalate,True,True,True,False,0,1.3827464999922086
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200300,adjust,Adjust,Hold,True,False,False,False,0,0.7804119590000482
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200070,critical,Escalate,Escalate,True,True,True,False,0,1.1324192920001224
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200318,adjust,Adjust,Hold,True,False,False,False,0,0.753637500005425
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200017,critical,Escalate,Escalate,True,True,True,False,0,1.2520702500041807
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200398,hold,Hold,Hold,True,True,False,False,0,0.7481842499983031
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200314,hold,Hold,Hold,True,True,False,False,0,1.2303245830116794
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200005,critical,Escalate,Escalate,True,True,True,True,0,1.7321079170069424
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200065,critical,Escalate,Hold,True,False,False,False,0,0.6865905000013299
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200136,critical,Escalate,Escalate,True,True,True,False,0,0.600143208008376
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200055,critical,Escalate,Escalate,True,True,True,False,0,0.7387192500027595
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200173,hold,Hold,Hold,True,True,False,True,0,0.5586883329960983
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200258,adjust,Adjust,Hold,True,False,False,False,0,0.7416164169990225
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200379,prerequisite,Escalate,Hold,True,False,False,False,0,0.7086241670040181
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200039,critical,Escalate,Hold,True,False,False,False,0,0.6614725000108592
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200030,critical,Escalate,Escalate,True,True,True,True,0,1.6806575000082375
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200021,critical,Escalate,Escalate,True,True,True,False,0,0.7929898340080399
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200386,hold,Hold,Hold,True,True,False,False,0,0.69222825000179
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200303,adjust,Adjust,Hold,True,False,False,False,0,0.5499535410053795
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200090,critical,Escalate,Escalate,True,True,True,True,0,1.0958719999907771
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200306,adjust,Adjust,Hold,True,False,False,False,0,0.5444984589994419
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200222,adjust,Adjust,Hold,True,False,False,False,0,1.4768809170054737
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200292,prerequisite,Escalate,Hold,True,False,False,False,0,0.6895332499989308
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200174,adjust,Adjust,Hold,True,False,False,False,0,0.7345224159944337
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200179,hold,Hold,Hold,True,True,False,True,0,0.5905512500030454
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200095,critical,Escalate,Escalate,True,True,True,True,0,0.7778051249915734
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200256,prerequisite,Escalate,Hold,True,False,False,False,0,0.8442332920094486
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200280,prerequisite,Escalate,Hold,True,False,False,False,0,0.7724120829952881
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200181,prerequisite,Escalate,Hold,True,False,False,False,0,0.6168983749957988
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200358,prerequisite,Escalate,Hold,True,False,False,False,0,0.8096149579941994
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200009,critical,Escalate,Escalate,True,True,True,False,0,1.6857036250003148
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200056,critical,Escalate,Escalate,True,True,True,False,0,1.13019691700174
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200243,adjust,Adjust,Hold,True,False,False,False,0,0.5450562910118606
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200033,critical,Escalate,Escalate,True,True,True,False,0,0.9082169169996632
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200339,adjust,Adjust,Hold,True,False,False,False,0,0.7697918330086395
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200069,critical,Escalate,Escalate,True,True,True,True,0,0.7453875829960452
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200268,prerequisite,Escalate,Hold,True,False,False,False,0,0.770566332997987
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200255,adjust,Adjust,Hold,True,False,False,False,0,0.7690897080028662
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200242,hold,Hold,Hold,True,True,False,False,0,1.8241805830039084
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200392,hold,Hold,Hold,True,True,False,False,0,1.3372912079939852
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200022,critical,Escalate,Escalate,True,True,True,True,0,1.0121464999974705
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200075,critical,Escalate,Escalate,True,True,True,False,0,1.0094642909971299
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200235,prerequisite,Escalate,Hold,True,False,False,False,0,1.3275489160005236
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200062,critical,Escalate,Escalate,True,True,True,False,0,0.7545133329986129
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200210,adjust,Adjust,Hold,True,False,False,False,0,0.8583057079958962
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200326,hold,Hold,Hold,True,True,False,True,0,0.7911534169979859
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200026,critical,Escalate,Hold,True,False,False,False,0,0.6708455420011887
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200274,prerequisite,Escalate,Hold,True,False,False,False,0,0.7421917080064304
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200051,critical,Escalate,Escalate,True,True,True,True,0,1.4843553339887876
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200068,critical,Escalate,Escalate,True,True,True,False,0,1.3001052080071531
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200103,critical,Escalate,Escalate,True,True,True,False,0,1.8250380829995265
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200317,hold,Hold,Hold,True,True,False,True,0,0.8463179590034997
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200018,critical,Escalate,Escalate,True,True,True,True,0,1.1004642920015613
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200369,adjust,Adjust,Hold,True,False,False,False,0,0.6751142499997513
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200168,adjust,Adjust,Hold,True,False,False,False,0,0.683848874992691
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200382,prerequisite,Escalate,Hold,True,False,False,False,0,0.6984112089994596
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200316,prerequisite,Escalate,Hold,True,False,False,False,0,0.841228167002555
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200178,prerequisite,Escalate,Hold,True,False,False,False,0,0.7667183750018012
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200279,adjust,Adjust,Hold,True,False,False,False,0,0.8007077500078594
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200192,adjust,Adjust,Hold,True,False,False,False,0,0.9424147919926327
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200032,critical,Escalate,Escalate,True,True,True,False,0,3.192631333004101
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200015,critical,Escalate,Hold,True,False,False,False,0,0.6167344590066932
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200234,adjust,Adjust,Hold,True,False,False,False,0,0.6919947499991395
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200099,critical,Escalate,Escalate,True,True,True,False,0,0.9903785829956178
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200087,critical,Escalate,Escalate,True,True,True,False,0,1.0855289169994649
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200003,critical,Escalate,Escalate,True,True,True,True,0,0.714843000008841
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200122,critical,Escalate,Escalate,True,True,True,False,0,0.8259554579999531
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200049,critical,Escalate,Escalate,True,True,True,True,0,1.4252447090111673
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200262,prerequisite,Escalate,Hold,True,False,False,False,0,0.5497566669946536
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200205,prerequisite,Escalate,Hold,True,False,False,False,0,1.539963083996554
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200100,critical,Escalate,Escalate,True,True,True,False,0,0.7395708749972982
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200029,critical,Escalate,Escalate,True,True,True,True,0,0.9237327079899842
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200206,hold,Hold,Hold,True,True,False,False,0,0.599678958998993
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200322,prerequisite,Escalate,Hold,True,False,False,False,0,0.6021913330041571
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200050,critical,Escalate,Escalate,True,True,True,True,0,0.6845527499972377
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200182,hold,Hold,Hold,True,True,False,True,0,0.5479945410043001
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200227,hold,Hold,Hold,True,True,False,True,0,0.7577161250083009
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200218,hold,Hold,Hold,True,True,False,False,0,0.6680743330070982
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200046,critical,Escalate,Escalate,True,True,True,True,0,1.0197984999977052
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200270,adjust,Adjust,Hold,True,False,False,False,0,0.6535763329884503
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200045,critical,Escalate,Escalate,True,True,True,False,0,1.1176415410009213
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200347,hold,Hold,Hold,True,True,False,True,0,0.6800547919992823
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200269,hold,Hold,Hold,True,True,False,True,0,0.8599806670099497
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200278,hold,Hold,Hold,True,True,False,False,0,0.9470598329935456
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200294,adjust,Adjust,Hold,True,False,False,False,0,0.6793637500086334
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200287,hold,Hold,Hold,True,True,False,True,0,1.7587741669995012
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200304,prerequisite,Escalate,Hold,True,False,False,False,0,1.4859783749998314
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200152,critical,Escalate,Escalate,True,True,True,False,0,0.9988615420006681
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200397,prerequisite,Escalate,Hold,True,False,False,False,0,0.6094539999903645
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200366,adjust,Adjust,Hold,True,False,False,False,0,0.5688499169918941
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200336,adjust,Adjust,Hold,True,False,False,False,0,0.6739492079941556
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200288,adjust,Adjust,Hold,True,False,False,False,0,0.9385890839912463
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200157,critical,Escalate,Hold,True,False,False,False,0,0.6597361249878304
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200191,hold,Hold,Hold,True,True,False,True,0,1.2649293330032378
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200348,adjust,Adjust,Hold,True,False,False,False,0,0.6166379579954082
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200203,hold,Hold,Hold,True,True,False,True,0,0.7952324580110144
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200209,hold,Hold,Hold,True,True,False,True,0,0.6813487080071354
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200145,critical,Escalate,Hold,True,False,False,False,0,0.8497932910104282
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200264,adjust,Adjust,Hold,True,False,False,False,0,0.9016773750045104
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200259,prerequisite,Escalate,Hold,True,False,False,False,0,0.6750380419980502
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200128,critical,Escalate,Escalate,True,True,True,False,0,0.8438124579988653
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200214,prerequisite,Escalate,Hold,True,False,False,False,0,0.6391384580056183
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200016,critical,Escalate,Escalate,True,True,True,False,0,0.8317001660034293
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200272,hold,Hold,Hold,True,True,False,False,0,0.659358417004114
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200385,prerequisite,Escalate,Hold,True,False,False,False,0,0.6737469579966273
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200175,prerequisite,Escalate,Hold,True,False,False,False,0,0.8189157919987338
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200221,hold,Hold,Hold,True,True,False,True,0,0.6782082080026157
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200138,critical,Escalate,Escalate,True,True,True,True,0,0.7461566249985481
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200377,hold,Hold,Hold,True,True,False,True,0,1.12206520800828
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200143,critical,Escalate,Hold,True,False,False,False,0,0.7080024579918245
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200263,hold,Hold,Hold,True,True,False,True,0,0.6452807499881601
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200072,critical,Escalate,Escalate,True,True,True,True,0,0.8401598749915138
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200390,adjust,Adjust,Hold,True,False,False,False,0,0.7782164170057513
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200341,hold,Hold,Hold,True,True,False,True,0,0.7767574159952346
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200371,hold,Hold,Hold,True,True,False,True,0,0.7714309169969056
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200201,adjust,Adjust,Hold,True,False,False,False,0,0.6344013750058366
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200394,prerequisite,Escalate,Hold,True,False,False,False,0,0.699535041989293
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200396,adjust,Adjust,Hold,True,False,False,False,0,0.8499320420087315
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200171,adjust,Adjust,Hold,True,False,False,False,0,0.8645547920023091
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200167,hold,Hold,Hold,True,True,False,True,0,0.8116512080014218
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200132,critical,Escalate,Hold,True,False,False,False,0,1.4765792090038303
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200289,prerequisite,Escalate,Hold,True,False,False,False,0,0.6297246659960365
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200357,adjust,Adjust,Hold,True,False,False,False,0,0.6883477499941364
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200031,critical,Escalate,Escalate,True,True,True,False,0,0.8105134169891244
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200271,prerequisite,Escalate,Hold,True,False,False,False,0,0.544238292000955
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200057,critical,Escalate,Escalate,True,True,True,False,0,0.6407135420013219
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200298,prerequisite,Escalate,Hold,True,False,False,False,0,0.9956103749864269
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200092,critical,Escalate,Hold,True,False,False,False,0,1.020079916997929
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200215,hold,Hold,Hold,True,True,False,True,0,0.7814409159909701
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200097,critical,Escalate,Escalate,True,True,True,False,0,1.1881191249995027
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200135,critical,Escalate,Escalate,True,True,True,True,0,0.7563455839990638
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200159,critical,Escalate,Escalate,True,True,True,True,0,1.1417523339914624
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200301,prerequisite,Escalate,Hold,True,False,False,False,0,0.8624902910087258
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200010,critical,Escalate,Escalate,True,True,True,False,0,0.8959261249983683
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200295,prerequisite,Escalate,Hold,True,False,False,False,0,0.6606426670041401
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200220,prerequisite,Escalate,Hold,True,False,False,False,0,0.6809785840014229
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200362,hold,Hold,Hold,True,True,False,False,0,0.7457935419952264
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200375,adjust,Adjust,Hold,True,False,False,False,0,0.5669818750029663
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200024,critical,Escalate,Escalate,True,True,True,True,0,1.096012875001179
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200091,critical,Escalate,Hold,True,False,False,False,0,0.654961041000206
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200282,adjust,Adjust,Hold,True,False,False,False,0,0.7548847080033738
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200307,prerequisite,Escalate,Hold,True,False,False,False,0,0.7337881669955095
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200350,hold,Hold,Hold,True,True,False,False,0,1.5434095419914229
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200163,prerequisite,Escalate,Hold,True,False,False,False,0,0.9348658749950118
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200025,critical,Escalate,Escalate,True,True,True,True,0,1.0160448340029689
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200137,critical,Escalate,Escalate,True,True,True,True,0,0.9954451660014456
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200118,critical,Escalate,Hold,True,False,False,False,0,0.5614755840069847
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200176,hold,Hold,Hold,True,True,False,True,0,0.6606266669987235
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200333,adjust,Adjust,Hold,True,False,False,False,0,0.6453520420036511
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200040,critical,Escalate,Hold,True,False,False,False,0,1.0089654159964994
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200378,adjust,Adjust,Hold,True,False,False,False,0,0.6448181250016205
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200359,hold,Hold,Hold,True,True,False,True,0,0.7500769170001149
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200228,adjust,Adjust,Hold,True,False,False,False,0,0.5653976670000702
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200094,critical,Escalate,Escalate,True,True,True,True,0,0.7982807090011192
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200061,critical,Escalate,Escalate,True,True,True,True,0,1.1261947919992963
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200313,prerequisite,Escalate,Hold,True,False,False,False,0,0.6845154580078088
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200071,critical,Escalate,Escalate,True,True,True,True,0,0.7468955840013223
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200012,critical,Escalate,Escalate,True,True,True,False,0,1.0090473750024103
+Qwen3-30B-A3B,water-alarms-v2:valid:episode-200124,critical,Escalate,Escalate,True,True,True,False,0,0.9512347080017207
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200239,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200106,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200229,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200284,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200189,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200186,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200142,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200293,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200325,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200023,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200352,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200084,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200367,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200109,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200285,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200361,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200211,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200054,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200230,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200153,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200273,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200253,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200224,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200108,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200074,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200202,prerequisite,Escalate,Invalid/unavailable,False,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200011,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200226,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200267,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200058,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200297,adjust,Adjust,Adjust,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200076,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200346,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200283,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200151,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200208,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200308,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200037,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200185,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200043,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200129,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200140,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200004,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200241,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200114,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200332,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200078,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200277,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200198,adjust,Adjust,Adjust,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200393,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200395,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200380,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200204,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200085,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200360,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200077,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200180,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200276,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200149,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200381,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200299,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200116,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200223,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200296,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200177,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200344,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200349,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200047,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200098,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200330,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200133,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200354,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200246,adjust,Adjust,Escalate,True,False,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200200,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200351,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200237,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200311,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200323,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200020,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200212,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200104,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200365,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200372,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200197,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200190,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200383,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200112,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200111,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200302,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200233,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200363,adjust,Adjust,Adjust,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200305,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200193,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200036,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200102,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200309,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200083,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200249,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200240,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200123,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200093,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200101,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200150,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200166,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200042,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200187,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200335,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200184,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200079,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200117,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200391,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200156,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200038,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200320,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200338,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200281,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200119,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200073,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200139,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200260,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200105,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200080,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200147,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200006,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200146,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200337,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200121,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200312,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200244,prerequisite,Escalate,Escalate,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200082,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200000,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200164,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200315,adjust,Adjust,Escalate,True,False,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200266,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200321,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200013,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200327,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200086,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200172,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200225,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200257,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200041,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200310,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200334,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200286,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200019,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200345,adjust,Adjust,Escalate,True,False,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200236,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200328,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200160,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200340,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200034,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200195,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200126,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200130,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200089,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200194,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200231,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200331,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200353,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200048,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200067,critical,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200131,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200342,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200368,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200199,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200141,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200238,prerequisite,Escalate,Invalid/unavailable,False,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200044,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200027,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200384,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200155,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200216,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200002,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200066,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200261,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200254,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200035,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200110,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200250,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200113,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200207,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200169,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200115,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200161,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200251,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200001,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200291,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200196,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200265,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200248,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200374,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200399,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200154,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200356,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200127,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200007,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200014,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200081,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200165,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200319,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200388,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200144,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200170,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200343,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200290,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200028,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200059,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200063,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200064,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200387,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200107,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200183,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200389,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200219,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200329,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200373,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200162,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200125,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200275,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200247,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200052,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200008,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200355,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200217,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200370,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200096,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200060,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200324,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200245,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200213,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200134,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200232,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200188,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200252,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200088,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200364,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200053,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200158,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200120,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200148,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200376,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200300,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200070,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200005,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200318,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200017,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200314,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200398,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200065,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200136,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200055,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200030,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200173,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200258,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200379,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200039,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200021,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200090,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200386,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200222,adjust,Adjust,Escalate,True,False,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200303,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200306,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200174,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200292,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200179,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200256,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200095,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200009,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200280,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200358,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200056,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200181,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200033,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200243,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200242,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200339,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200069,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200268,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200255,adjust,Adjust,Adjust,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200392,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200022,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200235,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200075,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200062,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200210,adjust,Adjust,Adjust,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200326,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200026,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200051,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200103,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200068,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200274,prerequisite,Escalate,Invalid/unavailable,False,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200032,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200018,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200317,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200369,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200316,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200168,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200382,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200178,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200192,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200279,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200015,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200087,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200099,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200234,adjust,Adjust,Escalate,True,False,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200049,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200003,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200205,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200122,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200262,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200100,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200029,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200206,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200322,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200050,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200182,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200227,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200046,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200045,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200218,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200270,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200347,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200269,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200278,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200287,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200304,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200294,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200152,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200397,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200366,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200336,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200191,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200288,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200157,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200348,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200203,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200209,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200264,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200145,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200259,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200128,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200214,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200016,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200272,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200175,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200385,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200221,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200377,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200341,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200138,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200143,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200072,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200263,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200390,adjust,Adjust,Escalate,True,False,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200371,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200201,adjust,Adjust,Escalate,True,False,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200394,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200132,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200171,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200396,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200167,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200357,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200031,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200289,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200271,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200298,prerequisite,Escalate,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200057,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200092,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200097,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200215,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200159,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200135,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200301,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200010,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200295,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200024,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200362,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200220,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200375,adjust,Adjust,Adjust,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200350,hold,Hold,Escalate,True,False,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200282,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200091,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200307,prerequisite,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200163,prerequisite,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200025,critical,Escalate,Escalate,True,True,True,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200137,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200118,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200040,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200176,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200333,adjust,Adjust,Adjust,True,False,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200378,adjust,Adjust,Adjust,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200061,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200359,hold,Hold,Hold,True,True,False,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200094,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200228,adjust,Adjust,Hold,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200313,prerequisite,Escalate,Adjust,True,False,False,False,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200012,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200124,critical,Escalate,Escalate,True,True,True,True,0,
+Fine-tuned Qwen3-4B,water-alarms-v2:valid:episode-200071,critical,Escalate,Escalate,True,True,True,True,0,
+Jev typed-choice,water-alarms-v2:valid:episode-200239,hold,Hold,Hold,True,True,False,True,0,0.2621024170075543
+Jev typed-choice,water-alarms-v2:valid:episode-200106,critical,Escalate,Escalate,True,True,True,True,0,0.1529443750041537
+Jev typed-choice,water-alarms-v2:valid:episode-200229,prerequisite,Escalate,Hold,True,False,False,False,0,0.10430883298977278
+Jev typed-choice,water-alarms-v2:valid:episode-200284,hold,Hold,Hold,True,True,False,True,0,0.15873104199999943
+Jev typed-choice,water-alarms-v2:valid:episode-200189,adjust,Adjust,Adjust,True,True,False,True,0,0.11873520798690151
+Jev typed-choice,water-alarms-v2:valid:episode-200186,adjust,Adjust,Adjust,True,True,False,True,0,0.14874683300149627
+Jev typed-choice,water-alarms-v2:valid:episode-200142,critical,Escalate,Escalate,True,True,True,True,0,0.13988183400942944
+Jev typed-choice,water-alarms-v2:valid:episode-200293,hold,Hold,Hold,True,True,False,True,0,0.1284735420049401
+Jev typed-choice,water-alarms-v2:valid:episode-200325,prerequisite,Escalate,Escalate,True,True,True,True,0,0.1100775840022834
+Jev typed-choice,water-alarms-v2:valid:episode-200023,critical,Escalate,Escalate,True,True,True,True,0,0.10253520899277646
+Jev typed-choice,water-alarms-v2:valid:episode-200352,prerequisite,Escalate,Hold,True,False,False,False,0,0.11475379200419411
+Jev typed-choice,water-alarms-v2:valid:episode-200084,critical,Escalate,Escalate,True,True,True,True,0,0.21406233300513122
+Jev typed-choice,water-alarms-v2:valid:episode-200367,prerequisite,Escalate,Hold,True,False,False,False,0,0.1278654589987127
+Jev typed-choice,water-alarms-v2:valid:episode-200109,critical,Escalate,Escalate,True,True,True,True,0,0.2707979999977397
+Jev typed-choice,water-alarms-v2:valid:episode-200285,adjust,Adjust,Adjust,True,True,False,True,0,0.12347166599647608
+Jev typed-choice,water-alarms-v2:valid:episode-200361,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11313579199486412
+Jev typed-choice,water-alarms-v2:valid:episode-200211,prerequisite,Escalate,Hold,True,False,False,False,0,0.11157662500045262
+Jev typed-choice,water-alarms-v2:valid:episode-200054,critical,Escalate,Escalate,True,True,True,True,0,0.12478816699876916
+Jev typed-choice,water-alarms-v2:valid:episode-200230,hold,Hold,Hold,True,True,False,True,0,0.11957895799423568
+Jev typed-choice,water-alarms-v2:valid:episode-200153,critical,Escalate,Escalate,True,True,True,True,0,0.09934750001411885
+Jev typed-choice,water-alarms-v2:valid:episode-200273,adjust,Adjust,Adjust,True,True,False,True,0,0.10852662500110455
+Jev typed-choice,water-alarms-v2:valid:episode-200253,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11413387500215322
+Jev typed-choice,water-alarms-v2:valid:episode-200224,hold,Hold,Hold,True,True,False,True,0,0.15969462500652298
+Jev typed-choice,water-alarms-v2:valid:episode-200108,critical,Escalate,Escalate,True,True,True,True,0,0.15835145900200587
+Jev typed-choice,water-alarms-v2:valid:episode-200074,critical,Escalate,Escalate,True,True,True,True,0,0.12754470801155549
+Jev typed-choice,water-alarms-v2:valid:episode-200202,prerequisite,Escalate,Escalate,True,True,True,True,0,0.13676608400419354
+Jev typed-choice,water-alarms-v2:valid:episode-200011,critical,Escalate,Escalate,True,True,True,True,0,0.15185570900212042
+Jev typed-choice,water-alarms-v2:valid:episode-200226,prerequisite,Escalate,Hold,True,False,False,False,0,0.1098230419884203
+Jev typed-choice,water-alarms-v2:valid:episode-200267,adjust,Adjust,Adjust,True,True,False,True,0,0.13846233300864697
+Jev typed-choice,water-alarms-v2:valid:episode-200058,critical,Escalate,Escalate,True,True,True,True,0,0.13519954201183282
+Jev typed-choice,water-alarms-v2:valid:episode-200297,adjust,Adjust,Adjust,True,True,False,True,0,0.12969658299698494
+Jev typed-choice,water-alarms-v2:valid:episode-200076,critical,Escalate,Escalate,True,True,True,True,0,0.11009629200270865
+Jev typed-choice,water-alarms-v2:valid:episode-200346,prerequisite,Escalate,Escalate,True,True,True,True,0,0.13860858300176915
+Jev typed-choice,water-alarms-v2:valid:episode-200283,prerequisite,Escalate,Hold,True,False,False,False,0,0.13205824999022298
+Jev typed-choice,water-alarms-v2:valid:episode-200151,critical,Escalate,Escalate,True,True,True,True,0,0.1491709580004681
+Jev typed-choice,water-alarms-v2:valid:episode-200208,prerequisite,Escalate,Hold,True,False,False,False,0,0.16090812500624452
+Jev typed-choice,water-alarms-v2:valid:episode-200308,hold,Hold,Hold,True,True,False,True,0,0.11971612500201445
+Jev typed-choice,water-alarms-v2:valid:episode-200037,critical,Escalate,Escalate,True,True,True,True,0,0.10783404199173674
+Jev typed-choice,water-alarms-v2:valid:episode-200185,hold,Hold,Hold,True,True,False,True,0,0.14148504100739956
+Jev typed-choice,water-alarms-v2:valid:episode-200043,critical,Escalate,Escalate,True,True,True,True,0,0.10898008299409412
+Jev typed-choice,water-alarms-v2:valid:episode-200129,critical,Escalate,Escalate,True,True,True,True,0,0.11073804199986625
+Jev typed-choice,water-alarms-v2:valid:episode-200140,critical,Escalate,Escalate,True,True,True,True,0,0.19114325000555255
+Jev typed-choice,water-alarms-v2:valid:episode-200004,critical,Escalate,Escalate,True,True,True,True,0,0.176403040997684
+Jev typed-choice,water-alarms-v2:valid:episode-200241,prerequisite,Escalate,Hold,True,False,False,False,0,0.11540937499376014
+Jev typed-choice,water-alarms-v2:valid:episode-200114,critical,Escalate,Escalate,True,True,True,True,0,0.12439433300460223
+Jev typed-choice,water-alarms-v2:valid:episode-200332,hold,Hold,Hold,True,True,False,True,0,0.12407462501141708
+Jev typed-choice,water-alarms-v2:valid:episode-200078,critical,Escalate,Escalate,True,True,True,True,0,0.123518749998766
+Jev typed-choice,water-alarms-v2:valid:episode-200277,prerequisite,Escalate,Hold,True,False,False,False,0,0.19390124999335967
+Jev typed-choice,water-alarms-v2:valid:episode-200198,adjust,Adjust,Adjust,True,True,False,True,0,0.15520649999962188
+Jev typed-choice,water-alarms-v2:valid:episode-200393,adjust,Adjust,Adjust,True,True,False,True,0,0.1279500420059776
+Jev typed-choice,water-alarms-v2:valid:episode-200395,hold,Hold,Hold,True,True,False,True,0,0.11038487499172334
+Jev typed-choice,water-alarms-v2:valid:episode-200380,hold,Hold,Hold,True,True,False,True,0,0.16797891700116452
+Jev typed-choice,water-alarms-v2:valid:episode-200204,adjust,Adjust,Adjust,True,True,False,True,0,0.12825574999442324
+Jev typed-choice,water-alarms-v2:valid:episode-200085,critical,Escalate,Escalate,True,True,True,True,0,0.11865870900510345
+Jev typed-choice,water-alarms-v2:valid:episode-200360,adjust,Adjust,Adjust,True,True,False,True,0,0.14230212499387562
+Jev typed-choice,water-alarms-v2:valid:episode-200077,critical,Escalate,Escalate,True,True,True,True,0,0.12815600000612903
+Jev typed-choice,water-alarms-v2:valid:episode-200180,adjust,Adjust,Adjust,True,True,False,True,0,0.14775841700611636
+Jev typed-choice,water-alarms-v2:valid:episode-200276,adjust,Adjust,Adjust,True,True,False,True,0,0.11145716700411867
+Jev typed-choice,water-alarms-v2:valid:episode-200149,critical,Escalate,Escalate,True,True,True,True,0,0.13298816699534655
+Jev typed-choice,water-alarms-v2:valid:episode-200381,adjust,Adjust,Adjust,True,True,False,True,0,0.12425670899392571
+Jev typed-choice,water-alarms-v2:valid:episode-200299,hold,Hold,Hold,True,True,False,True,0,0.12304283399134874
+Jev typed-choice,water-alarms-v2:valid:episode-200116,critical,Escalate,Escalate,True,True,True,True,0,0.10826620800071396
+Jev typed-choice,water-alarms-v2:valid:episode-200223,prerequisite,Escalate,Hold,True,False,False,False,0,0.11254324999754317
+Jev typed-choice,water-alarms-v2:valid:episode-200296,hold,Hold,Hold,True,True,False,True,0,0.11156099999789149
+Jev typed-choice,water-alarms-v2:valid:episode-200177,adjust,Adjust,Adjust,True,True,False,True,0,0.09934204199817032
+Jev typed-choice,water-alarms-v2:valid:episode-200344,hold,Hold,Hold,True,True,False,True,0,0.0985976660012966
+Jev typed-choice,water-alarms-v2:valid:episode-200349,prerequisite,Escalate,Hold,True,False,False,False,0,0.10456962500757072
+Jev typed-choice,water-alarms-v2:valid:episode-200047,critical,Escalate,Escalate,True,True,True,True,0,0.11748524999711663
+Jev typed-choice,water-alarms-v2:valid:episode-200098,critical,Escalate,Escalate,True,True,True,True,0,0.20081133300845977
+Jev typed-choice,water-alarms-v2:valid:episode-200330,adjust,Adjust,Adjust,True,True,False,True,0,0.10254574999271426
+Jev typed-choice,water-alarms-v2:valid:episode-200133,critical,Escalate,Escalate,True,True,True,True,0,0.10959316699882038
+Jev typed-choice,water-alarms-v2:valid:episode-200354,adjust,Adjust,Adjust,True,True,False,True,0,0.12724391699885018
+Jev typed-choice,water-alarms-v2:valid:episode-200246,adjust,Adjust,Adjust,True,True,False,True,0,0.11726450000423938
+Jev typed-choice,water-alarms-v2:valid:episode-200200,hold,Hold,Hold,True,True,False,True,0,0.1290021250024438
+Jev typed-choice,water-alarms-v2:valid:episode-200351,adjust,Adjust,Adjust,True,True,False,True,0,0.11339266700088046
+Jev typed-choice,water-alarms-v2:valid:episode-200237,adjust,Adjust,Adjust,True,True,False,True,0,0.2664352499996312
+Jev typed-choice,water-alarms-v2:valid:episode-200311,hold,Hold,Hold,True,True,False,True,0,0.1291310000087833
+Jev typed-choice,water-alarms-v2:valid:episode-200323,hold,Hold,Hold,True,True,False,True,0,0.1525838749948889
+Jev typed-choice,water-alarms-v2:valid:episode-200020,critical,Escalate,Escalate,True,True,True,True,0,0.10432666599808726
+Jev typed-choice,water-alarms-v2:valid:episode-200212,hold,Hold,Hold,True,True,False,True,0,0.10865108399593737
+Jev typed-choice,water-alarms-v2:valid:episode-200104,critical,Escalate,Escalate,True,True,True,True,0,0.13427912499173544
+Jev typed-choice,water-alarms-v2:valid:episode-200365,hold,Hold,Hold,True,True,False,True,0,0.10383645800175145
+Jev typed-choice,water-alarms-v2:valid:episode-200372,adjust,Adjust,Adjust,True,True,False,True,0,0.11052491600275971
+Jev typed-choice,water-alarms-v2:valid:episode-200197,hold,Hold,Hold,True,True,False,True,0,0.13797304200124927
+Jev typed-choice,water-alarms-v2:valid:episode-200190,prerequisite,Escalate,Hold,True,False,False,False,0,0.18826991599053144
+Jev typed-choice,water-alarms-v2:valid:episode-200383,hold,Hold,Hold,True,True,False,True,0,0.11029166699154302
+Jev typed-choice,water-alarms-v2:valid:episode-200112,critical,Escalate,Escalate,True,True,True,True,0,0.2597068750037579
+Jev typed-choice,water-alarms-v2:valid:episode-200111,critical,Escalate,Escalate,True,True,True,True,0,0.12974033399950713
+Jev typed-choice,water-alarms-v2:valid:episode-200302,hold,Hold,Hold,True,True,False,True,0,0.10491820800234564
+Jev typed-choice,water-alarms-v2:valid:episode-200233,hold,Hold,Hold,True,True,False,True,0,0.17930916699697264
+Jev typed-choice,water-alarms-v2:valid:episode-200363,adjust,Adjust,Adjust,True,True,False,True,0,0.10517733299639076
+Jev typed-choice,water-alarms-v2:valid:episode-200305,hold,Hold,Hold,True,True,False,True,0,0.10815566599194426
+Jev typed-choice,water-alarms-v2:valid:episode-200193,prerequisite,Escalate,Hold,True,False,False,False,0,0.1185726250114385
+Jev typed-choice,water-alarms-v2:valid:episode-200036,critical,Escalate,Escalate,True,True,True,True,0,0.10383545899821911
+Jev typed-choice,water-alarms-v2:valid:episode-200102,critical,Escalate,Escalate,True,True,True,True,0,0.1407009999966249
+Jev typed-choice,water-alarms-v2:valid:episode-200309,adjust,Adjust,Adjust,True,True,False,True,0,0.13489345800189767
+Jev typed-choice,water-alarms-v2:valid:episode-200083,critical,Escalate,Escalate,True,True,True,True,0,0.10641541599761695
+Jev typed-choice,water-alarms-v2:valid:episode-200249,adjust,Adjust,Adjust,True,True,False,True,0,0.15842375000647735
+Jev typed-choice,water-alarms-v2:valid:episode-200240,adjust,Adjust,Adjust,True,True,False,True,0,0.1330893330014078
+Jev typed-choice,water-alarms-v2:valid:episode-200123,critical,Escalate,Escalate,True,True,True,True,0,0.16817595800966956
+Jev typed-choice,water-alarms-v2:valid:episode-200093,critical,Escalate,Escalate,True,True,True,True,0,0.10411475000728387
+Jev typed-choice,water-alarms-v2:valid:episode-200101,critical,Escalate,Escalate,True,True,True,True,0,0.10707179200835526
+Jev typed-choice,water-alarms-v2:valid:episode-200150,critical,Escalate,Escalate,True,True,True,True,0,0.10180820799723733
+Jev typed-choice,water-alarms-v2:valid:episode-200166,prerequisite,Escalate,Hold,True,False,False,False,0,0.14257795899175107
+Jev typed-choice,water-alarms-v2:valid:episode-200042,critical,Escalate,Escalate,True,True,True,True,0,0.11189808299241122
+Jev typed-choice,water-alarms-v2:valid:episode-200187,prerequisite,Escalate,Hold,True,False,False,False,0,0.11128124999231659
+Jev typed-choice,water-alarms-v2:valid:episode-200335,hold,Hold,Hold,True,True,False,True,0,0.1130189999967115
+Jev typed-choice,water-alarms-v2:valid:episode-200184,prerequisite,Escalate,Escalate,True,True,True,True,0,0.32446762500330806
+Jev typed-choice,water-alarms-v2:valid:episode-200079,critical,Escalate,Escalate,True,True,True,True,0,0.10939787499955855
+Jev typed-choice,water-alarms-v2:valid:episode-200117,critical,Escalate,Escalate,True,True,True,True,0,0.11594358299043961
+Jev typed-choice,water-alarms-v2:valid:episode-200391,prerequisite,Escalate,Hold,True,False,False,False,0,0.09683783398941159
+Jev typed-choice,water-alarms-v2:valid:episode-200156,critical,Escalate,Escalate,True,True,True,True,0,0.1330197500064969
+Jev typed-choice,water-alarms-v2:valid:episode-200038,critical,Escalate,Escalate,True,True,True,True,0,0.1381590409873752
+Jev typed-choice,water-alarms-v2:valid:episode-200320,hold,Hold,Hold,True,True,False,True,0,0.12756241699389648
+Jev typed-choice,water-alarms-v2:valid:episode-200338,hold,Hold,Hold,True,True,False,True,0,0.1552454159973422
+Jev typed-choice,water-alarms-v2:valid:episode-200281,hold,Hold,Hold,True,True,False,True,0,0.13270758299040608
+Jev typed-choice,water-alarms-v2:valid:episode-200119,critical,Escalate,Escalate,True,True,True,True,0,0.12566787500691134
+Jev typed-choice,water-alarms-v2:valid:episode-200073,critical,Escalate,Escalate,True,True,True,True,0,0.18467600000440143
+Jev typed-choice,water-alarms-v2:valid:episode-200139,critical,Escalate,Escalate,True,True,True,True,0,0.10287120899010915
+Jev typed-choice,water-alarms-v2:valid:episode-200260,hold,Hold,Hold,True,True,False,True,0,0.10992033299407922
+Jev typed-choice,water-alarms-v2:valid:episode-200105,critical,Escalate,Escalate,True,True,True,True,0,0.18126133299665526
+Jev typed-choice,water-alarms-v2:valid:episode-200080,critical,Escalate,Escalate,True,True,True,True,0,0.10551645899249706
+Jev typed-choice,water-alarms-v2:valid:episode-200147,critical,Escalate,Escalate,True,True,True,True,0,0.11561491600878071
+Jev typed-choice,water-alarms-v2:valid:episode-200006,critical,Escalate,Escalate,True,True,True,True,0,0.1162333339889301
+Jev typed-choice,water-alarms-v2:valid:episode-200146,critical,Escalate,Escalate,True,True,True,True,0,0.10730312499799766
+Jev typed-choice,water-alarms-v2:valid:episode-200337,prerequisite,Escalate,Hold,True,False,False,False,0,0.10522079200018197
+Jev typed-choice,water-alarms-v2:valid:episode-200121,critical,Escalate,Escalate,True,True,True,True,0,0.2025723340047989
+Jev typed-choice,water-alarms-v2:valid:episode-200312,adjust,Adjust,Adjust,True,True,False,True,0,0.11055508400022518
+Jev typed-choice,water-alarms-v2:valid:episode-200244,prerequisite,Escalate,Hold,True,False,False,False,0,0.16719687500153668
+Jev typed-choice,water-alarms-v2:valid:episode-200082,critical,Escalate,Escalate,True,True,True,True,0,0.12833774999307934
+Jev typed-choice,water-alarms-v2:valid:episode-200000,critical,Escalate,Escalate,True,True,True,True,0,0.11281249999592546
+Jev typed-choice,water-alarms-v2:valid:episode-200164,hold,Hold,Hold,True,True,False,True,0,0.10866345799877308
+Jev typed-choice,water-alarms-v2:valid:episode-200315,adjust,Adjust,Adjust,True,True,False,True,0,0.20495487499283627
+Jev typed-choice,water-alarms-v2:valid:episode-200266,hold,Hold,Hold,True,True,False,True,0,0.1577750830037985
+Jev typed-choice,water-alarms-v2:valid:episode-200321,adjust,Adjust,Adjust,True,True,False,True,0,0.14922362500510644
+Jev typed-choice,water-alarms-v2:valid:episode-200013,critical,Escalate,Escalate,True,True,True,True,0,0.1457139589911094
+Jev typed-choice,water-alarms-v2:valid:episode-200327,adjust,Adjust,Adjust,True,True,False,True,0,0.12271687500469852
+Jev typed-choice,water-alarms-v2:valid:episode-200086,critical,Escalate,Escalate,True,True,True,True,0,0.11325233399111312
+Jev typed-choice,water-alarms-v2:valid:episode-200172,prerequisite,Escalate,Hold,True,False,False,False,0,0.1078855840023607
+Jev typed-choice,water-alarms-v2:valid:episode-200225,adjust,Adjust,Adjust,True,True,False,True,0,0.09385212500637863
+Jev typed-choice,water-alarms-v2:valid:episode-200257,hold,Hold,Hold,True,True,False,True,0,0.10202820799895562
+Jev typed-choice,water-alarms-v2:valid:episode-200041,critical,Escalate,Escalate,True,True,True,True,0,0.149065542005701
+Jev typed-choice,water-alarms-v2:valid:episode-200310,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11557670899492223
+Jev typed-choice,water-alarms-v2:valid:episode-200334,prerequisite,Escalate,Hold,True,False,False,False,0,0.19239108299370855
+Jev typed-choice,water-alarms-v2:valid:episode-200286,prerequisite,Escalate,Escalate,True,True,True,True,0,0.1437151249992894
+Jev typed-choice,water-alarms-v2:valid:episode-200019,critical,Escalate,Escalate,True,True,True,True,0,0.10982016600610223
+Jev typed-choice,water-alarms-v2:valid:episode-200345,adjust,Adjust,Adjust,True,True,False,True,0,0.11075233400333673
+Jev typed-choice,water-alarms-v2:valid:episode-200236,hold,Hold,Hold,True,True,False,True,0,0.11395250000350643
+Jev typed-choice,water-alarms-v2:valid:episode-200328,prerequisite,Escalate,Escalate,True,True,True,True,0,0.12885133300733287
+Jev typed-choice,water-alarms-v2:valid:episode-200160,prerequisite,Escalate,Escalate,True,True,True,True,0,0.20205358299426734
+Jev typed-choice,water-alarms-v2:valid:episode-200340,prerequisite,Escalate,Escalate,True,True,True,True,0,0.13446241700148676
+Jev typed-choice,water-alarms-v2:valid:episode-200034,critical,Escalate,Escalate,True,True,True,True,0,0.17838270800712053
+Jev typed-choice,water-alarms-v2:valid:episode-200195,adjust,Adjust,Adjust,True,True,False,True,0,0.11047566699562594
+Jev typed-choice,water-alarms-v2:valid:episode-200126,critical,Escalate,Escalate,True,True,True,True,0,0.14055199999711476
+Jev typed-choice,water-alarms-v2:valid:episode-200130,critical,Escalate,Escalate,True,True,True,True,0,0.11712620899197645
+Jev typed-choice,water-alarms-v2:valid:episode-200089,critical,Escalate,Escalate,True,True,True,True,0,0.1596150000113994
+Jev typed-choice,water-alarms-v2:valid:episode-200194,hold,Hold,Hold,True,True,False,True,0,0.12898191600106657
+Jev typed-choice,water-alarms-v2:valid:episode-200231,adjust,Adjust,Adjust,True,True,False,True,0,0.10764091600140091
+Jev typed-choice,water-alarms-v2:valid:episode-200331,prerequisite,Escalate,Hold,True,False,False,False,0,0.1082813749962952
+Jev typed-choice,water-alarms-v2:valid:episode-200353,hold,Hold,Hold,True,True,False,True,0,0.10544216701237019
+Jev typed-choice,water-alarms-v2:valid:episode-200048,critical,Escalate,Escalate,True,True,True,True,0,0.1013687919912627
+Jev typed-choice,water-alarms-v2:valid:episode-200067,critical,Escalate,Escalate,True,True,True,True,0,0.1023530409875093
+Jev typed-choice,water-alarms-v2:valid:episode-200131,critical,Escalate,Escalate,True,True,True,True,0,0.13046708299953025
+Jev typed-choice,water-alarms-v2:valid:episode-200342,adjust,Adjust,Adjust,True,True,False,True,0,0.11063670899602585
+Jev typed-choice,water-alarms-v2:valid:episode-200368,hold,Hold,Hold,True,True,False,True,0,0.16862845799187198
+Jev typed-choice,water-alarms-v2:valid:episode-200199,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11105891699844506
+Jev typed-choice,water-alarms-v2:valid:episode-200141,critical,Escalate,Escalate,True,True,True,True,0,0.11668562500562984
+Jev typed-choice,water-alarms-v2:valid:episode-200238,prerequisite,Escalate,Escalate,True,True,True,True,0,0.10952687500684988
+Jev typed-choice,water-alarms-v2:valid:episode-200044,critical,Escalate,Escalate,True,True,True,True,0,0.21115012500376906
+Jev typed-choice,water-alarms-v2:valid:episode-200027,critical,Escalate,Escalate,True,True,True,True,0,0.1165733329980867
+Jev typed-choice,water-alarms-v2:valid:episode-200384,adjust,Adjust,Hold,True,False,False,False,0,0.13139754100120626
+Jev typed-choice,water-alarms-v2:valid:episode-200155,critical,Escalate,Escalate,True,True,True,True,0,0.13819433299067896
+Jev typed-choice,water-alarms-v2:valid:episode-200216,adjust,Adjust,Adjust,True,True,False,True,0,0.1267803329974413
+Jev typed-choice,water-alarms-v2:valid:episode-200002,critical,Escalate,Escalate,True,True,True,True,0,0.13164654199499637
+Jev typed-choice,water-alarms-v2:valid:episode-200066,critical,Escalate,Escalate,True,True,True,True,0,0.15260366701113526
+Jev typed-choice,water-alarms-v2:valid:episode-200261,adjust,Adjust,Adjust,True,True,False,True,0,0.10894516699772794
+Jev typed-choice,water-alarms-v2:valid:episode-200254,hold,Hold,Hold,True,True,False,True,0,0.11995520799246151
+Jev typed-choice,water-alarms-v2:valid:episode-200035,critical,Escalate,Escalate,True,True,True,True,0,0.15199545900395606
+Jev typed-choice,water-alarms-v2:valid:episode-200110,critical,Escalate,Escalate,True,True,True,True,0,0.1873757910070708
+Jev typed-choice,water-alarms-v2:valid:episode-200250,prerequisite,Escalate,Escalate,True,True,True,True,0,0.12585387499711942
+Jev typed-choice,water-alarms-v2:valid:episode-200113,critical,Escalate,Escalate,True,True,True,True,0,0.11928554100450128
+Jev typed-choice,water-alarms-v2:valid:episode-200207,adjust,Adjust,Adjust,True,True,False,True,0,0.13151099999959115
+Jev typed-choice,water-alarms-v2:valid:episode-200169,prerequisite,Escalate,Hold,True,False,False,False,0,0.11380541601101868
+Jev typed-choice,water-alarms-v2:valid:episode-200115,critical,Escalate,Escalate,True,True,True,True,0,0.14287620899267495
+Jev typed-choice,water-alarms-v2:valid:episode-200161,hold,Hold,Hold,True,True,False,True,0,0.11016258400923107
+Jev typed-choice,water-alarms-v2:valid:episode-200251,hold,Hold,Hold,True,True,False,True,0,0.12520545900042634
+Jev typed-choice,water-alarms-v2:valid:episode-200001,critical,Escalate,Escalate,True,True,True,True,0,0.1822676669980865
+Jev typed-choice,water-alarms-v2:valid:episode-200291,adjust,Adjust,Adjust,True,True,False,True,0,0.13527383300242946
+Jev typed-choice,water-alarms-v2:valid:episode-200196,prerequisite,Escalate,Escalate,True,True,True,True,0,0.13281516698771156
+Jev typed-choice,water-alarms-v2:valid:episode-200265,prerequisite,Escalate,Hold,True,False,False,False,0,0.20003904099576175
+Jev typed-choice,water-alarms-v2:valid:episode-200248,hold,Hold,Hold,True,True,False,True,0,0.1105424999987008
+Jev typed-choice,water-alarms-v2:valid:episode-200374,hold,Hold,Hold,True,True,False,True,0,0.16743216699978802
+Jev typed-choice,water-alarms-v2:valid:episode-200399,adjust,Adjust,Adjust,True,True,False,True,0,0.11002970900153741
+Jev typed-choice,water-alarms-v2:valid:episode-200154,critical,Escalate,Escalate,True,True,True,True,0,0.12961745899519883
+Jev typed-choice,water-alarms-v2:valid:episode-200356,hold,Hold,Hold,True,True,False,True,0,0.1173882080038311
+Jev typed-choice,water-alarms-v2:valid:episode-200127,critical,Escalate,Escalate,True,True,True,True,0,0.11897195799974725
+Jev typed-choice,water-alarms-v2:valid:episode-200007,critical,Escalate,Escalate,True,True,True,True,0,0.1458028749912046
+Jev typed-choice,water-alarms-v2:valid:episode-200014,critical,Escalate,Escalate,True,True,True,True,0,0.11258741699566599
+Jev typed-choice,water-alarms-v2:valid:episode-200081,critical,Escalate,Escalate,True,True,True,True,0,0.1320122920005815
+Jev typed-choice,water-alarms-v2:valid:episode-200165,adjust,Adjust,Adjust,True,True,False,True,0,0.12664158300322015
+Jev typed-choice,water-alarms-v2:valid:episode-200319,prerequisite,Escalate,Hold,True,False,False,False,0,0.11856412499037106
+Jev typed-choice,water-alarms-v2:valid:episode-200388,prerequisite,Escalate,Hold,True,False,False,False,0,0.1181375420128461
+Jev typed-choice,water-alarms-v2:valid:episode-200144,critical,Escalate,Escalate,True,True,True,True,0,0.3910575420013629
+Jev typed-choice,water-alarms-v2:valid:episode-200170,hold,Hold,Hold,True,True,False,True,0,0.11388283300038893
+Jev typed-choice,water-alarms-v2:valid:episode-200343,prerequisite,Escalate,Escalate,True,True,True,True,0,0.10739083400403615
+Jev typed-choice,water-alarms-v2:valid:episode-200290,hold,Hold,Hold,True,True,False,True,0,0.12464979200740345
+Jev typed-choice,water-alarms-v2:valid:episode-200028,critical,Escalate,Escalate,True,True,True,True,0,0.11890395799127873
+Jev typed-choice,water-alarms-v2:valid:episode-200059,critical,Escalate,Escalate,True,True,True,True,0,0.10604620800586417
+Jev typed-choice,water-alarms-v2:valid:episode-200063,critical,Escalate,Escalate,True,True,True,True,0,0.12118320899026003
+Jev typed-choice,water-alarms-v2:valid:episode-200064,critical,Escalate,Escalate,True,True,True,True,0,0.12594141699082684
+Jev typed-choice,water-alarms-v2:valid:episode-200387,adjust,Adjust,Adjust,True,True,False,True,0,0.11369037500116974
+Jev typed-choice,water-alarms-v2:valid:episode-200107,critical,Escalate,Escalate,True,True,True,True,0,0.1259475409897277
+Jev typed-choice,water-alarms-v2:valid:episode-200183,adjust,Adjust,Adjust,True,True,False,True,0,0.10520754200115334
+Jev typed-choice,water-alarms-v2:valid:episode-200389,hold,Hold,Hold,True,True,False,True,0,0.13723016600124538
+Jev typed-choice,water-alarms-v2:valid:episode-200219,adjust,Adjust,Adjust,True,True,False,True,0,0.12310487499053124
+Jev typed-choice,water-alarms-v2:valid:episode-200329,hold,Hold,Hold,True,True,False,True,0,0.10627991599903908
+Jev typed-choice,water-alarms-v2:valid:episode-200373,prerequisite,Escalate,Hold,True,False,False,False,0,0.1508216249931138
+Jev typed-choice,water-alarms-v2:valid:episode-200162,adjust,Adjust,Adjust,True,True,False,True,0,0.14682183299737517
+Jev typed-choice,water-alarms-v2:valid:episode-200125,critical,Escalate,Escalate,True,True,True,True,0,0.11518020900257397
+Jev typed-choice,water-alarms-v2:valid:episode-200275,hold,Hold,Hold,True,True,False,True,0,0.17908537499897648
+Jev typed-choice,water-alarms-v2:valid:episode-200247,prerequisite,Escalate,Hold,True,False,False,False,0,0.10496316698845476
+Jev typed-choice,water-alarms-v2:valid:episode-200052,critical,Escalate,Escalate,True,True,True,True,0,0.12492720798763912
+Jev typed-choice,water-alarms-v2:valid:episode-200008,critical,Escalate,Escalate,True,True,True,True,0,0.1794234170083655
+Jev typed-choice,water-alarms-v2:valid:episode-200355,prerequisite,Escalate,Hold,True,False,False,False,0,0.11458741698879749
+Jev typed-choice,water-alarms-v2:valid:episode-200217,prerequisite,Escalate,Escalate,True,True,True,True,0,0.10799787499126978
+Jev typed-choice,water-alarms-v2:valid:episode-200370,prerequisite,Escalate,Hold,True,False,False,False,0,0.13409808301366866
+Jev typed-choice,water-alarms-v2:valid:episode-200096,critical,Escalate,Escalate,True,True,True,True,0,0.13605245799408294
+Jev typed-choice,water-alarms-v2:valid:episode-200060,critical,Escalate,Escalate,True,True,True,True,0,0.1315145830012625
+Jev typed-choice,water-alarms-v2:valid:episode-200324,adjust,Adjust,Adjust,True,True,False,True,0,0.14889700000640005
+Jev typed-choice,water-alarms-v2:valid:episode-200245,hold,Hold,Hold,True,True,False,True,0,0.12822924999636598
+Jev typed-choice,water-alarms-v2:valid:episode-200213,adjust,Adjust,Adjust,True,True,False,True,0,0.16270929100573994
+Jev typed-choice,water-alarms-v2:valid:episode-200134,critical,Escalate,Escalate,True,True,True,True,0,0.1267061249964172
+Jev typed-choice,water-alarms-v2:valid:episode-200232,prerequisite,Escalate,Escalate,True,True,True,True,0,0.13706700000329874
+Jev typed-choice,water-alarms-v2:valid:episode-200188,hold,Hold,Hold,True,True,False,True,0,0.27765058299701195
+Jev typed-choice,water-alarms-v2:valid:episode-200252,adjust,Adjust,Adjust,True,True,False,True,0,0.12842241598991677
+Jev typed-choice,water-alarms-v2:valid:episode-200088,critical,Escalate,Escalate,True,True,True,True,0,0.1996182089933427
+Jev typed-choice,water-alarms-v2:valid:episode-200364,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11473320799996145
+Jev typed-choice,water-alarms-v2:valid:episode-200053,critical,Escalate,Escalate,True,True,True,True,0,0.1233062919927761
+Jev typed-choice,water-alarms-v2:valid:episode-200158,critical,Escalate,Escalate,True,True,True,True,0,0.15082662500208244
+Jev typed-choice,water-alarms-v2:valid:episode-200120,critical,Escalate,Escalate,True,True,True,True,0,0.12060858300537802
+Jev typed-choice,water-alarms-v2:valid:episode-200148,critical,Escalate,Escalate,True,True,True,True,0,0.15800675000355113
+Jev typed-choice,water-alarms-v2:valid:episode-200376,prerequisite,Escalate,Escalate,True,True,True,True,0,0.1079880420002155
+Jev typed-choice,water-alarms-v2:valid:episode-200300,adjust,Adjust,Adjust,True,True,False,True,0,0.15532354099559598
+Jev typed-choice,water-alarms-v2:valid:episode-200070,critical,Escalate,Escalate,True,True,True,True,0,0.11016991701035295
+Jev typed-choice,water-alarms-v2:valid:episode-200005,critical,Escalate,Escalate,True,True,True,True,0,0.1407524160022149
+Jev typed-choice,water-alarms-v2:valid:episode-200318,adjust,Adjust,Adjust,True,True,False,True,0,0.11294666700996459
+Jev typed-choice,water-alarms-v2:valid:episode-200017,critical,Escalate,Escalate,True,True,True,True,0,0.1332768330030376
+Jev typed-choice,water-alarms-v2:valid:episode-200314,hold,Hold,Hold,True,True,False,True,0,0.1093452079949202
+Jev typed-choice,water-alarms-v2:valid:episode-200398,hold,Hold,Hold,True,True,False,True,0,0.11505008400126826
+Jev typed-choice,water-alarms-v2:valid:episode-200065,critical,Escalate,Escalate,True,True,True,True,0,0.13048016600077972
+Jev typed-choice,water-alarms-v2:valid:episode-200136,critical,Escalate,Escalate,True,True,True,True,0,0.15138279199891258
+Jev typed-choice,water-alarms-v2:valid:episode-200055,critical,Escalate,Escalate,True,True,True,True,0,0.10457758299889974
+Jev typed-choice,water-alarms-v2:valid:episode-200030,critical,Escalate,Escalate,True,True,True,True,0,0.11263729100755882
+Jev typed-choice,water-alarms-v2:valid:episode-200173,hold,Hold,Hold,True,True,False,True,0,0.1930687910062261
+Jev typed-choice,water-alarms-v2:valid:episode-200258,adjust,Adjust,Adjust,True,True,False,True,0,0.10796658298932016
+Jev typed-choice,water-alarms-v2:valid:episode-200379,prerequisite,Escalate,Escalate,True,True,True,True,0,0.12644258300133515
+Jev typed-choice,water-alarms-v2:valid:episode-200039,critical,Escalate,Escalate,True,True,True,True,0,0.11472024999966379
+Jev typed-choice,water-alarms-v2:valid:episode-200021,critical,Escalate,Escalate,True,True,True,True,0,0.10346983300405554
+Jev typed-choice,water-alarms-v2:valid:episode-200090,critical,Escalate,Escalate,True,True,True,True,0,0.17776708300516475
+Jev typed-choice,water-alarms-v2:valid:episode-200386,hold,Hold,Hold,True,True,False,True,0,0.13192516699200496
+Jev typed-choice,water-alarms-v2:valid:episode-200222,adjust,Adjust,Adjust,True,True,False,True,0,0.1060426249896409
+Jev typed-choice,water-alarms-v2:valid:episode-200303,adjust,Adjust,Adjust,True,True,False,True,0,0.11074866700801067
+Jev typed-choice,water-alarms-v2:valid:episode-200306,adjust,Adjust,Adjust,True,True,False,True,0,0.13523329100280534
+Jev typed-choice,water-alarms-v2:valid:episode-200174,adjust,Adjust,Adjust,True,True,False,True,0,0.12785150000127032
+Jev typed-choice,water-alarms-v2:valid:episode-200292,prerequisite,Escalate,Escalate,True,True,True,True,0,0.12957637500949204
+Jev typed-choice,water-alarms-v2:valid:episode-200179,hold,Hold,Hold,True,True,False,True,0,0.12227599999459926
+Jev typed-choice,water-alarms-v2:valid:episode-200256,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11379520800255705
+Jev typed-choice,water-alarms-v2:valid:episode-200095,critical,Escalate,Escalate,True,True,True,True,0,0.11041083399322815
+Jev typed-choice,water-alarms-v2:valid:episode-200009,critical,Escalate,Escalate,True,True,True,True,0,0.11316449999867473
+Jev typed-choice,water-alarms-v2:valid:episode-200280,prerequisite,Escalate,Hold,True,False,False,False,0,0.13907108399143908
+Jev typed-choice,water-alarms-v2:valid:episode-200358,prerequisite,Escalate,Escalate,True,True,True,True,0,0.10006029199576005
+Jev typed-choice,water-alarms-v2:valid:episode-200056,critical,Escalate,Escalate,True,True,True,True,0,0.12570733400934841
+Jev typed-choice,water-alarms-v2:valid:episode-200181,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11584970900730696
+Jev typed-choice,water-alarms-v2:valid:episode-200033,critical,Escalate,Escalate,True,True,True,True,0,0.10401612499845214
+Jev typed-choice,water-alarms-v2:valid:episode-200243,adjust,Adjust,Adjust,True,True,False,True,0,0.12593500000366475
+Jev typed-choice,water-alarms-v2:valid:episode-200242,hold,Hold,Hold,True,True,False,True,0,0.1134855830023298
+Jev typed-choice,water-alarms-v2:valid:episode-200339,adjust,Adjust,Adjust,True,True,False,True,0,0.13086383399786428
+Jev typed-choice,water-alarms-v2:valid:episode-200069,critical,Escalate,Escalate,True,True,True,True,0,0.17676779101020657
+Jev typed-choice,water-alarms-v2:valid:episode-200268,prerequisite,Escalate,Escalate,True,True,True,True,0,0.09967049999977462
+Jev typed-choice,water-alarms-v2:valid:episode-200255,adjust,Adjust,Hold,True,False,False,False,0,0.09853450000809971
+Jev typed-choice,water-alarms-v2:valid:episode-200392,hold,Hold,Hold,True,True,False,True,0,0.1474444999912521
+Jev typed-choice,water-alarms-v2:valid:episode-200022,critical,Escalate,Escalate,True,True,True,True,0,0.12172575001022778
+Jev typed-choice,water-alarms-v2:valid:episode-200235,prerequisite,Escalate,Escalate,True,True,True,True,0,0.1251494579919381
+Jev typed-choice,water-alarms-v2:valid:episode-200075,critical,Escalate,Escalate,True,True,True,True,0,0.14053683400561567
+Jev typed-choice,water-alarms-v2:valid:episode-200062,critical,Escalate,Escalate,True,True,True,True,0,0.11552991699136328
+Jev typed-choice,water-alarms-v2:valid:episode-200210,adjust,Adjust,Adjust,True,True,False,True,0,0.11708129200269468
+Jev typed-choice,water-alarms-v2:valid:episode-200326,hold,Hold,Hold,True,True,False,True,0,0.11403941600292455
+Jev typed-choice,water-alarms-v2:valid:episode-200026,critical,Escalate,Escalate,True,True,True,True,0,0.10492137499386445
+Jev typed-choice,water-alarms-v2:valid:episode-200051,critical,Escalate,Escalate,True,True,True,True,0,0.10326987500593532
+Jev typed-choice,water-alarms-v2:valid:episode-200103,critical,Escalate,Escalate,True,True,True,True,0,0.19050437500118278
+Jev typed-choice,water-alarms-v2:valid:episode-200068,critical,Escalate,Escalate,True,True,True,True,0,0.19823212501069065
+Jev typed-choice,water-alarms-v2:valid:episode-200274,prerequisite,Escalate,Hold,True,False,False,False,0,0.13386008300585672
+Jev typed-choice,water-alarms-v2:valid:episode-200032,critical,Escalate,Escalate,True,True,True,True,0,0.13908587499463465
+Jev typed-choice,water-alarms-v2:valid:episode-200018,critical,Escalate,Escalate,True,True,True,True,0,0.13016066700220108
+Jev typed-choice,water-alarms-v2:valid:episode-200317,hold,Hold,Hold,True,True,False,True,0,0.13094650000857655
+Jev typed-choice,water-alarms-v2:valid:episode-200369,adjust,Adjust,Adjust,True,True,False,True,0,0.1091468339873245
+Jev typed-choice,water-alarms-v2:valid:episode-200316,prerequisite,Escalate,Hold,True,False,False,False,0,0.21088804199825972
+Jev typed-choice,water-alarms-v2:valid:episode-200168,adjust,Adjust,Adjust,True,True,False,True,0,0.12136441700567957
+Jev typed-choice,water-alarms-v2:valid:episode-200382,prerequisite,Escalate,Escalate,True,True,True,True,0,0.13213612498657312
+Jev typed-choice,water-alarms-v2:valid:episode-200178,prerequisite,Escalate,Escalate,True,True,True,True,0,0.1968685840110993
+Jev typed-choice,water-alarms-v2:valid:episode-200192,adjust,Adjust,Adjust,True,True,False,True,0,0.16119641700061038
+Jev typed-choice,water-alarms-v2:valid:episode-200279,adjust,Adjust,Adjust,True,True,False,True,0,0.13879079099569935
+Jev typed-choice,water-alarms-v2:valid:episode-200015,critical,Escalate,Escalate,True,True,True,True,0,0.11462574999313802
+Jev typed-choice,water-alarms-v2:valid:episode-200087,critical,Escalate,Escalate,True,True,True,True,0,0.16870929198921658
+Jev typed-choice,water-alarms-v2:valid:episode-200099,critical,Escalate,Escalate,True,True,True,True,0,0.1140511669946136
+Jev typed-choice,water-alarms-v2:valid:episode-200234,adjust,Adjust,Adjust,True,True,False,True,0,0.105526583007304
+Jev typed-choice,water-alarms-v2:valid:episode-200049,critical,Escalate,Escalate,True,True,True,True,0,0.16853733400057536
+Jev typed-choice,water-alarms-v2:valid:episode-200003,critical,Escalate,Escalate,True,True,True,True,0,0.11162354199041147
+Jev typed-choice,water-alarms-v2:valid:episode-200205,prerequisite,Escalate,Hold,True,False,False,False,0,0.11118500000156928
+Jev typed-choice,water-alarms-v2:valid:episode-200122,critical,Escalate,Escalate,True,True,True,True,0,0.11391808399639558
+Jev typed-choice,water-alarms-v2:valid:episode-200262,prerequisite,Escalate,Hold,True,False,False,False,0,0.13248829200165346
+Jev typed-choice,water-alarms-v2:valid:episode-200100,critical,Escalate,Escalate,True,True,True,True,0,0.2680907500034664
+Jev typed-choice,water-alarms-v2:valid:episode-200029,critical,Escalate,Escalate,True,True,True,True,0,0.13301020899962168
+Jev typed-choice,water-alarms-v2:valid:episode-200206,hold,Hold,Hold,True,True,False,True,0,0.20210183299786877
+Jev typed-choice,water-alarms-v2:valid:episode-200322,prerequisite,Escalate,Escalate,True,True,True,True,0,0.10285908299556468
+Jev typed-choice,water-alarms-v2:valid:episode-200050,critical,Escalate,Escalate,True,True,True,True,0,0.1624475410062587
+Jev typed-choice,water-alarms-v2:valid:episode-200182,hold,Hold,Hold,True,True,False,True,0,0.12584104199777357
+Jev typed-choice,water-alarms-v2:valid:episode-200227,hold,Hold,Hold,True,True,False,True,0,0.11134970899729524
+Jev typed-choice,water-alarms-v2:valid:episode-200046,critical,Escalate,Escalate,True,True,True,True,0,0.12454529100796208
+Jev typed-choice,water-alarms-v2:valid:episode-200045,critical,Escalate,Escalate,True,True,True,True,0,0.10887874999025371
+Jev typed-choice,water-alarms-v2:valid:episode-200218,hold,Hold,Hold,True,True,False,True,0,0.12598345799779054
+Jev typed-choice,water-alarms-v2:valid:episode-200270,adjust,Adjust,Adjust,True,True,False,True,0,0.17263279200415127
+Jev typed-choice,water-alarms-v2:valid:episode-200347,hold,Hold,Hold,True,True,False,True,0,0.16754237499844749
+Jev typed-choice,water-alarms-v2:valid:episode-200269,hold,Hold,Hold,True,True,False,True,0,0.1282283749897033
+Jev typed-choice,water-alarms-v2:valid:episode-200278,hold,Hold,Hold,True,True,False,True,0,0.14383549999911338
+Jev typed-choice,water-alarms-v2:valid:episode-200287,hold,Hold,Hold,True,True,False,True,0,0.1450504579988774
+Jev typed-choice,water-alarms-v2:valid:episode-200304,prerequisite,Escalate,Escalate,True,True,True,True,0,0.09988195799815003
+Jev typed-choice,water-alarms-v2:valid:episode-200294,adjust,Adjust,Adjust,True,True,False,True,0,0.1734037079877453
+Jev typed-choice,water-alarms-v2:valid:episode-200152,critical,Escalate,Escalate,True,True,True,True,0,0.10865637499955483
+Jev typed-choice,water-alarms-v2:valid:episode-200397,prerequisite,Escalate,Escalate,True,True,True,True,0,0.16732695800601505
+Jev typed-choice,water-alarms-v2:valid:episode-200366,adjust,Adjust,Adjust,True,True,False,True,0,0.126543499995023
+Jev typed-choice,water-alarms-v2:valid:episode-200336,adjust,Adjust,Adjust,True,True,False,True,0,0.21389287499187049
+Jev typed-choice,water-alarms-v2:valid:episode-200191,hold,Hold,Hold,True,True,False,True,0,0.10830662499938626
+Jev typed-choice,water-alarms-v2:valid:episode-200288,adjust,Adjust,Adjust,True,True,False,True,0,0.15960987498692703
+Jev typed-choice,water-alarms-v2:valid:episode-200157,critical,Escalate,Escalate,True,True,True,True,0,0.10818350000772625
+Jev typed-choice,water-alarms-v2:valid:episode-200348,adjust,Adjust,Adjust,True,True,False,True,0,0.1480727079906501
+Jev typed-choice,water-alarms-v2:valid:episode-200203,hold,Hold,Hold,True,True,False,True,0,0.10979000000224914
+Jev typed-choice,water-alarms-v2:valid:episode-200209,hold,Hold,Hold,True,True,False,True,0,0.12260320800123736
+Jev typed-choice,water-alarms-v2:valid:episode-200264,adjust,Adjust,Adjust,True,True,False,True,0,0.09840316699410323
+Jev typed-choice,water-alarms-v2:valid:episode-200145,critical,Escalate,Escalate,True,True,True,True,0,0.1153392080013873
+Jev typed-choice,water-alarms-v2:valid:episode-200259,prerequisite,Escalate,Hold,True,False,False,False,0,0.19828358299855608
+Jev typed-choice,water-alarms-v2:valid:episode-200128,critical,Escalate,Escalate,True,True,True,True,0,0.11485108399938326
+Jev typed-choice,water-alarms-v2:valid:episode-200214,prerequisite,Escalate,Escalate,True,True,True,True,0,0.10244083299767226
+Jev typed-choice,water-alarms-v2:valid:episode-200016,critical,Escalate,Escalate,True,True,True,True,0,0.1402046250004787
+Jev typed-choice,water-alarms-v2:valid:episode-200272,hold,Hold,Hold,True,True,False,True,0,0.1122232920024544
+Jev typed-choice,water-alarms-v2:valid:episode-200175,prerequisite,Escalate,Hold,True,False,False,False,0,0.13970500000868924
+Jev typed-choice,water-alarms-v2:valid:episode-200385,prerequisite,Escalate,Hold,True,False,False,False,0,0.12960416699934285
+Jev typed-choice,water-alarms-v2:valid:episode-200221,hold,Hold,Hold,True,True,False,True,0,0.12477095899521373
+Jev typed-choice,water-alarms-v2:valid:episode-200377,hold,Hold,Hold,True,True,False,True,0,0.09955108299618587
+Jev typed-choice,water-alarms-v2:valid:episode-200341,hold,Hold,Hold,True,True,False,True,0,0.09685962500225287
+Jev typed-choice,water-alarms-v2:valid:episode-200138,critical,Escalate,Escalate,True,True,True,True,0,0.16501337500812951
+Jev typed-choice,water-alarms-v2:valid:episode-200143,critical,Escalate,Escalate,True,True,True,True,0,0.13862475000496488
+Jev typed-choice,water-alarms-v2:valid:episode-200072,critical,Escalate,Escalate,True,True,True,True,0,0.17421966699475888
+Jev typed-choice,water-alarms-v2:valid:episode-200263,hold,Hold,Hold,True,True,False,True,0,0.11284662499383558
+Jev typed-choice,water-alarms-v2:valid:episode-200390,adjust,Adjust,Adjust,True,True,False,True,0,0.13330254099855665
+Jev typed-choice,water-alarms-v2:valid:episode-200371,hold,Hold,Hold,True,True,False,True,0,0.0981732919899514
+Jev typed-choice,water-alarms-v2:valid:episode-200201,adjust,Adjust,Adjust,True,True,False,True,0,0.10680575000878889
+Jev typed-choice,water-alarms-v2:valid:episode-200394,prerequisite,Escalate,Escalate,True,True,True,True,0,0.19002191699109972
+Jev typed-choice,water-alarms-v2:valid:episode-200132,critical,Escalate,Escalate,True,True,True,True,0,0.10710870899492875
+Jev typed-choice,water-alarms-v2:valid:episode-200171,adjust,Adjust,Hold,True,False,False,False,0,0.10738433299411554
+Jev typed-choice,water-alarms-v2:valid:episode-200396,adjust,Adjust,Adjust,True,True,False,True,0,0.11600083300436381
+Jev typed-choice,water-alarms-v2:valid:episode-200167,hold,Hold,Hold,True,True,False,True,0,0.10815229199943133
+Jev typed-choice,water-alarms-v2:valid:episode-200357,adjust,Adjust,Adjust,True,True,False,True,0,0.10586416699516121
+Jev typed-choice,water-alarms-v2:valid:episode-200031,critical,Escalate,Escalate,True,True,True,True,0,0.10803716599184554
+Jev typed-choice,water-alarms-v2:valid:episode-200289,prerequisite,Escalate,Escalate,True,True,True,True,0,0.19273816599161364
+Jev typed-choice,water-alarms-v2:valid:episode-200271,prerequisite,Escalate,Escalate,True,True,True,True,0,0.11135437499615364
+Jev typed-choice,water-alarms-v2:valid:episode-200298,prerequisite,Escalate,Hold,True,False,False,False,0,0.12451587499526795
+Jev typed-choice,water-alarms-v2:valid:episode-200057,critical,Escalate,Escalate,True,True,True,True,0,0.13979200000176206
+Jev typed-choice,water-alarms-v2:valid:episode-200092,critical,Escalate,Escalate,True,True,True,True,0,0.18835533400124405
+Jev typed-choice,water-alarms-v2:valid:episode-200097,critical,Escalate,Escalate,True,True,True,True,0,0.11643841699697077
+Jev typed-choice,water-alarms-v2:valid:episode-200215,hold,Hold,Hold,True,True,False,True,0,0.16040208299818914
+Jev typed-choice,water-alarms-v2:valid:episode-200159,critical,Escalate,Escalate,True,True,True,True,0,0.1484988330048509
+Jev typed-choice,water-alarms-v2:valid:episode-200135,critical,Escalate,Escalate,True,True,True,True,0,0.17179600000963546
+Jev typed-choice,water-alarms-v2:valid:episode-200301,prerequisite,Escalate,Hold,True,False,False,False,0,0.11848029200336896
+Jev typed-choice,water-alarms-v2:valid:episode-200010,critical,Escalate,Escalate,True,True,True,True,0,0.18321283299883362
+Jev typed-choice,water-alarms-v2:valid:episode-200295,prerequisite,Escalate,Hold,True,False,False,False,0,0.12184866699681152
+Jev typed-choice,water-alarms-v2:valid:episode-200024,critical,Escalate,Escalate,True,True,True,True,0,0.12316575000295416
+Jev typed-choice,water-alarms-v2:valid:episode-200362,hold,Hold,Hold,True,True,False,True,0,0.14027466700645164
+Jev typed-choice,water-alarms-v2:valid:episode-200220,prerequisite,Escalate,Escalate,True,True,True,True,0,0.14259083299839403
+Jev typed-choice,water-alarms-v2:valid:episode-200375,adjust,Adjust,Adjust,True,True,False,True,0,0.14300762499624398
+Jev typed-choice,water-alarms-v2:valid:episode-200350,hold,Hold,Hold,True,True,False,True,0,0.14597050000156742
+Jev typed-choice,water-alarms-v2:valid:episode-200282,adjust,Adjust,Adjust,True,True,False,True,0,0.14481929200701416
+Jev typed-choice,water-alarms-v2:valid:episode-200091,critical,Escalate,Escalate,True,True,True,True,0,0.14923170799738728
+Jev typed-choice,water-alarms-v2:valid:episode-200307,prerequisite,Escalate,Escalate,True,True,True,True,0,0.15301554100005887
+Jev typed-choice,water-alarms-v2:valid:episode-200163,prerequisite,Escalate,Escalate,True,True,True,True,0,0.13087654099217616
+Jev typed-choice,water-alarms-v2:valid:episode-200025,critical,Escalate,Escalate,True,True,True,True,0,0.18482045900600497
+Jev typed-choice,water-alarms-v2:valid:episode-200137,critical,Escalate,Escalate,True,True,True,True,0,0.1653697080037091
+Jev typed-choice,water-alarms-v2:valid:episode-200118,critical,Escalate,Escalate,True,True,True,True,0,0.2226300420006737
+Jev typed-choice,water-alarms-v2:valid:episode-200040,critical,Escalate,Escalate,True,True,True,True,0,0.10056029199040495
+Jev typed-choice,water-alarms-v2:valid:episode-200176,hold,Hold,Hold,True,True,False,True,0,0.15375300000596326
+Jev typed-choice,water-alarms-v2:valid:episode-200333,adjust,Adjust,Adjust,True,True,False,True,0,0.169786959013436
+Jev typed-choice,water-alarms-v2:valid:episode-200378,adjust,Adjust,Adjust,True,True,False,True,0,0.12431295900023542
+Jev typed-choice,water-alarms-v2:valid:episode-200061,critical,Escalate,Escalate,True,True,True,True,0,0.15486300000338815
+Jev typed-choice,water-alarms-v2:valid:episode-200359,hold,Hold,Hold,True,True,False,True,0,0.1168197910010349
+Jev typed-choice,water-alarms-v2:valid:episode-200094,critical,Escalate,Escalate,True,True,True,True,0,0.231733415988856
+Jev typed-choice,water-alarms-v2:valid:episode-200228,adjust,Adjust,Adjust,True,True,False,True,0,0.15134295899770223
+Jev typed-choice,water-alarms-v2:valid:episode-200313,prerequisite,Escalate,Hold,True,False,False,False,0,0.1233524999988731
+Jev typed-choice,water-alarms-v2:valid:episode-200012,critical,Escalate,Escalate,True,True,True,True,0,0.10483354199095629
+Jev typed-choice,water-alarms-v2:valid:episode-200124,critical,Escalate,Escalate,True,True,True,True,0,0.1487178329989547
+Jev typed-choice,water-alarms-v2:valid:episode-200071,critical,Escalate,Escalate,True,True,True,True,0,0.12925904098665342

@@ -1,0 +1,9 @@
+model,case_suffix,kind,expected_returned
+Qwen3-30B-A3B,episode-200229,prerequisite,Escalate → Hold
+Qwen3-30B-A3B,episode-200186,adjust,Adjust → Hold
+Qwen3-30B-A3B,episode-200106,critical,Escalate → Hold
+Fine-tuned Qwen3-4B,episode-200367,prerequisite,Escalate → Adjust
+Fine-tuned Qwen3-4B,episode-200189,adjust,Adjust → Adjust
+Fine-tuned Qwen3-4B,episode-200067,critical,Escalate → Adjust
+Jev typed-choice,episode-200229,prerequisite,Escalate → Hold
+Jev typed-choice,episode-200384,adjust,Adjust → Hold

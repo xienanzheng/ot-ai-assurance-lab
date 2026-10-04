@@ -1,0 +1,1350 @@
+{
+  "case_count": 18,
+  "pack_sha256": "073988d147d708301f7aa9233a4e44e2cd41ac0df3e83a6b3a7b9a61ce0fed5e",
+  "summary": {
+    "legacy_keyword": {
+      "top1": 0.9444444444444444,
+      "recall_at_2": 0.9444444444444444,
+      "mrr": 0.9629629629629629
+    },
+    "bm25": {
+      "top1": 1.0,
+      "recall_at_2": 1.0,
+      "mrr": 1.0
+    },
+    "local_dense": {
+      "top1": 0.9444444444444444,
+      "recall_at_2": 1.0,
+      "mrr": 0.9722222222222222
+    },
+    "local_rrf": {
+      "top1": 1.0,
+      "recall_at_2": 1.0,
+      "mrr": 1.0
+    },
+    "openai_dense": {
+      "top1": 0.9444444444444444,
+      "recall_at_2": 1.0,
+      "mrr": 0.9722222222222222
+    },
+    "openai_rrf": {
+      "top1": 1.0,
+      "recall_at_2": 1.0,
+      "mrr": 1.0
+    }
+  },
+  "cases": {
+    "legacy_keyword": [
+      {
+        "query": "Cloudy effluent while buffering capacity falls and coagulation pH decreases.",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.filtration",
+          "water.disinfection",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Increasing alum has reduced pH; what relationships matter?",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.disinfection",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Disinfectant concentration is acceptable but water spends too little time in the tank.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.coagulation",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "chlorine_ct_mg_min_l below limit; chlorine contact time too short.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.coagulation",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "The high lift pump must serve demand with falling storage and low header pressure.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "clearwell_level_pct falling; elevated_tank_level_pct and leak_flow_m3h require inspection.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Pressure drop across the filter rises while a backwash sequence is active.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.coagulation",
+          "water.disinfection",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "filter_dp_kpa high; filter_outlet_valve_position_pct low.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Frequency drops while generation falls below demand.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.voltage",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Battery charge limits constrain active power balancing with gas and hydro.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.voltage",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Bus voltage is low; should reactive support and transformer taps be evaluated?",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.dispatch",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "bus_1_voltage_pu low, capacitor_support_mvar and transformer tap adjustment.",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.dispatch",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Equipment availability limits supplied loads; should rich districts get priority?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.dispatch",
+          "grid.voltage",
+          "grid.service"
+        ],
+        "top1": false,
+        "recall_at_2": false,
+        "reciprocal_rank": 0.3333333333333333
+      },
+      {
+        "query": "How should equal physical need guide service priority when generation is unavailable?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.voltage",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Condenser pressure rises while cooling response and electrical output change.",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "What supervisory authority exists over the turbine and cooling versus reactor protection?",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "District heat demand changes; assess delivered heat and supply/return temperatures.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "thermal_dispatch_mwth differs from its target during a transient.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      }
+    ],
+    "bm25": [
+      {
+        "query": "Cloudy effluent while buffering capacity falls and coagulation pH decreases.",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.filtration",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Increasing alum has reduced pH; what relationships matter?",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Disinfectant concentration is acceptable but water spends too little time in the tank.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "chlorine_ct_mg_min_l below limit; chlorine contact time too short.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "The high lift pump must serve demand with falling storage and low header pressure.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "clearwell_level_pct falling; elevated_tank_level_pct and leak_flow_m3h require inspection.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Pressure drop across the filter rises while a backwash sequence is active.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "filter_dp_kpa high; filter_outlet_valve_position_pct low.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Frequency drops while generation falls below demand.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.service",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Battery charge limits constrain active power balancing with gas and hydro.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.voltage",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Bus voltage is low; should reactive support and transformer taps be evaluated?",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "bus_1_voltage_pu low, capacitor_support_mvar and transformer tap adjustment.",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Equipment availability limits supplied loads; should rich districts get priority?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "How should equal physical need guide service priority when generation is unavailable?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Condenser pressure rises while cooling response and electrical output change.",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "What supervisory authority exists over the turbine and cooling versus reactor protection?",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "District heat demand changes; assess delivered heat and supply/return temperatures.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "thermal_dispatch_mwth differs from its target during a transient.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      }
+    ],
+    "local_dense": [
+      {
+        "query": "Cloudy effluent while buffering capacity falls and coagulation pH decreases.",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.filtration",
+          "water.disinfection",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Increasing alum has reduced pH; what relationships matter?",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.disinfection",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Disinfectant concentration is acceptable but water spends too little time in the tank.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.filtration",
+          "water.coagulation",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "chlorine_ct_mg_min_l below limit; chlorine contact time too short.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.coagulation",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "The high lift pump must serve demand with falling storage and low header pressure.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "clearwell_level_pct falling; elevated_tank_level_pct and leak_flow_m3h require inspection.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Pressure drop across the filter rises while a backwash sequence is active.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "filter_dp_kpa high; filter_outlet_valve_position_pct low.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Frequency drops while generation falls below demand.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": false,
+        "recall_at_2": true,
+        "reciprocal_rank": 0.5
+      },
+      {
+        "query": "Battery charge limits constrain active power balancing with gas and hydro.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.voltage",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Bus voltage is low; should reactive support and transformer taps be evaluated?",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "bus_1_voltage_pu low, capacitor_support_mvar and transformer tap adjustment.",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Equipment availability limits supplied loads; should rich districts get priority?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "How should equal physical need guide service priority when generation is unavailable?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Condenser pressure rises while cooling response and electrical output change.",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "What supervisory authority exists over the turbine and cooling versus reactor protection?",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "District heat demand changes; assess delivered heat and supply/return temperatures.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "thermal_dispatch_mwth differs from its target during a transient.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      }
+    ],
+    "local_rrf": [
+      {
+        "query": "Cloudy effluent while buffering capacity falls and coagulation pH decreases.",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.filtration",
+          "water.disinfection",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Increasing alum has reduced pH; what relationships matter?",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.disinfection",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Disinfectant concentration is acceptable but water spends too little time in the tank.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.storage",
+          "water.filtration",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "chlorine_ct_mg_min_l below limit; chlorine contact time too short.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.coagulation",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "The high lift pump must serve demand with falling storage and low header pressure.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "clearwell_level_pct falling; elevated_tank_level_pct and leak_flow_m3h require inspection.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Pressure drop across the filter rises while a backwash sequence is active.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "filter_dp_kpa high; filter_outlet_valve_position_pct low.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Frequency drops while generation falls below demand.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.service",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Battery charge limits constrain active power balancing with gas and hydro.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.voltage",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Bus voltage is low; should reactive support and transformer taps be evaluated?",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "bus_1_voltage_pu low, capacitor_support_mvar and transformer tap adjustment.",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Equipment availability limits supplied loads; should rich districts get priority?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "How should equal physical need guide service priority when generation is unavailable?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Condenser pressure rises while cooling response and electrical output change.",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "What supervisory authority exists over the turbine and cooling versus reactor protection?",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "District heat demand changes; assess delivered heat and supply/return temperatures.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "thermal_dispatch_mwth differs from its target during a transient.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      }
+    ],
+    "openai_dense": [
+      {
+        "query": "Cloudy effluent while buffering capacity falls and coagulation pH decreases.",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.filtration",
+          "water.disinfection",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Increasing alum has reduced pH; what relationships matter?",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.disinfection",
+          "water.storage",
+          "water.filtration"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Disinfectant concentration is acceptable but water spends too little time in the tank.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.storage",
+          "water.filtration",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "chlorine_ct_mg_min_l below limit; chlorine contact time too short.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.coagulation",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "The high lift pump must serve demand with falling storage and low header pressure.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "clearwell_level_pct falling; elevated_tank_level_pct and leak_flow_m3h require inspection.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Pressure drop across the filter rises while a backwash sequence is active.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "filter_dp_kpa high; filter_outlet_valve_position_pct low.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Frequency drops while generation falls below demand.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": false,
+        "recall_at_2": true,
+        "reciprocal_rank": 0.5
+      },
+      {
+        "query": "Battery charge limits constrain active power balancing with gas and hydro.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.service",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Bus voltage is low; should reactive support and transformer taps be evaluated?",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "bus_1_voltage_pu low, capacitor_support_mvar and transformer tap adjustment.",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Equipment availability limits supplied loads; should rich districts get priority?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "How should equal physical need guide service priority when generation is unavailable?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Condenser pressure rises while cooling response and electrical output change.",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "What supervisory authority exists over the turbine and cooling versus reactor protection?",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "District heat demand changes; assess delivered heat and supply/return temperatures.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "thermal_dispatch_mwth differs from its target during a transient.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      }
+    ],
+    "openai_rrf": [
+      {
+        "query": "Cloudy effluent while buffering capacity falls and coagulation pH decreases.",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.filtration",
+          "water.disinfection",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Increasing alum has reduced pH; what relationships matter?",
+        "expected": "water.coagulation",
+        "ranking": [
+          "water.coagulation",
+          "water.disinfection",
+          "water.storage",
+          "water.filtration"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Disinfectant concentration is acceptable but water spends too little time in the tank.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.storage",
+          "water.filtration",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "chlorine_ct_mg_min_l below limit; chlorine contact time too short.",
+        "expected": "water.disinfection",
+        "ranking": [
+          "water.disinfection",
+          "water.coagulation",
+          "water.filtration",
+          "water.storage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "The high lift pump must serve demand with falling storage and low header pressure.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "clearwell_level_pct falling; elevated_tank_level_pct and leak_flow_m3h require inspection.",
+        "expected": "water.storage",
+        "ranking": [
+          "water.storage",
+          "water.filtration",
+          "water.disinfection",
+          "water.coagulation"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Pressure drop across the filter rises while a backwash sequence is active.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "filter_dp_kpa high; filter_outlet_valve_position_pct low.",
+        "expected": "water.filtration",
+        "ranking": [
+          "water.filtration",
+          "water.storage",
+          "water.coagulation",
+          "water.disinfection"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Frequency drops while generation falls below demand.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.service",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Battery charge limits constrain active power balancing with gas and hydro.",
+        "expected": "grid.dispatch",
+        "ranking": [
+          "grid.dispatch",
+          "grid.voltage",
+          "grid.service"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Bus voltage is low; should reactive support and transformer taps be evaluated?",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "bus_1_voltage_pu low, capacitor_support_mvar and transformer tap adjustment.",
+        "expected": "grid.voltage",
+        "ranking": [
+          "grid.voltage",
+          "grid.service",
+          "grid.dispatch"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Equipment availability limits supplied loads; should rich districts get priority?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "How should equal physical need guide service priority when generation is unavailable?",
+        "expected": "grid.service",
+        "ranking": [
+          "grid.service",
+          "grid.dispatch",
+          "grid.voltage"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "Condenser pressure rises while cooling response and electrical output change.",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "What supervisory authority exists over the turbine and cooling versus reactor protection?",
+        "expected": "nuclear.secondary",
+        "ranking": [
+          "nuclear.secondary",
+          "nuclear.heat"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "District heat demand changes; assess delivered heat and supply/return temperatures.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      },
+      {
+        "query": "thermal_dispatch_mwth differs from its target during a transient.",
+        "expected": "nuclear.heat",
+        "ranking": [
+          "nuclear.heat",
+          "nuclear.secondary"
+        ],
+        "top1": true,
+        "recall_at_2": true,
+        "reciprocal_rank": 1.0
+      }
+    ]
+  },
+  "limitation": "Small developer-authored synthetic retrieval set. Not held-out operator validation or a test of control/recovery accuracy."
+}

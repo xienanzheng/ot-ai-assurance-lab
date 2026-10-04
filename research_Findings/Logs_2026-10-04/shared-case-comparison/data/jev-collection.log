@@ -1,0 +1,17 @@
+25/400; correct=21
+50/400; correct=41
+75/400; correct=64
+100/400; correct=87
+125/400; correct=109
+150/400; correct=130
+175/400; correct=153
+200/400; correct=176
+225/400; correct=196
+250/400; correct=220
+275/400; correct=244
+300/400; correct=266
+325/400; correct=289
+350/400; correct=311
+375/400; correct=333
+400/400; correct=356
+{"complete": 400, "correct": 356, "reported_cost_usd": 0.069476778}

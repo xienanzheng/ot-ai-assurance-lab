@@ -1,0 +1,31 @@
+{
+  "version": "water-context-v3-pilot",
+  "base_revision": "4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25",
+  "sources": {
+    "scripts/water_context_study.py": "3550472d3adf3f33f32dd8175a3ece42b47222348aeecd53697a85f5340e8c67",
+    "scripts/run_water_context_study.py": "ec20d776293baf7919963626ebc9ef400e1b2963c84752fb5b8ad08fc4a848a8",
+    "scripts/water_alarm_benchmark.py": "7af95f6469cdf2f7bd3c75800a25f62b3b3cfb0afefdb301e0f6f190e8b5dda2",
+    "scripts/train_water_alarm_adapter.py": "8e34c23f05f92e20e55c5385d84ee5e88bcce0a0e074f8503bcf829488824f18",
+    "services/supervisor/app/water_alarm.py": "1e94a428838abf44b076d51aece5010f0d5d2bc5f8330b7c8314812752c4feac",
+    "services/supervisor/app/plant_sops.json": "19723acd2b7cf99600ec47f516a2004ea7cbc765387d703769797d75226113f9",
+    "services/plant_sim/app/simulator.py": "b1168f8e37ec233079cf43f4d0efc0695758b4b40976782ffa0612231e35ec5a",
+    "services/plc_control/app/controller.py": "524b42d1e2654495785683d4a47af195107e935c67805ea2207fc474894ffe0e",
+    "shared/models.py": "4921b9e204823dbd10e3bccb211e88c8b088fe8153e5780b1877eaff54696ba9",
+    "shared/limits.py": "bfc95d3f6b3d3656d1659241e6f23c1bbef888b012265374bcc208140b1996cc"
+  },
+  "scope": "Fresh development episodes; same scenario families. No locked test or visitor data.",
+  "splits": {
+    "train": {
+      "count": 1200,
+      "cases_sha256": "577fef40839005686203bfe2ec84a20fc6dc78673178aea9af06338b5413c034",
+      "training_sha256": "e579bd16c93d12741843fdf2181037e3f3a69c4ee9d56ecc0800eea738f82a2b",
+      "max_training_tokens": 2307
+    },
+    "valid": {
+      "count": 160,
+      "cases_sha256": "83d99f90bf8981d69574108cde29e64e3840e9200b939c08bb6e0b6b1f7b707f",
+      "training_sha256": "bf7896ddd29f245bef57eee4707123d709ed56593c4fb61319b832b1142ca069",
+      "max_training_tokens": 2308
+    }
+  }
+}

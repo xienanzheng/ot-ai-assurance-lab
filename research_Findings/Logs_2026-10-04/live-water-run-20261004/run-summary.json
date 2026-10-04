@@ -1,0 +1,26 @@
+[
+  {
+    "record_id": "849abbe3-f617-43bd-9801-e54e35591259",
+    "chlorine_target_mg_l": 1.1,
+    "applied": true,
+    "gate": "accepted",
+    "audit": "passed",
+    "inference_seconds": 1.032
+  },
+  {
+    "record_id": "4a1dc435-342a-48ed-8933-151cea7cc503",
+    "chlorine_target_mg_l": 1.05,
+    "applied": true,
+    "gate": "accepted",
+    "audit": "passed",
+    "inference_seconds": 0.929
+  },
+  {
+    "record_id": "61275fed-1f0a-44be-a38f-844688c12112",
+    "chlorine_target_mg_l": 1,
+    "applied": true,
+    "gate": "accepted",
+    "audit": "passed",
+    "inference_seconds": 0.983
+  }
+]

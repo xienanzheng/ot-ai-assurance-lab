@@ -1,0 +1,65 @@
+{
+  "Original alarm adapter 160 updates": {
+    "median_reduction_pct": 53.9758217287896,
+    "p95_reduction_pct": 62.15252703836165
+  },
+  "Assisted context 80 updates": {
+    "median_reduction_pct": 25.374300647429493,
+    "p95_reduction_pct": 36.10926994392649
+  },
+  "Compact choices 80 updates": {
+    "median_reduction_pct": 4.488199079726551,
+    "p95_reduction_pct": 11.650205039541095
+  },
+  "response_length": {
+    "base": 155,
+    "adapter": 48
+  },
+  "shared_case_results": {
+    "Cloud Qwen30B": {
+      "correct": 200,
+      "valid": 399,
+      "count": 400
+    },
+    "Fine-tuned Qwen4B": {
+      "correct": 288,
+      "valid": 397,
+      "count": 400
+    },
+    "Jev typed choices": {
+      "correct": 356,
+      "valid": 400,
+      "count": 400
+    }
+  },
+  "locked_test": {
+    "metrics": [
+      {
+        "metric": "Critical escalation",
+        "numerator": 477,
+        "denominator": 500,
+        "required_percent": 100
+      },
+      {
+        "metric": "Structured validity",
+        "numerator": 995,
+        "denominator": 1000,
+        "required_percent": 99
+      },
+      {
+        "metric": "Supported assessments",
+        "numerator": 631,
+        "denominator": 1000,
+        "required_percent": 95
+      },
+      {
+        "metric": "Correct noncritical decisions",
+        "numerator": 239,
+        "denominator": 500,
+        "required_percent": 95
+      }
+    ],
+    "fabricated_reference_errors": 2,
+    "approved": false
+  }
+}

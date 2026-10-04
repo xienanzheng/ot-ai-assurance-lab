@@ -1,0 +1,1094 @@
+{
+  "date": "2026-10-04",
+  "scope": "Research evidence publication; no model calls or training, no application deployment.",
+  "privacy": "Selected files scanned for API keys, bearer credentials, email addresses and visitor/registration fields. Local home paths replaced in published text copies. Original local evidence untouched.",
+  "frozen_scorer_original_sha256": "4f877195db1adfae75a5aae1c3d8df39231c534aaf22a73b1c7265d5f7b8aff8",
+  "frozen_score_function_sha256": "d6e97733128af6dabc56d4aded1a88a0db26937182470a24f3dcc8fe8b461f2a",
+  "files": [
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/test.cases.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/test.cases.jsonl",
+      "source_sha256": "621bc82540078fc0630f11817aa47daaccd19ca338a1a96fed71c923afaea56f",
+      "published_sha256": "621bc82540078fc0630f11817aa47daaccd19ca338a1a96fed71c923afaea56f",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/valid.cases.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/valid.cases.jsonl",
+      "source_sha256": "e1ae2209014659fb663b1075dc1d772727bb64359ff7bf21e9122f77b4ceae33",
+      "published_sha256": "e1ae2209014659fb663b1075dc1d772727bb64359ff7bf21e9122f77b4ceae33",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/manifest.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/manifest.json",
+      "source_sha256": "a65d5daac6262d1a7f42c4970a1b06c28bd6d0c77f9ddfd424e6a554c04233de",
+      "published_sha256": "a65d5daac6262d1a7f42c4970a1b06c28bd6d0c77f9ddfd424e6a554c04233de",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/acceptance.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/acceptance.json",
+      "source_sha256": "11437c7efecd4243653f3d27fa1ae3c800bc63cdba264d0ecaac9b401c7e4bc3",
+      "published_sha256": "507cf03d65be00ec67531795ae5f45fd795ee7e215ea3d260c0f5ff03c83b93c",
+      "local_home_redactions": 1
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/selection.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/selection.json",
+      "source_sha256": "afbc0e950212865deabe1743a881b2dffdbc5421e05a59311f9465e2f1b81422",
+      "published_sha256": "afbc0e950212865deabe1743a881b2dffdbc5421e05a59311f9465e2f1b81422",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/token-preflight.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/token-preflight.json",
+      "source_sha256": "a0aa142961c31194e61e1bf67b8a1068a29c7c64e31ec2d6e435e520d9346efd",
+      "published_sha256": "a0aa142961c31194e61e1bf67b8a1068a29c7c64e31ec2d6e435e520d9346efd",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-latency.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-latency.json",
+      "source_sha256": "4d216947779ec41521efa184a322f049bf3828aaedd01258f1c7b3e8d45cc970",
+      "published_sha256": "4d216947779ec41521efa184a322f049bf3828aaedd01258f1c7b3e8d45cc970",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-latency.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-latency.json",
+      "source_sha256": "d8126b2fd48cad27d376e0ae20eeaf181c4f7d658b5e1ab48122a188113bb987",
+      "published_sha256": "d8126b2fd48cad27d376e0ae20eeaf181c4f7d658b5e1ab48122a188113bb987",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test.jsonl",
+      "source_sha256": "269088220a33a235a0e72edef849aae15f0cffe555c9e750f822c5fe462cdb54",
+      "published_sha256": "269088220a33a235a0e72edef849aae15f0cffe555c9e750f822c5fe462cdb54",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test-summary.json",
+      "source_sha256": "d43fff0dea805e27cea6056b4fb96def5d2d330fbd7bcb68a0599810477a7c0a",
+      "published_sha256": "d43fff0dea805e27cea6056b4fb96def5d2d330fbd7bcb68a0599810477a7c0a",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid.jsonl",
+      "source_sha256": "c420873ab6283b3ca4bfff7acdc9cb13a644748b865a00ae2541643f993e1b99",
+      "published_sha256": "c420873ab6283b3ca4bfff7acdc9cb13a644748b865a00ae2541643f993e1b99",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid-summary.json",
+      "source_sha256": "bec8c3bad079534a55786347e87b4bfa1da6c832fd962555d18cf31bd9b96da2",
+      "published_sha256": "bec8c3bad079534a55786347e87b4bfa1da6c832fd962555d18cf31bd9b96da2",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test.jsonl",
+      "source_sha256": "9179bfdf4858fe41279b39628c188c14e6ab2c78d9062bca6d8826cf353e7090",
+      "published_sha256": "9179bfdf4858fe41279b39628c188c14e6ab2c78d9062bca6d8826cf353e7090",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test-summary.json",
+      "source_sha256": "0afc8153655d69d134d910f5068089be6df466ce18c893826c90a5b2a2143d9d",
+      "published_sha256": "0afc8153655d69d134d910f5068089be6df466ce18c893826c90a5b2a2143d9d",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid.jsonl",
+      "source_sha256": "b8bc5db5c4be9c6bb79ce4e6d9c5650c6a4df3aef348244b66d11a85fd2d774e",
+      "published_sha256": "b8bc5db5c4be9c6bb79ce4e6d9c5650c6a4df3aef348244b66d11a85fd2d774e",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid-summary.json",
+      "source_sha256": "94de03c9e7705239cde2d63a0b63fb00368a8a1a70ea7ed14a428b4ad1717214",
+      "published_sha256": "94de03c9e7705239cde2d63a0b63fb00368a8a1a70ea7ed14a428b4ad1717214",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid.jsonl",
+      "source_sha256": "95497129c93a080aeab8023e1149313b2d4fa3931f962940267cbea6893daa53",
+      "published_sha256": "95497129c93a080aeab8023e1149313b2d4fa3931f962940267cbea6893daa53",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid-summary.json",
+      "source_sha256": "3ab8b5ce36e4aa5f3ea9efb71979fd8c3ea75f7d6b44872110884cefd9e2ead4",
+      "published_sha256": "3ab8b5ce36e4aa5f3ea9efb71979fd8c3ea75f7d6b44872110884cefd9e2ead4",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5/training.log",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5/training.log",
+      "source_sha256": "644449a934115e8f7512bd4d4a4d63bbd5d9b9cb3a128c31fd43ace698f8a2ca",
+      "published_sha256": "d31b1a5ebe94debd70fe62b065874b9881019a2b164713a3c5087f81e47b5171",
+      "local_home_redactions": 5
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5/adapter_config.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5/adapter_config.json",
+      "source_sha256": "d3fe5fe45ebb48ebf0683b151a7427980b7d16556598e6afa8080375a109c127",
+      "published_sha256": "606d38a18ca5822068af0c601e4b4cf780f578a70a570adb83cff326e30f36c7",
+      "local_home_redactions": 3
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5/training-complete.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5/training-complete.json",
+      "source_sha256": "17b6345588b1013eb1bbfc6bde5b33490e6512171175cd8fb2667a9417f22cf8",
+      "published_sha256": "17b6345588b1013eb1bbfc6bde5b33490e6512171175cd8fb2667a9417f22cf8",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/training.log",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/training.log",
+      "source_sha256": "c9b4f6043ce3f86d122b25031adbcf5da39bc906998c404d44227898098cf006",
+      "published_sha256": "c2104d0fe2077bb15b945ccbd6ef6bcaf73e30266ef7957f83f9646962e764c4",
+      "local_home_redactions": 5
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/adapter_config.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/adapter_config.json",
+      "source_sha256": "166cad1cd4870dc7dbabca2924600bce179a19f208658499020c3ffb3e9724df",
+      "published_sha256": "4fa199557cb73fbc481e8c5e713d61889f655bc980f8762b788713e6921b1a45",
+      "local_home_redactions": 3
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/training-complete.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/training-complete.json",
+      "source_sha256": "d1b12c732037257c1866eeb36b73580cef004ba500e7bf70a9a61a8dffc3c633",
+      "published_sha256": "d1b12c732037257c1866eeb36b73580cef004ba500e7bf70a9a61a8dffc3c633",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid.jsonl.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid.jsonl.identity.json",
+      "source_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "published_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-latency.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-latency.json.identity.json",
+      "source_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "published_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test.jsonl.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test.jsonl.identity.json",
+      "source_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "published_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test-summary.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test-summary.json.identity.json",
+      "source_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "published_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid.jsonl.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid.jsonl.identity.json",
+      "source_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "published_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test-summary.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-test-summary.json.identity.json",
+      "source_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "published_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid.jsonl.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid.jsonl.identity.json",
+      "source_sha256": "bc5813f6b6dbef5ffd20fb42325322bcb628a85297004e3acc1ab3098eb551bb",
+      "published_sha256": "bc5813f6b6dbef5ffd20fb42325322bcb628a85297004e3acc1ab3098eb551bb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test.jsonl.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test.jsonl.identity.json",
+      "source_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "published_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-latency.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-latency.json.identity.json",
+      "source_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "published_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/selection.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/selection.json.identity.json",
+      "source_sha256": "ac0dc24b68b351fcd96fc84a179943cb37fef8fcc8b03e2730dd7eb07dc65ccd",
+      "published_sha256": "ac0dc24b68b351fcd96fc84a179943cb37fef8fcc8b03e2730dd7eb07dc65ccd",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid-summary.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-valid-summary.json.identity.json",
+      "source_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "published_sha256": "7cf0c0b35818f43092745960c0faacb6e9004ac56a5160eafa2cd57fcee703c0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid-summary.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4-valid-summary.json.identity.json",
+      "source_sha256": "bc5813f6b6dbef5ffd20fb42325322bcb628a85297004e3acc1ab3098eb551bb",
+      "published_sha256": "bc5813f6b6dbef5ffd20fb42325322bcb628a85297004e3acc1ab3098eb551bb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid-summary.json.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-valid-summary.json.identity.json",
+      "source_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "published_sha256": "a5fe18144e9e631f3acae59cdcd0a30610e95df8f7551f9711381130e0670cd0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-typed-base-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-typed-base-summary.json",
+      "source_sha256": "dc2b7de0541fbe13fa924eadf4d6318e4e3894e2f5f7b2576053123529f01d2f",
+      "published_sha256": "dc2b7de0541fbe13fa924eadf4d6318e4e3894e2f5f7b2576053123529f01d2f",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter.jsonl",
+      "source_sha256": "228ec2297f2672f34749d5e736a1648aaead7547e62549105506336b2a4dc8bb",
+      "published_sha256": "228ec2297f2672f34749d5e736a1648aaead7547e62549105506336b2a4dc8bb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base.identity.json",
+      "source_sha256": "d99f32a4cb8888d5d399e3f9877a3190867b0ce26eb6afa5198abb49a20b69d4",
+      "published_sha256": "d99f32a4cb8888d5d399e3f9877a3190867b0ce26eb6afa5198abb49a20b69d4",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/audited-report.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/audited-report.json",
+      "source_sha256": "b34f097c2477b6f0710e9ff441237d269bf81cdcdee77419a7cd914f9f8fe273",
+      "published_sha256": "b34f097c2477b6f0710e9ff441237d269bf81cdcdee77419a7cd914f9f8fe273",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter-summary.json",
+      "source_sha256": "d79e4ba61daba8069b1d56fbdd447c30a6b52229ca1c280022603fc0e78336fa",
+      "published_sha256": "d79e4ba61daba8069b1d56fbdd447c30a6b52229ca1c280022603fc0e78336fa",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base.jsonl",
+      "source_sha256": "ba0ba846a3a6b9de4110d5843bb1c2a57bd0c8bd7e3afeddb1f203478a239c27",
+      "published_sha256": "ba0ba846a3a6b9de4110d5843bb1c2a57bd0c8bd7e3afeddb1f203478a239c27",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-previous.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-previous.jsonl",
+      "source_sha256": "d9867fe25e76d4c69266162ee965ad711623bc6fa03c7c985a22ae4f4b3c5c89",
+      "published_sha256": "d9867fe25e76d4c69266162ee965ad711623bc6fa03c7c985a22ae4f4b3c5c89",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-previous-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-previous-summary.json",
+      "source_sha256": "51c2300a5a9a76cd20c888bbfd45bccf4e92c474c8ffa6da3bff536d8958cbb8",
+      "published_sha256": "51c2300a5a9a76cd20c888bbfd45bccf4e92c474c8ffa6da3bff536d8958cbb8",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-run.log",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-run.log",
+      "source_sha256": "ae3cac6d9faaf02ace2ab83436bf52d68d1744eb9505fbe6a7ab1576e1209298",
+      "published_sha256": "0f2b11e5bc4c7f37727005cbaead9b91ebf6c6da37dd6b61a9debfb34056665e",
+      "local_home_redactions": 5
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-run.log",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-run.log",
+      "source_sha256": "776f829e88b43a5d120430ea531a28f604bdd5e9aa93d8f1525bff69fe904771",
+      "published_sha256": "d5c55bcd3c15f9f86bbc33e644b53d7712dd3824ad12863369c68829b3cad4b3",
+      "local_home_redactions": 5
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-assisted-base.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-assisted-base.identity.json",
+      "source_sha256": "1afeda818be7e16ff1560f7fa23eed99e49c3320ad79766e05a74941faea19ac",
+      "published_sha256": "1afeda818be7e16ff1560f7fa23eed99e49c3320ad79766e05a74941faea19ac",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter.identity.json",
+      "source_sha256": "2b994e2253139fcf5f30d87e528fbe739aea44ac590a988dd67f4fa6d99760be",
+      "published_sha256": "2b994e2253139fcf5f30d87e528fbe739aea44ac590a988dd67f4fa6d99760be",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base-summary.json",
+      "source_sha256": "79c6a74c2de69d61da8551416a85d43c6da16ea2092935aafbc0df760a32edd6",
+      "published_sha256": "79c6a74c2de69d61da8551416a85d43c6da16ea2092935aafbc0df760a32edd6",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-assisted-base-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-assisted-base-summary.json",
+      "source_sha256": "db7428c46b75b1568d88b56db51a1eae6d41655ecd8f201296b00c9d8bd5b49a",
+      "published_sha256": "db7428c46b75b1568d88b56db51a1eae6d41655ecd8f201296b00c9d8bd5b49a",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-baseline-base.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-baseline-base.identity.json",
+      "source_sha256": "e5964b8b70e17b2b63652d3ac836f25d8be660aa3263e339bf6abe65d09a2eef",
+      "published_sha256": "e5964b8b70e17b2b63652d3ac836f25d8be660aa3263e339bf6abe65d09a2eef",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter-summary.json",
+      "source_sha256": "86b23403a5265a8cd32d998364790ca6dd18a474d4c7311355de4a0a0aa4bbac",
+      "published_sha256": "86b23403a5265a8cd32d998364790ca6dd18a474d4c7311355de4a0a0aa4bbac",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-baseline-base.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-baseline-base.jsonl",
+      "source_sha256": "efcab9e5e0517dfd79d63274b02f96664d2649af3143cc4ec5d196df5c061089",
+      "published_sha256": "efcab9e5e0517dfd79d63274b02f96664d2649af3143cc4ec5d196df5c061089",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-typed-base.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-typed-base.jsonl",
+      "source_sha256": "f9a2fac5a6e4c7674eaab13d6446317c03fc470db985bd70b5433ce68b17e3e9",
+      "published_sha256": "f9a2fac5a6e4c7674eaab13d6446317c03fc470db985bd70b5433ce68b17e3e9",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base.identity.json",
+      "source_sha256": "ec2673bfe989a67470c7dbbecf5218791f0b754de11daf8dd51302980f1a79e3",
+      "published_sha256": "ec2673bfe989a67470c7dbbecf5218791f0b754de11daf8dd51302980f1a79e3",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-run.log",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-run.log",
+      "source_sha256": "03dd3118f3fa6a2123e03151f8c1637503efe9cf019bd750bdf52982923c1850",
+      "published_sha256": "cfe19618e20f112b0e39d9656475795169b0d88e3242b78b830f31a0de8a4f05",
+      "local_home_redactions": 3
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-baseline-base-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-baseline-base-summary.json",
+      "source_sha256": "c343b230a346d782a7563f6318b65d3af3e9a07f339738bef0829c951facf9e2",
+      "published_sha256": "c343b230a346d782a7563f6318b65d3af3e9a07f339738bef0829c951facf9e2",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/manifest.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/manifest.json",
+      "source_sha256": "e9aaf537c385eedd3326954a0e864778c3024448774182b924b2ea247c6056fd",
+      "published_sha256": "e9aaf537c385eedd3326954a0e864778c3024448774182b924b2ea247c6056fd",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-typed-base.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-typed-base.identity.json",
+      "source_sha256": "617bf6bfb733772ca7ed699d5cbe01c7ae3f4daaa0cbaf124198f26ce1658a42",
+      "published_sha256": "617bf6bfb733772ca7ed699d5cbe01c7ae3f4daaa0cbaf124198f26ce1658a42",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/pilot.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/pilot.json",
+      "source_sha256": "c2934b6f7ac880720d80c2e98d4535b82ea6b56140736eb388cfe97bc4e3dff2",
+      "published_sha256": "c2934b6f7ac880720d80c2e98d4535b82ea6b56140736eb388cfe97bc4e3dff2",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/training-command.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/training-command.json",
+      "source_sha256": "da851ec54de685e890c300c67b18e186002c77b274667dfdcd8b3a0733de6726",
+      "published_sha256": "005988a022b1a466422c3837dde1662f1a788e07d5b049666040f350923df3b7",
+      "local_home_redactions": 5
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/valid.cases.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/valid.cases.jsonl",
+      "source_sha256": "83d99f90bf8981d69574108cde29e64e3840e9200b939c08bb6e0b6b1f7b707f",
+      "published_sha256": "83d99f90bf8981d69574108cde29e64e3840e9200b939c08bb6e0b6b1f7b707f",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter.jsonl",
+      "source_sha256": "323dfedd40f5e5b6ec0f1a630030c6c7ed59eec38a5acef1f36197679df56025",
+      "published_sha256": "323dfedd40f5e5b6ec0f1a630030c6c7ed59eec38a5acef1f36197679df56025",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter.identity.json",
+      "source_sha256": "04b37482b9c9b1c22f678bd327e6013b9356cc0d9a6ca1eb91ca5ba5a0dbc514",
+      "published_sha256": "04b37482b9c9b1c22f678bd327e6013b9356cc0d9a6ca1eb91ca5ba5a0dbc514",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/representative-failures.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/representative-failures.json",
+      "source_sha256": "bfa7726bd28d5746d59575b62f4810f7efcf20e08d290bfcaa106e7071957da6",
+      "published_sha256": "bfa7726bd28d5746d59575b62f4810f7efcf20e08d290bfcaa106e7071957da6",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-assisted-base.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/cloud-assisted-base.jsonl",
+      "source_sha256": "a340f3992ce2700bfc776246494674fac73524fa4f1ae5124729a776795f4110",
+      "published_sha256": "a340f3992ce2700bfc776246494674fac73524fa4f1ae5124729a776795f4110",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/previous-run.log",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/previous-run.log",
+      "source_sha256": "f9291d8377c985b6784b23679c5474593443f6c7e2e764fd002afe7c19ac2ea9",
+      "published_sha256": "f9291d8377c985b6784b23679c5474593443f6c7e2e764fd002afe7c19ac2ea9",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base.jsonl",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base.jsonl",
+      "source_sha256": "9f613aa174101d37acd1f5c9c1121a1aa94ad50d594132aa1b5b27b606032250",
+      "published_sha256": "9f613aa174101d37acd1f5c9c1121a1aa94ad50d594132aa1b5b27b606032250",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-previous.identity.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-previous.identity.json",
+      "source_sha256": "1173afd2f26955b74de3cb109a98ca492f6be4b025c8215aee0d9efb0f0a9651",
+      "published_sha256": "1173afd2f26955b74de3cb109a98ca492f6be4b025c8215aee0d9efb0f0a9651",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base-summary.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base-summary.json",
+      "source_sha256": "dcfb0d0b38020a2682852455864b78f2b923d993c336cc76bd62c66ecde5c4a8",
+      "published_sha256": "dcfb0d0b38020a2682852455864b78f2b923d993c336cc76bd62c66ecde5c4a8",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/adapter/adapter_config.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/adapter/adapter_config.json",
+      "source_sha256": "9c8138819d470861493c7fdcf51e9811fdd0c32d5ad6dd17bf8d9ace2ab4e296",
+      "published_sha256": "62f37c296f77610969fd41b78d1fcd3926fcfdd85badfe5dc7c82543e6078cc9",
+      "local_home_redactions": 3
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/adapter/training-complete.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/adapter/training-complete.json",
+      "source_sha256": "33aa62e742f71d0c99e75a9941aaece191dbcc3585fba0a288a08d8b6bee4698",
+      "published_sha256": "33aa62e742f71d0c99e75a9941aaece191dbcc3585fba0a288a08d8b6bee4698",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/manifest.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/manifest.json",
+      "source_sha256": "84397b908660c63cd7b77c8840dbae383a7358b64b8881f67cb769d41afef32f",
+      "published_sha256": "84397b908660c63cd7b77c8840dbae383a7358b64b8881f67cb769d41afef32f",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/training-command.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/training-command.json",
+      "source_sha256": "f2b94c0a0558e4229a38a9ffc86509728f5b1eda5f07623640c00b3f179b3c9d",
+      "published_sha256": "7a384f17448a4c9e1322ba9d05e1ec5ed5a4b971dbb2c60c364b405127965cf8",
+      "local_home_redactions": 5
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/adapter_config.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/adapter_config.json",
+      "source_sha256": "c969a0e5df66c349d55a8e2594ac77695ea331711d0e8df685049be2dafa6ba0",
+      "published_sha256": "430747f4e8dca3ff10b41b1b55fb6855fe57f5fc8cb12c03fab020a22790be65",
+      "local_home_redactions": 3
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/training-complete.json",
+      "source": "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-study/adapter/training-complete.json",
+      "source_sha256": "3eb7647242f4b9354eadec78ad04cadf50688446152c95d30978e7ee087d28f2",
+      "published_sha256": "3eb7647242f4b9354eadec78ad04cadf50688446152c95d30978e7ee087d28f2",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/water-ot-ai-lab/artifacts/retrieval-v2/evaluation.json",
+      "source": "water-ot-ai-lab/artifacts/retrieval-v2/evaluation.json",
+      "source_sha256": "f933ac91e7f6eacbb6b10e10a331b52f0c2dc888ab9d2502e92483d17efc0a16",
+      "published_sha256": "f933ac91e7f6eacbb6b10e10a331b52f0c2dc888ab9d2502e92483d17efc0a16",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/valid.cases.jsonl",
+      "source": "SPAIS_Paper_V1/data/valid.cases.jsonl",
+      "source_sha256": "e1ae2209014659fb663b1075dc1d772727bb64359ff7bf21e9122f77b4ceae33",
+      "published_sha256": "e1ae2209014659fb663b1075dc1d772727bb64359ff7bf21e9122f77b4ceae33",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/cloud-responses.jsonl",
+      "source": "SPAIS_Paper_V1/data/cloud-responses.jsonl",
+      "source_sha256": "294867aa00376d175352fc72ba3a04c6340c33f064708ff9f77fa3a6c34a06bb",
+      "published_sha256": "294867aa00376d175352fc72ba3a04c6340c33f064708ff9f77fa3a6c34a06bb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/lr5e5-valid.jsonl",
+      "source": "SPAIS_Paper_V1/data/lr5e5-valid.jsonl",
+      "source_sha256": "b8bc5db5c4be9c6bb79ce4e6d9c5650c6a4df3aef348244b66d11a85fd2d774e",
+      "published_sha256": "b8bc5db5c4be9c6bb79ce4e6d9c5650c6a4df3aef348244b66d11a85fd2d774e",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/jev-responses.jsonl",
+      "source": "SPAIS_Paper_V1/data/jev-responses.jsonl",
+      "source_sha256": "1f50909da08a2da48f144981f0a5682127a3e4572e2619858bfa0022856c9528",
+      "published_sha256": "1f50909da08a2da48f144981f0a5682127a3e4572e2619858bfa0022856c9528",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/comparison-manifest.json",
+      "source": "SPAIS_Paper_V1/data/comparison-manifest.json",
+      "source_sha256": "39e7fbd51c5527155c1eeb8cf9744fad1d1d7e09850e6c8aa758514e59436aee",
+      "published_sha256": "39e7fbd51c5527155c1eeb8cf9744fad1d1d7e09850e6c8aa758514e59436aee",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/cloud-manifest.json",
+      "source": "SPAIS_Paper_V1/data/cloud-manifest.json",
+      "source_sha256": "fa28fc91e6ee527adb128da0bf70a0b98aba77226c2ffc1cbb1f3488bb361e72",
+      "published_sha256": "fa28fc91e6ee527adb128da0bf70a0b98aba77226c2ffc1cbb1f3488bb361e72",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/cloud-summary.json",
+      "source": "SPAIS_Paper_V1/data/cloud-summary.json",
+      "source_sha256": "717966921e43216c93f5cbd87f1fe3d6c807fca18aa76331d5dcf723840db490",
+      "published_sha256": "717966921e43216c93f5cbd87f1fe3d6c807fca18aa76331d5dcf723840db490",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/jev-collection.log",
+      "source": "SPAIS_Paper_V1/data/jev-collection.log",
+      "source_sha256": "d2380f17ec4e818aaec27c16b0a76b385f42e47b329be588741d29d8f60fd0f5",
+      "published_sha256": "d2380f17ec4e818aaec27c16b0a76b385f42e47b329be588741d29d8f60fd0f5",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/recomputed-summary.json",
+      "source": "SPAIS_Paper_V1/data/recomputed-summary.json",
+      "source_sha256": "06dce2210f8416bbc7d148927576f2bc0600f228114cde2cd9e8d39f1b265615",
+      "published_sha256": "06dce2210f8416bbc7d148927576f2bc0600f228114cde2cd9e8d39f1b265615",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/comparison-metrics.csv",
+      "source": "SPAIS_Paper_V1/data/comparison-metrics.csv",
+      "source_sha256": "97f6b4647b1e91634ba26c1444f31057b47bf0012d22ed90d852600ad5cee9d6",
+      "published_sha256": "97f6b4647b1e91634ba26c1444f31057b47bf0012d22ed90d852600ad5cee9d6",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/data/representative-failures.csv",
+      "source": "SPAIS_Paper_V1/data/representative-failures.csv",
+      "source_sha256": "ceaf5aacedf066b80b9fcca97b8ec7a05f4af702ef8c7dd75bc7eae1b3e8cbc7",
+      "published_sha256": "ceaf5aacedf066b80b9fcca97b8ec7a05f4af702ef8c7dd75bc7eae1b3e8cbc7",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/source_snapshot/shared/models.py",
+      "source": "SPAIS_Paper_V1/source_snapshot/shared/models.py",
+      "source_sha256": "4921b9e204823dbd10e3bccb211e88c8b088fe8153e5780b1877eaff54696ba9",
+      "published_sha256": "4921b9e204823dbd10e3bccb211e88c8b088fe8153e5780b1877eaff54696ba9",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/source_snapshot/shared/limits.py",
+      "source": "SPAIS_Paper_V1/source_snapshot/shared/limits.py",
+      "source_sha256": "bfc95d3f6b3d3656d1659241e6f23c1bbef888b012265374bcc208140b1996cc",
+      "published_sha256": "bfc95d3f6b3d3656d1659241e6f23c1bbef888b012265374bcc208140b1996cc",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/source_snapshot/shared/supervision.py",
+      "source": "SPAIS_Paper_V1/source_snapshot/shared/supervision.py",
+      "source_sha256": "1b87f65681c8d4305a8e1db5b6c4b6b55ae15fc3ff6b0b896a9ddc8923f6ed5c",
+      "published_sha256": "1b87f65681c8d4305a8e1db5b6c4b6b55ae15fc3ff6b0b896a9ddc8923f6ed5c",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/source_snapshot/services/supervisor/app/water_alarm.py",
+      "source": "SPAIS_Paper_V1/source_snapshot/services/supervisor/app/water_alarm.py",
+      "source_sha256": "1e94a428838abf44b076d51aece5010f0d5d2bc5f8330b7c8314812752c4feac",
+      "published_sha256": "1e94a428838abf44b076d51aece5010f0d5d2bc5f8330b7c8314812752c4feac",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/source_snapshot/services/supervisor/app/sop_context.py",
+      "source": "SPAIS_Paper_V1/source_snapshot/services/supervisor/app/sop_context.py",
+      "source_sha256": "70f9df6f9cd0e11b22f9a991a36398b2288d114262192f025fbe4a33941b3a7e",
+      "published_sha256": "70f9df6f9cd0e11b22f9a991a36398b2288d114262192f025fbe4a33941b3a7e",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/source_snapshot/services/supervisor/app/retrieval_ranking.py",
+      "source": "SPAIS_Paper_V1/source_snapshot/services/supervisor/app/retrieval_ranking.py",
+      "source_sha256": "bdaf857bdab52f8a3142313803421d0f14bf10836d9a56dcee1bbbd09f6d79d6",
+      "published_sha256": "bdaf857bdab52f8a3142313803421d0f14bf10836d9a56dcee1bbbd09f6d79d6",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/shared-case-comparison/source_snapshot/services/supervisor/app/plant_sops.json",
+      "source": "SPAIS_Paper_V1/source_snapshot/services/supervisor/app/plant_sops.json",
+      "source_sha256": "19723acd2b7cf99600ec47f516a2004ea7cbc765387d703769797d75226113f9",
+      "published_sha256": "19723acd2b7cf99600ec47f516a2004ea7cbc765387d703769797d75226113f9",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/cases-v7.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/cases-v7.json",
+      "source_sha256": "4368a1ddb8600d462a56aff40f6bca051dca6348e709c6d474ab4f055c864853",
+      "published_sha256": "4368a1ddb8600d462a56aff40f6bca051dca6348e709c6d474ab4f055c864853",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/cases-holdout.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/cases-holdout.json",
+      "source_sha256": "ded1d4d50c915123e3553b95e986f3b012bff1001de13ac42be8afe8f26813cb",
+      "published_sha256": "ded1d4d50c915123e3553b95e986f3b012bff1001de13ac42be8afe8f26813cb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/binding-results-v7.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/binding-results-v7.json",
+      "source_sha256": "b17ce4cc3de25ee536892732a01a4a293acb47599a02b96f78f754547ee77acf",
+      "published_sha256": "b17ce4cc3de25ee536892732a01a4a293acb47599a02b96f78f754547ee77acf",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/binding-results-holdout.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/binding-results-holdout.json",
+      "source_sha256": "b95c219c9f92011994dfaaee0fe4fb6dea4e63b3a89974a24ee6eccbed55494e",
+      "published_sha256": "b95c219c9f92011994dfaaee0fe4fb6dea4e63b3a89974a24ee6eccbed55494e",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/local-gemma3-smoke.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/local-gemma3-smoke.json",
+      "source_sha256": "9498908b1285dac4e95a3eac8fe78e01d7385884f83c65902b23ecedfb4fbde2",
+      "published_sha256": "9498908b1285dac4e95a3eac8fe78e01d7385884f83c65902b23ecedfb4fbde2",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/local-gemma3-warm.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/local-gemma3-warm.json",
+      "source_sha256": "b79629f8cd629473e426ba47341db630074aa482c7592ac713f79ab48d7f0c75",
+      "published_sha256": "b79629f8cd629473e426ba47341db630074aa482c7592ac713f79ab48d7f0c75",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/hosted-e2e.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/hosted-e2e.json",
+      "source_sha256": "d7ef8f4658547fb5c0c912d14c7cdf4ca098782e27081ecfd3a0d523cfb59de0",
+      "published_sha256": "d7ef8f4658547fb5c0c912d14c7cdf4ca098782e27081ecfd3a0d523cfb59de0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/qwen-audit-export.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/qwen-audit-export.json",
+      "source_sha256": "63d3cd23edcbf00e03312fa961428466c0fcf4787e727f4528260b32c88f5bdc",
+      "published_sha256": "63d3cd23edcbf00e03312fa961428466c0fcf4787e727f4528260b32c88f5bdc",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/decision-audit-20261002/jev-audit-export.json",
+      "source": "water-ot-ai-lab/artifacts/decision-audit-20261002/jev-audit-export.json",
+      "source_sha256": "99a52ea970054bc669e624b6786a82b2a02c5a6b25a5fb9fb14ac184930a4493",
+      "published_sha256": "99a52ea970054bc669e624b6786a82b2a02c5a6b25a5fb9fb14ac184930a4493",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/live-water-run-20261004/live-session.json",
+      "source": "OT_Lab_Silent_Walkthrough_V2/source/live-session.json",
+      "source_sha256": "edd9e8992fc8a966c1961680a0c1d5f245bcadc46c7ed168ab787f183f5adad8",
+      "published_sha256": "edd9e8992fc8a966c1961680a0c1d5f245bcadc46c7ed168ab787f183f5adad8",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/live-water-run-20261004/process-history.csv",
+      "source": "OT_Lab_Silent_Walkthrough_V2/source/process-history.csv",
+      "source_sha256": "1a45fe2bf5276f78e582696c87d06396befff8c262a7ba4814d58f5bac1bb35b",
+      "published_sha256": "1a45fe2bf5276f78e582696c87d06396befff8c262a7ba4814d58f5bac1bb35b",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/live-water-run-20261004/run-summary.json",
+      "source": "OT_Lab_Silent_Walkthrough_V2/source/run-summary.json",
+      "source_sha256": "6f41b66d0dcd63808fab960aac386e79599b62f7d4f48e4e9ec2ef80bc61d7e2",
+      "published_sha256": "6f41b66d0dcd63808fab960aac386e79599b62f7d4f48e4e9ec2ef80bc61d7e2",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/sop-context-current/docs/PLANT_CONTEXT_BOOK.md",
+      "source": "water-ot-ai-lab/docs/PLANT_CONTEXT_BOOK.md",
+      "source_sha256": "7b25d7336cf98e901ec884019639c9a4409ef14baaf2d6ed90ee26782434607a",
+      "published_sha256": "7b25d7336cf98e901ec884019639c9a4409ef14baaf2d6ed90ee26782434607a",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/sop-context-current/docs/WATER_ALARM_EVALUATION.md",
+      "source": "water-ot-ai-lab/docs/WATER_ALARM_EVALUATION.md",
+      "source_sha256": "4f1e8ac82932b32131ea57bfa62640ef114df468fb53cf1f6c8214649431c08d",
+      "published_sha256": "4f1e8ac82932b32131ea57bfa62640ef114df468fb53cf1f6c8214649431c08d",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/sop-context-current/docs/DECISION_AUDIT.md",
+      "source": "water-ot-ai-lab/docs/DECISION_AUDIT.md",
+      "source_sha256": "cace27da483a57813a52c2e400aa5e72031432759bdc9e6e5305814a261c0464",
+      "published_sha256": "cace27da483a57813a52c2e400aa5e72031432759bdc9e6e5305814a261c0464",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "Logs_2026-10-04/sop-context-current/services/supervisor/app/plant_sops.json",
+      "source": "water-ot-ai-lab/services/supervisor/app/plant_sops.json",
+      "source_sha256": "2298d2ead8237760330dfbce70c3a0919d87a4a34b8c8a966fdaaa70453ce658",
+      "published_sha256": "2298d2ead8237760330dfbce70c3a0919d87a4a34b8c8a966fdaaa70453ce658",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "agent-session-1791008055001.json",
+      "source": "water-ot-ai-lab/research_Findings/agent-session-1791008055001.json",
+      "source_sha256": "8937ab15ccf0c60f686e99fefd3bfd13b598b9bd80765fce160ca1956fcea1b6",
+      "published_sha256": "8937ab15ccf0c60f686e99fefd3bfd13b598b9bd80765fce160ca1956fcea1b6",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Architecture_V1.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Architecture_V1.pdf",
+      "source_sha256": "0934a430e19885464baa158f6935016e83ecc21c376515fe17ea639caaab9d77",
+      "published_sha256": "0934a430e19885464baa158f6935016e83ecc21c376515fe17ea639caaab9d77",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/README.md",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/README.md",
+      "source_sha256": "803314b24597f55542330287a3f7851ecfb047f4d535f76ba5219ae165dc9581",
+      "published_sha256": "9906e9552601dd73da252c14ad8e4e20bb4eab0d4c5c6a82cd26c91d5e1626d0",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Silent_Walkthrough_V2/Preview_Updated.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Silent_Walkthrough_V2/Preview_Updated.png",
+      "source_sha256": "a027a31fa87e042b28ed3013f6b65ab88ae4884fb39f1846fbae93321f20ee83",
+      "published_sha256": "a027a31fa87e042b28ed3013f6b65ab88ae4884fb39f1846fbae93321f20ee83",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Silent_Walkthrough_V2/README.md",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Silent_Walkthrough_V2/README.md",
+      "source_sha256": "23f5b2d3400ef120c8fcd81ecec2b9f6adfbea4e0d77b5924d185a74cde8f2b5",
+      "published_sha256": "23f5b2d3400ef120c8fcd81ecec2b9f6adfbea4e0d77b5924d185a74cde8f2b5",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Silent_Walkthrough_V2/OT_Lab_Live_Walkthrough_Silent_58s_Updated.mp4",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Silent_Walkthrough_V2/OT_Lab_Live_Walkthrough_Silent_58s_Updated.mp4",
+      "source_sha256": "520ed40e4d90e20d818339cab221a4df68af6bb57ddd92ae1977c91aafa4b454",
+      "published_sha256": "520ed40e4d90e20d818339cab221a4df68af6bb57ddd92ae1977c91aafa4b454",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/qa/verification.json",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/qa/verification.json",
+      "source_sha256": "2f8f3fe358bb10fa4d838409927a13780d2a97235d5a045949cf6d5336085397",
+      "published_sha256": "2f8f3fe358bb10fa4d838409927a13780d2a97235d5a045949cf6d5336085397",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/qa/contact-sheet.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/qa/contact-sheet.png",
+      "source_sha256": "92c34a876283bb460d2015b2a278e6ce294596d698c98bfac8cc82ac4b901fdb",
+      "published_sha256": "92c34a876283bb460d2015b2a278e6ce294596d698c98bfac8cc82ac4b901fdb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/08_validity_vs_correctness.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/08_validity_vs_correctness.svg",
+      "source_sha256": "9642e04b914f76264e7e66cf35e3c43afc014879f90d1a54216b8d3aa3152e43",
+      "published_sha256": "9642e04b914f76264e7e66cf35e3c43afc014879f90d1a54216b8d3aa3152e43",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/01_matched_inference_time.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/01_matched_inference_time.png",
+      "source_sha256": "f6f77fa7ec295972eef2753addafb3e3e93254e73acd5510bb4bf80261554a34",
+      "published_sha256": "f6f77fa7ec295972eef2753addafb3e3e93254e73acd5510bb4bf80261554a34",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/03_training_loss.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/03_training_loss.png",
+      "source_sha256": "3d8932457d852143c62fbe73ff45b729665c1d0452024cd071b7a618d3006b8c",
+      "published_sha256": "3d8932457d852143c62fbe73ff45b729665c1d0452024cd071b7a618d3006b8c",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/07_retrieval_accuracy.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/07_retrieval_accuracy.svg",
+      "source_sha256": "7e105ff3738befe926cdc85b230bf2a219db8e272d27c5b4aad6535f1b8b4a8e",
+      "published_sha256": "7e105ff3738befe926cdc85b230bf2a219db8e272d27c5b4aad6535f1b8b4a8e",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/07_retrieval_accuracy.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/07_retrieval_accuracy.png",
+      "source_sha256": "a1a590cde66e9e62867dfb325875b85f77cc1df543e0416e7ced7f52cb0d713a",
+      "published_sha256": "a1a590cde66e9e62867dfb325875b85f77cc1df543e0416e7ced7f52cb0d713a",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/03_training_loss.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/03_training_loss.svg",
+      "source_sha256": "2c90cac8bbae75ff11949778f54914ba07ccc2d998539c74977c6d1be915e35b",
+      "published_sha256": "2c90cac8bbae75ff11949778f54914ba07ccc2d998539c74977c6d1be915e35b",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/01_matched_inference_time.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/01_matched_inference_time.svg",
+      "source_sha256": "e2d9acd22ec0481c9f3e43567d1f2b296df0e5aec131613f9f7257032827acc6",
+      "published_sha256": "e2d9acd22ec0481c9f3e43567d1f2b296df0e5aec131613f9f7257032827acc6",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/08_validity_vs_correctness.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/08_validity_vs_correctness.png",
+      "source_sha256": "57d9b433b1244c659f6fd3d9b624473e70ee352d7d68a77146b2eee3815c3d7f",
+      "published_sha256": "57d9b433b1244c659f6fd3d9b624473e70ee352d7d68a77146b2eee3815c3d7f",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/06_pilot_decision_quality.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/06_pilot_decision_quality.svg",
+      "source_sha256": "ac11be6ee9ee6abcd3f2300b8e4778b76cbe6b537d3f3cbc69b78b37ae15ece1",
+      "published_sha256": "ac11be6ee9ee6abcd3f2300b8e4778b76cbe6b537d3f3cbc69b78b37ae15ece1",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/05_locked_test_acceptance.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/05_locked_test_acceptance.png",
+      "source_sha256": "c719402cb2b23489ea0750ff0c3adde70ed21354152e5ace10b0cfc6823c4d60",
+      "published_sha256": "c719402cb2b23489ea0750ff0c3adde70ed21354152e5ace10b0cfc6823c4d60",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/04_shared_case_decisions.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/04_shared_case_decisions.png",
+      "source_sha256": "07741442f85475607c6082527b271aa8473e7db1a0dfe556cc5c6012974477ea",
+      "published_sha256": "07741442f85475607c6082527b271aa8473e7db1a0dfe556cc5c6012974477ea",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/02_response_length_and_time.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/02_response_length_and_time.svg",
+      "source_sha256": "81a61713c2ac33d1f5a4c913f16e64fc8024f5f73d1d2ac6bae353eb720190f7",
+      "published_sha256": "81a61713c2ac33d1f5a4c913f16e64fc8024f5f73d1d2ac6bae353eb720190f7",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/02_response_length_and_time.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/02_response_length_and_time.png",
+      "source_sha256": "dcc5262c71ae0cd95a6c5c37a378ae5466b94c683ee436410c10603c9868e2e4",
+      "published_sha256": "dcc5262c71ae0cd95a6c5c37a378ae5466b94c683ee436410c10603c9868e2e4",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/04_shared_case_decisions.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/04_shared_case_decisions.svg",
+      "source_sha256": "71028b55a050fd0ff4dba7640d373ad118a0af862267435a3b679f167b882ecb",
+      "published_sha256": "71028b55a050fd0ff4dba7640d373ad118a0af862267435a3b679f167b882ecb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/05_locked_test_acceptance.svg",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/05_locked_test_acceptance.svg",
+      "source_sha256": "260c69e599d1548302429eca513f989af750d075eaf9ccb8a76a091233f201bb",
+      "published_sha256": "260c69e599d1548302429eca513f989af750d075eaf9ccb8a76a091233f201bb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/figures/06_pilot_decision_quality.png",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/figures/06_pilot_decision_quality.png",
+      "source_sha256": "cf39116afc8f80bfa75eaecd1a344d394647350702091c429b3da8c3314b2c47",
+      "published_sha256": "cf39116afc8f80bfa75eaecd1a344d394647350702091c429b3da8c3314b2c47",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/scripts/build_charts.py",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/scripts/build_charts.py",
+      "source_sha256": "5f8929b516b72316c5fc2b312453bcae738e0f650e1e1d63402305b749e84240",
+      "published_sha256": "abd3d94a31a71a2e9b97db996d15ebd348bb2d1a1d74f6a96ffbb290b3b28acc",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/training-loss.csv",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/training-loss.csv",
+      "source_sha256": "ef093d648bddd235648e1d72d4af7b39a7904bda550b9063f522fd3bf4d5571d",
+      "published_sha256": "ef093d648bddd235648e1d72d4af7b39a7904bda550b9063f522fd3bf4d5571d",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/source_manifest.json",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/source_manifest.json",
+      "source_sha256": "1d02ebc0d3980d6135a6a525adfc875fa22a965176f1d573ae6e0240b51308c6",
+      "published_sha256": "1d02ebc0d3980d6135a6a525adfc875fa22a965176f1d573ae6e0240b51308c6",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/latency-summary.csv",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/latency-summary.csv",
+      "source_sha256": "9b73518352bed6f764b10b42cbcabc95c32faae067aab9b75e7084b1a59f74b5",
+      "published_sha256": "9b73518352bed6f764b10b42cbcabc95c32faae067aab9b75e7084b1a59f74b5",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/verified_metrics.json",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/verified_metrics.json",
+      "source_sha256": "d965d64c41927d7b25d0b1b14827f7c0b190e135c0c07ed7bcc59349d4e3bfa8",
+      "published_sha256": "d965d64c41927d7b25d0b1b14827f7c0b190e135c0c07ed7bcc59349d4e3bfa8",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/retrieval-results.csv",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/retrieval-results.csv",
+      "source_sha256": "cb218ed211aa8c7bac1cb6fd15cdb731d51a571d0bab793b752368c40b44da19",
+      "published_sha256": "cb218ed211aa8c7bac1cb6fd15cdb731d51a571d0bab793b752368c40b44da19",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/shared-case-scores.csv",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/shared-case-scores.csv",
+      "source_sha256": "9f813956ab645e26914040e9f2309244ffba9738cbb042ee4a1b9865d2346fbe",
+      "published_sha256": "9f813956ab645e26914040e9f2309244ffba9738cbb042ee4a1b9865d2346fbe",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/locked-test-acceptance.csv",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/locked-test-acceptance.csv",
+      "source_sha256": "bcf3f204bfef0ed0366ba69adae04c27c689614f3f75b5be6f6e76919d29699b",
+      "published_sha256": "bcf3f204bfef0ed0366ba69adae04c27c689614f3f75b5be6f6e76919d29699b",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/pilot-category-results.csv",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/pilot-category-results.csv",
+      "source_sha256": "a0c084d06cabcb2684df4ed8a7c4dc88b9a72904dd638697ae73389aa947d3d4",
+      "published_sha256": "a0c084d06cabcb2684df4ed8a7c4dc88b9a72904dd638697ae73389aa947d3d4",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/data/matched-latency.csv",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/data/matched-latency.csv",
+      "source_sha256": "ca77426e335638ab948bd7736e1ab4f960d396d2d6a587ecba7b41793bae5888",
+      "published_sha256": "ca77426e335638ab948bd7736e1ab4f960d396d2d6a587ecba7b41793bae5888",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/01_matched_inference_time.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/01_matched_inference_time.pdf",
+      "source_sha256": "18565cdb15671aebf7f32e6073e190ce8cfa9fd0fc3c901ba7784c9b974dbb97",
+      "published_sha256": "18565cdb15671aebf7f32e6073e190ce8cfa9fd0fc3c901ba7784c9b974dbb97",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/03_training_loss.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/03_training_loss.pdf",
+      "source_sha256": "6e2e8651ea007f08dda968c810f739a633f0700bda3a238c157bcb70097e34e1",
+      "published_sha256": "6e2e8651ea007f08dda968c810f739a633f0700bda3a238c157bcb70097e34e1",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/07_retrieval_accuracy.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/07_retrieval_accuracy.pdf",
+      "source_sha256": "e53e65ddbfb108b50cac950603b52827d5841313933cf916be4b3b8c941926bb",
+      "published_sha256": "e53e65ddbfb108b50cac950603b52827d5841313933cf916be4b3b8c941926bb",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/08_validity_vs_correctness.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/08_validity_vs_correctness.pdf",
+      "source_sha256": "79c5da54500aaa7c775e9a0f543e19091179f37c92cc5556a0fc3400051587f7",
+      "published_sha256": "79c5da54500aaa7c775e9a0f543e19091179f37c92cc5556a0fc3400051587f7",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/05_locked_test_acceptance.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/05_locked_test_acceptance.pdf",
+      "source_sha256": "9fbd33ac043ad7b30c5c703b27b74448eac4c32d21497c308b0c6c3e956eb7a8",
+      "published_sha256": "9fbd33ac043ad7b30c5c703b27b74448eac4c32d21497c308b0c6c3e956eb7a8",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/04_shared_case_decisions.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/04_shared_case_decisions.pdf",
+      "source_sha256": "2d8569b38527d9af2233903753e5722a546dbd87f812e4945ae14685af57b707",
+      "published_sha256": "2d8569b38527d9af2233903753e5722a546dbd87f812e4945ae14685af57b707",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/02_response_length_and_time.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/02_response_length_and_time.pdf",
+      "source_sha256": "35a94d4e3a8a255955463d22cad90a1360b3fc84ee72cbc792a86d65c84df25e",
+      "published_sha256": "35a94d4e3a8a255955463d22cad90a1360b3fc84ee72cbc792a86d65c84df25e",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/06_pilot_decision_quality.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/06_pilot_decision_quality.pdf",
+      "source_sha256": "77f70785edf2a547bdb384a8cf68f1b293c494af5f6aacf4f50ac200185cd681",
+      "published_sha256": "77f70785edf2a547bdb384a8cf68f1b293c494af5f6aacf4f50ac200185cd681",
+      "local_home_redactions": 0
+    },
+    {
+      "file": "OT_Lab_Results_2026-10-04/output/pdf/OT_Lab_Results_2026-10-04.pdf",
+      "source": "water-ot-ai-lab/research_Findings/OT_Lab_Results_2026-10-04/output/pdf/OT_Lab_Results_2026-10-04.pdf",
+      "source_sha256": "1e2de185b4838e1d1aad5d0c5bdd661275fcf21987303e301854f6f4014d83dd",
+      "published_sha256": "1e2de185b4838e1d1aad5d0c5bdd661275fcf21987303e301854f6f4014d83dd",
+      "local_home_redactions": 0
+    }
+  ]
+}

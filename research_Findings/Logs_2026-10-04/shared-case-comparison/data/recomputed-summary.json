@@ -1,0 +1,74 @@
+{
+  "Qwen3-30B-A3B": {
+    "valid": 399,
+    "correct": 200,
+    "assessment_supported": 99,
+    "reference_errors": 0,
+    "categories": {
+      "adjust": {
+        "correct": 0,
+        "n": 80
+      },
+      "critical": {
+        "correct": 120,
+        "n": 160
+      },
+      "hold": {
+        "correct": 80,
+        "n": 80
+      },
+      "prerequisite": {
+        "correct": 0,
+        "n": 80
+      }
+    }
+  },
+  "Fine-tuned Qwen3-4B": {
+    "valid": 397,
+    "correct": 288,
+    "assessment_supported": 286,
+    "reference_errors": 0,
+    "categories": {
+      "adjust": {
+        "correct": 7,
+        "n": 80
+      },
+      "critical": {
+        "correct": 159,
+        "n": 160
+      },
+      "hold": {
+        "correct": 79,
+        "n": 80
+      },
+      "prerequisite": {
+        "correct": 43,
+        "n": 80
+      }
+    }
+  },
+  "Jev typed-choice": {
+    "valid": 400,
+    "correct": 356,
+    "assessment_supported": 356,
+    "reference_errors": 0,
+    "categories": {
+      "adjust": {
+        "correct": 77,
+        "n": 80
+      },
+      "critical": {
+        "correct": 160,
+        "n": 160
+      },
+      "hold": {
+        "correct": 80,
+        "n": 80
+      },
+      "prerequisite": {
+        "correct": 39,
+        "n": 80
+      }
+    }
+  }
+}

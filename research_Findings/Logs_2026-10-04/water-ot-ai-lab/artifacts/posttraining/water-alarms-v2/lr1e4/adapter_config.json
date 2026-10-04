@@ -1,0 +1,41 @@
+{
+    "adapter_path": "<LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4",
+    "batch_size": 1,
+    "clear_cache_threshold": 0,
+    "config": null,
+    "data": "<LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/training-data",
+    "fine_tune_type": "lora",
+    "grad_accumulation_steps": 1,
+    "grad_checkpoint": true,
+    "iters": 160,
+    "learning_rate": 0.0001,
+    "lora_parameters": {
+        "rank": 8,
+        "dropout": 0.0,
+        "scale": 20.0
+    },
+    "lr_schedule": null,
+    "mask_prompt": true,
+    "max_seq_length": 4096,
+    "model": "<LOCAL_HOME>/.cache/huggingface/hub/models--mlx-community--Qwen3-4B-4bit/snapshots/4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25",
+    "num_layers": 4,
+    "optimizer": "adam",
+    "optimizer_config": {
+        "adam": {},
+        "adamw": {},
+        "muon": {},
+        "sgd": {},
+        "adafactor": {}
+    },
+    "project_name": null,
+    "report_to": null,
+    "resume_adapter_file": null,
+    "save_every": 80,
+    "seed": 42,
+    "steps_per_eval": 80,
+    "steps_per_report": 10,
+    "test": false,
+    "test_batches": 500,
+    "train": true,
+    "val_batches": 4
+}

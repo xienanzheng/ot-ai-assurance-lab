@@ -1,0 +1,12 @@
+{
+  "typed_manifest_sha256": "84397b908660c63cd7b77c8840dbae383a7358b64b8881f67cb769d41afef32f",
+  "pilot_sha256": "c2934b6f7ac880720d80c2e98d4535b82ea6b56140736eb388cfe97bc4e3dff2",
+  "weights": {
+    "adapter_sha256": "f57cba7ba011fb05c3f16f8960891edb623304910337b6293ed6455ba4258639",
+    "config_sha256": "c969a0e5df66c349d55a8e2594ac77695ea331711d0e8df685049be2dafa6ba0",
+    "approved": false
+  },
+  "temperature": 0,
+  "max_output": 256,
+  "thinking": false
+}

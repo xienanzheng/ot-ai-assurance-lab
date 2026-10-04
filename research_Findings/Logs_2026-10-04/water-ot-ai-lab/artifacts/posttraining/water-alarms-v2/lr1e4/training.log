@@ -1,0 +1,30 @@
+Loading pretrained model
+Loading datasets
+Training
+Trainable parameters: 0.046% (1.835M/4022.468M)
+Starting training..., iters: 160
+Calculating loss...:   0%|          | 0/4 [00:00<?, ?it/s]Calculating loss...:  25%|██▌       | 1/4 [00:08<00:25,  8.67s/it]Calculating loss...:  50%|█████     | 2/4 [00:17<00:17,  8.97s/it]Calculating loss...:  75%|███████▌  | 3/4 [00:27<00:09,  9.12s/it]Calculating loss...: 100%|██████████| 4/4 [00:36<00:00,  9.08s/it]Calculating loss...: 100%|██████████| 4/4 [00:36<00:00,  9.04s/it]
+Iter 1: Val loss 2.006, Val took 36.199s
+Iter 10: Train loss 0.744, Learning Rate 1.000e-04, It/sec 0.067, Tokens/sec 3.835, Trained Tokens 576, Peak mem 5.596 GB
+Iter 20: Train loss 0.310, Learning Rate 1.000e-04, It/sec 0.067, Tokens/sec 3.635, Trained Tokens 1122, Peak mem 5.726 GB
+Iter 30: Train loss 0.234, Learning Rate 1.000e-04, It/sec 0.062, Tokens/sec 3.744, Trained Tokens 1725, Peak mem 5.726 GB
+Iter 40: Train loss 0.185, Learning Rate 1.000e-04, It/sec 0.065, Tokens/sec 3.452, Trained Tokens 2259, Peak mem 5.726 GB
+Iter 50: Train loss 0.166, Learning Rate 1.000e-04, It/sec 0.064, Tokens/sec 3.814, Trained Tokens 2852, Peak mem 5.726 GB
+Iter 60: Train loss 0.122, Learning Rate 1.000e-04, It/sec 0.065, Tokens/sec 3.634, Trained Tokens 3412, Peak mem 5.726 GB
+Iter 70: Train loss 0.104, Learning Rate 1.000e-04, It/sec 0.061, Tokens/sec 3.715, Trained Tokens 4017, Peak mem 5.726 GB
+Calculating loss...:   0%|          | 0/4 [00:00<?, ?it/s]Calculating loss...:  25%|██▌       | 1/4 [00:09<00:27,  9.12s/it]Calculating loss...:  50%|█████     | 2/4 [00:18<00:18,  9.29s/it]Calculating loss...:  75%|███████▌  | 3/4 [00:27<00:09,  9.26s/it]Calculating loss...: 100%|██████████| 4/4 [00:36<00:00,  9.23s/it]Calculating loss...: 100%|██████████| 4/4 [00:36<00:00,  9.23s/it]
+Iter 80: Val loss 0.138, Val took 36.935s
+Iter 80: Train loss 0.083, Learning Rate 1.000e-04, It/sec 0.063, Tokens/sec 3.500, Trained Tokens 4575, Peak mem 5.726 GB
+Iter 80: Saved adapter weights to <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/adapters.safetensors and <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/0000080_adapters.safetensors.
+Iter 90: Train loss 0.123, Learning Rate 1.000e-04, It/sec 0.060, Tokens/sec 3.337, Trained Tokens 5127, Peak mem 5.726 GB
+Iter 100: Train loss 0.109, Learning Rate 1.000e-04, It/sec 0.068, Tokens/sec 4.031, Trained Tokens 5719, Peak mem 5.726 GB
+Iter 110: Train loss 0.065, Learning Rate 1.000e-04, It/sec 0.064, Tokens/sec 3.409, Trained Tokens 6252, Peak mem 5.733 GB
+Iter 120: Train loss 0.054, Learning Rate 1.000e-04, It/sec 0.056, Tokens/sec 3.187, Trained Tokens 6826, Peak mem 5.733 GB
+Iter 130: Train loss 0.073, Learning Rate 1.000e-04, It/sec 0.065, Tokens/sec 3.691, Trained Tokens 7391, Peak mem 5.733 GB
+Iter 140: Train loss 0.048, Learning Rate 1.000e-04, It/sec 0.068, Tokens/sec 4.206, Trained Tokens 8007, Peak mem 5.733 GB
+Iter 150: Train loss 0.049, Learning Rate 1.000e-04, It/sec 0.069, Tokens/sec 3.720, Trained Tokens 8550, Peak mem 5.733 GB
+Calculating loss...:   0%|          | 0/4 [00:00<?, ?it/s]Calculating loss...:  25%|██▌       | 1/4 [00:08<00:26,  8.74s/it]Calculating loss...:  50%|█████     | 2/4 [00:17<00:17,  8.76s/it]Calculating loss...:  75%|███████▌  | 3/4 [00:26<00:08,  8.89s/it]Calculating loss...: 100%|██████████| 4/4 [00:35<00:00,  8.79s/it]Calculating loss...: 100%|██████████| 4/4 [00:35<00:00,  8.80s/it]
+Iter 160: Val loss 0.026, Val took 35.216s
+Iter 160: Train loss 0.062, Learning Rate 1.000e-04, It/sec 0.069, Tokens/sec 4.175, Trained Tokens 9157, Peak mem 5.733 GB
+Iter 160: Saved adapter weights to <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/adapters.safetensors and <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/0000160_adapters.safetensors.
+Saved final weights to <LOCAL_HOME>/Desktop/Berkeley/School/Sem 3 MIMS/M3 Fellowship/water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr1e4/adapters.safetensors.

@@ -1,0 +1,32 @@
+{
+  "sources_sha256": {
+    "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/base-latency.json": "4d216947779ec41521efa184a322f049bf3828aaedd01258f1c7b3e8d45cc970",
+    "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-latency.json": "d8126b2fd48cad27d376e0ae20eeaf181c4f7d658b5e1ab48122a188113bb987",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base.jsonl": "9f613aa174101d37acd1f5c9c1121a1aa94ad50d594132aa1b5b27b606032250",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-base-summary.json": "dcfb0d0b38020a2682852455864b78f2b923d993c336cc76bd62c66ecde5c4a8",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter.jsonl": "323dfedd40f5e5b6ec0f1a630030c6c7ed59eec38a5acef1f36197679df56025",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-adapter-summary.json": "d79e4ba61daba8069b1d56fbdd447c30a6b52229ca1c280022603fc0e78336fa",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base.jsonl": "ba0ba846a3a6b9de4110d5843bb1c2a57bd0c8bd7e3afeddb1f203478a239c27",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-base-summary.json": "79c6a74c2de69d61da8551416a85d43c6da16ea2092935aafbc0df760a32edd6",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter.jsonl": "228ec2297f2672f34749d5e736a1648aaead7547e62549105506336b2a4dc8bb",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-typed-adapter-summary.json": "86b23403a5265a8cd32d998364790ca6dd18a474d4c7311355de4a0a0aa4bbac",
+    "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5/training.log": "644449a934115e8f7512bd4d4a4d63bbd5d9b9cb3a128c31fd43ace698f8a2ca",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-run.log": "ae3cac6d9faaf02ace2ab83436bf52d68d1744eb9505fbe6a7ab1576e1209298",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/typed-run.log": "776f829e88b43a5d120430ea531a28f604bdd5e9aa93d8f1525bff69fe904771",
+    "SPAIS_Paper_V1/data/valid.cases.jsonl": "e1ae2209014659fb663b1075dc1d772727bb64359ff7bf21e9122f77b4ceae33",
+    "SPAIS_Paper_V1/data/cloud-responses.jsonl": "294867aa00376d175352fc72ba3a04c6340c33f064708ff9f77fa3a6c34a06bb",
+    "SPAIS_Paper_V1/data/lr5e5-valid.jsonl": "b8bc5db5c4be9c6bb79ce4e6d9c5650c6a4df3aef348244b66d11a85fd2d774e",
+    "SPAIS_Paper_V1/data/jev-responses.jsonl": "1f50909da08a2da48f144981f0a5682127a3e4572e2619858bfa0022856c9528",
+    "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/test.cases.jsonl": "621bc82540078fc0630f11817aa47daaccd19ca338a1a96fed71c923afaea56f",
+    "water-ot-ai-lab/artifacts/posttraining/water-alarms-v2/lr5e5-test.jsonl": "9179bfdf4858fe41279b39628c188c14e6ab2c78d9062bca6d8826cf353e7090",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/valid.cases.jsonl": "83d99f90bf8981d69574108cde29e64e3840e9200b939c08bb6e0b6b1f7b707f",
+    "water-ot-ai-lab/artifacts/posttraining/water-context-v3-pilot/local-assisted-previous.jsonl": "d9867fe25e76d4c69266162ee965ad711623bc6fa03c7c985a22ae4f4b3c5c89",
+    "water-ot-ai-lab/artifacts/retrieval-v2/evaluation.json": "f933ac91e7f6eacbb6b10e10a331b52f0c2dc888ab9d2502e92483d17efc0a16"
+  },
+  "policy": "Read-only, no network/model calls, no training; all original evidence unchanged.",
+  "p95_methods": {
+    "v2": "sorted warm timings, index floor(.95*(n-1))",
+    "pilot": "sorted successful warm timings, index min(n-1,floor(.95*n))"
+  },
+  "runtime": "Historical local MLX on this Apple Silicon development machine; current machine Apple M4 / 24 GB. No power, thermal or energy telemetry saved."
+}

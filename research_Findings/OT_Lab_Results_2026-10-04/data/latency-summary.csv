@@ -1,0 +1,7 @@
+experiment,model,warm_n,median_seconds,p95_seconds
+Original alarm adapter 160 updates,Base,31,13.612943207990611,17.81349941600638
+Original alarm adapter 160 updates,Adapter,31,6.265245250004227,6.741959374994622
+Assisted context 80 updates,Base,31,10.284986416998436,13.123025165987201
+Assisted context 80 updates,Adapter,31,7.675243042001966,8.384396583991474
+Compact choices 80 updates,Base,31,6.488459042011527,7.264748749992577
+Compact choices 80 updates,Adapter,31,6.197244082999532,6.418390625010943
