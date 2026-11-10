@@ -8,7 +8,7 @@ Three ways to use this package:
 | Try the water/cooling bench | Docker; Ollama optional | Section 2 |
 | Train your own research adapter | Apple Silicon Mac; Python 3.13; MLX | [Training guide](TRAINING.md) |
 
-For the larger water/nuclear/grid application, use the [main lab guide](../../docs/QUICKSTART.md). This workshop is a standalone V2 package with simpler water/cooling dynamics.
+For the larger water/nuclear/grid application, use the [main lab guide](https://github.com/xienanzheng/ot-ai-assurance-lab/blob/docs/friends-quickstart/docs/QUICKSTART.md). This workshop is a standalone V2 package with simpler water/cooling dynamics.
 
 ## 1. Install and inspect
 
