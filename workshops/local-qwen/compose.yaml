@@ -1,0 +1,42 @@
+name: ot-qwen-workshop
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: bench
+      POSTGRES_DB: bench
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Run scripts/preflight.py --init first}
+    volumes: ["v2-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bench -d bench"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+  controller:
+    build: .
+    command: ["uvicorn", "v2.controller_service:factory", "--factory", "--host", "0.0.0.0", "--port", "8092"]
+    environment: &environment
+      DATABASE_URL: postgresql+psycopg://bench:${DB_PASSWORD}@database/bench
+      SERVICE_TOKEN: ${SERVICE_TOKEN:?Run scripts/preflight.py --init first}
+      PROCESS_PACKAGE: ${PROCESS_PACKAGE:-water}
+    depends_on:
+      database: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,urllib.request; urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8092/snapshot',headers={'X-V2-Token':os.environ['SERVICE_TOKEN']}))"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    ports: ["127.0.0.1:18840:4840"]
+  app:
+    build: .
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    environment:
+      <<: *environment
+      OLLAMA_URL: http://host.docker.internal:11434
+      QWEN_MODEL: ${QWEN_MODEL:-qwen3:4b}
+      AUDIT_MODEL: ${AUDIT_MODEL:-gemma3:4b}
+    depends_on:
+      controller: {condition: service_healthy}
+    ports: ["127.0.0.1:18790:8090"]
+volumes:
+  v2-data:

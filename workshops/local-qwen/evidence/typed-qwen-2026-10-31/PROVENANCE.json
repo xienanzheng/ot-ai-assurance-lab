@@ -1,0 +1,11 @@
+{
+  "evaluated_source_revision": "20a709fd780dab3f1a92bf925802544f6649d05b",
+  "packaged_source_revision": "9278a4c",
+  "evaluated_model": "mlx-community/Qwen3-4B-4bit",
+  "model_revision": "4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25",
+  "files": {
+    "base-test.rows.jsonl": "39f469de99f2619948d1b7e290827e3edbfa8425c061500be84fe5ded5b9e36c",
+    "selected-test.rows.jsonl": "13691200d30d1910562780cab86142f32a88615aabeaa60c074bfbc42d42eab9"
+  },
+  "note": "Historical simulated evaluation rows. Packaging portability changes do not revalidate or promote this adapter."
+}

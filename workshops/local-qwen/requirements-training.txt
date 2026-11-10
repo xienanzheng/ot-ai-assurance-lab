@@ -1,0 +1,7 @@
+# Recorded Apple Silicon training environment. Use Python 3.13.
+-e .[test]
+mlx==0.32.2
+mlx-lm==0.31.3
+transformers==5.17.0
+numpy==2.5.3
+huggingface-hub==1.33.0

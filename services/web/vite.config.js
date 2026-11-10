@@ -16,7 +16,7 @@ export default defineConfig({
     port: 18773,
     strictPort: true,
     proxy: {
-      "/api": "http://localhost:18780",
+      "/api": { target: "http://127.0.0.1:18780", ws: true },
     },
   },
 });

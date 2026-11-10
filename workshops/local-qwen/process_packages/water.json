@@ -1,0 +1,42 @@
+{
+  "schema_version": "1",
+  "version": "1.0.0",
+  "response_seconds": 60,
+  "observe_seconds": 90,
+  "sustain_seconds": 30,
+  "max_episode_seconds": 600,
+  "id": "water",
+  "title": "Water \u00b7 disinfection bench",
+  "sensor": "chlorine_residual",
+  "unit": "mg/L",
+  "capability": "set_residual_target",
+  "initial_value": 1.4,
+  "initial_target": 1.2,
+  "minimum": 0.6,
+  "maximum": 1.5,
+  "max_delta": 0.2,
+  "max_excursion": 0.4,
+  "objective": [
+    0.95,
+    1.1
+  ],
+  "critical_limits": [
+    0.2,
+    2.0
+  ],
+  "disturbance": 0.25,
+  "sop": [
+    "Critical or latched protection: escalate without an action.",
+    "For noncritical elevated residual with good flow, propose a bounded lower target.",
+    "Wait for mixing and measurement response before another adjustment."
+  ],
+  "checks": {
+    "verify_flow": "Verify flow feedback.",
+    "verify_sensor": "Compare the residual sensor with an independent reading.",
+    "verify_protection": "Verify critical alarms and latched protection with the operator."
+  },
+  "relationships": [
+    "Target changes feed the baseline regulator; measured residual approaches the target over time.",
+    "No flow or an active override invalidates routine adjustment."
+  ]
+}

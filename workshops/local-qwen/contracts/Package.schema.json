@@ -1,0 +1,167 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "sensor": {
+      "title": "Sensor",
+      "type": "string"
+    },
+    "unit": {
+      "title": "Unit",
+      "type": "string"
+    },
+    "capability": {
+      "title": "Capability",
+      "type": "string"
+    },
+    "initial_value": {
+      "title": "Initial Value",
+      "type": "number"
+    },
+    "initial_target": {
+      "title": "Initial Target",
+      "type": "number"
+    },
+    "minimum": {
+      "title": "Minimum",
+      "type": "number"
+    },
+    "maximum": {
+      "title": "Maximum",
+      "type": "number"
+    },
+    "max_delta": {
+      "exclusiveMinimum": 0,
+      "title": "Max Delta",
+      "type": "number"
+    },
+    "max_excursion": {
+      "exclusiveMinimum": 0,
+      "title": "Max Excursion",
+      "type": "number"
+    },
+    "objective": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Objective",
+      "type": "array"
+    },
+    "critical_limits": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Critical Limits",
+      "type": "array"
+    },
+    "response_seconds": {
+      "exclusiveMinimum": 0,
+      "title": "Response Seconds",
+      "type": "number"
+    },
+    "observe_seconds": {
+      "exclusiveMinimum": 0,
+      "title": "Observe Seconds",
+      "type": "number"
+    },
+    "sustain_seconds": {
+      "exclusiveMinimum": 0,
+      "title": "Sustain Seconds",
+      "type": "number"
+    },
+    "max_episode_seconds": {
+      "exclusiveMinimum": 0,
+      "title": "Max Episode Seconds",
+      "type": "number"
+    },
+    "disturbance": {
+      "title": "Disturbance",
+      "type": "number"
+    },
+    "max_decision_age": {
+      "default": 30,
+      "exclusiveMinimum": 0,
+      "maximum": 60,
+      "title": "Max Decision Age",
+      "type": "number"
+    },
+    "sop": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Sop",
+      "type": "array"
+    },
+    "checks": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Checks",
+      "type": "object"
+    },
+    "relationships": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Relationships",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "title",
+    "sensor",
+    "unit",
+    "capability",
+    "initial_value",
+    "initial_target",
+    "minimum",
+    "maximum",
+    "max_delta",
+    "max_excursion",
+    "objective",
+    "critical_limits",
+    "response_seconds",
+    "observe_seconds",
+    "sustain_seconds",
+    "max_episode_seconds",
+    "disturbance",
+    "sop",
+    "checks",
+    "relationships"
+  ],
+  "title": "Package",
+  "type": "object"
+}

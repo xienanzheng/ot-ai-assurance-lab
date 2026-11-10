@@ -1,0 +1,54 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "enum": [
+        "hold",
+        "adjust",
+        "escalate"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Target"
+    },
+    "rationale": {
+      "maxLength": 1200,
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "operator_checks": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Operator Checks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "status",
+    "rationale"
+  ],
+  "title": "Proposal",
+  "type": "object"
+}

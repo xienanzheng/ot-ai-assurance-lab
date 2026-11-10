@@ -1,0 +1,42 @@
+{
+  "schema_version": "1",
+  "version": "1.0.0",
+  "response_seconds": 60,
+  "observe_seconds": 90,
+  "sustain_seconds": 30,
+  "max_episode_seconds": 600,
+  "id": "cooling",
+  "title": "Cooling \u00b7 thermal bench",
+  "sensor": "supply_temperature",
+  "unit": "degC",
+  "capability": "set_cooling_target",
+  "initial_value": 14,
+  "initial_target": 12,
+  "minimum": 8,
+  "maximum": 16,
+  "max_delta": 1,
+  "max_excursion": 3,
+  "objective": [
+    10.5,
+    11.5
+  ],
+  "critical_limits": [
+    5,
+    22
+  ],
+  "disturbance": 2,
+  "sop": [
+    "Critical or latched protection: escalate without an action.",
+    "With reliable flow, a modest lower cooling target can reduce elevated supply temperature.",
+    "Wait for the thermal response before adjusting again."
+  ],
+  "checks": {
+    "verify_flow": "Verify coolant flow.",
+    "verify_sensor": "Compare supply and return instrumentation.",
+    "verify_protection": "Ask the operator to verify equipment protection."
+  },
+  "relationships": [
+    "Cooling target affects supply temperature with thermal lag.",
+    "Flow is required for heat transfer; loss of flow invalidates adjustment."
+  ]
+}

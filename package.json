@@ -1,0 +1,27 @@
+{
+  "name": "ot-ai-assurance-lab-dev",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "postinstall": "node scripts/develop.mjs install",
+    "setup": "node scripts/develop.mjs setup",
+    "doctor": "node scripts/develop.mjs doctor",
+    "dev": "npm --prefix services/web run dev",
+    "dev:workshop": "npm --prefix workshops/local-qwen run dev",
+    "build": "npm --prefix services/web run build",
+    "build:workshop": "npm --prefix workshops/local-qwen run build",
+    "lab:up": "node scripts/develop.mjs up",
+    "lab:down": "node scripts/develop.mjs down",
+    "bench:up": "npm --prefix workshops/local-qwen run bench:up",
+    "bench:down": "npm --prefix workshops/local-qwen run bench:down",
+    "test:workshop": "npm --prefix workshops/local-qwen test",
+    "test:tools": "node --test tests/develop.test.mjs workshops/local-qwen/tests/devtools.test.mjs",
+    "review": "npm --prefix workshops/local-qwen run review",
+    "train:setup": "npm --prefix workshops/local-qwen run train:setup",
+    "train:model": "npm --prefix workshops/local-qwen run train:model",
+    "train": "npm --prefix workshops/local-qwen run train --",
+    "package": "node scripts/develop.mjs package"
+  }
+}
