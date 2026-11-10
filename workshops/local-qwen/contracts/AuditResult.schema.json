@@ -1,0 +1,31 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "enum": [
+        "passed",
+        "flagged",
+        "unavailable"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "reason": {
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    },
+    "proposal_hash": {
+      "title": "Proposal Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "reason",
+    "proposal_hash"
+  ],
+  "title": "AuditResult",
+  "type": "object"
+}

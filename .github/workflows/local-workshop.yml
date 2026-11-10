@@ -1,0 +1,23 @@
+name: Local Qwen workshop checks
+on:
+  push:
+    paths: ['workshops/local-qwen/**', 'scripts/setup_local.py', 'tests/test_setup_local.py', '.github/workflows/local-workshop.yml']
+  pull_request:
+    paths: ['workshops/local-qwen/**', 'scripts/setup_local.py', 'tests/test_setup_local.py', '.github/workflows/local-workshop.yml']
+permissions:
+  contents: read
+jobs:
+  cpu-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -e '.[test]'
+        working-directory: workshops/local-qwen
+      - run: python -m pytest -q
+        working-directory: workshops/local-qwen
+      - run: python scripts/review_saved_results.py
+        working-directory: workshops/local-qwen
+      - run: python -m pytest tests/test_setup_local.py -q

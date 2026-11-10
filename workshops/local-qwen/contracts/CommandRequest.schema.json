@@ -1,0 +1,271 @@
+{
+  "$defs": {
+    "AuditResult": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "passed",
+            "flagged",
+            "unavailable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "proposal_hash": {
+          "title": "Proposal Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "proposal_hash"
+      ],
+      "title": "AuditResult",
+      "type": "object"
+    },
+    "Measurement": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "source_time": {
+          "title": "Source Time",
+          "type": "number"
+        },
+        "quality": {
+          "default": "good",
+          "enum": [
+            "good",
+            "bad",
+            "uncertain"
+          ],
+          "title": "Quality",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit",
+        "source_time"
+      ],
+      "title": "Measurement",
+      "type": "object"
+    },
+    "Proposal": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "hold",
+            "adjust",
+            "escalate"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "rationale": {
+          "maxLength": 1200,
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "operator_checks": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Operator Checks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "status",
+        "rationale"
+      ],
+      "title": "Proposal",
+      "type": "object"
+    },
+    "Snapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1",
+          "default": "1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "site": {
+          "title": "Site",
+          "type": "string"
+        },
+        "package_hash": {
+          "title": "Package Hash",
+          "type": "string"
+        },
+        "generation": {
+          "title": "Generation",
+          "type": "string"
+        },
+        "sequence": {
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "source_time": {
+          "title": "Source Time",
+          "type": "number"
+        },
+        "process_time": {
+          "minimum": 0,
+          "title": "Process Time",
+          "type": "number"
+        },
+        "target": {
+          "title": "Target",
+          "type": "number"
+        },
+        "armed": {
+          "title": "Armed",
+          "type": "boolean"
+        },
+        "readings": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Measurement"
+          },
+          "title": "Readings",
+          "type": "object"
+        },
+        "critical": {
+          "default": false,
+          "title": "Critical",
+          "type": "boolean"
+        },
+        "trip_latched": {
+          "default": false,
+          "title": "Trip Latched",
+          "type": "boolean"
+        },
+        "override": {
+          "default": false,
+          "title": "Override",
+          "type": "boolean"
+        },
+        "wait_until": {
+          "default": 0,
+          "title": "Wait Until",
+          "type": "number"
+        },
+        "connection_epoch": {
+          "default": "",
+          "title": "Connection Epoch",
+          "type": "string"
+        },
+        "received_at": {
+          "default": 0,
+          "title": "Received At",
+          "type": "number"
+        }
+      },
+      "required": [
+        "site",
+        "package_hash",
+        "generation",
+        "sequence",
+        "source_time",
+        "process_time",
+        "target",
+        "armed",
+        "readings"
+      ],
+      "title": "Snapshot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/Snapshot"
+    },
+    "proposal": {
+      "$ref": "#/$defs/Proposal"
+    },
+    "issued_at": {
+      "title": "Issued At",
+      "type": "number"
+    },
+    "expires_at": {
+      "title": "Expires At",
+      "type": "number"
+    },
+    "policy": {
+      "default": "off",
+      "enum": [
+        "off",
+        "observe",
+        "required"
+      ],
+      "title": "Policy",
+      "type": "string"
+    },
+    "audit": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AuditResult"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "id",
+    "snapshot",
+    "proposal",
+    "issued_at",
+    "expires_at"
+  ],
+  "title": "CommandRequest",
+  "type": "object"
+}

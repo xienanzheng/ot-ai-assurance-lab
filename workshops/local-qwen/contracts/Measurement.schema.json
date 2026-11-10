@@ -1,0 +1,34 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "value": {
+      "title": "Value",
+      "type": "number"
+    },
+    "unit": {
+      "title": "Unit",
+      "type": "string"
+    },
+    "source_time": {
+      "title": "Source Time",
+      "type": "number"
+    },
+    "quality": {
+      "default": "good",
+      "enum": [
+        "good",
+        "bad",
+        "uncertain"
+      ],
+      "title": "Quality",
+      "type": "string"
+    }
+  },
+  "required": [
+    "value",
+    "unit",
+    "source_time"
+  ],
+  "title": "Measurement",
+  "type": "object"
+}

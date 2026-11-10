@@ -1,5 +1,7 @@
 # Critical Infrastructure AI Control Lab
 
+**New here?** [Quick installation](docs/QUICKSTART.md) · [Local Qwen post-training workshop](workshops/local-qwen/QUICKSTART.md) · [What we trained and measured](docs/LOCAL_POSTTRAINING.md)
+
 [Online simulator](https://ot-aigent-simulation.night-zone.com) · [Recorded findings](https://ot-aigent-simulation.night-zone.com/research.html) · [Hosted simulator setup](docs/HOSTED_SIMULATOR.md) · [Reviewed lesson memory](docs/REVIEWED_MEMORY.md) · [MIT license](LICENSE)
 
 This is an open-source research prototype. The online simulator provides isolated, temporary water, nuclear and grid sessions with Qwen on Cloudflare Workers AI and optional Jev through OpenRouter. Select **Start a simulation** to enter your control room; recorded experiments remain available under **Explore recorded findings**. To run the lab locally, use the quick start below. Local rule-based controls work without a model; local AI features use Ollama.

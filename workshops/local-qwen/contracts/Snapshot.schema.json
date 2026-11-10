@@ -1,0 +1,131 @@
+{
+  "$defs": {
+    "Measurement": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "source_time": {
+          "title": "Source Time",
+          "type": "number"
+        },
+        "quality": {
+          "default": "good",
+          "enum": [
+            "good",
+            "bad",
+            "uncertain"
+          ],
+          "title": "Quality",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit",
+        "source_time"
+      ],
+      "title": "Measurement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "site": {
+      "title": "Site",
+      "type": "string"
+    },
+    "package_hash": {
+      "title": "Package Hash",
+      "type": "string"
+    },
+    "generation": {
+      "title": "Generation",
+      "type": "string"
+    },
+    "sequence": {
+      "minimum": 0,
+      "title": "Sequence",
+      "type": "integer"
+    },
+    "source_time": {
+      "title": "Source Time",
+      "type": "number"
+    },
+    "process_time": {
+      "minimum": 0,
+      "title": "Process Time",
+      "type": "number"
+    },
+    "target": {
+      "title": "Target",
+      "type": "number"
+    },
+    "armed": {
+      "title": "Armed",
+      "type": "boolean"
+    },
+    "readings": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Measurement"
+      },
+      "title": "Readings",
+      "type": "object"
+    },
+    "critical": {
+      "default": false,
+      "title": "Critical",
+      "type": "boolean"
+    },
+    "trip_latched": {
+      "default": false,
+      "title": "Trip Latched",
+      "type": "boolean"
+    },
+    "override": {
+      "default": false,
+      "title": "Override",
+      "type": "boolean"
+    },
+    "wait_until": {
+      "default": 0,
+      "title": "Wait Until",
+      "type": "number"
+    },
+    "connection_epoch": {
+      "default": "",
+      "title": "Connection Epoch",
+      "type": "string"
+    },
+    "received_at": {
+      "default": 0,
+      "title": "Received At",
+      "type": "number"
+    }
+  },
+  "required": [
+    "site",
+    "package_hash",
+    "generation",
+    "sequence",
+    "source_time",
+    "process_time",
+    "target",
+    "armed",
+    "readings"
+  ],
+  "title": "Snapshot",
+  "type": "object"
+}
