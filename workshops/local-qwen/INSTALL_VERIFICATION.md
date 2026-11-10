@@ -11,3 +11,15 @@
 - New package checked for credential patterns; credentials, weights and private visitor/presentation files excluded.
 
 The Mac checks do not establish native Windows/Linux installation success. GitHub CI is configured to run the CPU checks on Linux. No new GPU training, teacher calls, adapter promotion, site deployment or physical-plant test was performed.
+
+## npm developer package
+
+- Root `npm install` installed both frontends using their lockfiles; `npm run setup` created a new workshop Python environment.
+- `npm run test:workshop`: 150 passed. npm helper tests: 10 passed, including Windows Python discovery, argument boundaries and package exclusions.
+- Main and workshop React production builds passed.
+- `npm run bench:up` started the isolated `ot-qwen-workshop` project. The Vite UI at 18791 received JSON from 18790, accepted same-origin traffic and rejected a cross-origin request. A fixture proposal received an applied controller receipt for 1.0 mg/L through that proxy.
+- A temporary visible source edit was served by Vite; the original source was restored afterwards.
+- `npm run package` checked the file list before creating the tarball. Python caches, credentials, model weights, environments, dependencies and generated experiments were excluded.
+- Extracted the tarball into a new folder; `npm install`, automatic ignore-rule creation and `npm run build` passed there.
+
+These checks exercise the npm setup and integration path. They make no new claim about model accuracy or training performance.

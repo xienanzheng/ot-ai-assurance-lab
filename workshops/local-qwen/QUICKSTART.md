@@ -1,5 +1,7 @@
 # Local Qwen workshop
 
+**Want to edit the app?** Use the [npm developer setup](DEVELOPMENT.md): `npm install`, `npm run setup`, `npm run bench:up`, `npm run dev`. The manual paths below remain available.
+
 Three ways to use this package:
 
 | Goal | Needs | Start |

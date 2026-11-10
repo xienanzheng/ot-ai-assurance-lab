@@ -1,4 +1,4 @@
-name: water-ot-ai-lab-v2
+name: ot-qwen-workshop
 services:
   database:
     image: postgres:16-alpine

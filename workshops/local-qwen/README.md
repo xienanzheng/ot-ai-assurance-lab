@@ -1,6 +1,6 @@
 # Local OT assurance bench — V2
 
-**Workshop entry:** [Quick start](QUICKSTART.md) · [Offline training](TRAINING.md) · [Recorded results](docs/TYPED_QWEN_EXPERIMENT.md)
+**Workshop entry:** [Edit with npm](DEVELOPMENT.md) · [Quick start](QUICKSTART.md) · [Offline training](TRAINING.md) · [Recorded results](docs/TYPED_QWEN_EXPERIMENT.md)
 
 A standalone local integration bench: capture measurements, ask a model for a bounded proposal, check it independently, obtain a controller acknowledgement, and observe the delayed process response.
 

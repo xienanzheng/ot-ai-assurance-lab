@@ -1,5 +1,7 @@
 # Run the lab on your computer
 
+For editable React frontends and npm commands, use the [developer quick start](DEVELOPMENT.md). The Docker-first path below does not require Node.js.
+
 Start here if you want to try the water, nuclear and grid simulators. No API key or paid service is required for local Qwen. The model and container images download on first setup.
 
 ## 1. Install prerequisites

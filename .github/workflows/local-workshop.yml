@@ -1,9 +1,9 @@
 name: Local Qwen workshop checks
 on:
   push:
-    paths: ['workshops/local-qwen/**', 'scripts/setup_local.py', 'tests/test_setup_local.py', '.github/workflows/local-workshop.yml']
+    paths: ['workshops/local-qwen/**', 'package*.json', 'scripts/develop.mjs', 'tests/develop.test.mjs', 'scripts/setup_local.py', 'tests/test_setup_local.py', '.github/workflows/local-workshop.yml']
   pull_request:
-    paths: ['workshops/local-qwen/**', 'scripts/setup_local.py', 'tests/test_setup_local.py', '.github/workflows/local-workshop.yml']
+    paths: ['workshops/local-qwen/**', 'package*.json', 'scripts/develop.mjs', 'tests/develop.test.mjs', 'scripts/setup_local.py', 'tests/test_setup_local.py', '.github/workflows/local-workshop.yml']
 permissions:
   contents: read
 jobs:
@@ -14,10 +14,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: python -m pip install -e '.[test]'
-        working-directory: workshops/local-qwen
-      - run: python -m pytest -q
-        working-directory: workshops/local-qwen
-      - run: python scripts/review_saved_results.py
-        working-directory: workshops/local-qwen
-      - run: python -m pytest tests/test_setup_local.py -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run test:tools
+      - run: npm run setup
+      - run: npm run test:workshop
+      - run: npm run build:workshop
+      - run: npm run package
+      - run: npm run review
+      - run: workshops/local-qwen/.venv/bin/python -m pytest tests/test_setup_local.py -q

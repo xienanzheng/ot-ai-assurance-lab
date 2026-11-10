@@ -8,6 +8,8 @@ Use branch **`docs/friends-quickstart`** for the installation guides and package
 |---|---|
 | Main simulator source | Repository root |
 | First-install guide and configuration helper | `docs/QUICKSTART.md`, `scripts/setup_local.py` |
+| Editable npm developer starter | `docs/DEVELOPMENT.md`, root `package.json` |
+| Standalone npm workshop package | `workshops/local-qwen/DEVELOPMENT.md`; `npm run package` |
 | Explanation of training versus context changes | `docs/LOCAL_POSTTRAINING.md` |
 | Standalone water/cooling V2 bench | `workshops/local-qwen/` |
 | Local LoRA procedure, cases, SOPs and tests | Workshop `TRAINING.md`, `training/`, `process_packages/`, `tests/` |

@@ -1,6 +1,6 @@
 # Critical Infrastructure AI Control Lab
 
-**New here?** [Quick installation](docs/QUICKSTART.md) · [Local Qwen post-training workshop](workshops/local-qwen/QUICKSTART.md) · [What we trained and measured](docs/LOCAL_POSTTRAINING.md)
+**New here?** [Edit with npm](docs/DEVELOPMENT.md) · [Quick installation](docs/QUICKSTART.md) · [Local Qwen post-training workshop](workshops/local-qwen/QUICKSTART.md) · [What we trained and measured](docs/LOCAL_POSTTRAINING.md)
 
 [Online simulator](https://ot-aigent-simulation.night-zone.com) · [Recorded findings](https://ot-aigent-simulation.night-zone.com/research.html) · [Hosted simulator setup](docs/HOSTED_SIMULATOR.md) · [Reviewed lesson memory](docs/REVIEWED_MEMORY.md) · [MIT license](LICENSE)
 
